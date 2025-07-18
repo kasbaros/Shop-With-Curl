@@ -1,0 +1,4942 @@
+<x-app-layout>
+    <x-slot name="title">Home - ShopWithCarl</x-slot>
+
+    <style>
+
+        /*.tf-hero-image-liquid {*/
+        /*    position: relative;*/
+        /*    background: linear-gradient(135deg, #ffeef7 0%, #f8e8f5 50%, #fff0f9 100%);*/
+        /*    border-radius: 20px;*/
+        /*    overflow: hidden;*/
+        /*    min-height: 600px;*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);*/
+        /*}*/
+
+
+        /*.banner-bg {*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    background: url('images/slider/banner-countdown-2.png') center/cover;*/
+        /*    opacity: 0.7;*/
+        /*    z-index: 1;*/
+        /*}*/
+
+        /*.banner-bg::before {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    background: linear-gradient(135deg, rgba(255, 182, 193, 0.3) 0%, rgba(255, 192, 203, 0.2) 100%);*/
+        /*    z-index: 2;*/
+        /*}*/
+
+
+        /*.box-content {*/
+        /*    position: relative;*/
+        /*    z-index: 3;*/
+        /*    max-width: 500px;*/
+        /*    padding: 40px;*/
+        /*    color: #2c2c2c;*/
+        /*}*/
+
+        /*.heading {*/
+        /*    font-size: 3rem;*/
+        /*    font-weight: 300;*/
+        /*    letter-spacing: -0.02em;*/
+        /*    margin-bottom: 1rem;*/
+        /*    background: linear-gradient(135deg, #d63384, #e83e8c);*/
+        /*    -webkit-background-clip: text;*/
+        /*    -webkit-text-fill-color: transparent;*/
+        /*    background-clip: text;*/
+        /*    font-family: 'Georgia', serif;*/
+        /*}*/
+
+        /*.subtitle {*/
+        /*    font-size: 1.1rem;*/
+        /*    color: #666;*/
+        /*    margin-bottom: 2rem;*/
+        /*    font-weight: 300;*/
+        /*    letter-spacing: 0.5px;*/
+        /*}*/
+
+        /*.features-grid {*/
+        /*    display: grid;*/
+        /*    grid-template-columns: repeat(2, 1fr);*/
+        /*    gap: 1rem;*/
+        /*    margin-bottom: 2rem;*/
+        /*}*/
+
+        /*.feature-item {*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    gap: 0.5rem;*/
+        /*    padding: 0.5rem 0;*/
+        /*}*/
+
+        /*.feature-icon {*/
+        /*    width: 20px;*/
+        /*    height: 20px;*/
+        /*    background: linear-gradient(135deg, #d63384, #e83e8c);*/
+        /*    border-radius: 50%;*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    justify-content: center;*/
+        /*    font-size: 12px;*/
+        /*    color: white;*/
+        /*    flex-shrink: 0;*/
+        /*}*/
+
+        /*.feature-text {*/
+        /*    font-size: 0.9rem;*/
+        /*    color: #555;*/
+        /*    font-weight: 400;*/
+        /*}*/
+
+        /*.cta-section {*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    gap: 1rem;*/
+        /*    flex-wrap: wrap;*/
+        /*    margin-top: 0.5rem;*/
+        /*}*/
+
+        /*.tf-btn {*/
+        /*    display: inline-flex;*/
+        /*    align-items: center;*/
+        /*    justify-content: center;*/
+        /*    gap: 0.5rem;*/
+        /*    padding: 16px 32px;*/
+        /*    background: linear-gradient(135deg, #d63384, #e83e8c);*/
+        /*    color: white;*/
+        /*    text-decoration: none;*/
+        /*    border-radius: 50px;*/
+        /*    font-weight: 500;*/
+        /*    font-size: 1rem;*/
+        /*    transition: all 0.3s ease;*/
+        /*    box-shadow: 0 8px 25px rgba(214, 51, 132, 0.3);*/
+        /*    border: none;*/
+        /*    cursor: pointer;*/
+        /*    white-space: nowrap;*/
+        /*    flex-shrink: 0;*/
+        /*}*/
+
+        /*.tf-btn:hover {*/
+        /*    transform: translateY(-2px);*/
+        /*    box-shadow: 0 12px 35px rgba(214, 51, 132, 0.4);*/
+        /*    background: linear-gradient(135deg, #c92a7b, #d63384);*/
+        /*}*/
+
+        /*.price-badge {*/
+        /*    background: rgba(255, 255, 255, 0.9);*/
+        /*    padding: 12px 20px;*/
+        /*    border-radius: 25px;*/
+        /*    font-weight: 600;*/
+        /*    color: #d63384;*/
+        /*    font-size: 0.95rem;*/
+        /*    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);*/
+        /*    white-space: nowrap;*/
+        /*    flex-shrink: 0;*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    height: fit-content;*/
+        /*}*/
+
+        /*.floating-elements {*/
+        /*    position: absolute;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    pointer-events: none;*/
+        /*    z-index: 2;*/
+        /*}*/
+
+        /*.floating-shape {*/
+        /*    position: absolute;*/
+        /*    background: rgba(255, 255, 255, 0.1);*/
+        /*    border-radius: 50%;*/
+        /*    animation: float 6s ease-in-out infinite;*/
+        /*}*/
+
+        /*.floating-shape:nth-child(1) {*/
+        /*    width: 80px;*/
+        /*    height: 80px;*/
+        /*    top: 10%;*/
+        /*    right: 10%;*/
+        /*    animation-delay: -2s;*/
+        /*}*/
+
+        /*.floating-shape:nth-child(2) {*/
+        /*    width: 120px;*/
+        /*    height: 120px;*/
+        /*    bottom: 15%;*/
+        /*    right: 5%;*/
+        /*    animation-delay: -4s;*/
+        /*}*/
+
+        /*.floating-shape:nth-child(3) {*/
+        /*    width: 60px;*/
+        /*    height: 60px;*/
+        /*    top: 50%;*/
+        /*    right: 30%;*/
+        /*    animation-delay: -1s;*/
+        /*}*/
+
+        /*@keyframes float {*/
+        /*    0%, 100% {*/
+        /*        transform: translateY(0px) rotate(0deg);*/
+        /*    }*/
+        /*    50% {*/
+        /*        transform: translateY(-20px) rotate(180deg);*/
+        /*    }*/
+        /*}*/
+
+        /*.sparkle {*/
+        /*    position: absolute;*/
+        /*    width: 4px;*/
+        /*    height: 4px;*/
+        /*    background: #d63384;*/
+        /*    border-radius: 50%;*/
+        /*    animation: sparkle 2s linear infinite;*/
+        /*}*/
+
+        /*.sparkle:nth-child(1) {*/
+        /*    top: 20%;*/
+        /*    right: 20%;*/
+        /*    animation-delay: 0s;*/
+        /*}*/
+
+        /*.sparkle:nth-child(2) {*/
+        /*    top: 60%;*/
+        /*    right: 15%;*/
+        /*    animation-delay: 0.5s;*/
+        /*}*/
+
+        /*.sparkle:nth-child(3) {*/
+        /*    top: 40%;*/
+        /*    right: 35%;*/
+        /*    animation-delay: 1s;*/
+        /*}*/
+
+        /*.sparkle:nth-child(4) {*/
+        /*    top: 80%;*/
+        /*    right: 25%;*/
+        /*    animation-delay: 1.5s;*/
+        /*}*/
+
+        /*@keyframes sparkle {*/
+        /*    0%, 100% {*/
+        /*        opacity: 0;*/
+        /*        transform: scale(0);*/
+        /*    }*/
+        /*    50% {*/
+        /*        opacity: 1;*/
+        /*        transform: scale(1);*/
+        /*    }*/
+        /*}*/
+
+        /*@media (max-width: 768px) {*/
+        /*    .heading {*/
+        /*        font-size: 2rem;*/
+        /*    }*/
+
+        /*    .box-content {*/
+        /*        padding: 20px;*/
+        /*    }*/
+
+        /*    .features-grid {*/
+        /*        grid-template-columns: 1fr;*/
+        /*    }*/
+
+        /*    .cta-section {*/
+        /*        flex-direction: column;*/
+        /*        align-items: stretch;*/
+        /*    }*/
+        /*}*/
+
+        /*.features {*/
+        /*    !*background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);*!*/
+        /*    !*border-radius: 20px;*!*/
+        /*    padding: 40px 30px;*/
+        /*    !*box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);*!*/
+        /*    position: relative;*/
+        /*    overflow: hidden;*/
+        /*}*/
+
+        /*.features::before {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    right: 0;*/
+        /*    height: 4px;*/
+        /*    !*background: linear-gradient(90deg, #d63384, #e83e8c, #f8d7da);*!*/
+        /*    border-radius: 20px 20px 0 0;*/
+        /*}*/
+
+        /*.feature-list {*/
+        /*    display: grid;*/
+        /*    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));*/
+        /*    gap: 30px;*/
+        /*    align-items: start;*/
+        /*}*/
+
+        /*.single-feature {*/
+        /*    display: flex;*/
+        /*    align-items: flex-start;*/
+        /*    gap: 20px;*/
+        /*    padding: 20px;*/
+        /*    background: rgba(255, 255, 255, 0.7);*/
+        /*    border-radius: 15px;*/
+        /*    transition: all 0.3s ease;*/
+        /*    border: 1px solid rgba(214, 51, 132, 0.1);*/
+        /*    position: relative;*/
+        /*    overflow: hidden;*/
+        /*}*/
+
+        /*.single-feature::before {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    background: linear-gradient(135deg, rgba(214, 51, 132, 0.03), rgba(232, 62, 140, 0.02));*/
+        /*    opacity: 0;*/
+        /*    transition: opacity 0.3s ease;*/
+        /*}*/
+
+        /*.single-feature:hover {*/
+        /*    transform: translateY(-5px);*/
+        /*    box-shadow: 0 15px 35px rgba(214, 51, 132, 0.15);*/
+        /*    border-color: rgba(214, 51, 132, 0.2);*/
+        /*}*/
+
+        /*.single-feature:hover::before {*/
+        /*    opacity: 1;*/
+        /*}*/
+
+        /*.feature-icon {*/
+        /*    width: 60px;*/
+        /*    height: 60px;*/
+        /*    background: linear-gradient(135deg, #d63384, #e83e8c);*/
+        /*    border-radius: 50%;*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    justify-content: center;*/
+        /*    color: white;*/
+        /*    font-size: 24px;*/
+        /*    flex-shrink: 0;*/
+        /*    position: relative;*/
+        /*    box-shadow: 0 8px 20px rgba(214, 51, 132, 0.3);*/
+        /*}*/
+
+        /*.feature-icon::after {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);*/
+        /*    border-radius: 50%;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*}*/
+
+        /*.feature-details {*/
+        /*    flex: 1;*/
+        /*    padding-top: 5px;*/
+        /*}*/
+
+        /*.feature-details h6 {*/
+        /*    font-size: 1rem;*/
+        /*    font-weight: 600;*/
+        /*    color: #2c2c2c;*/
+        /*    margin-bottom: 8px;*/
+        /*    letter-spacing: 0.5px;*/
+        /*    text-transform: uppercase;*/
+        /*}*/
+
+        /*.feature-details span {*/
+        /*    font-size: 0.9rem;*/
+        /*    color: #666;*/
+        /*    font-weight: 400;*/
+        /*    line-height: 1.4;*/
+        /*}*/
+
+        /*!* Modern icons using CSS shapes and Unicode *!*/
+        /*.icon-headphones::before {*/
+        /*    content: '🎧';*/
+        /*}*/
+
+        /*.icon-credit-card::before {*/
+        /*    content: '💳';*/
+        /*}*/
+
+        /*.icon-shield::before {*/
+        /*    content: '🛡️';*/
+        /*}*/
+
+        /*.icon-truck::before {*/
+        /*    content: '🚚';*/
+        /*}*/
+
+        /*.icon-calendar::before {*/
+        /*    content: '📅';*/
+        /*}*/
+
+        /*.feature-icon span {*/
+        /*    font-size: 24px;*/
+        /*    filter: brightness(0) invert(1);*/
+        /*}*/
+
+        /*!* Responsive design *!*/
+        /*@media (max-width: 768px) {*/
+        /*    .feature-list {*/
+        /*        grid-template-columns: 1fr;*/
+        /*        gap: 20px;*/
+        /*    }*/
+
+        /*    .single-feature {*/
+        /*        padding: 15px;*/
+        /*        gap: 15px;*/
+        /*    }*/
+
+        /*    .feature-icon {*/
+        /*        width: 50px;*/
+        /*        height: 50px;*/
+        /*        font-size: 20px;*/
+        /*    }*/
+
+        /*    .features {*/
+        /*        padding: 30px 20px;*/
+        /*    }*/
+        /*}*/
+
+        /*@media (max-width: 480px) {*/
+        /*    .container {*/
+        /*        padding: 0 15px;*/
+        /*    }*/
+
+        /*    .feature-details h6 {*/
+        /*        font-size: 0.9rem;*/
+        /*    }*/
+
+        /*    .feature-details span {*/
+        /*        font-size: 0.8rem;*/
+        /*    }*/
+        /*}*/
+
+
+        /*:root {*/
+        /*    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);*/
+        /*    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);*/
+        /*    --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);*/
+        /*    --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);*/
+        /*    --glass-bg: rgba(255, 255, 255, 0.1);*/
+        /*    --glass-border: rgba(255, 255, 255, 0.2);*/
+        /*}*/
+
+        /** {*/
+        /*    box-sizing: border-box;*/
+        /*}*/
+
+        /*html {*/
+        /*    height: 100%;*/
+        /*    overflow: hidden; !* Prevent scrolling on html *!*/
+        /*}*/
+
+        /*body {*/
+        /*    font-family: 'Inter', sans-serif;*/
+        /*    margin: 0;*/
+        /*    padding: 0;*/
+        /*    height: 100vh; !* Set explicit height *!*/
+        /*    overflow-y: scroll;*/
+        /*    background: var(--dark-gradient);*/
+        /*    width: 100%;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*}*/
+
+        /*.slider-container {*/
+        /*    position: relative;*/
+        /*    width: 100vw;*/
+        /*    height: 90vh;*/
+        /*    overflow: hidden; !* Keep overflow hidden only on the slider container *!*/
+        /*    cursor: grab;*/
+        /*    !*touch-action: pan-y;*!*/
+        /*}*/
+
+        /*.slider-container:active {*/
+        /*    cursor: grabbing;*/
+        /*}*/
+
+        /*.slides-wrapper {*/
+        /*    position: relative;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    display: flex;*/
+        /*    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);*/
+        /*}*/
+
+        /*.slide {*/
+        /*    min-width: 100%;*/
+        /*    height: 100%;*/
+        /*    position: relative;*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    justify-content: center;*/
+        /*    overflow: hidden;*/
+        /*    opacity: 0.7;*/
+        /*    transition: opacity 0.8s ease;*/
+        /*}*/
+
+        /*.slide.active {*/
+        /*    opacity: 1;*/
+        /*}*/
+
+        /*.slide-bg {*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    background-size: cover;*/
+        /*    background-position: center;*/
+        /*    background-repeat: no-repeat;*/
+        /*    transition: transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);*/
+        /*    transform: scale(1.1);*/
+        /*}*/
+
+        /*.slide.active .slide-bg {*/
+        /*    transform: scale(1);*/
+        /*}*/
+
+        /*.slide-bg::before {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);*/
+        /*    z-index: 1;*/
+        /*}*/
+
+        /*.slide-content {*/
+        /*    position: relative;*/
+        /*    z-index: 10;*/
+        /*    text-align: center;*/
+        /*    max-width: 1200px;*/
+        /*    margin: 0 auto;*/
+        /*    padding: 0 2rem;*/
+        /*    transform: translateY(60px);*/
+        /*    opacity: 0;*/
+        /*    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);*/
+        /*}*/
+
+        /*.slide.active .slide-content {*/
+        /*    transform: translateY(0);*/
+        /*    opacity: 1;*/
+        /*    transition-delay: 0.3s;*/
+        /*}*/
+
+        /*.slide-subtitle {*/
+        /*    font-size: 1.1rem;*/
+        /*    font-weight: 500;*/
+        /*    color: rgba(255, 255, 255, 0.8);*/
+        /*    margin-bottom: 1rem;*/
+        /*    text-transform: uppercase;*/
+        /*    letter-spacing: 0.2em;*/
+        /*    transform: translateY(20px);*/
+        /*    opacity: 0;*/
+        /*    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);*/
+        /*}*/
+
+        /*.slide.active .slide-subtitle {*/
+        /*    transform: translateY(0);*/
+        /*    opacity: 1;*/
+        /*    transition-delay: 0.5s;*/
+        /*}*/
+
+        /*.slide-title {*/
+        /*    font-family: 'Playfair Display', serif;*/
+        /*    font-size: clamp(3rem, 8vw, 8rem);*/
+        /*    font-weight: 900;*/
+        /*    color: #ffffff;*/
+        /*    margin-bottom: 1.5rem;*/
+        /*    line-height: 0.9;*/
+        /*    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);*/
+        /*    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);*/
+        /*    -webkit-background-clip: text;*/
+        /*    -webkit-text-fill-color: transparent;*/
+        /*    background-clip: text;*/
+        /*    transform: translateY(40px);*/
+        /*    opacity: 0;*/
+        /*    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);*/
+        /*}*/
+
+        /*.slide.active .slide-title {*/
+        /*    transform: translateY(0);*/
+        /*    opacity: 1;*/
+        /*    transition-delay: 0.7s;*/
+        /*}*/
+
+        /*.slide-description {*/
+        /*    font-size: clamp(1.1rem, 2.5vw, 1.5rem);*/
+        /*    color: rgba(255, 255, 255, 0.9);*/
+        /*    margin-bottom: 3rem;*/
+        /*    max-width: 600px;*/
+        /*    margin-left: auto;*/
+        /*    margin-right: auto;*/
+        /*    font-weight: 300;*/
+        /*    line-height: 1.6;*/
+        /*    transform: translateY(30px);*/
+        /*    opacity: 0;*/
+        /*    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);*/
+        /*}*/
+
+        /*.slide.active .slide-description {*/
+        /*    transform: translateY(0);*/
+        /*    opacity: 1;*/
+        /*    transition-delay: 0.9s;*/
+        /*}*/
+
+        /*.cta-group {*/
+        /*    display: flex;*/
+        /*    gap: 1.5rem;*/
+        /*    justify-content: center;*/
+        /*    align-items: center;*/
+        /*    flex-wrap: wrap;*/
+        /*    transform: translateY(40px);*/
+        /*    opacity: 0;*/
+        /*    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);*/
+        /*}*/
+
+        /*.slide.active .cta-group {*/
+        /*    transform: translateY(0);*/
+        /*    opacity: 1;*/
+        /*    transition-delay: 1.1s;*/
+        /*}*/
+
+        /*.cta-button {*/
+        /*    position: relative;*/
+        /*    display: inline-flex;*/
+        /*    align-items: center;*/
+        /*    gap: 0.75rem;*/
+        /*    padding: 1.2rem 2.5rem;*/
+        /*    background: var(--primary-gradient);*/
+        /*    color: #ffffff;*/
+        /*    text-decoration: none;*/
+        /*    border-radius: 50px;*/
+        /*    font-weight: 600;*/
+        /*    font-size: 1.1rem;*/
+        /*    text-transform: uppercase;*/
+        /*    letter-spacing: 0.05em;*/
+        /*    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);*/
+        /*    border: 2px solid transparent;*/
+        /*    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);*/
+        /*    overflow: hidden;*/
+        /*}*/
+
+        /*.cta-button::before {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    background: var(--accent-gradient);*/
+        /*    opacity: 0;*/
+        /*    transition: opacity 0.4s ease;*/
+        /*    z-index: -1;*/
+        /*}*/
+
+        /*.cta-button:hover::before {*/
+        /*    opacity: 1;*/
+        /*}*/
+
+        /*.cta-button:hover {*/
+        /*    transform: translateY(-5px);*/
+        /*    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);*/
+        /*}*/
+
+        /*.cta-secondary {*/
+        /*    background: var(--glass-bg);*/
+        /*    border: 2px solid var(--glass-border);*/
+        /*    backdrop-filter: blur(20px);*/
+        /*}*/
+
+        /*.cta-secondary::before {*/
+        /*    background: rgba(255, 255, 255, 0.1);*/
+        /*}*/
+
+        /*.slide-number {*/
+        /*    position: absolute;*/
+        /*    top: 2rem;*/
+        /*    right: 2rem;*/
+        /*    font-size: 5rem;*/
+        /*    font-weight: 900;*/
+        /*    color: rgba(255, 255, 255, 0.1);*/
+        /*    font-family: 'Playfair Display', serif;*/
+        /*    z-index: 5;*/
+        /*    transform: scale(0.8);*/
+        /*    opacity: 0;*/
+        /*    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);*/
+        /*}*/
+
+        /*.slide.active .slide-number {*/
+        /*    transform: scale(1);*/
+        /*    opacity: 1;*/
+        /*    transition-delay: 0.2s;*/
+        /*}*/
+
+        /*.navigation {*/
+        /*    position: absolute;*/
+        /*    bottom: 3rem;*/
+        /*    left: 50%;*/
+        /*    transform: translateX(-50%);*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    gap: 2rem;*/
+        /*    z-index: 20;*/
+        /*    padding: 1rem 2rem;*/
+        /*    background: var(--glass-bg);*/
+        /*    border: 1px solid var(--glass-border);*/
+        /*    border-radius: 50px;*/
+        /*    backdrop-filter: blur(20px);*/
+        /*}*/
+
+        /*.nav-arrow {*/
+        /*    width: 50px;*/
+        /*    height: 50px;*/
+        /*    border: none;*/
+        /*    background: var(--glass-bg);*/
+        /*    color: #ffffff;*/
+        /*    border-radius: 50%;*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    justify-content: center;*/
+        /*    cursor: pointer;*/
+        /*    transition: all 0.3s ease;*/
+        /*    border: 1px solid var(--glass-border);*/
+        /*    backdrop-filter: blur(20px);*/
+        /*}*/
+
+        /*.nav-arrow:hover {*/
+        /*    background: var(--primary-gradient);*/
+        /*    transform: scale(1.1);*/
+        /*}*/
+
+        /*.pagination-dots {*/
+        /*    display: flex;*/
+        /*    gap: 1rem;*/
+        /*    align-items: center;*/
+        /*}*/
+
+        /*.dot {*/
+        /*    width: 12px;*/
+        /*    height: 12px;*/
+        /*    border-radius: 50%;*/
+        /*    background: rgba(255, 255, 255, 0.3);*/
+        /*    cursor: pointer;*/
+        /*    transition: all 0.3s ease;*/
+        /*    position: relative;*/
+        /*}*/
+
+        /*.dot.active {*/
+        /*    background: var(--primary-gradient);*/
+        /*    transform: scale(1.3);*/
+        /*}*/
+
+        /*.dot.active::after {*/
+        /*    content: '';*/
+        /*    position: absolute;*/
+        /*    top: 50%;*/
+        /*    left: 50%;*/
+        /*    transform: translate(-50%, -50%);*/
+        /*    width: 20px;*/
+        /*    height: 20px;*/
+        /*    border: 2px solid rgba(255, 255, 255, 0.5);*/
+        /*    border-radius: 50%;*/
+        /*    animation: pulse 2s infinite;*/
+        /*}*/
+
+        /*@keyframes pulse {*/
+        /*    0% {*/
+        /*        transform: translate(-50%, -50%) scale(1);*/
+        /*        opacity: 1;*/
+        /*    }*/
+        /*    100% {*/
+        /*        transform: translate(-50%, -50%) scale(1.5);*/
+        /*        opacity: 0;*/
+        /*    }*/
+        /*}*/
+
+        /*.progress-bar {*/
+        /*    position: absolute;*/
+        /*    bottom: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 4px;*/
+        /*    background: rgba(255, 255, 255, 0.1);*/
+        /*    z-index: 15;*/
+        /*}*/
+
+        /*.progress-fill {*/
+        /*    height: 100%;*/
+        /*    width: 0%;*/
+        /*    background: var(--primary-gradient);*/
+        /*    transition: width linear;*/
+        /*}*/
+
+        /*.slide-particles {*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    pointer-events: none;*/
+        /*    z-index: 2;*/
+        /*}*/
+
+        /*.particle {*/
+        /*    position: absolute;*/
+        /*    width: 4px;*/
+        /*    height: 4px;*/
+        /*    background: rgba(255, 255, 255, 0.6);*/
+        /*    border-radius: 50%;*/
+        /*    animation: float 6s ease-in-out infinite;*/
+        /*}*/
+
+        /*@keyframes float {*/
+        /*    0%, 100% {*/
+        /*        transform: translateY(0px) rotate(0deg);*/
+        /*        opacity: 0;*/
+        /*    }*/
+        /*    50% {*/
+        /*        transform: translateY(-100px) rotate(180deg);*/
+        /*        opacity: 1;*/
+        /*    }*/
+        /*}*/
+
+        /*.floating-elements {*/
+        /*    position: absolute;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    pointer-events: none;*/
+        /*    z-index: 3;*/
+        /*}*/
+
+        /*.floating-element {*/
+        /*    position: absolute;*/
+        /*    width: 200px;*/
+        /*    height: 200px;*/
+        /*    background: var(--glass-bg);*/
+        /*    border: 1px solid var(--glass-border);*/
+        /*    border-radius: 50%;*/
+        /*    backdrop-filter: blur(20px);*/
+        /*    animation: floatElement 20s ease-in-out infinite;*/
+        /*}*/
+
+        /*@keyframes floatElement {*/
+        /*    0%, 100% {*/
+        /*        transform: translateY(0px) rotate(0deg);*/
+        /*    }*/
+        /*    50% {*/
+        /*        transform: translateY(-50px) rotate(180deg);*/
+        /*    }*/
+        /*}*/
+
+        /*.floating-element:nth-child(1) {*/
+        /*    top: 10%;*/
+        /*    left: 10%;*/
+        /*    animation-delay: 0s;*/
+        /*}*/
+
+        /*.floating-element:nth-child(2) {*/
+        /*    top: 20%;*/
+        /*    right: 15%;*/
+        /*    animation-delay: 5s;*/
+        /*}*/
+
+        /*.floating-element:nth-child(3) {*/
+        /*    bottom: 15%;*/
+        /*    left: 20%;*/
+        /*    animation-delay: 10s;*/
+        /*}*/
+
+        /*.side-navigation {*/
+        /*    position: fixed;*/
+        /*    right: 2rem;*/
+        /*    top: 50%;*/
+        /*    transform: translateY(-50%);*/
+        /*    z-index: 25;*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    gap: 1rem;*/
+        /*}*/
+
+        /*.side-nav-dot {*/
+        /*    width: 15px;*/
+        /*    height: 15px;*/
+        /*    border-radius: 50%;*/
+        /*    background: rgba(255, 255, 255, 0.3);*/
+        /*    cursor: pointer;*/
+        /*    transition: all 0.3s ease;*/
+        /*    position: relative;*/
+        /*}*/
+
+        /*.side-nav-dot.active {*/
+        /*    background: var(--primary-gradient);*/
+        /*    transform: scale(1.2);*/
+        /*}*/
+
+        /*.slide-counter {*/
+        /*    position: absolute;*/
+        /*    top: 2rem;*/
+        /*    left: 2rem;*/
+        /*    color: rgba(255, 255, 255, 0.8);*/
+        /*    font-size: 1.2rem;*/
+        /*    font-weight: 600;*/
+        /*    z-index: 20;*/
+        /*}*/
+
+        /*@media (max-width: 768px) {*/
+        /*    .slide-content {*/
+        /*        padding: 0 1rem;*/
+        /*    }*/
+
+        /*    .slide-title {*/
+        /*        font-size: clamp(2.5rem, 10vw, 5rem);*/
+        /*    }*/
+
+        /*    .cta-group {*/
+        /*        flex-direction: column;*/
+        /*        gap: 1rem;*/
+        /*    }*/
+
+        /*    .cta-button {*/
+        /*        padding: 1rem 2rem;*/
+        /*        font-size: 1rem;*/
+        /*    }*/
+
+        /*    .navigation {*/
+        /*        bottom: 2rem;*/
+        /*        padding: 0.75rem 1.5rem;*/
+        /*    }*/
+
+        /*    .side-navigation {*/
+        /*        right: 1rem;*/
+        /*    }*/
+
+        /*    .slide-number {*/
+        /*        font-size: 3rem;*/
+        /*        top: 1rem;*/
+        /*        right: 1rem;*/
+        /*    }*/
+        /*}*/
+
+    </style>
+
+    <!-- preload -->
+    <div class="preload preload-container">
+        <div class="preload-logo">
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <!-- /preload -->
+    <div id="wrapper">
+        <!-- Slider -->
+        <div class="slider-container">
+            <div class="slides-wrapper">
+                <!-- Slide 1 -->
+                <div class="slide active" data-slide="0">
+                    <div class="slide-bg"
+                         style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&h=1080&fit=crop&crop=center')"></div>
+                    <div class="slide-particles">
+                        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+                        <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+                        <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+                        <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+                        <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+                        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+                        <div class="particle" style="left: 70%; animation-delay: 0.5s;"></div>
+                        <div class="particle" style="left: 80%; animation-delay: 1.5s;"></div>
+                        <div class="particle" style="left: 90%; animation-delay: 2.5s;"></div>
+                    </div>
+                    <div class="floating-elements">
+                        <div class="floating-element"></div>
+                        <div class="floating-element"></div>
+                        <div class="floating-element"></div>
+                    </div>
+                    <div class="slide-number">01</div>
+                    <div class="slide-content">
+                        <div class="slide-subtitle">Premium Collection</div>
+                        <h1 class="slide-title">Living<br>Beyond<br>Limits</h1>
+                        <p class="slide-description">Experience unparalleled comfort and revolutionary design that
+                            transforms your active lifestyle into an extraordinary journey.</p>
+                        <div class="cta-group">
+                            <a href="#" class="cta-button">
+                                Explore Collection
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="cta-button cta-secondary">
+                                Watch Story
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2">
+                                    <polygon points="5,3 19,12 5,21"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="slide" data-slide="1">
+                    <div class="slide-bg"
+                         style="background-image: url('https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1920&h=1080&fit=crop&crop=center')"></div>
+                    <div class="slide-particles">
+                        <div class="particle" style="left: 15%; animation-delay: 0.5s;"></div>
+                        <div class="particle" style="left: 25%; animation-delay: 1.5s;"></div>
+                        <div class="particle" style="left: 35%; animation-delay: 2.5s;"></div>
+                        <div class="particle" style="left: 45%; animation-delay: 3.5s;"></div>
+                        <div class="particle" style="left: 55%; animation-delay: 4.5s;"></div>
+                        <div class="particle" style="left: 65%; animation-delay: 5.5s;"></div>
+                        <div class="particle" style="left: 75%; animation-delay: 1s;"></div>
+                        <div class="particle" style="left: 85%; animation-delay: 2s;"></div>
+                    </div>
+                    <div class="floating-elements">
+                        <div class="floating-element"></div>
+                        <div class="floating-element"></div>
+                        <div class="floating-element"></div>
+                    </div>
+                    <div class="slide-number">02</div>
+                    <div class="slide-content">
+                        <div class="slide-subtitle">Performance Series</div>
+                        <h1 class="slide-title">Unleash<br>Your<br>Potential</h1>
+                        <p class="slide-description">Engineered for peak performance with cutting-edge technology that
+                            adapts to your every movement and amplifies your strength.</p>
+                        <div class="cta-group">
+                            <a href="#" class="cta-button">
+                                Discover Power
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2">
+                                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="cta-button cta-secondary">
+                                Learn More
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 16v-4M12 8h.01"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="slide" data-slide="2">
+                    <div class="slide-bg"
+                         style="background-image: url('https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1920&h=1080&fit=crop&crop=center')"></div>
+                    <div class="slide-particles">
+                        <div class="particle" style="left: 12%; animation-delay: 1s;"></div>
+                        <div class="particle" style="left: 22%; animation-delay: 2s;"></div>
+                        <div class="particle" style="left: 32%; animation-delay: 3s;"></div>
+                        <div class="particle" style="left: 42%; animation-delay: 4s;"></div>
+                        <div class="particle" style="left: 52%; animation-delay: 5s;"></div>
+                        <div class="particle" style="left: 62%; animation-delay: 0.5s;"></div>
+                        <div class="particle" style="left: 72%; animation-delay: 1.5s;"></div>
+                        <div class="particle" style="left: 82%; animation-delay: 2.5s;"></div>
+                    </div>
+                    <div class="floating-elements">
+                        <div class="floating-element"></div>
+                        <div class="floating-element"></div>
+                        <div class="floating-element"></div>
+                    </div>
+                    <div class="slide-number">03</div>
+                    <div class="slide-content">
+                        <div class="slide-subtitle">Innovation Lab</div>
+                        <h1 class="slide-title">Redefine<br>The<br>Future</h1>
+                        <p class="slide-description">Step into tomorrow with groundbreaking innovations that merge
+                            style, function, and sustainability for the conscious athlete.</p>
+                        <div class="cta-group">
+                            <a href="#" class="cta-button">
+                                Join Revolution
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2">
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="cta-button cta-secondary">
+                                See Innovation
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <button class="nav-arrow prev-arrow" aria-label="Previous slide">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                <div class="pagination-dots">
+                    <div class="dot active" data-slide="0"></div>
+                    <div class="dot" data-slide="1"></div>
+                    <div class="dot" data-slide="2"></div>
+                </div>
+                <button class="nav-arrow next-arrow" aria-label="Next slide">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Side Navigation -->
+            <div class="side-navigation">
+                <div class="side-nav-dot active" data-slide="0"></div>
+                <div class="side-nav-dot" data-slide="1"></div>
+                <div class="side-nav-dot" data-slide="2"></div>
+            </div>
+
+            <!-- Slide Counter -->
+            <div class="slide-counter">
+                <span class="current-slide">01</span> / <span class="total-slides">03</span>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- /Slider -->
+        <!-- Iconbox -->
+
+        <div class="container-full mt-5">
+            <div class="features">
+                <div class="feature-list">
+                    <div class="single-feature">
+                        <div class="feature-icon">
+                            <span>🎧</span>
+                        </div>
+                        <div class="feature-details">
+                            <h6>24/7 SUPPORT</h6>
+                            <span>Support always</span>
+                        </div>
+                    </div>
+
+                    <div class="single-feature">
+                        <div class="feature-icon">
+                            <span>💳</span>
+                        </div>
+                        <div class="feature-details">
+                            <h6>SECURE PAYMENT</h6>
+                            <span>Visa, PayPal, MasterCard</span>
+                        </div>
+                    </div>
+
+                    <div class="single-feature">
+                        <div class="feature-icon">
+                            <span>🛡️</span>
+                        </div>
+                        <div class="feature-details">
+                            <h6>PRIVACY PROTECTION</h6>
+                            <span>100% secure & confidential</span>
+                        </div>
+                    </div>
+
+                    <div class="single-feature">
+                        <div class="feature-icon">
+                            <span>🚚</span>
+                        </div>
+                        <div class="feature-details">
+                            <h6>DISCREET DELIVERY</h6>
+                            <span>Private packaging, ontime</span>
+                        </div>
+                    </div>
+
+                    <div class="single-feature">
+                        <div class="feature-icon">
+                            <span>📅</span>
+                        </div>
+                        <div class="feature-details">
+                            <h6>30 DAYS RETURN</h6>
+                            <span>Hassle-free returns</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /Iconbox -->
+
+        <!-- Collection -->
+        <section class="flat-spacing-25 pb_0">
+            <div class="container-full">
+                <div class="masonry-layout-v4 style-2 wow fadeInUp" data-wow-delay="0s">
+                    <div class="item-1 collection-item style-2 hover-img">
+                        <div class="collection-inner">
+                            <a href="shop-collection-sub.html" class="collection-image img-style">
+                                <img class="lazyload" data-src="images/collections/shape-wear.webp"
+                                     src="images/collections/shape-wear.webp" alt="collection-img">
+                            </a>
+                            <div class="collection-content">
+                                <a href="shop-collection-sub.html"
+                                   class="tf-btn collection-title hover-icon font-young-serif text-22 rounded-full"><span>Shape Wear</span><i
+                                        class="icon icon-arrow1-top-left"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-2 collection-item style-2 hover-img">
+                        <div class="collection-inner">
+                            <a href="shop-collection-sub.html" class="collection-image img-style">
+                                <img class="lazyload" data-src="images/collections/leggings.webp"
+                                     src="images/collections/leggings.webp" alt="collection-img">
+                            </a>
+                            <div class="collection-content">
+                                <a href="shop-collection-sub.html"
+                                   class="tf-btn collection-title hover-icon font-young-serif text-22 rounded-full"><span>Leggings</span><i
+                                        class="icon icon-arrow1-top-left"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-3 collection-item style-2 hover-img">
+                        <div class="collection-inner">
+                            <a href="shop-collection-sub.html" class="collection-image img-style">
+                                <img class="lazyload" data-src="images/collections/sports-bra.webp"
+                                     src="images/collections/sports-bra.webp" alt="collection-img">
+                            </a>
+                            <div class="collection-content">
+                                <a href="shop-collection-sub.html"
+                                   class="tf-btn collection-title hover-icon font-young-serif text-22 rounded-full"><span>Sport
+                                        Bras</span><i class="icon icon-arrow1-top-left"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Collection -->
+        <!-- New releases -->
+        <section class="flat-spacing-12">
+            <div class="container">
+                <div class="flat-title mb_1 flex-row justify-content-between px-0">
+                    <span class="title wow fadeInUp font-young-serif" data-wow-delay="0s"
+                          style="visibility: visible; animation-delay: 0s; animation-name: fadeInUp;">New releases</span>
+                    <div class="box-sw-navigation">
+                        <div class="nav-sw round nav-next-brand nav-next-slider swiper-button-disabled" tabindex="-1"
+                             role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-1ee42a4985210d8f5"
+                             aria-disabled="true"><span class="icon icon-arrow1-left"></span></div>
+                        <div class="nav-sw round nav-prev-brand nav-prev-slider" tabindex="0" role="button"
+                             aria-label="Next slide" aria-controls="swiper-wrapper-1ee42a4985210d8f5"
+                             aria-disabled="false"><span class="icon icon-arrow1-right"></span></div>
+                    </div>
+                </div>
+                <div class="hover-sw-nav hover-sw-3">
+                    <div dir="ltr"
+                         class="swiper tf-sw-brand rounded-0 border-0 wrap-sw-over swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden"
+                         data-loop="false" data-play="false" data-preview="4" data-tablet="3" data-mobile="2"
+                         data-space-lg="30" data-space-md="15">
+                        <div class="swiper-wrapper" id="swiper-wrapper-1ee42a4985210d8f5" aria-live="polite"
+                             style="transform: translate3d(0px, 0px, 0px);">
+                            <div class="swiper-slide swiper-slide-active" lazy="true"
+                                 style="width: 289.5px; margin-right: 30px;" role="group" aria-label="1 / 6">
+                                <div class="card-product">
+                                    <div class="card-product-wrapper">
+                                        <a href="product-detail.html" class="product-img">
+                                            <img class="img-product ls-is-cached lazyloaded"
+                                                 data-src="images/products/brown-11.jpg"
+                                                 src="images/products/brown-11.jpg" alt="image-product">
+                                            <img class="img-hover ls-is-cached lazyloaded"
+                                                 data-src="images/products/brown-12.jpg"
+                                                 src="images/products/brown-12.jpg" alt="image-product">
+                                        </a>
+                                        <div class="list-product-btn">
+                                            <a href="#quick_add" data-bs-toggle="modal"
+                                               class="box-icon bg_white quick-add tf-btn-loading">
+                                                <span class="icon icon-bag"></span>
+                                                <span class="tooltip">Quick Add</span>
+                                            </a>
+                                            <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                <span class="icon icon-heart"></span>
+                                                <span class="tooltip">Add to Wishlist</span>
+                                                <span class="icon icon-delete"></span>
+                                            </a>
+                                            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                                               class="box-icon bg_white compare btn-icon-action">
+                                                <span class="icon icon-compare"></span>
+                                                <span class="tooltip">Add to Compare</span>
+                                                <span class="icon icon-check"></span>
+                                            </a>
+                                            <a href="#quick_view" data-bs-toggle="modal"
+                                               class="box-icon bg_white quickview tf-btn-loading">
+                                                <span class="icon icon-view"></span>
+                                                <span class="tooltip">Quick View</span>
+                                            </a>
+                                        </div>
+                                        <div class="size-list">
+                                            <span>S</span>
+                                            <span>M</span>
+                                            <span>L</span>
+                                            <span>XL</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-product-info">
+                                        <a href="product-detail.html" class="title link">Crossover Leggings</a>
+                                        <span class="price">$38.00</span>
+                                        <ul class="list-color-product">
+                                            <li class="list-color-item color-swatch active">
+                                                <span class="tooltip">Brown</span>
+                                                <span class="swatch-value bg_brown"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/brown-11.jpg"
+                                                     src="images/products/brown-11.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Black</span>
+                                                <span class="swatch-value bg_dark"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/black-24.jpg"
+                                                     src="images/products/black-24.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Pink</span>
+                                                <span class="swatch-value bg_pink"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/pink-4.jpg"
+                                                     src="images/products/pink-4.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Purple</span>
+                                                <span class="swatch-value bg_purple"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/purple-2.jpg"
+                                                     src="images/products/purple-2.jpg" alt="image-product">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide swiper-slide-next" lazy="true"
+                                 style="width: 289.5px; margin-right: 30px;" role="group" aria-label="2 / 6">
+                                <div class="card-product">
+                                    <div class="card-product-wrapper">
+                                        <a href="product-detail.html" class="product-img">
+                                            <img class="img-product ls-is-cached lazyloaded"
+                                                 data-src="images/products/blue-5.jpg" src="images/products/blue-5.jpg"
+                                                 alt="image-product">
+                                            <img class="img-hover ls-is-cached lazyloaded"
+                                                 data-src="images/products/blue-6.jpg" src="images/products/blue-6.jpg"
+                                                 alt="image-product">
+                                        </a>
+                                        <div class="list-product-btn">
+                                            <a href="#quick_add" data-bs-toggle="modal"
+                                               class="box-icon bg_white quick-add tf-btn-loading">
+                                                <span class="icon icon-bag"></span>
+                                                <span class="tooltip">Quick Add</span>
+                                            </a>
+                                            <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                <span class="icon icon-heart"></span>
+                                                <span class="tooltip">Add to Wishlist</span>
+                                                <span class="icon icon-delete"></span>
+                                            </a>
+                                            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                                               class="box-icon bg_white compare btn-icon-action">
+                                                <span class="icon icon-compare"></span>
+                                                <span class="tooltip">Add to Compare</span>
+                                                <span class="icon icon-check"></span>
+                                            </a>
+                                            <a href="#quick_view" data-bs-toggle="modal"
+                                               class="box-icon bg_white quickview tf-btn-loading">
+                                                <span class="icon icon-view"></span>
+                                                <span class="tooltip">Quick View</span>
+                                            </a>
+                                        </div>
+                                        <div class="size-list">
+                                            <span>S</span>
+                                            <span>M</span>
+                                            <span>L</span>
+                                            <span>XL</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-product-info">
+                                        <a href="product-detail.html" class="title link">Pocket Shorts</a>
+                                        <span class="price">$38.00</span>
+                                        <ul class="list-color-product">
+                                            <li class="list-color-item color-swatch active">
+                                                <span class="tooltip">Blue</span>
+                                                <span class="swatch-value bg_blue-2"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/blue-5.jpg"
+                                                     src="images/products/blue-5.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Black</span>
+                                                <span class="swatch-value bg_dark"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/black-25.jpg"
+                                                     src="images/products/black-25.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Red</span>
+                                                <span class="swatch-value bg_red"></span>
+                                                <img class=" ls-is-cached lazyloaded" data-src="images/products/red.jpg"
+                                                     src="images/products/red.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Brown</span>
+                                                <span class="swatch-value bg_brown"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/brown-13.jpg"
+                                                     src="images/products/brown-13.jpg" alt="image-product">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide" lazy="true" style="width: 289.5px; margin-right: 30px;"
+                                 role="group" aria-label="3 / 6">
+                                <div class="card-product">
+                                    <div class="card-product-wrapper">
+                                        <a href="product-detail.html" class="product-img">
+                                            <img class="img-product ls-is-cached lazyloaded"
+                                                 data-src="images/products/white-17.jpg"
+                                                 src="images/products/green-2.jpg" alt="image-product">
+                                            <img class="img-hover ls-is-cached lazyloaded"
+                                                 data-src="images/products/white-18.jpg"
+                                                 src="images/products/white-18.jpg" alt="image-product">
+                                        </a>
+                                        <div class="list-product-btn">
+                                            <a href="#quick_add" data-bs-toggle="modal"
+                                               class="box-icon bg_white quick-add tf-btn-loading">
+                                                <span class="icon icon-bag"></span>
+                                                <span class="tooltip">Quick Add</span>
+                                            </a>
+                                            <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                <span class="icon icon-heart"></span>
+                                                <span class="tooltip">Add to Wishlist</span>
+                                                <span class="icon icon-delete"></span>
+                                            </a>
+                                            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                                               class="box-icon bg_white compare btn-icon-action">
+                                                <span class="icon icon-compare"></span>
+                                                <span class="tooltip">Add to Compare</span>
+                                                <span class="icon icon-check"></span>
+                                            </a>
+                                            <a href="#quick_view" data-bs-toggle="modal"
+                                               class="box-icon bg_white quickview tf-btn-loading">
+                                                <span class="icon icon-view"></span>
+                                                <span class="tooltip">Quick View</span>
+                                            </a>
+                                        </div>
+                                        <div class="size-list">
+                                            <span>S</span>
+                                            <span>M</span>
+                                            <span>L</span>
+                                            <span>XL</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-product-info">
+                                        <a href="product-detail.html" class="title link">Ruched Strappy Sports Bra</a>
+                                        <span class="price">$38.00</span>
+                                        <ul class="list-color-product">
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">White</span>
+                                                <span class="swatch-value bg_white"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/white-17.jpg"
+                                                     src="images/products/white-17.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch active">
+                                                <span class="tooltip">Green</span>
+                                                <span class="swatch-value bg_green"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/green-2.jpg"
+                                                     src="images/products/green-2.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Black</span>
+                                                <span class="swatch-value bg_dark"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/black-26.jpg"
+                                                     src="images/products/black-26.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Pink</span>
+                                                <span class="swatch-value bg_pink"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/pink-5.jpg"
+                                                     src="images/products/pink-5.jpg" alt="image-product">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide" lazy="true" style="width: 289.5px; margin-right: 30px;"
+                                 role="group" aria-label="4 / 6">
+                                <div class="card-product">
+                                    <div class="card-product-wrapper">
+                                        <a href="product-detail.html" class="product-img">
+                                            <img class="img-product ls-is-cached lazyloaded"
+                                                 data-src="images/products/grey-3.jpg" src="images/products/grey-3.jpg"
+                                                 alt="image-product">
+                                            <img class="img-hover ls-is-cached lazyloaded"
+                                                 data-src="images/products/grey-4.jpg" src="images/products/grey-4.jpg"
+                                                 alt="image-product">
+                                        </a>
+                                        <div class="list-product-btn">
+                                            <a href="#quick_add" data-bs-toggle="modal"
+                                               class="box-icon bg_white quick-add tf-btn-loading">
+                                                <span class="icon icon-bag"></span>
+                                                <span class="tooltip">Quick Add</span>
+                                            </a>
+                                            <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                <span class="icon icon-heart"></span>
+                                                <span class="tooltip">Add to Wishlist</span>
+                                                <span class="icon icon-delete"></span>
+                                            </a>
+                                            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                                               class="box-icon bg_white compare btn-icon-action">
+                                                <span class="icon icon-compare"></span>
+                                                <span class="tooltip">Add to Compare</span>
+                                                <span class="icon icon-check"></span>
+                                            </a>
+                                            <a href="#quick_view" data-bs-toggle="modal"
+                                               class="box-icon bg_white quickview tf-btn-loading">
+                                                <span class="icon icon-view"></span>
+                                                <span class="tooltip">Quick View</span>
+                                            </a>
+                                        </div>
+                                        <div class="size-list">
+                                            <span>S</span>
+                                            <span>M</span>
+                                            <span>L</span>
+                                            <span>XL</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-product-info">
+                                        <a href="product-detail.html" class="title link">Vital Seamless 2.0 V Neck
+                                            Sports Bra</a>
+                                        <span class="price">$38.00</span>
+                                        <ul class="list-color-product">
+                                            <li class="list-color-item color-swatch active">
+                                                <span class="tooltip">Grey</span>
+                                                <span class="swatch-value bg_grey"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/grey-3.jpg"
+                                                     src="images/products/grey-3.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Green</span>
+                                                <span class="swatch-value bg_green"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/green-3.jpg"
+                                                     src="images/products/green-3.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Black</span>
+                                                <span class="swatch-value bg_dark"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/black-27.jpg"
+                                                     src="images/products/black-27.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Light Green</span>
+                                                <span class="swatch-value bg_light-green"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/light-green-6.jpg"
+                                                     src="images/products/light-green-6.jpg" alt="image-product">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide" lazy="true" style="width: 289.5px; margin-right: 30px;"
+                                 role="group" aria-label="5 / 6">
+                                <div class="card-product">
+                                    <div class="card-product-wrapper">
+                                        <a href="product-detail.html" class="product-img">
+                                            <img class="img-product ls-is-cached lazyloaded"
+                                                 data-src="images/products/white-19.jpg"
+                                                 src="images/products/white-19.jpg" alt="image-product">
+                                            <img class="img-hover ls-is-cached lazyloaded"
+                                                 data-src="images/products/white-20.jpg"
+                                                 src="images/products/white-20.jpg" alt="image-product">
+                                        </a>
+                                        <div class="list-product-btn">
+                                            <a href="#quick_add" data-bs-toggle="modal"
+                                               class="box-icon bg_white quick-add tf-btn-loading">
+                                                <span class="icon icon-bag"></span>
+                                                <span class="tooltip">Quick Add</span>
+                                            </a>
+                                            <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                <span class="icon icon-heart"></span>
+                                                <span class="tooltip">Add to Wishlist</span>
+                                                <span class="icon icon-delete"></span>
+                                            </a>
+                                            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                                               class="box-icon bg_white compare btn-icon-action">
+                                                <span class="icon icon-compare"></span>
+                                                <span class="tooltip">Add to Compare</span>
+                                                <span class="icon icon-check"></span>
+                                            </a>
+                                            <a href="#quick_view" data-bs-toggle="modal"
+                                               class="box-icon bg_white quickview tf-btn-loading">
+                                                <span class="icon icon-view"></span>
+                                                <span class="tooltip">Quick View</span>
+                                            </a>
+                                        </div>
+                                        <div class="size-list">
+                                            <span>S</span>
+                                            <span>M</span>
+                                            <span>L</span>
+                                            <span>XL</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-product-info">
+                                        <a href="product-detail.html" class="title link">Adapt Fleck Seamless Long
+                                            Sleever Crop Top</a>
+                                        <span class="price">$38.00</span>
+                                        <ul class="list-color-product">
+                                            <li class="list-color-item color-swatch active">
+                                                <span class="tooltip">White</span>
+                                                <span class="swatch-value bg_white"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/white-19.jpg"
+                                                     src="images/products/white-19.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Black</span>
+                                                <span class="swatch-value bg_dark"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/black-28.jpg"
+                                                     src="images/products/black-28.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Brown</span>
+                                                <span class="swatch-value bg_brown"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/brown-14.jpg"
+                                                     src="images/products/brown-14.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Green</span>
+                                                <span class="swatch-value bg_green"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/green-4.jpg"
+                                                     src="images/products/green-4.jpg" alt="image-product">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide" lazy="true" role="group" aria-label="6 / 6"
+                                 style="width: 289.5px; margin-right: 30px;">
+                                <div class="card-product">
+                                    <div class="card-product-wrapper">
+                                        <a href="product-detail.html" class="product-img">
+                                            <img class="img-product ls-is-cached lazyloaded"
+                                                 data-src="images/products/black-29.jpg"
+                                                 src="images/products/black-29.jpg" alt="image-product">
+                                            <img class="img-hover ls-is-cached lazyloaded"
+                                                 data-src="images/products/black-30.jpg"
+                                                 src="images/products/black-30.jpg" alt="image-product">
+                                        </a>
+                                        <div class="list-product-btn">
+                                            <a href="#quick_add" data-bs-toggle="modal"
+                                               class="box-icon bg_white quick-add tf-btn-loading">
+                                                <span class="icon icon-bag"></span>
+                                                <span class="tooltip">Quick Add</span>
+                                            </a>
+                                            <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                <span class="icon icon-heart"></span>
+                                                <span class="tooltip">Add to Wishlist</span>
+                                                <span class="icon icon-delete"></span>
+                                            </a>
+                                            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                                               class="box-icon bg_white compare btn-icon-action">
+                                                <span class="icon icon-compare"></span>
+                                                <span class="tooltip">Add to Compare</span>
+                                                <span class="icon icon-check"></span>
+                                            </a>
+                                            <a href="#quick_view" data-bs-toggle="modal"
+                                               class="box-icon bg_white quickview tf-btn-loading">
+                                                <span class="icon icon-view"></span>
+                                                <span class="tooltip">Quick View</span>
+                                            </a>
+                                        </div>
+                                        <div class="size-list">
+                                            <span>S</span>
+                                            <span>M</span>
+                                            <span>L</span>
+                                            <span>XL</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-product-info">
+                                        <a href="product-detail.html" class="title link">Vital Seamless 2.0 Crop Top</a>
+                                        <span class="price">$100.00</span>
+                                        <ul class="list-color-product">
+                                            <li class="list-color-item color-swatch active">
+                                                <span class="tooltip">Black</span>
+                                                <span class="swatch-value bg_dark"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/black-29.jpg"
+                                                     src="images/products/black-29.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Green</span>
+                                                <span class="swatch-value bg_green"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/green-5.jpg"
+                                                     src="images/products/green-5.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Blue</span>
+                                                <span class="swatch-value bg_blue-2"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/blue-7.jpg"
+                                                     src="images/products/blue-7.jpg" alt="image-product">
+                                            </li>
+                                            <li class="list-color-item color-swatch">
+                                                <span class="tooltip">Light Blue</span>
+                                                <span class="swatch-value bg_light-blue"></span>
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/light-blue-4.jpg"
+                                                     src="images/products/light-blue-4.jpg" alt="image-product">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                    <div class="nav-sw nav-next-slider nav-next-brand box-icon w_46 round swiper-button-disabled"
+                         tabindex="-1" role="button" aria-label="Previous slide"
+                         aria-controls="swiper-wrapper-1ee42a4985210d8f5" aria-disabled="true"><span
+                            class="icon icon-arrow-left"></span></div>
+                    <div class="nav-sw nav-prev-slider nav-prev-brand box-icon w_46 round" tabindex="0" role="button"
+                         aria-label="Next slide" aria-controls="swiper-wrapper-1ee42a4985210d8f5" aria-disabled="false">
+                        <span class="icon icon-arrow-right"></span></div>
+                </div>
+            </div>
+
+        </section>
+        <!-- /New releases -->
+        <!-- Banner Countdown  -->
+        <section>
+            <div class="container">
+                <div class="tf-hero-image-liquid radius-10 o-hidden banner-countdown-v2">
+                    <div class="banner-bg"></div>
+
+                    <div class="floating-elements">
+                        <div class="floating-shape"></div>
+                        <div class="floating-shape"></div>
+                        <div class="floating-shape"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                        <div class="sparkle"></div>
+                    </div>
+
+                    <div class="box-content">
+                        <h2 class="heading font-young-serif">Bra Spotlight</h2>
+                        <p class="subtitle">Discover comfort that embraces your confidence</p>
+
+                        <div class="features-grid">
+                            <div class="feature-item">
+                                <div class="feature-icon">✨</div>
+                                <span class="feature-text">Premium Materials</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">💎</div>
+                                <span class="feature-text">Perfect Fit</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">🌸</div>
+                                <span class="feature-text">All-Day Comfort</span>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">💫</div>
+                                <span class="feature-text">Elegant Design</span>
+                            </div>
+                        </div>
+
+                        <div class="cta-section">
+                            <a href="shop-default.html" class="tf-btn btn-fill btn-md animate-hover-btn radius-60">
+                                Shop Collection
+                            </a>
+                            <div class="tf-btn price-badge">Starting at UGX 35,000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Banner Countdown -->
+        <!-- Trending -->
+        <section class="flat-spacing-5">
+            <div class="container">
+                <div class="flat-title mb_1 px-0 align-items-md-start">
+                    <span class="title wow fadeInUp font-young-serif" data-wow-delay="0s"
+                          style="visibility: visible; animation-delay: 0s; animation-name: fadeInUp;">Trending Now</span>
+                </div>
+                <div class="flat-animate-tab">
+                    <ul class="widget-tab-3 style-3 d-flex justify-content-center wow fadeInUp" data-wow-delay="0s"
+                        role="tablist" style="visibility: visible; animation-delay: 0s; animation-name: fadeInUp;">
+                        <li class="nav-tab-item" role="presentation">
+                            <a href="#men" class="active" data-bs-toggle="tab" aria-selected="true" role="tab">Men</a>
+                        </li>
+                        <li class="nav-tab-item" role="presentation">
+                            <a href="#women" data-bs-toggle="tab" aria-selected="false" tabindex="-1"
+                               role="tab">Women</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane hover-sw-nav active show" id="men" role="tabpanel">
+                            <div
+                                class="tf-sw-product-sell wrap-sw-over swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden"
+                                data-preview="4" data-tablet="3" data-mobile="2" data-space-lg="30" data-space-md="15"
+                                data-pagination="2" data-pagination-md="2" data-pagination-lg="1">
+                                <div class="swiper-wrapper" id="swiper-wrapper-7295983c43827ebe" aria-live="polite"
+                                     style="transform: translate3d(0px, 0px, 0px);">
+                                    <div class="swiper-slide swiper-slide-active"
+                                         style="width: 289.5px; margin-right: 30px;" role="group" aria-label="1 / 5">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/brown-15.jpg"
+                                                         src="images/products/brown-15.jpg" alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/sports-clothing-2.jpg"
+                                                         src="images/products/sports-clothing-2.jpg"
+                                                         alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Pocket Shorts</a>
+                                                <span class="price">$38.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">Brown</span>
+                                                        <span class="swatch-value bg_brown"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/brown-15.jpg"
+                                                             src="images/products/brown-15.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Green</span>
+                                                        <span class="swatch-value bg_green"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/green-6.jpg"
+                                                             src="images/products/green-6.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Red</span>
+                                                        <span class="swatch-value bg_red"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/sports-clothing.jpg"
+                                                             src="images/products/sports-clothing.jpg"
+                                                             alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide swiper-slide-next"
+                                         style="width: 289.5px; margin-right: 30px;" role="group" aria-label="2 / 5">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/sports-clothing-3.jpg"
+                                                         src="images/products/sports-clothing-3.jpg"
+                                                         alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/sports-clothing-4.jpg"
+                                                         src="images/products/sports-clothing-4.jpg"
+                                                         alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Essential Oversized Zip
+                                                    Up Hoodie</a>
+                                                <span class="price">$38.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">Grey</span>
+                                                        <span class="swatch-value bg_grey"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/sports-clothing-3.jpg"
+                                                             src="images/products/sports-clothing-3.jpg"
+                                                             alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Black</span>
+                                                        <span class="swatch-value bg_dark"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/black-31.jpg"
+                                                             src="images/products/black-31.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Blue</span>
+                                                        <span class="swatch-value bg_blue-2"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/blue-8.jpg"
+                                                             src="images/products/blue-8.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Brown</span>
+                                                        <span class="swatch-value bg_brown"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/brown-16.jpg"
+                                                             src="images/products/brown-16.jpg" alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide" style="width: 289.5px; margin-right: 30px;" role="group"
+                                         aria-label="3 / 5">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/sports-clothing-6.jpg"
+                                                         src="images/products/sports-clothing-6.jpg"
+                                                         alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/sports-clothing-5.jpg"
+                                                         src="images/products/sports-clothing-5.jpg"
+                                                         alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Crest 7" Shorts</a>
+                                                <span class="price">$38.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">Blue</span>
+                                                        <span class="swatch-value bg_blue-2"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/sports-clothing-6.jpg"
+                                                             src="images/products/sports-clothing-6.jpg"
+                                                             alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Grey</span>
+                                                        <span class="swatch-value bg_grey"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/grey-5.jpg"
+                                                             src="images/products/grey-5.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Brown</span>
+                                                        <span class="swatch-value bg_brown"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/brown-17.jpg"
+                                                             src="images/products/brown-17.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Light Blue</span>
+                                                        <span class="swatch-value bg_light-blue"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/light-blue-5.jpg"
+                                                             src="images/products/light-blue-5.jpg" alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide" style="width: 289.5px; margin-right: 30px;" role="group"
+                                         aria-label="4 / 5">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/sports-clothing-7.jpg"
+                                                         src="images/products/sports-clothing-7.jpg"
+                                                         alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/sports-clothing-8.jpg"
+                                                         src="images/products/sports-clothing-8.jpg"
+                                                         alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Crest Long Sleeve
+                                                    T-Shirt</a>
+                                                <span class="price">$38.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">Grey</span>
+                                                        <span class="swatch-value bg_grey"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/sports-clothing-7.jpg"
+                                                             src="images/products/sports-clothing-7.jpg"
+                                                             alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">White</span>
+                                                        <span class="swatch-value bg_white"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/white-21.jpg"
+                                                             src="images/products/white-21.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Brown</span>
+                                                        <span class="swatch-value bg_brown"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/brown-18.jpg"
+                                                             src="images/products/brown-18.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Black</span>
+                                                        <span class="swatch-value bg_dark"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/black-32.jpg"
+                                                             src="images/products/black-32.jpg" alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide" role="group" aria-label="5 / 5"
+                                         style="width: 289.5px; margin-right: 30px;">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/t-shirt-15.jpg"
+                                                         src="images/products/t-shirt-15.jpg" alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/t-shirt-16.jpg"
+                                                         src="images/products/t-shirt-16.jpg" alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Crest T-Shirt</a>
+                                                <span class="price">$38.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">Light Blue</span>
+                                                        <span class="swatch-value bg_light-blue"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/t-shirt-15.jpg"
+                                                             src="images/products/t-shirt-15.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">White</span>
+                                                        <span class="swatch-value bg_white"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/white-22.jpg"
+                                                             src="images/products/white-22.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Green</span>
+                                                        <span class="swatch-value bg_green"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/green-7.jpg"
+                                                             src="images/products/green-7.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Brown</span>
+                                                        <span class="swatch-value bg_brown"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/brown-19.jpg"
+                                                             src="images/products/brown-19.jpg" alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                            <div
+                                class="sw-dots style-2 sw-pagination-product justify-content-center swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                                <span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0"
+                                      role="button" aria-label="Go to slide 1" aria-current="true"></span><span
+                                    class="swiper-pagination-bullet" tabindex="0" role="button"
+                                    aria-label="Go to slide 2"></span></div>
+                        </div>
+                        <div class="tab-pane hover-sw-nav" id="women" role="tabpanel">
+                            <div
+                                class="tf-sw-product-sell-1 wrap-sw-over swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden"
+                                data-preview="4" data-tablet="3" data-mobile="2" data-space-lg="30" data-space-md="15"
+                                data-pagination="2" data-pagination-md="2" data-pagination-lg="1">
+                                <div class="swiper-wrapper" id="swiper-wrapper-b9825b3cb6ca10301" aria-live="polite"
+                                     style="transform: translate3d(0px, 0px, 0px);">
+                                    <div class="swiper-slide swiper-slide-active"
+                                         style="width: 289.5px; margin-right: 30px;" role="group" aria-label="1 / 6">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/brown-11.jpg"
+                                                         src="images/products/brown-11.jpg" alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/brown-12.jpg"
+                                                         src="images/products/brown-12.jpg" alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Crossover Leggings</a>
+                                                <span class="price">$38.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">Brown</span>
+                                                        <span class="swatch-value bg_brown"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/brown-11.jpg"
+                                                             src="images/products/brown-11.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Black</span>
+                                                        <span class="swatch-value bg_dark"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/black-24.jpg"
+                                                             src="images/products/black-24.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Pink</span>
+                                                        <span class="swatch-value bg_pink"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/pink-4.jpg"
+                                                             src="images/products/pink-4.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Purple</span>
+                                                        <span class="swatch-value bg_purple"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/purple-2.jpg"
+                                                             src="images/products/purple-2.jpg" alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide swiper-slide-next"
+                                         style="width: 289.5px; margin-right: 30px;" role="group" aria-label="2 / 6">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/blue-5.jpg"
+                                                         src="images/products/blue-5.jpg" alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/blue-6.jpg"
+                                                         src="images/products/blue-6.jpg" alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Pocket Shorts</a>
+                                                <span class="price">$38.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">Blue</span>
+                                                        <span class="swatch-value bg_blue-2"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/blue-5.jpg"
+                                                             src="images/products/blue-5.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Black</span>
+                                                        <span class="swatch-value bg_dark"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/black-25.jpg"
+                                                             src="images/products/black-25.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Red</span>
+                                                        <span class="swatch-value bg_red"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/red.jpg"
+                                                             src="images/products/red.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Brown</span>
+                                                        <span class="swatch-value bg_brown"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/brown-13.jpg"
+                                                             src="images/products/brown-13.jpg" alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide" style="width: 289.5px; margin-right: 30px;" role="group"
+                                         aria-label="3 / 6">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/white-17.jpg"
+                                                         src="images/products/white-17.jpg" alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/white-18.jpg"
+                                                         src="images/products/white-18.jpg" alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Ruched Strappy Sports
+                                                    Bra</a>
+                                                <span class="price">$38.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">White</span>
+                                                        <span class="swatch-value bg_white"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/white-17.jpg"
+                                                             src="images/products/white-17.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Green</span>
+                                                        <span class="swatch-value bg_green"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/green-2.jpg"
+                                                             src="images/products/green-2.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Black</span>
+                                                        <span class="swatch-value bg_dark"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/black-26.jpg"
+                                                             src="images/products/black-26.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Pink</span>
+                                                        <span class="swatch-value bg_pink"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/pink-5.jpg"
+                                                             src="images/products/pink-5.jpg" alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide" style="width: 289.5px; margin-right: 30px;" role="group"
+                                         aria-label="4 / 6">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/grey-3.jpg"
+                                                         src="images/products/grey-3.jpg" alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/grey-4.jpg"
+                                                         src="images/products/grey-4.jpg" alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Vital Seamless 2.0 V
+                                                    Neck Sports Bra</a>
+                                                <span class="price">$38.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">Grey</span>
+                                                        <span class="swatch-value bg_grey"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/grey-3.jpg"
+                                                             src="images/products/grey-3.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Green</span>
+                                                        <span class="swatch-value bg_green"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/green-3.jpg"
+                                                             src="images/products/green-3.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Black</span>
+                                                        <span class="swatch-value bg_dark"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/black-27.jpg"
+                                                             src="images/products/black-27.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Light Green</span>
+                                                        <span class="swatch-value bg_light-green"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/light-green-6.jpg"
+                                                             src="images/products/light-green-6.jpg"
+                                                             alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide" style="width: 289.5px; margin-right: 30px;" role="group"
+                                         aria-label="5 / 6">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/white-19.jpg"
+                                                         src="images/products/white-19.jpg" alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/white-20.jpg"
+                                                         src="images/products/white-20.jpg" alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Adapt Fleck Seamless
+                                                    Long Sleever Crop Top</a>
+                                                <span class="price">$38.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">White</span>
+                                                        <span class="swatch-value bg_white"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/white-19.jpg"
+                                                             src="images/products/white-19.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Black</span>
+                                                        <span class="swatch-value bg_dark"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/black-28.jpg"
+                                                             src="images/products/black-28.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Brown</span>
+                                                        <span class="swatch-value bg_brown"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/brown-14.jpg"
+                                                             src="images/products/brown-14.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Green</span>
+                                                        <span class="swatch-value bg_green"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/green-4.jpg"
+                                                             src="images/products/green-4.jpg" alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide" role="group" aria-label="6 / 6"
+                                         style="width: 289.5px; margin-right: 30px;">
+                                        <div class="card-product">
+                                            <div class="card-product-wrapper">
+                                                <a href="product-detail.html" class="product-img">
+                                                    <img class="img-product ls-is-cached lazyloaded"
+                                                         data-src="images/products/black-29.jpg"
+                                                         src="images/products/black-29.jpg" alt="image-product">
+                                                    <img class="img-hover ls-is-cached lazyloaded"
+                                                         data-src="images/products/black-30.jpg"
+                                                         src="images/products/black-30.jpg" alt="image-product">
+                                                </a>
+                                                <div class="list-product-btn">
+                                                    <a href="#quick_add" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quick-add tf-btn-loading">
+                                                        <span class="icon icon-bag"></span>
+                                                        <span class="tooltip">Quick Add</span>
+                                                    </a>
+                                                    <a href="#" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                                       aria-controls="offcanvasLeft"
+                                                       class="box-icon bg_white compare btn-icon-action">
+                                                        <span class="icon icon-compare"></span>
+                                                        <span class="tooltip">Add to Compare</span>
+                                                        <span class="icon icon-check"></span>
+                                                    </a>
+                                                    <a href="#quick_view" data-bs-toggle="modal"
+                                                       class="box-icon bg_white quickview tf-btn-loading">
+                                                        <span class="icon icon-view"></span>
+                                                        <span class="tooltip">Quick View</span>
+                                                    </a>
+                                                </div>
+                                                <div class="size-list">
+                                                    <span>S</span>
+                                                    <span>M</span>
+                                                    <span>L</span>
+                                                    <span>XL</span>
+                                                </div>
+                                            </div>
+                                            <div class="card-product-info">
+                                                <a href="product-detail.html" class="title link">Vital Seamless 2.0 Crop
+                                                    Top</a>
+                                                <span class="price">$100.00</span>
+                                                <ul class="list-color-product">
+                                                    <li class="list-color-item color-swatch active">
+                                                        <span class="tooltip">Black</span>
+                                                        <span class="swatch-value bg_dark"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/black-29.jpg"
+                                                             src="images/products/black-29.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Green</span>
+                                                        <span class="swatch-value bg_green"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/green-5.jpg"
+                                                             src="images/products/green-5.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Blue</span>
+                                                        <span class="swatch-value bg_blue-2"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/blue-7.jpg"
+                                                             src="images/products/blue-7.jpg" alt="image-product">
+                                                    </li>
+                                                    <li class="list-color-item color-swatch">
+                                                        <span class="tooltip">Light Blue</span>
+                                                        <span class="swatch-value bg_light-blue"></span>
+                                                        <img class=" ls-is-cached lazyloaded"
+                                                             data-src="images/products/light-blue-4.jpg"
+                                                             src="images/products/light-blue-4.jpg" alt="image-product">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                            <div
+                                class="sw-dots style-2 sw-pagination-sell-1 justify-content-center swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                                <span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0"
+                                      role="button" aria-label="Go to slide 1" aria-current="true"></span><span
+                                    class="swiper-pagination-bullet" tabindex="0" role="button"
+                                    aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet"
+                                                                            tabindex="0" role="button"
+                                                                            aria-label="Go to slide 3"></span></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Trending -->
+        <!-- Lookbook -->
+        <section class="section-lookbook-activewear">
+            <div class="container-full">
+                <div class="flat-activewear-lookbook radius-20 o-hidden bg_grey-11 flat-spacing-12">
+                    <div class="container">
+                        <div class="flat-lookbook-v3 d-flex">
+                            <div class="col-left w-50">
+                                <div class="slider-wrap-lookbook">
+                                    <div class="inner-sw-lookbook">
+                                        <div class="flat-title-lookbook">
+                                            <p class="label text_black">SHOP THIS LOOK</p>
+                                            <h3 class="heading font-young-serif">Bundle &amp; Save</h3>
+                                        </div>
+                                        <form>
+                                            <div dir="ltr"
+                                                 class="swiper tf-lookbook swiper-initialized swiper-vertical swiper-pointer-events swiper-backface-hidden"
+                                                 data-preview="3" data-tablet="1" data-mobile="1" data-space-lg="0"
+                                                 data-space-md="0">
+                                                <div class="swiper-wrapper" id="swiper-wrapper-099c4f076f73543b"
+                                                     aria-live="polite" style="transform: translate3d(0px, 0px, 0px);">
+                                                    <div class="swiper-slide swiper-slide-active" lazy="true"
+                                                         style="height: 276.667px;" role="group" aria-label="1 / 3">
+                                                        <div class="tf-bundle-product-item type-lg">
+                                                            <div class="tf-product-bundle-image">
+                                                                <a href="product-detail.html" class="radius-5 o-hidden">
+                                                                    <img src="images/products//white-17.jpg" alt="">
+                                                                </a>
+                                                            </div>
+                                                            <div class="tf-product-bundle-infos">
+                                                                <a href="product-detail.html"
+                                                                   class="tf-product-bundle-title fs-16">Ruched Strappy
+                                                                    Sports Bra</a>
+                                                                <div class="tf-product-bundle-price">
+                                                                    <div class="price fs-16">$38.00</div>
+                                                                </div>
+                                                                <div
+                                                                    class="tf-product-bundle-variant position-relative">
+                                                                    <select class="tf-select">
+                                                                        <option selected="selected">S / White</option>
+                                                                        <option>S / Green</option>
+                                                                        <option>S / Black</option>
+                                                                        <option>S / Pink</option>
+                                                                        <option>M / White</option>
+                                                                        <option>M / Green</option>
+                                                                        <option>M / Black</option>
+                                                                        <option>M / Pink</option>
+                                                                        <option>L / White</option>
+                                                                        <option>L / Green</option>
+                                                                        <option>L / Black</option>
+                                                                        <option>L / Pink</option>
+                                                                        <option>XL / White</option>
+                                                                        <option>XL / Green</option>
+                                                                        <option>XL / Black</option>
+                                                                        <option>XL / Pink</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="swiper-slide swiper-slide-next" lazy="true"
+                                                         style="height: 276.667px;" role="group" aria-label="2 / 3">
+                                                        <div class="tf-bundle-product-item type-lg">
+                                                            <div class="tf-product-bundle-image">
+                                                                <a href="product-detail.html">
+                                                                    <img src="images/products/blue-5.jpg" alt="">
+                                                                </a>
+                                                            </div>
+                                                            <div class="tf-product-bundle-infos">
+                                                                <a href="product-detail.html"
+                                                                   class="tf-product-bundle-title fs-16">Pocket
+                                                                    Shorts</a>
+                                                                <div class="tf-product-bundle-price">
+                                                                    <div class="price fs-16">$38.00</div>
+                                                                </div>
+                                                                <div
+                                                                    class="tf-product-bundle-variant position-relative">
+                                                                    <select class="tf-select">
+                                                                        <option selected="selected">S / Blue</option>
+                                                                        <option>S / Green</option>
+                                                                        <option>S / Black</option>
+                                                                        <option>S / Pink</option>
+                                                                        <option>M / White</option>
+                                                                        <option>M / Green</option>
+                                                                        <option>M / Black</option>
+                                                                        <option>M / Pink</option>
+                                                                        <option>L / White</option>
+                                                                        <option>L / Green</option>
+                                                                        <option>L / Black</option>
+                                                                        <option>L / Pink</option>
+                                                                        <option>XL / White</option>
+                                                                        <option>XL / Green</option>
+                                                                        <option>XL / Black</option>
+                                                                        <option>XL / Pink</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="swiper-slide" lazy="true" role="group"
+                                                         aria-label="3 / 3" style="height: 276.667px;">
+                                                        <div class="tf-bundle-product-item type-lg">
+                                                            <div class="tf-product-bundle-image">
+                                                                <a href="product-detail.html">
+                                                                    <img src="images/products/brown-11.jpg" alt="">
+                                                                </a>
+                                                            </div>
+                                                            <div class="tf-product-bundle-infos">
+                                                                <span class="tf-product-bundle-title fs-16">Crossover
+                                                                    Leggings</span>
+                                                                <div class="tf-product-bundle-price">
+                                                                    <div class="price fs-16">$38.00</div>
+                                                                </div>
+                                                                <div
+                                                                    class="tf-product-bundle-variant position-relative">
+                                                                    <select class="tf-select">
+                                                                        <option selected="selected">Brown / S</option>
+                                                                        <option>Beige / M</option>
+                                                                        <option>Black / S</option>
+                                                                        <option>Black / M</option>
+                                                                        <option>Black / L</option>
+                                                                        <option>Black / XL</option>
+                                                                        <option>Blue / S</option>
+                                                                        <option>Blue / M</option>
+                                                                        <option>Blue / L</option>
+                                                                        <option>Blue / XL</option>
+                                                                        <option>White / S</option>
+                                                                        <option>White / M</option>
+                                                                        <option>White / L</option>
+                                                                        <option>White / XL</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="sw-dots style-2 sw-pagination-lookbook justify-content-center d-xl-none swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-vertical swiper-pagination-lock">
+                                                    <span
+                                                        class="swiper-pagination-bullet swiper-pagination-bullet-active"
+                                                        tabindex="0" role="button" aria-label="Go to slide 1"
+                                                        aria-current="true"></span></div>
+                                                <span class="swiper-notification" aria-live="assertive"
+                                                      aria-atomic="true"></span></div>
+                                            <button type="submit"
+                                                    class="tf-btn justify-content-center style-2 btn-fill radius-3 animate-hover-btn">
+                                                Add
+                                                selected to cart - $114.00 USD
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-right w-50">
+                                <div class="wrap-lookbook lookbook-sw">
+                                    <div class="image">
+                                        <img class=" ls-is-cached lazyloaded"
+                                             data-src="images/shop/file/lb-activewear.jpg"
+                                             src="images/shop/file/lb-activewear.jpg" alt="collection-img">
+                                    </div>
+                                    <div class="navigation-sw-dot type-black item-1"><span></span></div>
+                                    <div class="navigation-sw-dot type-black item-2"><span></span></div>
+                                    <div class="navigation-sw-dot type-black item-3"><span></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Lookbook -->
+        <!-- Banner Collection -->
+        <section class="flat-spacing-27 bg-white">
+            <div class="container">
+                <div class="tf-grid-layout md-col-2 tf-img-with-text style-5">
+                    <div class="tf-image-wrap wow fadeInUp" data-wow-delay="0s">
+                        <img class="lazyload" data-src="images/products/shop_with_carl-18.jpg"
+                             src="images/products/shop_with_carl-18.jpg" alt="collection-img">
+                    </div>
+                    <div class="tf-content-wrap wow fadeInUp" data-wow-delay="0s">
+                        <div class="sub-heading fw-7">LEAVE YOUR MARK</div>
+                        <div class="heading font-young-serif">Shop With Carl</div>
+                        <p class="description text_black-2 fs-14">Since our inception, Shop With Carl has had one
+                            intention;
+                            to help build resilient human beings through performance, innovation, sustainability and
+                            functionality.</p>
+                        <a href="shop-collection-list.html"
+                           class="tf-btn style-2 btn-fill btn-icon rounded-full animate-hover-btn">Learn more <i
+                                class="icon icon-arrow1-top-left"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Banner Collection -->
+        <!-- iconbox -->
+        <section class="flat-spacing-8 bg-white">
+            <div class="container">
+                <div class="flat-iconbox-v3">
+                    <div class="wrap-carousel wrap-mobile">
+                        <div dir="ltr" class="swiper tf-sw-mobile" data-preview="1" data-space="15">
+                            <div class="swiper-wrapper wrap-iconbox">
+                                <div class="swiper-slide">
+                                    <div class="tf-icon-box small text-center">
+                                        <div class="icon w-50 no-border">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="51" height="51"
+                                                 viewBox="0 0 51 51" fill="none">
+                                                <g clip-path="url(#clip0_8522_2)">
+                                                    <path
+                                                        d="M48.0287 20.3573L38.7284 13.3494C38.4375 13.1305 38.0841 13.0127 37.7203 13.0127H33.8327C33.1368 13.0127 32.5057 13.4496 32.2585 14.1146C31.2868 16.7251 28.7598 18.5349 25.8949 18.5349C23.0488 18.5349 20.5095 16.7428 19.5313 14.1146C19.284 13.4493 18.6527 13.0127 17.9571 13.0127H14.0695C13.7057 13.0127 13.3523 13.1305 13.0614 13.3494L3.76107 20.3573C3.06258 20.8838 2.88639 21.8585 3.35657 22.5956L6.26938 27.1712C6.7479 27.9229 7.72996 28.1679 8.50664 27.7311L13.6505 24.8297V48.0149C13.6505 48.9407 14.4011 49.6908 15.3268 49.6908H36.463C37.3887 49.6908 38.1394 48.9412 38.1394 48.0155V24.8297L43.2832 27.7311C44.0599 28.1679 45.0419 27.9229 45.5204 27.1712L48.4332 22.5956C48.9034 21.8585 48.7272 20.8838 48.0287 20.3573Z"
+                                                        fill="#CBE3FA"></path>
+                                                    <path
+                                                        d="M32.7642 28.2889C33.2396 30.8702 32.0563 33.6704 29.7033 35.6783C29.0194 36.2621 27.9498 36.0547 27.5505 35.2488C26.3943 32.9167 22.095 31.6823 22.9676 27.1588C24.1284 21.1451 31.4787 21.313 32.7642 28.2889Z"
+                                                        fill="#BEFA91"></path>
+                                                    <path
+                                                        d="M28.6262 22.9918C29.6748 23.275 29.6422 24.7838 28.5875 25.0436C26.6402 25.5231 25.4181 27.2534 25.0407 29.2988C24.8299 30.4414 23.2009 30.479 22.9567 29.343C22.5401 27.4057 23.3598 24.5454 25.4504 23.3744C26.4203 22.8309 27.5462 22.7001 28.6262 22.9918Z"
+                                                        fill="#DAFFBF"></path>
+                                                    <path
+                                                        d="M19.5351 14.1251C19.7108 14.5956 19.3732 15.0978 18.871 15.0978H17.1971C16.8333 15.0978 16.4799 15.2157 16.189 15.4346L6.88864 22.4424C6.19015 22.9689 6.01396 23.9437 6.48414 24.6807L7.56962 26.3856C8.09244 27.2068 6.863 28.1034 6.26938 27.1712L3.35657 22.5956C2.88639 21.8585 3.06258 20.8838 3.76107 20.3573L13.0614 13.3494C13.3523 13.1305 13.7057 13.0127 14.0696 13.0127H17.9571C18.6362 13.0129 19.2756 13.43 19.5351 14.1251ZM16.778 29.5923V48.2398C16.778 49.0413 16.1283 49.691 15.3268 49.691C14.401 49.691 13.6505 48.941 13.6505 48.0151V29.5923C13.6504 29.3151 13.7241 29.0429 13.8639 28.8036C14.0037 28.5643 14.2046 28.3664 14.446 28.2302C15.4884 27.6422 16.778 28.3955 16.778 29.5923ZM38.7284 13.3496C39.4743 13.9112 39.0772 15.0988 38.1434 15.0985H36.9603C36.2644 15.0981 35.6332 15.5349 35.3861 16.2C34.0621 19.7568 30.2425 21.3354 26.972 20.3088C26.0113 20.0072 26.0962 18.6071 27.0871 18.4276C29.3692 18.0143 31.3929 16.4407 32.2585 14.1149C32.5058 13.4495 33.1371 13.0129 33.8327 13.0129H37.7203C38.0841 13.0129 38.4375 13.1306 38.7284 13.3496Z"
+                                                        fill="#EEF7FF"></path>
+                                                    <path
+                                                        d="M48.5321 19.6911L39.2323 12.6837C38.7965 12.3567 38.2667 12.1794 37.722 12.1783H33.8348C32.7922 12.1783 31.8455 12.8393 31.4792 13.8233C30.689 15.9457 28.7428 17.4301 26.5208 17.6667C26.5418 17.2751 26.2835 16.911 25.8887 16.8132C25.674 16.7601 25.4469 16.7944 25.2575 16.9086C25.0681 17.0229 24.9319 17.2077 24.8787 17.4224C24.4121 19.3066 24.3214 21.1759 24.5466 22.9637C23.3274 23.8425 22.4828 25.2533 22.1453 27.0011C21.1751 32.0278 25.7817 33.5661 26.7994 35.6194C27.4391 36.9099 29.141 37.2514 30.2411 36.3129C32.8242 34.109 34.104 30.9767 33.581 28.1383C33.2119 26.1351 32.347 24.4952 31.0799 23.3956C30.9972 23.3238 30.9012 23.269 30.7973 23.2343C30.6934 23.1997 30.5837 23.1858 30.4744 23.1935C30.3652 23.2013 30.2585 23.2305 30.1606 23.2794C30.0626 23.3284 29.9752 23.3962 29.9035 23.4789C29.7585 23.646 29.6858 23.8638 29.7015 24.0844C29.7171 24.305 29.8197 24.5104 29.9868 24.6554C30.9653 25.5045 31.6408 26.8132 31.9407 28.4405C32.3559 30.6952 31.29 33.2255 29.1585 35.0441C28.8861 35.2764 28.4516 35.1969 28.294 34.8787C27.009 32.2861 23.0103 31.3215 23.7832 27.3174C23.9739 26.3293 24.3646 25.4944 24.9134 24.8723C25.4995 27.1323 26.5176 28.9407 27.4047 30.1972C27.4817 30.3064 27.5839 30.3956 27.7026 30.4571C27.8213 30.5185 27.9531 30.5505 28.0868 30.5504C28.7503 30.5504 29.1619 29.7941 28.7673 29.2353C26.7562 26.3861 25.7446 22.9563 26.2101 19.3622C29.2535 19.2356 31.9737 17.2761 33.0424 14.4054C33.1669 14.0711 33.4853 13.8465 33.8348 13.8465H37.722C37.9035 13.8465 38.0835 13.9068 38.2285 14.0161L47.5283 21.0236C47.8768 21.2862 47.9661 21.7801 47.7318 22.1481L44.8189 26.7234C44.7031 26.9052 44.522 27.0357 44.313 27.0879C44.1039 27.1402 43.8827 27.1103 43.695 27.0044L38.5504 24.1032C37.9939 23.7896 37.3066 24.1933 37.3066 24.8297V48.0156C37.3066 48.4798 36.9289 48.8575 36.4647 48.8575H15.3286C14.8644 48.8575 14.4867 48.4798 14.4867 48.0156V24.8295C14.4867 24.1919 13.7982 23.79 13.243 24.103L8.09832 27.0043C7.91059 27.1101 7.68944 27.14 7.48038 27.0877C7.27132 27.0354 7.09026 26.9049 6.97448 26.7232L4.06156 22.1478C3.8272 21.7799 3.91655 21.2859 4.26507 21.0234L13.5647 14.0159C13.7109 13.9062 13.8886 13.8467 14.0714 13.8463H17.9585C18.3081 13.8463 18.6264 14.0709 18.7509 14.4053C19.1001 15.3427 19.6247 16.1916 20.3101 16.9281C20.4616 17.0869 20.6696 17.1797 20.8889 17.1862C21.1083 17.1928 21.3214 17.1126 21.4821 16.9631C21.6427 16.8135 21.738 16.6067 21.7472 16.3875C21.7564 16.1682 21.6788 15.9541 21.5313 15.7917C20.6568 14.8522 20.4049 14.0079 20.2449 13.6571L23.1458 12.2201C24.8684 11.3667 26.925 11.3667 28.6475 12.2201L29.1079 12.4482C29.3057 12.5428 29.5328 12.5558 29.74 12.4843C29.9473 12.4127 30.1181 12.2625 30.2154 12.066C30.3127 11.8695 30.3288 11.6426 30.2601 11.4344C30.1914 11.2262 30.0434 11.0534 29.8483 10.9534C28.9469 10.5068 28.112 10.1032 26.7307 9.95769V9.2935C26.7307 8.77954 27.0389 8.3202 27.535 8.0947C29.0445 7.40841 29.9534 5.89362 29.8505 4.23559C29.7271 2.24833 28.1353 0.656497 26.1479 0.533062C23.8076 0.388047 21.9351 2.25563 21.9351 4.48684C21.9351 4.70803 22.023 4.92017 22.1794 5.07658C22.3358 5.23299 22.5479 5.32086 22.7691 5.32086C22.9903 5.32086 23.2025 5.23299 23.3589 5.07658C23.5153 4.92017 23.6032 4.70803 23.6032 4.48684C23.6032 3.18483 24.6927 2.11614 26.0445 2.19787C27.1751 2.26814 28.1154 3.20849 28.1857 4.3389C28.2453 5.30053 27.7188 6.17865 26.8447 6.57616C25.7621 7.06823 25.0627 8.13484 25.0627 9.2934V9.95759C24.1464 10.0541 23.2446 10.3095 22.4055 10.7253L19.0028 12.4109C18.6758 12.2583 18.3195 12.1789 17.9586 12.1782H14.0715C13.5267 12.1793 12.9968 12.3566 12.5611 12.6836L3.26132 19.6911C2.22234 20.4741 1.95598 21.9467 2.65468 23.0439L5.5676 27.6191C6.28423 28.7445 7.75585 29.1123 8.91785 28.4573L12.8188 26.2574V48.0154C12.8188 49.3993 13.9448 50.5253 15.3288 50.5253H36.4647C37.8486 50.5253 38.9747 49.3993 38.9747 48.0154V26.2574L42.8756 28.4572C44.0376 29.1124 45.509 28.7444 46.2258 27.6191L49.1388 23.044C49.8375 21.9466 49.5711 20.4739 48.5321 19.6911Z"
+                                                        fill="black"></path>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_8522_2">
+                                                        <rect width="50" height="50" fill="white"
+                                                              transform="translate(0.898438 0.525391)"></rect>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                        <div class="content">
+                                            <p>Made with recycled materials, like <br> old plastic water bottles</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="tf-icon-box small text-center">
+                                        <div class="icon w-50 no-border">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="51"
+                                                 viewBox="0 0 50 51" fill="none">
+                                                <path
+                                                    d="M43.3405 32.3108L48.0512 27.6001C48.2904 27.3611 48.4802 27.0772 48.6097 26.7648C48.7392 26.4524 48.8058 26.1175 48.8058 25.7793C48.8058 25.4411 48.7392 25.1062 48.6097 24.7938C48.4802 24.4813 48.2904 24.1975 48.0512 23.9585L43.3405 19.2478C42.8577 18.7648 42.5862 18.1099 42.5858 17.427V10.7698C42.5858 10.0867 42.3145 9.43164 41.8315 8.94865C41.3485 8.46565 40.6934 8.19431 40.0103 8.19431H33.3501C32.6672 8.19392 32.0123 7.9225 31.5293 7.43966L26.8186 2.72887C26.5795 2.48964 26.2957 2.29986 25.9833 2.17037C25.6708 2.04089 25.336 1.97424 24.9978 1.97424C24.6596 1.97424 24.3247 2.04089 24.0123 2.17037C23.6999 2.29986 23.416 2.48964 23.177 2.72887L18.4723 7.44259C17.9893 7.92542 17.3344 8.19684 16.6515 8.19723H9.99122C9.30817 8.19723 8.65309 8.46858 8.17009 8.95157C7.6871 9.43456 7.41576 10.0896 7.41576 10.7727V17.433C7.41535 18.1159 7.14391 18.7708 6.66105 19.2538L1.95336 23.9615C1.71412 24.2005 1.52433 24.4844 1.39484 24.7968C1.26535 25.1092 1.1987 25.4441 1.1987 25.7823C1.1987 26.1205 1.26535 26.4554 1.39484 26.7678C1.52433 27.0802 1.71412 27.3641 1.95336 27.6031L6.66403 32.3138C7.14689 32.7968 7.41833 33.4517 7.41874 34.1346V40.7949C7.41874 41.4779 7.69008 42.133 8.17308 42.616C8.65607 43.099 9.31115 43.3703 9.99421 43.3703H16.6545C17.3375 43.3707 17.9923 43.6422 18.4753 44.125L23.186 48.8357C23.425 49.0749 23.7089 49.2647 24.0213 49.3942C24.3337 49.5237 24.6686 49.5903 25.0068 49.5903C25.345 49.5903 25.6798 49.5237 25.9923 49.3942C26.3047 49.2647 26.5885 49.0749 26.8276 48.8357L31.5383 44.125C32.0213 43.6422 32.6762 43.3707 33.3591 43.3703H40.0193C40.7024 43.3703 41.3575 43.099 41.8405 42.616C42.3235 42.133 42.5948 41.4779 42.5948 40.7949V34.1346C42.591 33.7962 42.655 33.4605 42.7831 33.1472C42.9112 32.834 43.1007 32.5496 43.3405 32.3108Z"
+                                                    fill="#7F9AFF"></path>
+                                                <path
+                                                    d="M43.4274 41.1153V34.3891C43.4274 33.7003 43.7058 33.0386 44.2 32.5504L49.0245 27.7947C49.2691 27.5551 49.4634 27.269 49.5961 26.9532C49.7288 26.6375 49.7971 26.2985 49.7971 25.956C49.7971 25.6135 49.7288 25.2745 49.5961 24.9587C49.4634 24.643 49.2691 24.3569 49.0245 24.1172L44.2 19.3616C43.9559 19.1215 43.7619 18.8353 43.6293 18.5197C43.4966 18.204 43.428 17.8652 43.4273 17.5228V10.7967C43.4273 9.3622 42.2474 8.19723 40.792 8.19723H38.7885L38.6747 8.55958V17.3461C38.6747 19.3287 39.4982 21.2273 40.9567 22.5959L44.4695 25.8931L40.5704 30.1576C39.3515 31.4932 38.6747 33.2272 38.6747 35.024V40.3007H32.3499C30.8435 40.3007 29.412 40.9356 28.4118 42.0437L25.3901 45.3978L21.1675 41.1962C20.0865 40.1247 18.6257 39.524 17.1037 39.5251H7.97867L7.70616 42.3072C7.93056 42.7337 8.26743 43.0906 8.68026 43.3392C9.09308 43.5879 9.5661 43.7188 10.048 43.7177H16.87C17.5678 43.7177 18.2386 43.9903 18.7327 44.4784L23.5573 49.234C24.5874 50.2492 26.2555 50.2492 27.2857 49.234L32.1102 44.4784C32.6067 43.9894 33.2761 43.716 33.9729 43.7177H40.7979C42.2504 43.7177 43.4274 42.5528 43.4274 41.1153Z"
+                                                    fill="#5078FF"></path>
+                                                <path
+                                                    d="M25.0008 50.7793C24.0335 50.7793 23.0692 50.4109 22.3324 49.6772L17.6218 44.9665C17.4944 44.838 17.3428 44.7361 17.1757 44.6667C17.0086 44.5973 16.8294 44.5618 16.6485 44.5622H9.99122C7.90989 44.5622 6.21786 42.8702 6.21786 40.7889V34.1286C6.21786 33.7663 6.07105 33.4128 5.81358 33.1553L1.10284 28.4446C-0.367615 26.9742 -0.367615 24.5814 1.10284 23.111L5.81358 18.4003C6.06813 18.1427 6.21786 17.7894 6.21786 17.427V10.7697C6.21786 8.68838 7.90989 6.99636 9.99122 6.99636H16.6515C17.0139 6.99636 17.3672 6.84961 17.6247 6.59207L22.3355 1.88438C22.685 1.53279 23.1008 1.25407 23.5589 1.06438C24.0169 0.87469 24.5081 0.777795 25.0038 0.779314C26.01 0.779314 26.9593 1.17161 27.6721 1.88438L32.3828 6.59505C32.6403 6.84961 32.9937 6.99934 33.3561 6.99934H40.0164C42.0977 6.99934 43.7897 8.69136 43.7897 10.7727V17.433C43.7897 17.7953 43.9365 18.1487 44.194 18.4063L48.9047 23.114C50.3751 24.5844 50.3751 26.9772 48.9047 28.4476L44.194 33.1583C43.9361 33.4167 43.7908 33.7665 43.7897 34.1316V40.7919C43.7897 42.8732 42.0977 44.5652 40.0164 44.5652H33.3561C32.9877 44.5652 32.6433 44.709 32.3828 44.9695L27.6721 49.6803C26.9619 50.3853 26.0015 50.7805 25.0008 50.7793ZM9.99122 9.39513C9.23353 9.39513 8.61365 10.012 8.61365 10.7727V17.433C8.61365 18.4392 8.22129 19.3886 7.50858 20.1013L2.80083 24.806C2.54335 25.0645 2.39878 25.4144 2.39878 25.7793C2.39878 26.1441 2.54335 26.4941 2.80083 26.7526L7.51156 31.4633C7.86315 31.8128 8.14187 32.2287 8.33156 32.6867C8.52125 33.1447 8.61815 33.6359 8.61663 34.1316V40.7919C8.61663 41.5496 9.23353 42.1694 9.9942 42.1694H16.6545C17.6607 42.1694 18.61 42.5617 19.3228 43.2745L24.0335 47.9852C24.2919 48.2427 24.6419 48.3872 25.0067 48.3872C25.3716 48.3872 25.7216 48.2427 25.98 47.9852L30.6908 43.2745C31.0403 42.9229 31.4561 42.6442 31.9142 42.4545C32.3722 42.2648 32.8633 42.1679 33.3591 42.1694H40.0193C40.777 42.1694 41.3969 41.5525 41.3969 40.7919V34.1316C41.3969 33.1254 41.7892 32.1761 42.502 31.4633L47.2127 26.7526C47.4701 26.4941 47.6147 26.1441 47.6147 25.7793C47.6147 25.4144 47.4701 25.0645 47.2127 24.806L42.502 20.0953C42.1504 19.7458 41.8717 19.3299 41.682 18.8719C41.4923 18.4139 41.3954 17.9227 41.3969 17.427V10.7698C41.3969 10.0121 40.78 9.3922 40.0193 9.3922H33.3591C32.3528 9.3922 31.4035 8.9999 30.6908 8.28713L25.98 3.57646C25.7195 3.31589 25.3751 3.17217 25.0067 3.17217C24.6384 3.17217 24.294 3.31589 24.0335 3.57646L19.3198 8.29012C18.9703 8.64171 18.5544 8.92042 18.0964 9.11012C17.6384 9.29981 17.1472 9.3967 16.6515 9.39518L9.99122 9.39513Z"
+                                                    fill="#211D38"></path>
+                                                <path
+                                                    d="M9.20054 32.7331C9.00893 32.7331 8.81725 32.6612 8.6705 32.5144L3.04643 26.8904C2.89999 26.7448 2.78383 26.5717 2.70467 26.381C2.62551 26.1903 2.58492 25.9858 2.58523 25.7793C2.58523 25.36 2.74994 24.9647 3.04643 24.6682L7.79606 19.9186C8.37407 19.3406 8.6915 18.571 8.6915 17.7534V16.849C8.6915 16.6505 8.77038 16.46 8.91078 16.3196C9.05119 16.1792 9.24162 16.1003 9.44018 16.1003C9.63874 16.1003 9.82917 16.1792 9.96958 16.3196C10.11 16.46 10.1889 16.6505 10.1889 16.849V17.7564C10.1889 18.9723 9.71567 20.1192 8.85323 20.9787L4.10354 25.7284C4.08856 25.7434 4.0826 25.7613 4.0826 25.7793C4.0826 25.7972 4.08856 25.8182 4.10354 25.8302L9.72766 31.4543C9.83261 31.5588 9.90421 31.692 9.93339 31.8372C9.96257 31.9824 9.94803 32.1329 9.8916 32.2699C9.83517 32.4068 9.73939 32.5239 9.61639 32.6063C9.49339 32.6888 9.34863 32.7329 9.20054 32.7331ZM9.44018 14.2107C9.34186 14.2107 9.24451 14.1913 9.15367 14.1537C9.06284 14.1161 8.9803 14.0609 8.91078 13.9914C8.84126 13.9219 8.78611 13.8393 8.74849 13.7485C8.71086 13.6577 8.6915 13.5603 8.6915 13.462V11.0392C8.6915 10.1738 9.39526 9.46701 10.2637 9.46701H16.9779C17.7955 9.46701 18.5651 9.14958 19.1431 8.57157L20.0505 7.66421C20.344 7.3707 20.8172 7.3707 21.1106 7.66421C21.4041 7.95771 21.4041 8.43085 21.1106 8.72429L20.2032 9.63172C19.3437 10.4942 18.1968 10.9674 16.9809 10.9674H10.2637C10.2218 10.9674 10.1889 11.0003 10.1889 11.0422V13.465C10.1889 13.8752 9.85342 14.2107 9.44018 14.2107ZM22.7847 6.73882C22.6363 6.73923 22.4912 6.69555 22.3678 6.61332C22.2443 6.53109 22.1481 6.41403 22.0913 6.277C22.0345 6.13996 22.0197 5.98914 22.0488 5.84368C22.0778 5.69822 22.1495 5.56469 22.2546 5.46004L23.8897 3.82493C24.1832 3.53148 24.6564 3.53148 24.9499 3.82493C25.2434 4.11838 25.2433 4.59157 24.9499 4.88508L23.3147 6.52018C23.168 6.66694 22.9764 6.73882 22.7847 6.73882Z"
+                                                    fill="white"></path>
+                                                <path
+                                                    d="M23.3596 32.8858H23.3537C22.6409 32.8828 21.9552 32.5863 21.464 32.0712L16.2022 26.537C15.9834 26.3064 15.865 25.9985 15.8728 25.6808C15.8807 25.363 16.0142 25.0613 16.2442 24.8419C16.4747 24.6231 16.7826 24.5046 17.1004 24.5125C17.4181 24.5204 17.7198 24.6539 17.9392 24.8839L23.201 30.4181C23.2212 30.44 23.2458 30.4574 23.2731 30.4692C23.3004 30.4811 23.3299 30.4871 23.3596 30.487C23.3926 30.481 23.4645 30.475 23.5214 30.4181L33.3231 20.2241C33.5438 19.9953 33.8461 19.8633 34.1638 19.8572C34.4816 19.851 34.7888 19.9711 35.0181 20.1911C35.2469 20.4117 35.3789 20.7141 35.3851 21.0318C35.3912 21.3496 35.2711 21.6569 35.0511 21.8862L25.2494 32.0801C25.0048 32.3346 24.7113 32.5371 24.3866 32.6756C24.0619 32.814 23.7126 32.8855 23.3596 32.8858Z"
+                                                    fill="#211D38"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="content">
+                                            <p>Ethically made in certified <br> factories</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="tf-icon-box small text-center">
+                                        <div class="icon w-50 no-border">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="51" height="51"
+                                                 viewBox="0 0 51 51" fill="none">
+                                                <g clip-path="url(#clip0_8522_10)">
+                                                    <path
+                                                        d="M25.5035 7.58789C32.2077 10.0444 37.0184 16.4927 37.0184 24.0669C37.0184 31.6411 32.1565 38.0382 25.4523 40.4436C18.697 37.9871 13.9375 31.5899 13.9375 24.0157C13.9375 16.4415 18.7993 10.0444 25.5035 7.58789Z"
+                                                        fill="white"></path>
+                                                    <path
+                                                        d="M25.4524 41.5694L25.0942 41.4671C17.7759 38.8059 12.9141 31.7946 12.9141 24.0669C12.9141 16.2879 17.8782 9.32786 25.1966 6.71783L25.5548 6.61548L25.8619 6.66666C33.1802 9.32786 38.042 16.3391 38.042 24.0669C38.042 31.8458 33.0778 38.8059 25.8107 41.4159L25.4524 41.5694ZM25.5036 8.71374C19.2088 11.1191 14.9611 17.2603 14.9611 24.0157C14.9611 30.7711 19.1577 36.9123 25.4524 39.3688C31.7472 36.9123 35.9437 30.8222 35.9949 24.0669C35.9949 17.3115 31.7984 11.1702 25.5036 8.71374Z"
+                                                        fill="#282D33"></path>
+                                                    <path
+                                                        d="M31.8005 31.1292C30.3164 33.6881 28.0646 35.684 25.4545 36.9122C20.4904 34.6093 17.215 29.5427 17.2662 24.0156C17.2662 21.5079 17.9315 19.1026 19.1598 16.9532C20.6439 14.3943 22.8957 12.3984 25.5569 11.1702C30.5211 13.4731 33.7964 18.5397 33.7452 24.0668C33.6941 26.5233 33.0288 28.9798 31.8005 31.1292Z"
+                                                        fill="#5EB4E7"></path>
+                                                    <path
+                                                        d="M24.4219 39.4629L24.4858 7.57959L26.5329 7.58368L26.469 39.467L24.4219 39.4629Z"
+                                                        fill="#282D33"></path>
+                                                    <path
+                                                        d="M25.4064 45.4589C24.8434 45.4589 24.3828 44.9983 24.3828 44.4354V40.4947C24.3828 39.9318 24.8434 39.4712 25.4064 39.4712C25.9693 39.4712 26.4299 39.9318 26.4299 40.4947V44.4354C26.4299 44.9983 25.9693 45.4589 25.4064 45.4589Z"
+                                                        fill="#282D33"></path>
+                                                    <path
+                                                        d="M16.3984 16.1825L17.7823 14.6738L25.7403 21.9737L24.3565 23.4824L16.3984 16.1825Z"
+                                                        fill="#282D33"></path>
+                                                    <path
+                                                        d="M13.6016 24.2189L14.9854 22.7102L25.7346 32.57L24.3508 34.0787L13.6016 24.2189Z"
+                                                        fill="#282D33"></path>
+                                                    <path
+                                                        d="M25.2266 21.9822L33.2174 14.7151L34.595 16.2299L26.6042 23.4971L25.2266 21.9822Z"
+                                                        fill="#282D33"></path>
+                                                    <path
+                                                        d="M25.1058 32.5888L35.8991 22.7874L37.2747 24.3022L26.4815 34.1036L25.1058 32.5888ZM4.06337 38.857C-2.12906 28.9286 -0.644925 16.1855 7.64576 7.89484C17.4206 -1.87998 33.3366 -1.87998 43.1115 7.89484L41.6785 9.3278C32.6713 0.32063 18.0859 0.32063 9.07872 9.3278C1.50451 16.902 0.122731 28.6216 5.80339 37.7311L4.06337 38.857Z"
+                                                        fill="#282D33"></path>
+                                                    <path
+                                                        d="M43.3649 9.99304H36.4049V7.94596H41.3179V3.03296H43.3649V9.99304ZM25.5553 50.5253C19.107 50.5253 12.7099 48.0688 7.79688 43.207L9.22983 41.774C18.237 50.7812 32.8225 50.7812 41.8296 41.774C49.4038 34.1998 50.7344 22.1732 45.0026 13.166L46.7426 12.0913C52.9862 21.9173 51.5021 35.0186 43.2626 43.2581C38.4008 48.12 31.9525 50.5253 25.5553 50.5253Z"
+                                                        fill="#282D33"></path>
+                                                    <path
+                                                        d="M9.64083 48.0177H7.59375V41.0576H14.5538V43.1047H9.64083V48.0177Z"
+                                                        fill="#282D33"></path>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_8522_10">
+                                                        <rect width="50.3071" height="50" fill="white"
+                                                              transform="translate(0.273438 0.525391)"></rect>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                        </div>
+                                        <div class="content">
+                                            <p>Uses eco-friendly dyes <br> responsible water recycling</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sw-dots style-2 sw-pagination-mb justify-content-center"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /iconbox -->
+        <!-- Testimonial -->
+        <section class="bg_grey-7 flat-spacing-18">
+            <div class="container">
+                <div class="wrap-carousel">
+                    <div dir="ltr"
+                         class="swiper tf-sw-testimonial swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden"
+                         data-preview="2" data-tablet="2" data-mobile="1" data-space-lg="30" data-space-md="15">
+                        <div class="swiper-wrapper" id="swiper-wrapper-5f5d192ad046f43d" aria-live="polite"
+                             style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+                            <div class="swiper-slide swiper-slide-active" style="width: 609px; margin-right: 30px;"
+                                 role="group" aria-label="1 / 4">
+                                <div class="testimonial-item style-row">
+                                    <div class="image radius-5 o-hidden">
+                                        <img class=" ls-is-cached lazyloaded" data-src="images/item/tes-wear1.jpg"
+                                             alt="" src="images/item/tes-wear1.jpg">
+                                    </div>
+                                    <div class="content">
+                                        <div class="rating">
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                        </div>
+                                        <div class="text">
+                                            I am so happy to find a web fashion site that offers a great selection of
+                                            stylish and affordable plus size clothing.
+                                        </div>
+                                        <div class="author">
+                                            <div class="name">Anna Lan</div>
+                                            <div class="metas">Customer from Japan</div>
+                                        </div>
+                                        <div class="product">
+                                            <div class="img-thumb radius-5 o-hidden">
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/brown-11.jpg" alt=""
+                                                     src="images/products/brown-11.jpg">
+                                            </div>
+                                            <div class="content-wrap">
+                                                <div class="product-title">
+                                                    <a href="#">Crossover Leggings</a>
+                                                </div>
+                                                <div class="price">$38.00</div>
+                                            </div>
+                                            <a href="#"><i class="icon-arrow1-top-left"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide swiper-slide-next" style="width: 609px; margin-right: 30px;"
+                                 role="group" aria-label="2 / 4">
+                                <div class="testimonial-item style-row">
+                                    <div class="image radius-5 o-hidden">
+                                        <img class=" ls-is-cached lazyloaded" data-src="images/item/tes-wear2.jpg"
+                                             alt="" src="images/item/tes-wear2.jpg">
+                                    </div>
+                                    <div class="content">
+                                        <div class="rating">
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                        </div>
+                                        <div class="text">
+                                            Absolutely love this women's athletic wear – the fabric is breathable, the
+                                            fit is perfect, and the stylish design adds a confident flair to my workout
+                                            routine.
+                                        </div>
+                                        <div class="author">
+                                            <div class="name">Telna Swith</div>
+                                            <div class="metas">Customer from USA</div>
+                                        </div>
+                                        <div class="product">
+                                            <div class="img-thumb radius-5 o-hidden">
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/white-17.jpg" alt=""
+                                                     src="images/products/white-17.jpg">
+                                            </div>
+                                            <div class="content-wrap">
+                                                <div class="product-title">
+                                                    <a href="#">Ruched Strappy Sports Bra</a>
+                                                </div>
+                                                <div class="price">$38.00</div>
+                                            </div>
+                                            <a href="#"><i class="icon-arrow1-top-left"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide" style="width: 609px; margin-right: 30px;" role="group"
+                                 aria-label="3 / 4">
+                                <div class="testimonial-item style-row">
+                                    <div class="image radius-5 o-hidden">
+                                        <img class=" ls-is-cached lazyloaded" data-src="images/item/tes-wear3.jpg"
+                                             alt="" src="images/item/tes-wear3.jpg">
+                                    </div>
+                                    <div class="content">
+                                        <div class="rating">
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                        </div>
+                                        <div class="text">
+                                            This sportswear for women strikes the ideal balance between comfort and
+                                            performance, making my workouts not only more enjoyable but also more
+                                            effective.
+                                        </div>
+                                        <div class="author">
+                                            <div class="name">Parane Taylor</div>
+                                            <div class="metas">Parane Taylor</div>
+                                        </div>
+                                        <div class="product">
+                                            <div class="img-thumb radius-5 o-hidden">
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/blue-5.jpg" alt=""
+                                                     src="images/products/blue-5.jpg">
+                                            </div>
+                                            <div class="content-wrap">
+                                                <div class="product-title">
+                                                    <a href="#">Pocket Shorts</a>
+                                                </div>
+                                                <div class="price">$38.00</div>
+                                            </div>
+                                            <a href="#"><i class="icon-arrow1-top-left"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide" role="group" aria-label="4 / 4"
+                                 style="width: 609px; margin-right: 30px;">
+                                <div class="testimonial-item style-row">
+                                    <div class="image radius-5 o-hidden">
+                                        <img class=" ls-is-cached lazyloaded" data-src="images/item/tes-wear4.jpg"
+                                             alt="" src="images/item/tes-wear4.jpg">
+                                    </div>
+                                    <div class="content">
+                                        <div class="rating">
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                            <i class="icon-star"></i>
+                                        </div>
+                                        <div class="text">
+                                            The durability of this women's activewear is impressive; it has quickly
+                                            become my go-to choice for intense workouts without compromising on style.
+                                        </div>
+                                        <div class="author">
+                                            <div class="name">Robert smith</div>
+                                            <div class="metas">Customer from USA</div>
+                                        </div>
+                                        <div class="product">
+                                            <div class="img-thumb radius-5 o-hidden">
+                                                <img class=" ls-is-cached lazyloaded"
+                                                     data-src="images/products/sports-clothing-6.jpg" alt=""
+                                                     src="images/products/sports-clothing-6.jpg">
+                                            </div>
+                                            <div class="content-wrap">
+                                                <div class="product-title">
+                                                    <a href="#">Crest 7" Shorts</a>
+                                                </div>
+                                                <div class="price">$38.00</div>
+                                            </div>
+                                            <a href="#"><i class="icon-arrow1-top-left"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                    <div class="nav-sw disable-line nav-next-slider nav-next-testimonial lg swiper-button-disabled"
+                         tabindex="-1" role="button" aria-label="Previous slide"
+                         aria-controls="swiper-wrapper-5f5d192ad046f43d" aria-disabled="true"><span
+                            class="icon icon-arrow-left"></span></div>
+                    <div class="nav-sw disable-line nav-prev-slider nav-prev-testimonial lg" tabindex="0" role="button"
+                         aria-label="Next slide" aria-controls="swiper-wrapper-5f5d192ad046f43d" aria-disabled="false">
+                        <span class="icon icon-arrow-right"></span></div>
+                    <div
+                        class="sw-dots style-2 sw-pagination-testimonial justify-content-center swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                        <span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0"
+                              role="button" aria-label="Go to slide 1" aria-current="true"></span><span
+                            class="swiper-pagination-bullet" tabindex="0" role="button"
+                            aria-label="Go to slide 2"></span><span class="swiper-pagination-bullet" tabindex="0"
+                                                                    role="button" aria-label="Go to slide 3"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Testimonial -->
+
+        <!-- Shop gram -->
+        <section class="flat-spacing-10 bg-color-white">
+            <div class="container">
+                <div class="flat-title mb_1 wow fadeInUp" data-wow-delay="0s"
+                     style="visibility: visible; animation-delay: 0s; animation-name: fadeInUp;">
+                    <span class="title font-young-serif">Be active. Be social</span>
+                    <p class="sub-title text_black-2">Follow <strong>@shop_with_carl</strong> on Instagram</p>
+                </div>
+                <div class="wrap-carousel wrap-shop-gram">
+                    <div dir="ltr"
+                         class="swiper tf-sw-shop-gallery swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden"
+                         data-preview="5" data-tablet="3" data-mobile="2" data-space-lg="7" data-space-md="7">
+                        <div class="swiper-wrapper" id="swiper-wrapper-8d6809869c78f1bd" aria-live="polite"
+                             style="transform: translate3d(0px, 0px, 0px);">
+                            <div class="swiper-slide swiper-slide-active" style="width: ; margin-right: 7px;"
+                                 role="group" aria-label="1 / 6">
+                                <div class="gallery-item hover-img wow fadeInUp" data-wow-delay="0s"
+                                     style="visibility: visible; animation-delay: 0s; animation-name: fadeInUp;">
+                                    <div class="img-style">
+                                        <img class="img-hover ls-is-cached lazyloaded"
+                                             data-src="images/shop/gallery/activewear-gallery1.jpg"
+                                             src="images/products/shop_with_carl-10.jpg" alt="image-gallery">
+                                    </div>
+                                    <a href="#quick_add" data-bs-toggle="modal" class="box-icon"><span
+                                            class="icon icon-bag"></span> <span class="tooltip">Quick Add</span></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide swiper-slide-next" style="width: 244px; margin-right: 7px;"
+                                 role="group" aria-label="2 / 6">
+                                <div class="gallery-item hover-img wow fadeInUp" data-wow-delay=".1s"
+                                     style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+                                    <div class="img-style">
+                                        <img class="img-hover ls-is-cached lazyloaded"
+                                             data-src="images/shop/gallery/activewear-gallery2.jpg"
+                                             src="images/products/shop_with_carl-4.jpg" alt="image-gallery">
+                                    </div>
+                                    <a href="#quick_add" data-bs-toggle="modal" class="box-icon"><span
+                                            class="icon icon-bag"></span> <span class="tooltip">Quick Add</span></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide" style="width: 244px; margin-right: 7px;" role="group"
+                                 aria-label="3 / 6">
+                                <div class="gallery-item hover-img wow fadeInUp" data-wow-delay=".2s"
+                                     style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                                    <div class="img-style">
+                                        <img class="img-hover ls-is-cached lazyloaded"
+                                             data-src="images/shop/gallery/activewear-gallery3.jpg"
+                                             src="images/products/shop_with_carl-6.jpg" alt="image-gallery">
+                                    </div>
+                                    <a href="#quick_add" data-bs-toggle="modal" class="box-icon"><span
+                                            class="icon icon-bag"></span> <span class="tooltip">Quick Add</span></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide" style="width: 944px; margin-right: 7px;" role="group"
+                                 aria-label="4 / 6">
+                                <div class="gallery-item hover-img wow fadeInUp" data-wow-delay=".3s"
+                                     style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
+                                    <div class="img-style">
+                                        <img class="img-hover ls-is-cached lazyloaded"
+                                             data-src="images/shop/gallery/activewear-gallery4.jpg"
+                                             src="images/products/shop_with_carl-36.jpg" alt="image-gallery">
+                                    </div>
+                                    <a href="product-detail.html" class="box-icon"><span class="icon icon-bag"></span>
+                                        <span class="tooltip">View product</span></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide" style="width: 244px; margin-right: 7px;" role="group"
+                                 aria-label="5 / 6">
+                                <div class="gallery-item hover-img wow fadeInUp" data-wow-delay=".4s"
+                                     style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInUp;">
+                                    <div class="img-style">
+                                        <img class="img-hover ls-is-cached lazyloaded"
+                                             data-src="images/shop/gallery/activewear-gallery5.jpg"
+                                             src="images/products/shop_with_carl-39.jpg" alt="image-gallery">
+                                    </div>
+                                    <a href="product-detail.html" class="box-icon"><span class="icon icon-bag"></span>
+                                        <span class="tooltip">View product</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+                    <div
+                        class="sw-dots sw-pagination-gallery justify-content-center swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
+                        <span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0"
+                              role="button" aria-label="Go to slide 1" aria-current="true"></span><span
+                            class="swiper-pagination-bullet" tabindex="0" role="button"
+                            aria-label="Go to slide 2"></span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop gram -->
+
+    </div>
+
+    <!-- gotop -->
+    <button id="goTop">
+        <span class="border-progress"></span>
+        <span class="icon icon-arrow-up"></span>
+    </button>
+    <!-- /gotop -->
+
+    <!-- toolbar-bottom -->
+    <div class="tf-toolbar-bottom type-1150">
+        <div class="toolbar-item">
+            <a href="#toolbarShopmb" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft">
+                <div class="toolbar-icon">
+                    <i class="icon-shop"></i>
+                </div>
+                <div class="toolbar-label">Shop</div>
+            </a>
+        </div>
+
+        <div class="toolbar-item">
+            <a href="#canvasSearch" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft">
+                <div class="toolbar-icon">
+                    <i class="icon-search"></i>
+                </div>
+                <div class="toolbar-label">Search</div>
+            </a>
+        </div>
+        <div class="toolbar-item">
+            <a href="#login" data-bs-toggle="modal">
+                <div class="toolbar-icon">
+                    <i class="icon-account"></i>
+                </div>
+                <div class="toolbar-label">Account</div>
+            </a>
+        </div>
+        <div class="toolbar-item">
+            <a href="wishlist.html">
+                <div class="toolbar-icon">
+                    <i class="icon-heart"></i>
+                    <div class="toolbar-count">0</div>
+                </div>
+                <div class="toolbar-label">Wishlist</div>
+            </a>
+        </div>
+        <div class="toolbar-item">
+            <a href="#shoppingCart" data-bs-toggle="modal">
+                <div class="toolbar-icon">
+                    <i class="icon-bag"></i>
+                    <div class="toolbar-count">1</div>
+                </div>
+                <div class="toolbar-label">Cart</div>
+            </a>
+        </div>
+    </div>
+    <!-- /toolbar-bottom -->
+
+    <!-- mobile menu -->
+    <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
+        <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
+        <div class="mb-canvas-content">
+            <div class="mb-body">
+                <ul class="nav-ul-mb" id="wrapper-menu-navigation">
+                    <li class="nav-mb-item">
+                        <a href="#dropdown-menu-one" class="collapsed mb-menu-link current" data-bs-toggle="collapse"
+                           aria-expanded="true" aria-controls="dropdown-menu-one">
+                            <span>Home</span>
+                            <span class="btn-open-sub"></span>
+                        </a>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="#dropdown-menu-two" class="collapsed mb-menu-link current" data-bs-toggle="collapse"
+                           aria-expanded="true" aria-controls="dropdown-menu-two">
+                            <span>Shop</span>
+                            <span class="btn-open-sub"></span>
+                        </a>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="#dropdown-menu-three" class="collapsed mb-menu-link current" data-bs-toggle="collapse"
+                           aria-expanded="true" aria-controls="dropdown-menu-three">
+                            <span>Products</span>
+                            <span class="btn-open-sub"></span>
+                        </a>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="#dropdown-menu-four" class="collapsed mb-menu-link current" data-bs-toggle="collapse"
+                           aria-expanded="true" aria-controls="dropdown-menu-four">
+                            <span>Pages</span>
+                            <span class="btn-open-sub"></span>
+                        </a>
+                        <div id="dropdown-menu-four" class="collapse">
+                            <ul class="sub-nav-menu" id="sub-menu-navigation2">
+                                <li><a href="about-us.html" class="sub-nav-link">About us</a></li>
+                                <li><a href="brands.html" class="sub-nav-link line-clamp">Brands
+                                        <div class="demo-label">
+                                            <span class="demo-new">New</span>
+                                        </div>
+                                    </a></li>
+                                <li><a href="brands-v2.html" class="sub-nav-link">Brands</a></li>
+                                <li><a href="contact-1.html" class="sub-nav-link">Contact</a></li>
+                                <li><a href="faq-1.html" class="sub-nav-link">FAQ</a></li>
+                                <li><a href="our-store.html" class="sub-nav-link">Our store</a></li>
+                                <li><a href="view-cart.html" class="sub-nav-link line-clamp">View cart</a></li>
+                                <li><a href="checkout.html" class="sub-nav-link line-clamp">Check out</a></li>
+                                <li><a href="payment-confirmation.html" class="sub-nav-link line-clamp">Payment
+                                        Confirmation</a></li>
+                                <li><a href="payment-failure.html" class="sub-nav-link line-clamp">Payment Failure</a>
+                                </li>
+                                <li><a href="#sub-account" class="sub-nav-link collapsed" data-bs-toggle="collapse"
+                                       aria-expanded="true" aria-controls="sub-account">
+                                        <span>My Account</span>
+                                        <span class="btn-open-sub"></span>
+                                    </a>
+                                    <div id="sub-account" class="collapse">
+                                        <ul class="sub-nav-menu sub-menu-level-2">
+                                            <li><a href="my-account.html" class="sub-nav-link">My account</a></li>
+                                            <li><a href="my-account-orders.html" class="sub-nav-link">My order</a></li>
+                                            <li><a href="my-account-orders-details.html" class="sub-nav-link">My order
+                                                    details</a></li>
+                                            <li><a href="my-account-address.html" class="sub-nav-link">My address</a>
+                                            </li>
+                                            <li><a href="my-account-edit.html" class="sub-nav-link">My account
+                                                    details</a></li>
+                                            <li><a href="my-account-wishlist.html" class="sub-nav-link">My wishlist</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li><a href="invoice.html" class="sub-nav-link line-clamp">Invoice</a></li>
+                            </ul>
+                        </div>
+
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="#dropdown-menu-five" class="collapsed mb-menu-link current" data-bs-toggle="collapse"
+                           aria-expanded="true" aria-controls="dropdown-menu-five">
+                            <span>Blog</span>
+                            <span class="btn-open-sub"></span>
+                        </a>
+
+                    </li>
+                </ul>
+                <div class="mb-other-content">
+                    <div class="d-flex group-icon">
+                        <a href="wishlist.html" class="site-nav-icon"><i class="icon icon-heart"></i>Wishlist</a>
+                        <a href="#" class="site-nav-icon"><i class="icon icon-search"></i>Search</a>
+                    </div>
+                    <div class="mb-notice">
+                        <a href="contact-1.html" class="text-need">Need help ?</a>
+                    </div>
+                    <ul class="mb-info">
+                        <li>Address: 1234 Fashion Street, Suite 567, <br> New York, NY 10001</li>
+                        <li>Email: <b>info@fashionshop.com</b></li>
+                        <li>Phone: <b>(212) 555-1234</b></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mb-bottom">
+                <a href="login.html" class="site-nav-icon"><i class="icon icon-account"></i>Login</a>
+                <div class="bottom-bar-language">
+                    <div class="tf-currencies">
+                        <select class="image-select center style-default type-currencies">
+                            <option data-thumbnail="images/country/fr.svg">UGX Shs | Uganda</option>
+                            <option selected data-thumbnail="images/country/us.svg">USD $ | United States</option>
+                        </select>
+                    </div>
+                    <div class="tf-languages">
+                        <select class="image-select center style-default type-languages">
+                            <option>English</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /mobile menu -->
+
+
+    <!-- canvasSearch -->
+    <div class="offcanvas offcanvas-end canvas-search" id="canvasSearch">
+        <div class="canvas-wrapper">
+            <header class="tf-search-head">
+                <div class="title fw-5">
+                    Search our site
+                    <div class="close">
+                        <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
+                    </div>
+                </div>
+                <div class="tf-search-sticky">
+                    <form class="tf-mini-search-frm">
+                        <fieldset class="text">
+                            <input type="text" placeholder="Search" class="" name="text" tabindex="0" value=""
+                                   aria-required="true" required="">
+                        </fieldset>
+                        <button class="" type="submit"><i class="icon-search"></i></button>
+                    </form>
+                </div>
+            </header>
+            <div class="canvas-body p-0">
+                <div class="tf-search-content">
+                    <div class="tf-cart-hide-has-results">
+                        <div class="tf-col-quicklink">
+                            <div class="tf-search-content-title fw-5">Quick link</div>
+                            <ul class="tf-quicklink-list">
+                                <li class="tf-quicklink-item">
+                                    <a href="shop-default.html" class="">Fashion</a>
+                                </li>
+                                <li class="tf-quicklink-item">
+                                    <a href="shop-default.html" class="">Men</a>
+                                </li>
+                                <li class="tf-quicklink-item">
+                                    <a href="shop-default.html" class="">Women</a>
+                                </li>
+                                <li class="tf-quicklink-item">
+                                    <a href="shop-default.html" class="">Accessories</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tf-col-content">
+                            <div class="tf-search-content-title fw-5">Need some inspiration?</div>
+                            <div class="tf-search-hidden-inner">
+                                <div class="tf-loop-item">
+                                    <div class="image">
+                                        <a href="product-detail.html">
+                                            <img src="images/products/white-3.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <a href="product-detail.html">Cotton jersey top</a>
+                                        <div class="tf-product-info-price">
+                                            <div class="compare-at-price">$10.00</div>
+                                            <div class="price-on-sale fw-6">$8.00</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tf-loop-item">
+                                    <div class="image">
+                                        <a href="product-detail.html">
+                                            <img src="images/products/white-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <a href="product-detail.html">Mini crossbody bag</a>
+                                        <div class="tf-product-info-price">
+                                            <div class="price fw-6">$18.00</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tf-loop-item">
+                                    <div class="image">
+                                        <a href="product-detail.html">
+                                            <img src="images/products/white-1.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <a href="product-detail.html">Oversized Printed T-shirt</a>
+                                        <div class="tf-product-info-price">
+                                            <div class="price fw-6">$18.00</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /canvasSearch -->
+
+    <!-- toolbarShopmb -->
+    <div class="offcanvas offcanvas-start canvas-mb toolbar-shop-mobile" id="toolbarShopmb">
+        <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
+        <div class="mb-canvas-content">
+            <div class="mb-body">
+                <ul class="nav-ul-mb" id="wrapper-menu-navigation">
+                    <li class="nav-mb-item">
+                        <a href="shop-default.html" class="tf-category-link mb-menu-link">
+                            <div class="image">
+                                <img src="images/shop/cate/cate1.jpg" alt="">
+                            </div>
+                            <span>Accessories</span>
+                        </a>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="shop-default.html" class="tf-category-link mb-menu-link">
+                            <div class="image">
+                                <img src="images/shop/cate/cate2.jpg" alt="">
+                            </div>
+                            <span>Dog</span>
+                        </a>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="shop-default.html" class="tf-category-link mb-menu-link">
+                            <div class="image">
+                                <img src="images/shop/cate/cate3.jpg" alt="">
+                            </div>
+                            <span>Grocery</span>
+                        </a>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="shop-default.html" class="tf-category-link mb-menu-link">
+                            <div class="image">
+                                <img src="images/shop/cate/cate4.png" alt="">
+                            </div>
+                            <span>Handbag</span>
+                        </a>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="#cate-menu-one" class="tf-category-link has-children collapsed mb-menu-link"
+                           data-bs-toggle="collapse" aria-expanded="true" aria-controls="cate-menu-one">
+                            <div class="image">
+                                <img src="images/shop/cate/cate5.jpg" alt="">
+                            </div>
+                            <span>Fashion</span>
+                            <span class="btn-open-sub"></span>
+                        </a>
+                        <div id="cate-menu-one" class="collapse list-cate">
+                            <ul class="sub-nav-menu" id="cate-menu-navigation">
+                                <li>
+                                    <a href="#cate-shop-one"
+                                       class="tf-category-link has-children sub-nav-link collapsed"
+                                       data-bs-toggle="collapse" aria-expanded="true" aria-controls="cate-shop-one">
+                                        <div class="image">
+                                            <img src="images/shop/cate/cate6.jpg" alt="">
+                                        </div>
+                                        <span>Mens</span>
+                                        <span class="btn-open-sub"></span>
+                                    </a>
+                                    <div id="cate-shop-one" class="collapse">
+                                        <ul class="sub-nav-menu sub-menu-level-2">
+                                            <li>
+                                                <a href="shop-default.html" class="tf-category-link sub-nav-link">
+                                                    <div class="image">
+                                                        <img src="images/shop/cate/cate1.jpg" alt="">
+                                                    </div>
+                                                    <span>Accessories</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="shop-default.html" class="tf-category-link sub-nav-link">
+                                                    <div class="image">
+                                                        <img src="images/shop/cate/cate8.jpg" alt="">
+                                                    </div>
+                                                    <span>Shoes</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#cate-shop-two"
+                                       class="tf-category-link has-children sub-nav-link collapsed"
+                                       data-bs-toggle="collapse" aria-expanded="true" aria-controls="cate-shop-two">
+                                        <div class="image">
+                                            <img src="images/shop/cate/cate9.jpg" alt="">
+                                        </div>
+                                        <span>Womens</span>
+                                        <span class="btn-open-sub"></span>
+                                    </a>
+                                    <div id="cate-shop-two" class="collapse">
+                                        <ul class="sub-nav-menu sub-menu-level-2">
+                                            <li>
+                                                <a href="shop-default.html" class="tf-category-link sub-nav-link">
+                                                    <div class="image">
+                                                        <img src="images/shop/cate/cate4.png" alt="">
+                                                    </div>
+                                                    <span>Handbag</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="shop-default.html" class="tf-category-link sub-nav-link">
+                                                    <div class="image">
+                                                        <img src="images/shop/cate/cate7.jpg" alt="">
+                                                    </div>
+                                                    <span>Tee</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="#cate-menu-two" class="tf-category-link has-children collapsed mb-menu-link"
+                           data-bs-toggle="collapse" aria-expanded="true" aria-controls="cate-menu-two">
+                            <div class="image">
+                                <img src="images/shop/cate/cate6.jpg" alt="">
+                            </div>
+                            <span>Men</span>
+                            <span class="btn-open-sub"></span>
+                        </a>
+                        <div id="cate-menu-two" class="collapse list-cate">
+                            <ul class="sub-nav-menu" id="cate-menu-navigation1">
+                                <li>
+                                    <a href="shop-default.html" class="tf-category-link sub-nav-link">
+                                        <div class="image">
+                                            <img src="images/shop/cate/cate1.jpg" alt="">
+                                        </div>
+                                        <span>Accessories</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="shop-default.html" class="tf-category-link sub-nav-link">
+                                        <div class="image">
+                                            <img src="images/shop/cate/cate8.jpg" alt="">
+                                        </div>
+                                        <span>Shoes</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="shop-default.html" class="tf-category-link mb-menu-link">
+                            <div class="image">
+                                <img src="images/shop/cate/cate7.jpg" alt="">
+                            </div>
+                            <span>Tee</span>
+                        </a>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="shop-default.html" class="tf-category-link mb-menu-link">
+                            <div class="image">
+                                <img src="images/shop/cate/cate8.jpg" alt="">
+                            </div>
+                            <span>Shoes</span>
+                        </a>
+                    </li>
+                    <li class="nav-mb-item">
+                        <a href="#cate-menu-three" class="tf-category-link has-children collapsed mb-menu-link"
+                           data-bs-toggle="collapse" aria-expanded="true" aria-controls="cate-menu-three">
+                            <div class="image">
+                                <img src="images/shop/cate/cate9.jpg" alt="">
+                            </div>
+                            <span>Women</span>
+                            <span class="btn-open-sub"></span>
+                        </a>
+                        <div id="cate-menu-three" class="collapse list-cate">
+                            <ul class="sub-nav-menu" id="cate-menu-navigation2">
+                                <li>
+                                    <a href="shop-default.html" class="tf-category-link sub-nav-link">
+                                        <div class="image">
+                                            <img src="images/shop/cate/cate4.png" alt="">
+                                        </div>
+                                        <span>Handbag</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="shop-default.html" class="tf-category-link sub-nav-link">
+                                        <div class="image">
+                                            <img src="images/shop/cate/cate7.jpg" alt="">
+                                        </div>
+                                        <span>Tee</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="mb-bottom">
+                <a href="shop-default.html" class="tf-btn fw-5 btn-line">View all collection<i
+                        class="icon icon-arrow1-top-left"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- /toolbarShopmb -->
+
+    <!-- modal login -->
+    <div class="modal modalCentered fade form-sign-in modal-part-content" id="login">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="header">
+                    <div class="demo-title">Log in</div>
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                </div>
+                <div class="tf-login-form">
+                    <form class="" action="my-account.html" accept-charset="utf-8">
+                        <div class="tf-field style-1">
+                            <input class="tf-field-input tf-input" placeholder=" " type="email" name="">
+                            <label class="tf-field-label" for="">Email *</label>
+                        </div>
+                        <div class="tf-field style-1">
+                            <input class="tf-field-input tf-input" placeholder=" " type="password" name="">
+                            <label class="tf-field-label" for="">Password *</label>
+                        </div>
+                        <div>
+                            <a href="#forgotPassword" data-bs-toggle="modal" class="btn-link link">Forgot your
+                                password?</a>
+                        </div>
+                        <div class="bottom">
+                            <div class="w-100">
+                                <button type="submit"
+                                        class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"><span>Log
+                                        in</span></button>
+                            </div>
+                            <div class="w-100">
+                                <a href="#register" data-bs-toggle="modal" class="btn-link fw-6 w-100 link">
+                                    New customer? Create your account
+                                    <i class="icon icon-arrow1-top-left"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modalCentered fade form-sign-in modal-part-content" id="forgotPassword">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="header">
+                    <div class="demo-title">Reset your password</div>
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                </div>
+                <div class="tf-login-form">
+                    <form class="">
+                        <div>
+                            <p>Sign up for early Sale access plus tailored new arrivals, trends and promotions. To opt
+                                out, click unsubscribe in our emails</p>
+                        </div>
+                        <div class="tf-field style-1">
+                            <input class="tf-field-input tf-input" placeholder=" " type="email" name="">
+                            <label class="tf-field-label" for="">Email *</label>
+                        </div>
+                        <div>
+                            <a href="#login" data-bs-toggle="modal" class="btn-link link">Cancel</a>
+                        </div>
+                        <div class="bottom">
+                            <div class="w-100">
+                                <button type="submit"
+                                        class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"><span>Reset
+                                        password</span></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modalCentered fade form-sign-in modal-part-content" id="register">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="header">
+                    <div class="demo-title">Register</div>
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                </div>
+                <div class="tf-login-form">
+                    <form class="">
+                        <div class="tf-field style-1">
+                            <input class="tf-field-input tf-input" placeholder=" " type="text" name="">
+                            <label class="tf-field-label" for="">First name</label>
+                        </div>
+                        <div class="tf-field style-1">
+                            <input class="tf-field-input tf-input" placeholder=" " type="text" name="">
+                            <label class="tf-field-label" for="">Last name</label>
+                        </div>
+                        <div class="tf-field style-1">
+                            <input class="tf-field-input tf-input" placeholder=" " type="email" name="">
+                            <label class="tf-field-label" for="">Email *</label>
+                        </div>
+                        <div class="tf-field style-1">
+                            <input class="tf-field-input tf-input" placeholder=" " type="password" name="">
+                            <label class="tf-field-label" for="">Password *</label>
+                        </div>
+                        <div class="bottom">
+                            <div class="w-100">
+                                <a href="register.html"
+                                   class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"><span>Register</span></a>
+                            </div>
+                            <div class="w-100">
+                                <a href="#login" data-bs-toggle="modal" class="btn-link fw-6 w-100 link">
+                                    Already have an account? Log in here
+                                    <i class="icon icon-arrow1-top-left"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /modal login -->
+
+    <!-- shoppingCart -->
+    <div class="modal fullRight fade modal-shopping-cart" id="shoppingCart">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="header">
+                    <div class="title fw-5">Shopping cart</div>
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                </div>
+                <div class="wrap">
+                    <div class="tf-mini-cart-threshold">
+                        <div class="tf-progress-bar">
+                            <span style="width: 50%;">
+                                <div class="progress-car">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14"
+                                         fill="currentColor">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M0 0.875C0 0.391751 0.391751 0 0.875 0H13.5625C14.0457 0 14.4375 0.391751 14.4375 0.875V3.0625H17.3125C17.5867 3.0625 17.845 3.19101 18.0104 3.40969L20.8229 7.12844C20.9378 7.2804 21 7.46572 21 7.65625V11.375C21 11.8582 20.6082 12.25 20.125 12.25H17.7881C17.4278 13.2695 16.4554 14 15.3125 14C14.1696 14 13.1972 13.2695 12.8369 12.25H7.72563C7.36527 13.2695 6.39293 14 5.25 14C4.10706 14 3.13473 13.2695 2.77437 12.25H0.875C0.391751 12.25 0 11.8582 0 11.375V0.875ZM2.77437 10.5C3.13473 9.48047 4.10706 8.75 5.25 8.75C6.39293 8.75 7.36527 9.48046 7.72563 10.5H12.6875V1.75H1.75V10.5H2.77437ZM14.4375 8.89937V4.8125H16.8772L19.25 7.94987V10.5H17.7881C17.4278 9.48046 16.4554 8.75 15.3125 8.75C15.0057 8.75 14.7112 8.80264 14.4375 8.89937ZM5.25 10.5C4.76676 10.5 4.375 10.8918 4.375 11.375C4.375 11.8582 4.76676 12.25 5.25 12.25C5.73323 12.25 6.125 11.8582 6.125 11.375C6.125 10.8918 5.73323 10.5 5.25 10.5ZM15.3125 10.5C14.8293 10.5 14.4375 10.8918 14.4375 11.375C14.4375 11.8582 14.8293 12.25 15.3125 12.25C15.7957 12.25 16.1875 11.8582 16.1875 11.375C16.1875 10.8918 15.7957 10.5 15.3125 10.5Z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="tf-progress-msg">
+                            Buy <span class="price fw-6">$75.00</span> more to enjoy <span class="fw-6">Free
+                                Shipping</span>
+                        </div>
+                    </div>
+                    <div class="tf-mini-cart-wrap">
+                        <div class="tf-mini-cart-main">
+                            <div class="tf-mini-cart-sroll">
+                                <div class="tf-mini-cart-items">
+                                    <div class="tf-mini-cart-item">
+                                        <div class="tf-mini-cart-image">
+                                            <a href="product-detail.html">
+                                                <img src="images/products/white-2.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="tf-mini-cart-info">
+                                            <a class="title link" href="product-detail.html">T-shirt</a>
+                                            <div class="meta-variant">Light gray</div>
+                                            <div class="price fw-6">$25.00</div>
+                                            <div class="tf-mini-cart-btns">
+                                                <div class="wg-quantity small">
+                                                    <span class="btn-quantity minus-btn">-</span>
+                                                    <input type="text" name="number" value="1">
+                                                    <span class="btn-quantity plus-btn">+</span>
+                                                </div>
+                                                <div class="tf-mini-cart-remove">Remove</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tf-mini-cart-item">
+                                        <div class="tf-mini-cart-image">
+                                            <a href="product-detail.html">
+                                                <img src="images/products/white-3.jpg" alt="">
+                                            </a>
+                                        </div>
+                                        <div class="tf-mini-cart-info">
+                                            <a class="title link" href="product-detail.html">Oversized Motif T-shirt</a>
+                                            <div class="price fw-6">$25.00</div>
+                                            <div class="tf-mini-cart-btns">
+                                                <div class="wg-quantity small">
+                                                    <span class="btn-quantity minus-btn">-</span>
+                                                    <input type="text" name="number" value="1">
+                                                    <span class="btn-quantity plus-btn">+</span>
+                                                </div>
+                                                <div class="tf-mini-cart-remove">Remove</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tf-minicart-recommendations">
+                                    <div class="tf-minicart-recommendations-heading">
+                                        <div class="tf-minicart-recommendations-title">You may also like</div>
+                                        <div class="sw-dots small style-2 cart-slide-pagination"></div>
+                                    </div>
+                                    <div dir="ltr" class="swiper tf-cart-slide">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="tf-minicart-recommendations-item">
+                                                    <div class="tf-minicart-recommendations-item-image">
+                                                        <a href="product-detail.html">
+                                                            <img src="images/products/white-3.jpg" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="tf-minicart-recommendations-item-infos flex-grow-1">
+                                                        <a class="title" href="product-detail.html">Loose Fit
+                                                            Sweatshirt</a>
+                                                        <div class="price">$25.00</div>
+                                                    </div>
+                                                    <div class="tf-minicart-recommendations-item-quickview">
+                                                        <div class="btn-show-quickview quickview hover-tooltip">
+                                                            <span class="icon icon-view"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <div class="tf-minicart-recommendations-item">
+                                                    <div class="tf-minicart-recommendations-item-image">
+                                                        <a href="product-detail.html">
+                                                            <img src="images/products/white-2.jpg" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="tf-minicart-recommendations-item-infos flex-grow-1">
+                                                        <a class="title" href="product-detail.html">Loose Fit Hoodie</a>
+                                                        <div class="price">$25.00</div>
+                                                    </div>
+                                                    <div class="tf-minicart-recommendations-item-quickview">
+                                                        <div class="btn-show-quickview quickview hover-tooltip">
+                                                            <span class="icon icon-view"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tf-mini-cart-bottom">
+                            <div class="tf-mini-cart-tool">
+                                <div class="tf-mini-cart-tool-btn btn-add-note">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 16 18"
+                                         fill="currentColor">
+                                        <path
+                                            d="M5.12187 16.4582H2.78952C2.02045 16.4582 1.39476 15.8325 1.39476 15.0634V2.78952C1.39476 2.02045 2.02045 1.39476 2.78952 1.39476H11.3634C12.1325 1.39476 12.7582 2.02045 12.7582 2.78952V7.07841C12.7582 7.46357 13.0704 7.77579 13.4556 7.77579C13.8407 7.77579 14.1529 7.46357 14.1529 7.07841V2.78952C14.1529 1.25138 12.9016 0 11.3634 0H2.78952C1.25138 0 0 1.25138 0 2.78952V15.0634C0 16.6015 1.25138 17.8529 2.78952 17.8529H5.12187C5.50703 17.8529 5.81925 17.5407 5.81925 17.1555C5.81925 16.7704 5.50703 16.4582 5.12187 16.4582Z">
+                                        </path>
+                                        <path
+                                            d="M15.3882 10.0971C14.5724 9.28136 13.2452 9.28132 12.43 10.0965L8.60127 13.9168C8.51997 13.9979 8.45997 14.0979 8.42658 14.2078L7.59276 16.9528C7.55646 17.0723 7.55292 17.1993 7.58249 17.3207C7.61206 17.442 7.67367 17.5531 7.76087 17.6425C7.84807 17.7319 7.95768 17.7962 8.07823 17.8288C8.19879 17.8613 8.32587 17.8609 8.44621 17.8276L11.261 17.0479C11.3769 17.0158 11.4824 16.9543 11.5675 16.8694L15.3882 13.0559C16.2039 12.2401 16.2039 10.9129 15.3882 10.0971ZM10.712 15.7527L9.29586 16.145L9.71028 14.7806L12.2937 12.2029L13.2801 13.1893L10.712 15.7527ZM14.4025 12.0692L14.2673 12.204L13.2811 11.2178L13.4157 11.0834C13.6876 10.8115 14.1301 10.8115 14.402 11.0834C14.6739 11.3553 14.6739 11.7977 14.4025 12.0692Z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="tf-mini-cart-tool-btn btn-add-gift">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18"
+                                         fill="currentColor">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M2.99566 2.73409C2.99566 0.55401 5.42538 -0.746668 7.23916 0.463462L8.50073 1.30516L9.7623 0.463462C11.5761 -0.746668 14.0058 0.55401 14.0058 2.73409V3.24744H14.8225C15.9633 3.24744 16.8881 4.17233 16.8881 5.31312V6.82566C16.8881 7.21396 16.5734 7.52873 16.1851 7.52873H15.8905V15.1877C15.8905 15.1905 15.8905 15.1933 15.8905 15.196C15.886 16.7454 14.6286 18 13.0782 18H3.92323C2.37003 18 1.11091 16.7409 1.11091 15.1877V7.52877H0.81636C0.42806 7.52877 0.113281 7.21399 0.113281 6.82569V5.31316C0.113281 4.17228 1.03812 3.24744 2.179 3.24744H2.99566V2.73409ZM4.40181 3.24744H7.79765V2.52647L6.45874 1.63317C5.57987 1.0468 4.40181 1.67677 4.40181 2.73409V3.24744ZM9.20381 2.52647V3.24744H12.5996V2.73409C12.5996 1.67677 11.4216 1.0468 10.5427 1.63317L9.20381 2.52647ZM2.179 4.6536C1.81472 4.6536 1.51944 4.94888 1.51944 5.31316V6.12261H5.73398L5.734 4.6536H2.179ZM5.73401 7.52877V13.9306C5.73401 14.1806 5.86682 14.4119 6.08281 14.5379C6.29879 14.6639 6.56545 14.6657 6.78312 14.5426L8.50073 13.5715L10.2183 14.5426C10.436 14.6657 10.7027 14.6639 10.9187 14.5379C11.1346 14.4119 11.2674 14.1806 11.2674 13.9306V7.52873H14.4844V15.1603C14.4844 15.1627 14.4843 15.1651 14.4843 15.1675V15.1877C14.4843 15.9643 13.8548 16.5938 13.0782 16.5938H3.92323C3.14663 16.5938 2.51707 15.9643 2.51707 15.1877V7.52877H5.73401ZM15.482 6.12258V5.31312C15.482 4.94891 15.1867 4.6536 14.8225 4.6536H11.2674V6.12258H15.482ZM9.86129 4.6536H7.14017V12.7254L8.15469 12.1518C8.36941 12.0304 8.63204 12.0304 8.84676 12.1518L9.86129 12.7254V4.6536Z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="tf-mini-cart-tool-btn btn-estimate-shipping">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="18" viewBox="0 0 26 18"
+                                         fill="currentColor">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M0 0.811989C0 0.36354 0.36354 0 0.811989 0H15.4278C15.8763 0 16.2398 0.36354 16.2398 0.811989V3.10596H21.0144C23.6241 3.10596 25.8643 5.05894 25.8643 7.61523V14.6414C25.8643 15.0899 25.5007 15.4534 25.0523 15.4534H23.545C23.2139 16.9115 21.9098 18 20.3514 18C18.7931 18 17.4889 16.9115 17.1578 15.4534H8.69534C8.36423 16.9115 7.0601 18 5.50175 18C3.9434 18 2.63927 16.9115 2.30815 15.4534H0.811989C0.36354 15.4534 0 15.0899 0 14.6414V0.811989ZM2.35089 13.8294C2.74052 12.4562 4.00366 11.4503 5.50175 11.4503C6.99983 11.4503 8.26298 12.4562 8.6526 13.8294H14.6158V1.62398H1.62398V13.8294H2.35089ZM16.2398 4.72994V7.95749H24.2403V7.61523C24.2403 6.08759 22.8649 4.72994 21.0144 4.72994H16.2398ZM24.2403 9.58147H16.2398V13.8294H17.2006C17.5902 12.4562 18.8533 11.4503 20.3514 11.4503C21.8495 11.4503 23.1126 12.4562 23.5023 13.8294H24.2403V9.58147ZM5.50175 13.0743C4.58999 13.0743 3.85087 13.8134 3.85087 14.7251C3.85087 15.6369 4.58999 16.376 5.50175 16.376C6.41351 16.376 7.15263 15.6369 7.15263 14.7251C7.15263 13.8134 6.41351 13.0743 5.50175 13.0743ZM20.3514 13.0743C19.4397 13.0743 18.7005 13.8134 18.7005 14.7251C18.7005 15.6369 19.4397 16.376 20.3514 16.376C21.2632 16.376 22.0023 15.6369 22.0023 14.7251C22.0023 13.8134 21.2632 13.0743 20.3514 13.0743Z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="tf-mini-cart-bottom-wrap">
+                                <div class="tf-cart-totals-discounts">
+                                    <div class="tf-cart-total">Subtotal</div>
+                                    <div class="tf-totals-total-value fw-6">$49.99 USD</div>
+                                </div>
+                                <div class="tf-cart-tax">Taxes and <a href="#">shipping</a> calculated at checkout</div>
+                                <div class="tf-mini-cart-line"></div>
+                                <div class="tf-cart-checkbox">
+                                    <div class="tf-checkbox-wrapp">
+                                        <input class="" type="checkbox" id="CartDrawer-Form_agree"
+                                               name="agree_checkbox">
+                                        <div>
+                                            <i class="icon-check"></i>
+                                        </div>
+                                    </div>
+                                    <label for="CartDrawer-Form_agree">
+                                        I agree with the
+                                        <a href="#" title="Terms of Service">terms and conditions</a>
+                                    </label>
+                                </div>
+                                <div class="tf-mini-cart-view-checkout">
+                                    <a href="view-cart.html"
+                                       class="tf-btn btn-outline radius-3 link w-100 justify-content-center">View
+                                        cart</a>
+                                    <a href="checkout.html"
+                                       class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"><span>Check
+                                            out</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tf-mini-cart-tool-openable add-note">
+                            <div class="overplay tf-mini-cart-tool-close"></div>
+                            <div class="tf-mini-cart-tool-content">
+                                <label for="Cart-note" class="tf-mini-cart-tool-text">
+                                    <div class="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18"
+                                             viewBox="0 0 16 18" fill="currentColor">
+                                            <path
+                                                d="M5.12187 16.4582H2.78952C2.02045 16.4582 1.39476 15.8325 1.39476 15.0634V2.78952C1.39476 2.02045 2.02045 1.39476 2.78952 1.39476H11.3634C12.1325 1.39476 12.7582 2.02045 12.7582 2.78952V7.07841C12.7582 7.46357 13.0704 7.77579 13.4556 7.77579C13.8407 7.77579 14.1529 7.46357 14.1529 7.07841V2.78952C14.1529 1.25138 12.9016 0 11.3634 0H2.78952C1.25138 0 0 1.25138 0 2.78952V15.0634C0 16.6015 1.25138 17.8529 2.78952 17.8529H5.12187C5.50703 17.8529 5.81925 17.5407 5.81925 17.1555C5.81925 16.7704 5.50703 16.4582 5.12187 16.4582Z">
+                                            </path>
+                                            <path
+                                                d="M15.3882 10.0971C14.5724 9.28136 13.2452 9.28132 12.43 10.0965L8.60127 13.9168C8.51997 13.9979 8.45997 14.0979 8.42658 14.2078L7.59276 16.9528C7.55646 17.0723 7.55292 17.1993 7.58249 17.3207C7.61206 17.442 7.67367 17.5531 7.76087 17.6425C7.84807 17.7319 7.95768 17.7962 8.07823 17.8288C8.19879 17.8613 8.32587 17.8609 8.44621 17.8276L11.261 17.0479C11.3769 17.0158 11.4824 16.9543 11.5675 16.8694L15.3882 13.0559C16.2039 12.2401 16.2039 10.9129 15.3882 10.0971ZM10.712 15.7527L9.29586 16.145L9.71028 14.7806L12.2937 12.2029L13.2801 13.1893L10.712 15.7527ZM14.4025 12.0692L14.2673 12.204L13.2811 11.2178L13.4157 11.0834C13.6876 10.8115 14.1301 10.8115 14.402 11.0834C14.6739 11.3553 14.6739 11.7977 14.4025 12.0692Z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <span>Add Order Note</span>
+                                </label>
+                                <textarea name="note" id="Cart-note" placeholder="How can we help you?"></textarea>
+                                <div class="tf-cart-tool-btns justify-content-center">
+                                    <div
+                                        class="tf-mini-cart-tool-primary text-center w-100 fw-6 tf-mini-cart-tool-close">
+                                        Close
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tf-mini-cart-tool-openable add-gift">
+                            <div class="overplay tf-mini-cart-tool-close"></div>
+                            <form class="tf-product-form-addgift">
+                                <div class="tf-mini-cart-tool-content">
+                                    <div class="tf-mini-cart-tool-text">
+                                        <div class="icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="currentColor">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M4.65957 3.64545C4.65957 0.73868 7.89921 -0.995558 10.3176 0.617949L11.9997 1.74021L13.6818 0.617949C16.1001 -0.995558 19.3398 0.73868 19.3398 3.64545V4.32992H20.4286C21.9498 4.32992 23.1829 5.56311 23.1829 7.08416V9.10087C23.1829 9.61861 22.7632 10.0383 22.2454 10.0383H21.8528V20.2502C21.8528 20.254 21.8527 20.2577 21.8527 20.2614C21.8467 22.3272 20.1702 24 18.103 24H5.89634C3.82541 24 2.14658 22.3212 2.14658 20.2502V10.0384H1.75384C1.23611 10.0384 0.816406 9.61865 0.816406 9.10092V7.08421C0.816406 5.56304 2.04953 4.32992 3.57069 4.32992H4.65957V3.64545ZM6.53445 4.32992H11.0622V3.36863L9.27702 2.17757C8.10519 1.39573 6.53445 2.2357 6.53445 3.64545V4.32992ZM12.9371 3.36863V4.32992H17.4649V3.64545C17.4649 2.2357 15.8942 1.39573 14.7223 2.17756L12.9371 3.36863ZM3.57069 6.2048C3.08499 6.2048 2.69128 6.59851 2.69128 7.08421V8.16348H8.31067L8.3107 6.2048H3.57069ZM8.31071 10.0384V18.5741C8.31071 18.9075 8.48779 19.2158 8.77577 19.3838C9.06376 19.5518 9.4193 19.5542 9.70953 19.3901L11.9997 18.0953L14.2898 19.3901C14.58 19.5542 14.9356 19.5518 15.2236 19.3838C15.5115 19.2158 15.6886 18.9075 15.6886 18.5741V10.0383H19.9779V20.2137C19.9778 20.2169 19.9778 20.2201 19.9778 20.2233V20.2502C19.9778 21.2857 19.1384 22.1251 18.103 22.1251H5.89634C4.86088 22.1251 4.02146 21.2857 4.02146 20.2502V10.0384H8.31071ZM21.308 8.16344V7.08416C21.308 6.59854 20.9143 6.2048 20.4286 6.2048H15.6886V8.16344H21.308ZM13.8138 6.2048H10.1856V16.9672L11.5383 16.2024C11.8246 16.0405 12.1748 16.0405 12.461 16.2024L13.8138 16.9672V6.2048Z">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                        <div class="tf-gift-wrap-infos">
+                                            <p>Do you want a gift wrap?</p>
+                                            Only
+                                            <span class="price fw-6">$5.00</span>
+                                        </div>
+                                    </div>
+                                    <div class="tf-cart-tool-btns">
+                                        <button type="submit"
+                                                class="tf-btn fw-6 w-100 justify-content-center btn-fill animate-hover-btn radius-3"><span>Add
+                                                a gift wrap</span></button>
+                                        <div
+                                            class="tf-mini-cart-tool-primary text-center w-100 fw-6 tf-mini-cart-tool-close">
+                                            Cancel
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tf-mini-cart-tool-openable estimate-shipping">
+                            <div class="overplay tf-mini-cart-tool-close"></div>
+                            <div class="tf-mini-cart-tool-content">
+                                <div class="tf-mini-cart-tool-text">
+                                    <div class="icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="15"
+                                             viewBox="0 0 21 15" fill="currentColor">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M0.441406 1.13155C0.441406 0.782753 0.724159 0.5 1.07295 0.5H12.4408C12.7896 0.5 13.0724 0.782753 13.0724 1.13155V2.91575H16.7859C18.8157 2.91575 20.5581 4.43473 20.5581 6.42296V11.8878C20.5581 12.2366 20.2753 12.5193 19.9265 12.5193H18.7542C18.4967 13.6534 17.4823 14.5 16.2703 14.5C15.0582 14.5 14.0439 13.6534 13.7864 12.5193H7.20445C6.94692 13.6534 5.93259 14.5 4.72054 14.5C3.50849 14.5 2.49417 13.6534 2.23664 12.5193H1.07295C0.724159 12.5193 0.441406 12.2366 0.441406 11.8878V1.13155ZM2.26988 11.2562C2.57292 10.1881 3.55537 9.40578 4.72054 9.40578C5.88572 9.40578 6.86817 10.1881 7.17121 11.2562H11.8093V1.76309H1.7045V11.2562H2.26988ZM13.0724 4.17884V6.68916H19.295V6.42296C19.295 5.2348 18.2252 4.17884 16.7859 4.17884H13.0724ZM19.295 7.95226H13.0724V11.2562H13.8196C14.1227 10.1881 15.1051 9.40578 16.2703 9.40578C17.4355 9.40578 18.4179 10.1881 18.7209 11.2562H19.295V7.95226ZM4.72054 10.6689C4.0114 10.6689 3.43652 11.2437 3.43652 11.9529C3.43652 12.662 4.0114 13.2369 4.72054 13.2369C5.42969 13.2369 6.00456 12.662 6.00456 11.9529C6.00456 11.2437 5.42969 10.6689 4.72054 10.6689ZM16.2703 10.6689C15.5611 10.6689 14.9863 11.2437 14.9863 11.9529C14.9863 12.662 15.5611 13.2369 16.2703 13.2369C16.9794 13.2369 17.5543 12.662 17.5543 11.9529C17.5543 11.2437 16.9794 10.6689 16.2703 10.6689Z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <span class="fw-6">Estimate Shipping</span>
+                                </div>
+                                <div class="field">
+                                    <p>Country</p>
+                                    <select class="tf-select w-100" id="ShippingCountry_CartDrawer-Form"
+                                            name="address[country]" data-default="">
+                                        <option value="---" data-provinces="[]">---</option>
+                                        <option value="Australia"
+                                                data-provinces="[['Australian Capital Territory','Australian Capital Territory'],['New South Wales','New South Wales'],['Northern Territory','Northern Territory'],['Queensland','Queensland'],['South Australia','South Australia'],['Tasmania','Tasmania'],['Victoria','Victoria'],['Western Australia','Western Australia']]">
+                                            Australia
+                                        </option>
+                                        <option value="Austria" data-provinces="[]">Austria</option>
+                                        <option value="Belgium" data-provinces="[]">Belgium</option>
+                                        <option value="Canada"
+                                                data-provinces="[['Alberta','Alberta'],['British Columbia','British Columbia'],['Manitoba','Manitoba'],['New Brunswick','New Brunswick'],['Newfoundland and Labrador','Newfoundland and Labrador'],['Northwest Territories','Northwest Territories'],['Nova Scotia','Nova Scotia'],['Nunavut','Nunavut'],['Ontario','Ontario'],['Prince Edward Island','Prince Edward Island'],['Quebec','Quebec'],['Saskatchewan','Saskatchewan'],['Yukon','Yukon']]">
+                                            Canada
+                                        </option>
+                                        <option value="Czech Republic" data-provinces="[]">Czechia</option>
+                                        <option value="Denmark" data-provinces="[]">Denmark</option>
+                                        <option value="Finland" data-provinces="[]">Finland</option>
+                                        <option value="France" data-provinces="[]">France</option>
+                                        <option value="Germany" data-provinces="[]">Germany</option>
+                                        <option value="Hong Kong"
+                                                data-provinces="[['Hong Kong Island','Hong Kong Island'],['Kowloon','Kowloon'],['New Territories','New Territories']]">
+                                            Hong Kong SAR
+                                        </option>
+                                        <option value="Ireland"
+                                                data-provinces="[['Carlow','Carlow'],['Cavan','Cavan'],['Clare','Clare'],['Cork','Cork'],['Donegal','Donegal'],['Dublin','Dublin'],['Galway','Galway'],['Kerry','Kerry'],['Kildare','Kildare'],['Kilkenny','Kilkenny'],['Laois','Laois'],['Leitrim','Leitrim'],['Limerick','Limerick'],['Longford','Longford'],['Louth','Louth'],['Mayo','Mayo'],['Meath','Meath'],['Monaghan','Monaghan'],['Offaly','Offaly'],['Roscommon','Roscommon'],['Sligo','Sligo'],['Tipperary','Tipperary'],['Waterford','Waterford'],['Westmeath','Westmeath'],['Wexford','Wexford'],['Wicklow','Wicklow']]">
+                                            Ireland
+                                        </option>
+                                        <option value="Israel" data-provinces="[]">Israel</option>
+                                        <option value="Italy"
+                                                data-provinces="[['Agrigento','Agrigento'],['Alessandria','Alessandria'],['Ancona','Ancona'],['Aosta','Aosta Valley'],['Arezzo','Arezzo'],['Ascoli Piceno','Ascoli Piceno'],['Asti','Asti'],['Avellino','Avellino'],['Bari','Bari'],['Barletta-Andria-Trani','Barletta-Andria-Trani'],['Belluno','Belluno'],['Benevento','Benevento'],['Bergamo','Bergamo'],['Biella','Biella'],['Bologna','Bologna'],['Bolzano','South Tyrol'],['Brescia','Brescia'],['Brindisi','Brindisi'],['Cagliari','Cagliari'],['Caltanissetta','Caltanissetta'],['Campobasso','Campobasso'],['Carbonia-Iglesias','Carbonia-Iglesias'],['Caserta','Caserta'],['Catania','Catania'],['Catanzaro','Catanzaro'],['Chieti','Chieti'],['Como','Como'],['Cosenza','Cosenza'],['Cremona','Cremona'],['Crotone','Crotone'],['Cuneo','Cuneo'],['Enna','Enna'],['Fermo','Fermo'],['Ferrara','Ferrara'],['Firenze','Florence'],['Foggia','Foggia'],['Forlì-Cesena','Forlì-Cesena'],['Frosinone','Frosinone'],['Genova','Genoa'],['Gorizia','Gorizia'],['Grosseto','Grosseto'],['Imperia','Imperia'],['Isernia','Isernia'],['L'Aquila','L’Aquila'],['La Spezia','La Spezia'],['Latina','Latina'],['Lecce','Lecce'],['Lecco','Lecco'],['Livorno','Livorno'],['Lodi','Lodi'],['Lucca','Lucca'],['Macerata','Macerata'],['Mantova','Mantua'],['Massa-Carrara','Massa and Carrara'],['Matera','Matera'],['Medio Campidano','Medio Campidano'],['Messina','Messina'],['Milano','Milan'],['Modena','Modena'],['Monza e Brianza','Monza and Brianza'],['Napoli','Naples'],['Novara','Novara'],['Nuoro','Nuoro'],['Ogliastra','Ogliastra'],['Olbia-Tempio','Olbia-Tempio'],['Oristano','Oristano'],['Padova','Padua'],['Palermo','Palermo'],['Parma','Parma'],['Pavia','Pavia'],['Perugia','Perugia'],['Pesaro e Urbino','Pesaro and Urbino'],['Pescara','Pescara'],['Piacenza','Piacenza'],['Pisa','Pisa'],['Pistoia','Pistoia'],['Pordenone','Pordenone'],['Potenza','Potenza'],['Prato','Prato'],['Ragusa','Ragusa'],['Ravenna','Ravenna'],['Reggio Calabria','Reggio Calabria'],['Reggio Emilia','Reggio Emilia'],['Rieti','Rieti'],['Rimini','Rimini'],['Roma','Rome'],['Rovigo','Rovigo'],['Salerno','Salerno'],['Sassari','Sassari'],['Savona','Savona'],['Siena','Siena'],['Siracusa','Syracuse'],['Sondrio','Sondrio'],['Taranto','Taranto'],['Teramo','Teramo'],['Terni','Terni'],['Torino','Turin'],['Trapani','Trapani'],['Trento','Trentino'],['Treviso','Treviso'],['Trieste','Trieste'],['Udine','Udine'],['Varese','Varese'],['Venezia','Venice'],['Verbano-Cusio-Ossola','Verbano-Cusio-Ossola'],['Vercelli','Vercelli'],['Verona','Verona'],['Vibo Valentia','Vibo Valentia'],['Vicenza','Vicenza'],['Viterbo','Viterbo']]">
+                                            Italy
+                                        </option>
+                                        <option value="Japan"
+                                                data-provinces="[['Aichi','Aichi'],['Akita','Akita'],['Aomori','Aomori'],['Chiba','Chiba'],['Ehime','Ehime'],['Fukui','Fukui'],['Fukuoka','Fukuoka'],['Fukushima','Fukushima'],['Gifu','Gifu'],['Gunma','Gunma'],['Hiroshima','Hiroshima'],['Hokkaidō','Hokkaido'],['Hyōgo','Hyogo'],['Ibaraki','Ibaraki'],['Ishikawa','Ishikawa'],['Iwate','Iwate'],['Kagawa','Kagawa'],['Kagoshima','Kagoshima'],['Kanagawa','Kanagawa'],['Kumamoto','Kumamoto'],['Kyōto','Kyoto'],['Kōchi','Kochi'],['Mie','Mie'],['Miyagi','Miyagi'],['Miyazaki','Miyazaki'],['Nagano','Nagano'],['Nagasaki','Nagasaki'],['Nara','Nara'],['Niigata','Niigata'],['Okayama','Okayama'],['Okinawa','Okinawa'],['Saga','Saga'],['Saitama','Saitama'],['Shiga','Shiga'],['Shimane','Shimane'],['Shizuoka','Shizuoka'],['Tochigi','Tochigi'],['Tokushima','Tokushima'],['Tottori','Tottori'],['Toyama','Toyama'],['Tōkyō','Tokyo'],['Wakayama','Wakayama'],['Yamagata','Yamagata'],['Yamaguchi','Yamaguchi'],['Yamanashi','Yamanashi'],['Ōita','Oita'],['Ōsaka','Osaka']]">
+                                            Japan
+                                        </option>
+                                        <option value="Malaysia"
+                                                data-provinces="[['Johor','Johor'],['Kedah','Kedah'],['Kelantan','Kelantan'],['Kuala Lumpur','Kuala Lumpur'],['Labuan','Labuan'],['Melaka','Malacca'],['Negeri Sembilan','Negeri Sembilan'],['Pahang','Pahang'],['Penang','Penang'],['Perak','Perak'],['Perlis','Perlis'],['Putrajaya','Putrajaya'],['Sabah','Sabah'],['Sarawak','Sarawak'],['Selangor','Selangor'],['Terengganu','Terengganu']]">
+                                            Malaysia
+                                        </option>
+                                        <option value="Netherlands" data-provinces="[]">Netherlands</option>
+                                        <option value="New Zealand"
+                                                data-provinces="[['Auckland','Auckland'],['Bay of Plenty','Bay of Plenty'],['Canterbury','Canterbury'],['Chatham Islands','Chatham Islands'],['Gisborne','Gisborne'],['Hawke's Bay','Hawke’s Bay'],['Manawatu-Wanganui','Manawatū-Whanganui'],['Marlborough','Marlborough'],['Nelson','Nelson'],['Northland','Northland'],['Otago','Otago'],['Southland','Southland'],['Taranaki','Taranaki'],['Tasman','Tasman'],['Waikato','Waikato'],['Wellington','Wellington'],['West Coast','West Coast']]">
+                                            New Zealand
+                                        </option>
+                                        <option value="Norway" data-provinces="[]">Norway</option>
+                                        <option value="Poland" data-provinces="[]">Poland</option>
+                                        <option value="Portugal"
+                                                data-provinces="[['Aveiro','Aveiro'],['Açores','Azores'],['Beja','Beja'],['Braga','Braga'],['Bragança','Bragança'],['Castelo Branco','Castelo Branco'],['Coimbra','Coimbra'],['Faro','Faro'],['Guarda','Guarda'],['Leiria','Leiria'],['Lisboa','Lisbon'],['Madeira','Madeira'],['Portalegre','Portalegre'],['Porto','Porto'],['Santarém','Santarém'],['Setúbal','Setúbal'],['Viana do Castelo','Viana do Castelo'],['Vila Real','Vila Real'],['Viseu','Viseu'],['Évora','Évora']]">
+                                            Portugal
+                                        </option>
+                                        <option value="Singapore" data-provinces="[]">Singapore</option>
+                                        <option value="South Korea"
+                                                data-provinces="[['Busan','Busan'],['Chungbuk','North Chungcheong'],['Chungnam','South Chungcheong'],['Daegu','Daegu'],['Daejeon','Daejeon'],['Gangwon','Gangwon'],['Gwangju','Gwangju City'],['Gyeongbuk','North Gyeongsang'],['Gyeonggi','Gyeonggi'],['Gyeongnam','South Gyeongsang'],['Incheon','Incheon'],['Jeju','Jeju'],['Jeonbuk','North Jeolla'],['Jeonnam','South Jeolla'],['Sejong','Sejong'],['Seoul','Seoul'],['Ulsan','Ulsan']]">
+                                            South Korea
+                                        </option>
+                                        <option value="Spain"
+                                                data-provinces="[['A Coruña','A Coruña'],['Albacete','Albacete'],['Alicante','Alicante'],['Almería','Almería'],['Asturias','Asturias Province'],['Badajoz','Badajoz'],['Balears','Balears Province'],['Barcelona','Barcelona'],['Burgos','Burgos'],['Cantabria','Cantabria Province'],['Castellón','Castellón'],['Ceuta','Ceuta'],['Ciudad Real','Ciudad Real'],['Cuenca','Cuenca'],['Cáceres','Cáceres'],['Cádiz','Cádiz'],['Córdoba','Córdoba'],['Girona','Girona'],['Granada','Granada'],['Guadalajara','Guadalajara'],['Guipúzcoa','Gipuzkoa'],['Huelva','Huelva'],['Huesca','Huesca'],['Jaén','Jaén'],['La Rioja','La Rioja Province'],['Las Palmas','Las Palmas'],['León','León'],['Lleida','Lleida'],['Lugo','Lugo'],['Madrid','Madrid Province'],['Melilla','Melilla'],['Murcia','Murcia'],['Málaga','Málaga'],['Navarra','Navarra'],['Ourense','Ourense'],['Palencia','Palencia'],['Pontevedra','Pontevedra'],['Salamanca','Salamanca'],['Santa Cruz de Tenerife','Santa Cruz de Tenerife'],['Segovia','Segovia'],['Sevilla','Seville'],['Soria','Soria'],['Tarragona','Tarragona'],['Teruel','Teruel'],['Toledo','Toledo'],['Valencia','Valencia'],['Valladolid','Valladolid'],['Vizcaya','Biscay'],['Zamora','Zamora'],['Zaragoza','Zaragoza'],['Álava','Álava'],['Ávila','Ávila']]">
+                                            Spain
+                                        </option>
+                                        <option value="Sweden" data-provinces="[]">Sweden</option>
+                                        <option value="Switzerland" data-provinces="[]">Switzerland</option>
+                                        <option value="United Arab Emirates"
+                                                data-provinces="[['Abu Dhabi','Abu Dhabi'],['Ajman','Ajman'],['Dubai','Dubai'],['Fujairah','Fujairah'],['Ras al-Khaimah','Ras al-Khaimah'],['Sharjah','Sharjah'],['Umm al-Quwain','Umm al-Quwain']]">
+                                            United Arab Emirates
+                                        </option>
+                                        <option value="United Kingdom"
+                                                data-provinces="[['British Forces','British Forces'],['England','England'],['Northern Ireland','Northern Ireland'],['Scotland','Scotland'],['Wales','Wales']]">
+                                            United Kingdom
+                                        </option>
+                                        <option value="United States"
+                                                data-provinces="[['Alabama','Alabama'],['Alaska','Alaska'],['American Samoa','American Samoa'],['Arizona','Arizona'],['Arkansas','Arkansas'],['Armed Forces Americas','Armed Forces Americas'],['Armed Forces Europe','Armed Forces Europe'],['Armed Forces Pacific','Armed Forces Pacific'],['California','California'],['Colorado','Colorado'],['Connecticut','Connecticut'],['Delaware','Delaware'],['District of Columbia','Washington DC'],['Federated States of Micronesia','Micronesia'],['Florida','Florida'],['Georgia','Georgia'],['Guam','Guam'],['Hawaii','Hawaii'],['Idaho','Idaho'],['Illinois','Illinois'],['Indiana','Indiana'],['Iowa','Iowa'],['Kansas','Kansas'],['Kentucky','Kentucky'],['Louisiana','Louisiana'],['Maine','Maine'],['Marshall Islands','Marshall Islands'],['Maryland','Maryland'],['Massachusetts','Massachusetts'],['Michigan','Michigan'],['Minnesota','Minnesota'],['Mississippi','Mississippi'],['Missouri','Missouri'],['Montana','Montana'],['Nebraska','Nebraska'],['Nevada','Nevada'],['New Hampshire','New Hampshire'],['New Jersey','New Jersey'],['New Mexico','New Mexico'],['New York','New York'],['North Carolina','North Carolina'],['North Dakota','North Dakota'],['Northern Mariana Islands','Northern Mariana Islands'],['Ohio','Ohio'],['Oklahoma','Oklahoma'],['Oregon','Oregon'],['Palau','Palau'],['Pennsylvania','Pennsylvania'],['Puerto Rico','Puerto Rico'],['Rhode Island','Rhode Island'],['South Carolina','South Carolina'],['South Dakota','South Dakota'],['Tennessee','Tennessee'],['Texas','Texas'],['Utah','Utah'],['Vermont','Vermont'],['Virgin Islands','U.S. Virgin Islands'],['Virginia','Virginia'],['Washington','Washington'],['West Virginia','West Virginia'],['Wisconsin','Wisconsin'],['Wyoming','Wyoming']]">
+                                            United States
+                                        </option>
+                                        <option value="Vietnam" data-provinces="[]">Vietnam</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <p>Zip code</p>
+                                    <input type="text" name="text" placeholder="">
+                                </div>
+                                <div class="tf-cart-tool-btns">
+                                    <a href="#"
+                                       class="tf-btn fw-6 justify-content-center btn-fill w-100 animate-hover-btn radius-3"><span>Estimate</span></a>
+                                    <div
+                                        class="tf-mini-cart-tool-primary text-center fw-6 w-100 tf-mini-cart-tool-close">
+                                        Cancel
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /shoppingCart -->
+
+    <!-- modal compare -->
+    <div class="offcanvas offcanvas-bottom canvas-compare" id="compare">
+        <div class="canvas-wrapper">
+            <header class="canvas-header">
+                <div class="close-popup">
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
+                </div>
+            </header>
+            <div class="canvas-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="tf-compare-list">
+                                <div class="tf-compare-head">
+                                    <div class="title">Compare Products</div>
+                                </div>
+                                <div class="tf-compare-offcanvas">
+                                    <div class="tf-compare-item">
+                                        <div class="position-relative">
+                                            <div class="icon">
+                                                <i class="icon-close"></i>
+                                            </div>
+                                            <a href="product-detail.html">
+                                                <img class="radius-3" src="images/products/orange-1.jpg" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="tf-compare-item">
+                                        <div class="position-relative">
+                                            <div class="icon">
+                                                <i class="icon-close"></i>
+                                            </div>
+                                            <a href="product-detail.html">
+                                                <img class="radius-3" src="images/products/pink-1.jpg" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tf-compare-buttons">
+                                    <div class="tf-compare-buttons-wrap">
+                                        <a href="compare.html"
+                                           class="tf-btn radius-3 btn-fill justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn ">Compare</a>
+                                        <div class="tf-compapre-button-clear-all link">
+                                            Clear All
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /modal compare -->
+
+    <!-- modal quick_add -->
+    <div class="modal fade modalDemo popup-quickadd" id="quick_add">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="header">
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                </div>
+                <div class="wrap">
+                    <div class="tf-product-info-item">
+                        <div class="image">
+                            <img src="images/products/orange-1.jpg" alt="">
+                        </div>
+                        <div class="content">
+                            <a href="product-detail.html">Ribbed Tank Top</a>
+                            <div class="tf-product-info-price">
+                                <!-- <div class="price-on-sale">$8.00</div>
+                                <div class="compare-at-price">$10.00</div>
+                                <div class="badges-on-sale"><span>20</span>% OFF</div> -->
+                                <div class="price">$18.00</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tf-product-info-variant-picker mb_15">
+                        <div class="variant-picker-item">
+                            <div class="variant-picker-label">
+                                Color: <span class="fw-6 variant-picker-label-value">Orange</span>
+                            </div>
+                            <div class="variant-picker-values">
+                                <input id="values-orange" type="radio" name="color" checked>
+                                <label class="hover-tooltip radius-60" for="values-orange" data-value="Orange">
+                                    <span class="btn-checkbox bg-color-orange"></span>
+                                    <span class="tooltip">Orange</span>
+                                </label>
+                                <input id="values-black" type="radio" name="color">
+                                <label class=" hover-tooltip radius-60" for="values-black" data-value="Black">
+                                    <span class="btn-checkbox bg-color-black"></span>
+                                    <span class="tooltip">Black</span>
+                                </label>
+                                <input id="values-white" type="radio" name="color">
+                                <label class="hover-tooltip radius-60" for="values-white" data-value="White">
+                                    <span class="btn-checkbox bg-color-white"></span>
+                                    <span class="tooltip">White</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="variant-picker-item">
+                            <div class="variant-picker-label">
+                                Size: <span class="fw-6 variant-picker-label-value">S</span>
+                            </div>
+                            <div class="variant-picker-values">
+                                <input type="radio" name="size" id="values-s" checked>
+                                <label class="style-text" for="values-s" data-value="S">
+                                    <p>S</p>
+                                </label>
+                                <input type="radio" name="size" id="values-m">
+                                <label class="style-text" for="values-m" data-value="M">
+                                    <p>M</p>
+                                </label>
+                                <input type="radio" name="size" id="values-l">
+                                <label class="style-text" for="values-l" data-value="L">
+                                    <p>L</p>
+                                </label>
+                                <input type="radio" name="size" id="values-xl">
+                                <label class="style-text" for="values-xl" data-value="XL">
+                                    <p>XL</p>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tf-product-info-quantity mb_15">
+                        <div class="quantity-title fw-6">Quantity</div>
+                        <div class="wg-quantity">
+                            <span class="btn-quantity minus-btn">-</span>
+                            <input type="text" name="number" value="1">
+                            <span class="btn-quantity plus-btn">+</span>
+                        </div>
+                    </div>
+                    <div class="tf-product-info-buy-button">
+                        <form>
+                            <a href="javascript:void(0);"
+                               class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"><span>Add
+                                    to cart -&nbsp;</span><span class="tf-qty-price">$18.00</span></a>
+                            <div class="tf-product-btn-wishlist btn-icon-action">
+                                <i class="icon-heart"></i>
+                                <i class="icon-delete"></i>
+                            </div>
+                            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                               class="tf-product-btn-wishlist box-icon bg_white compare btn-icon-action">
+                                <span class="icon icon-compare"></span>
+                                <span class="icon icon-check"></span>
+                            </a>
+                            <div class="w-100">
+                                <a href="#" class="btns-full">Buy with <img src="images/payments/paypal.png" alt=""></a>
+                                <a href="#" class="payment-more-option">More payment options</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /modal quick_add -->
+
+    <!-- modal quick_view -->
+    <div class="modal fade modalDemo popup-quickview" id="quick_view">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="header">
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                </div>
+                <div class="wrap">
+                    <div class="tf-product-media-wrap">
+                        <div dir="ltr" class="swiper tf-single-slide">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <img src="images/products/orange-1.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="item">
+                                        <img src="images/products/pink-1.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-button-next button-style-arrow single-slide-prev"></div>
+                            <div class="swiper-button-prev button-style-arrow single-slide-next"></div>
+                        </div>
+                    </div>
+                    <div class="tf-product-info-wrap position-relative">
+                        <div class="tf-product-info-list">
+                            <div class="tf-product-info-title">
+                                <h5><a class="link" href="product-detail.html">Ribbed Tank Top</a></h5>
+                            </div>
+                            <div class="tf-product-info-badges">
+                                <div class="badges text-uppercase">Best seller</div>
+                                <div class="product-status-content">
+                                    <i class="icon-lightning"></i>
+                                    <p class="fw-6">Selling fast! 48 people have this in their carts.</p>
+                                </div>
+                            </div>
+                            <div class="tf-product-info-price">
+                                <div class="price">$18.00</div>
+                            </div>
+                            <div class="tf-product-description">
+                                <p>Nunc arcu faucibus a et lorem eu a mauris adipiscing conubia ac aptent ligula
+                                    facilisis a auctor habitant parturient a a.Interdum fermentum.</p>
+                            </div>
+                            <div class="tf-product-info-variant-picker">
+                                <div class="variant-picker-item">
+                                    <div class="variant-picker-label">
+                                        Color: <span class="fw-6 variant-picker-label-value">Orange</span>
+                                    </div>
+                                    <div class="variant-picker-values">
+                                        <input id="values-orange-1" type="radio" name="color-1" checked>
+                                        <label class="hover-tooltip radius-60" for="values-orange-1"
+                                               data-value="Orange">
+                                            <span class="btn-checkbox bg-color-orange"></span>
+                                            <span class="tooltip">Orange</span>
+                                        </label>
+                                        <input id="values-black-1" type="radio" name="color-1">
+                                        <label class=" hover-tooltip radius-60" for="values-black-1" data-value="Black">
+                                            <span class="btn-checkbox bg-color-black"></span>
+                                            <span class="tooltip">Black</span>
+                                        </label>
+                                        <input id="values-white-1" type="radio" name="color-1">
+                                        <label class="hover-tooltip radius-60" for="values-white-1" data-value="White">
+                                            <span class="btn-checkbox bg-color-white"></span>
+                                            <span class="tooltip">White</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="variant-picker-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="variant-picker-label">
+                                            Size: <span class="fw-6 variant-picker-label-value">S</span>
+                                        </div>
+                                        <div class="find-size btn-choose-size fw-6">Find your size</div>
+                                    </div>
+                                    <div class="variant-picker-values">
+                                        <input type="radio" name="size-1" id="values-s-1" checked>
+                                        <label class="style-text" for="values-s-1" data-value="S">
+                                            <p>S</p>
+                                        </label>
+                                        <input type="radio" name="size-1" id="values-m-1">
+                                        <label class="style-text" for="values-m-1" data-value="M">
+                                            <p>M</p>
+                                        </label>
+                                        <input type="radio" name="size-1" id="values-l-1">
+                                        <label class="style-text" for="values-l-1" data-value="L">
+                                            <p>L</p>
+                                        </label>
+                                        <input type="radio" name="size-1" id="values-xl-1">
+                                        <label class="style-text" for="values-xl-1" data-value="XL">
+                                            <p>XL</p>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tf-product-info-quantity">
+                                <div class="quantity-title fw-6">Quantity</div>
+                                <div class="wg-quantity">
+                                    <span class="btn-quantity minus-btn">-</span>
+                                    <input type="text" name="number" value="1">
+                                    <span class="btn-quantity plus-btn">+</span>
+                                </div>
+                            </div>
+                            <div class="tf-product-info-buy-button">
+                                <form class="">
+                                    <a href="javascript:void(0);"
+                                       class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"><span>Add
+                                            to cart -&nbsp;</span><span class="tf-qty-price">$8.00</span></a>
+                                    <a href="javascript:void(0);"
+                                       class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
+                                        <span class="icon icon-heart"></span>
+                                        <span class="tooltip">Add to Wishlist</span>
+                                        <span class="icon icon-delete"></span>
+                                    </a>
+                                    <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                                       class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action">
+                                        <span class="icon icon-compare"></span>
+                                        <span class="tooltip">Add to Compare</span>
+                                        <span class="icon icon-check"></span>
+                                    </a>
+                                    <div class="w-100">
+                                        <a href="#" class="btns-full">Buy with <img src="images/payments/paypal.png"
+                                                                                    alt=""></a>
+                                        <a href="#" class="payment-more-option">More payment options</a>
+                                    </div>
+                                </form>
+                            </div>
+                            <div>
+                                <a href="product-detail.html" class="tf-btn fw-6 btn-line">View full details<i
+                                        class="icon icon-arrow1-top-left"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /modal quick_view -->
+
+    <!-- modal find_size -->
+    <div class="modal fade modalDemo tf-product-modal popup-findsize" id="find_size">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="header">
+                    <div class="demo-title">Size chart</div>
+                    <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
+                </div>
+                <div class="tf-rte">
+                    <div class="tf-table-res-df">
+                        <h6>Size guide</h6>
+                        <table class="tf-sizeguide-table">
+                            <thead>
+                            <tr>
+                                <th>Size</th>
+                                <th>US</th>
+                                <th>Bust</th>
+                                <th>Waist</th>
+                                <th>Low Hip</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>XS</td>
+                                <td>2</td>
+                                <td>32</td>
+                                <td>24 - 25</td>
+                                <td>33 - 34</td>
+                            </tr>
+                            <tr>
+                                <td>S</td>
+                                <td>4</td>
+                                <td>34 - 35</td>
+                                <td>26 - 27</td>
+                                <td>35 - 26</td>
+                            </tr>
+                            <tr>
+                                <td>M</td>
+                                <td>6</td>
+                                <td>36 - 37</td>
+                                <td>28 - 29</td>
+                                <td>38 - 40</td>
+                            </tr>
+                            <tr>
+                                <td>L</td>
+                                <td>8</td>
+                                <td>38 - 29</td>
+                                <td>30 - 31</td>
+                                <td>42 - 44</td>
+                            </tr>
+                            <tr>
+                                <td>XL</td>
+                                <td>10</td>
+                                <td>40 - 41</td>
+                                <td>32 - 33</td>
+                                <td>45 - 47</td>
+                            </tr>
+                            <tr>
+                                <td>XXL</td>
+                                <td>12</td>
+                                <td>42 - 43</td>
+                                <td>34 - 35</td>
+                                <td>48 - 50</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tf-page-size-chart-content">
+                        <div>
+                            <h6>Measuring Tips</h6>
+                            <div class="title">Bust</div>
+                            <p>Measure around the fullest part of your bust.</p>
+                            <div class="title">Waist</div>
+                            <p>Measure around the narrowest part of your torso.</p>
+                            <div class="title">Low Hip</div>
+                            <p class="mb-0">With your feet together measure around the fullest part of your hips/rear.
+                            </p>
+                        </div>
+                        <div>
+                            <img class="sizechart lazyload" data-src="images/shop/products/size_chart2.jpg"
+                                 src="images/shop/products/size_chart2.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /modal find_size -->
+
+    </div><!-- /wrapper -->
+
+    <script>
+        document.getElementById('goTop').addEventListener('click', () => {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+
+        class UltraModernSlider {
+            constructor() {
+                this.currentSlide = 0;
+                this.totalSlides = 3;
+                this.autoplayInterval = null;
+                this.slideInterval = 6000;
+                this.isPlaying = true;
+                this.isDragging = false;
+                this.startX = 0;
+                this.currentX = 0;
+
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.startAutoplay();
+                this.updateSlideCounter();
+            }
+
+            bindEvents() {
+                // Navigation arrows
+                document.querySelector('.prev-arrow').addEventListener('click', () => this.prevSlide());
+                document.querySelector('.next-arrow').addEventListener('click', () => this.nextSlide());
+
+                // Pagination dots
+                document.querySelectorAll('.dot').forEach((dot, index) => {
+                    dot.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                // Side navigation
+                document.querySelectorAll('.side-nav-dot').forEach((dot, index) => {
+                    dot.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowLeft') this.prevSlide();
+                    if (e.key === 'ArrowRight') this.nextSlide();
+                });
+
+                // Only bind drag events to the slider content area, not the entire container
+                const slidesWrapper = document.querySelector('.slides-wrapper');
+
+                // Mouse events
+                slidesWrapper.addEventListener('mousedown', (e) => this.handleDragStart(e));
+                document.addEventListener('mousemove', (e) => this.handleDragMove(e));
+                document.addEventListener('mouseup', () => this.handleDragEnd());
+
+                // Touch events - only horizontal dragging
+                slidesWrapper.addEventListener('touchstart', (e) => this.handleDragStart(e), {passive: true});
+                slidesWrapper.addEventListener('touchmove', (e) => {
+                    if (this.isDragging) {
+                        const touch = e.touches[0];
+                        const deltaX = Math.abs(touch.clientX - this.startX);
+                        const deltaY = Math.abs(touch.clientY - this.startY);
+
+                        // Only handle horizontal swipes
+                        if (deltaX > deltaY && deltaX > 10) {
+                            e.preventDefault();
+                            this.handleDragMove(e);
+                        }
+                    }
+                }, {passive: false});
+                slidesWrapper.addEventListener('touchend', () => this.handleDragEnd(), {passive: true});
+
+                // Pause on hover - only on slider area
+                slidesWrapper.addEventListener('mouseenter', () => this.pauseAutoplay());
+                slidesWrapper.addEventListener('mouseleave', () => this.resumeAutoplay());
+            }
+
+            handleDragStart(e) {
+                this.isDragging = true;
+                this.startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+                this.startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
+                this.pauseAutoplay();
+            }
+
+            handleDragMove(e) {
+                if (!this.isDragging) return;
+                e.preventDefault();
+                this.currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+            }
+
+            handleDragEnd() {
+                if (!this.isDragging) return;
+                this.isDragging = false;
+
+                const deltaX = this.currentX - this.startX;
+                const threshold = 50;
+
+                if (Math.abs(deltaX) > threshold) {
+                    if (deltaX > 0) {
+                        this.prevSlide();
+                    } else {
+                        this.nextSlide();
+                    }
+                }
+
+                this.resumeAutoplay();
+            }
+
+            goToSlide(index) {
+                if (index === this.currentSlide) return;
+
+                this.currentSlide = index;
+                this.updateSlider();
+                this.restartAutoplay();
+            }
+
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                this.updateSlider();
+                this.restartAutoplay();
+            }
+
+            prevSlide() {
+                this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                this.updateSlider();
+                this.restartAutoplay();
+            }
+
+            updateSlider() {
+                const slides = document.querySelectorAll('.slide');
+                const slidesWrapper = document.querySelector('.slides-wrapper');
+
+                // Update slide positions
+                slidesWrapper.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+
+                // Update active states
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === this.currentSlide);
+                });
+
+                // Update navigation dots
+                document.querySelectorAll('.dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === this.currentSlide);
+                });
+
+                // Update side navigation
+                document.querySelectorAll('.side-nav-dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === this.currentSlide);
+                });
+
+                // Update slide counter
+                this.updateSlideCounter();
+
+                // Restart progress bar
+                this.startProgressBar();
+            }
+
+            updateSlideCounter() {
+                const currentSlideEl = document.querySelector('.current-slide');
+                currentSlideEl.textContent = String(this.currentSlide + 1).padStart(2, '0');
+            }
+
+            startProgressBar() {
+                const progressFill = document.querySelector('.progress-fill');
+                progressFill.style.transition = 'none';
+                progressFill.style.width = '0%';
+
+                // Force reflow
+                progressFill.offsetHeight;
+
+                progressFill.style.transition = `width ${this.slideInterval}ms linear`;
+                progressFill.style.width = '100%';
+            }
+
+            startAutoplay() {
+                if (this.autoplayInterval) return;
+
+                this.autoplayInterval = setInterval(() => {
+                    this.nextSlide();
+                }, this.slideInterval);
+
+                this.startProgressBar();
+            }
+
+            pauseAutoplay() {
+                if (this.autoplayInterval) {
+                    clearInterval(this.autoplayInterval);
+                    this.autoplayInterval = null;
+                }
+
+                // Pause progress bar
+                const progressFill = document.querySelector('.progress-fill');
+                const currentWidth = getComputedStyle(progressFill).width;
+                progressFill.style.transition = 'none';
+                progressFill.style.width = currentWidth;
+            }
+
+            resumeAutoplay() {
+                if (!this.autoplayInterval) {
+                    this.startAutoplay();
+                }
+            }
+
+            restartAutoplay() {
+                this.pauseAutoplay();
+                this.startAutoplay();
+            }
+        }
+
+        // Initialize slider when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new UltraModernSlider();
+        });
+
+        // Add some interactive particles on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const particles = document.querySelectorAll('.particle');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            particles.forEach((particle, index) => {
+                const speed = (index % 3 + 1) * 0.5;
+                const x = mouseX * 20 * speed;
+                const y = mouseY * 20 * speed;
+
+                particle.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // Add scroll-based interactions (if needed for future enhancements)
+        let ticking = false;
+
+        function updateParallax() {
+            const slides = document.querySelectorAll('.slide.active');
+            slides.forEach(slide => {
+                const bg = slide.querySelector('.slide-bg');
+                if (bg) {
+                    // Subtle parallax effect on mouse movement
+                    const rect = slide.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+
+                    // This could be enhanced with actual mouse position tracking
+                    bg.style.transform = `scale(1.05) translate(0px, 0px)`;
+                }
+            });
+            ticking = false;
+        }
+
+        // Intersection Observer for performance optimization
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const slideObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                } else {
+                    entry.target.classList.remove('in-view');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all slides for performance
+        document.querySelectorAll('.slide').forEach(slide => {
+            slideObserver.observe(slide);
+        });
+
+
+    </script>
+
+</x-app-layout>

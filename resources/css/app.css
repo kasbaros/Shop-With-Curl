@@ -1,0 +1,69 @@
+/* Third-party base styles */
+@import './bootstrap.min.css';
+@import './bootstrap-select.min.css';
+@import './animate.css';
+@import './swiper-bundle.min.css';
+@import './home_page.css';
+
+/* Flux styles */
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+/* Custom styles (template-specific) */
+@import './styles.css';
+
+/* Carousel-specific fixes */
+.tf-sw-shop-gallery {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden; /* Prevent overflow */
+}
+
+.tf-sw-shop-gallery .swiper-wrapper {
+  display: flex !important;
+  align-items: stretch !important;
+}
+
+.tf-sw-shop-gallery .swiper-slide {
+  flex-shrink: 0 !important;
+  width: auto !important;
+  max-width: 19% !important; /* Adjust to match template's card size */
+  margin-right: 7px !important;
+}
+
+.tf-sw-shop-gallery .gallery-item {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+.tf-sw-shop-gallery .img-style img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* Container override */
+.wrap-carousel, .container-full {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Flux form styles */
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+  display: grid;
+  gap: 0.5rem;
+}
+
+[data-flux-label] {
+  margin-bottom: 0;
+  line-height: 1.2;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-accent, #262626);
+}
