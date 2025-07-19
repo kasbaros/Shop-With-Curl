@@ -3253,7 +3253,7 @@
                 <div class="flat-title mb_1 wow fadeInUp" data-wow-delay="0s"
                      style="visibility: visible; animation-delay: 0s; animation-name: fadeInUp;">
                     <span class="title font-young-serif">Be active. Be social</span>
-                    <p class="sub-title text_black-2">Follow <strong>@shop_with_carl</strong> on Instagram</p>
+                    <p class="sub-title text_black-2">Follow <strong>@shop_with_carl ++++++++++++++++++</strong> on Instagram</p>
                 </div>
                 <div class="wrap-carousel wrap-shop-gram">
                     <div dir="ltr"
