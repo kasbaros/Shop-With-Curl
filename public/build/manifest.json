@@ -1,0 +1,29 @@
+{
+  "public/images/item/cursor-close.svg": {
+    "file": "assets/cursor-close-Csrp6yGC.svg",
+    "src": "public/images/item/cursor-close.svg"
+  },
+  "public/images/shop/file/page-title-blog.png": {
+    "file": "assets/page-title-blog-EkgqSM1Y.png",
+    "src": "public/images/shop/file/page-title-blog.png"
+  },
+  "public/images/slider/fashion-slideshow-08.jpg": {
+    "file": "assets/fashion-slideshow-08-C4aRtEzu.jpg",
+    "src": "public/images/slider/fashion-slideshow-08.jpg"
+  },
+  "public/images/slider/image_bg_testimonials.jpg": {
+    "file": "assets/image_bg_testimonials-D7VnonnV.jpg",
+    "src": "public/images/slider/image_bg_testimonials.jpg"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-EZo2RXSA.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app--kMY2K3-.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
