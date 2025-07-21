@@ -14,6 +14,7 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 require __DIR__.'/../vendor/autoload.php';
 
 // Bootstrap Laravel and handle the request...
+// comment to see whether this is the index.php that gets pulled to production
 /** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
