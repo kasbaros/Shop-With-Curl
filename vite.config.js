@@ -15,4 +15,8 @@ export default defineConfig({
     server: {
         cors: true,
     },
+    build: {
+        outDir: 'public/build',
+        manifest: true,
+    },
 });
