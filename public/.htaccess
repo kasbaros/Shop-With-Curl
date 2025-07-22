@@ -23,6 +23,13 @@
 #    RewriteCond %{REQUEST_FILENAME} !-f
 #    RewriteRule ^ index.php [L]
 #</IfModule>
+#
+#<IfModule mod_headers.c>
+#    Header set Cache-Control "no-cache, no-store, must-revalidate"
+#    Header set Pragma "no-cache"
+#    Header set Expires 0
+#</IfModule>
+#
 
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
@@ -50,8 +57,78 @@
     RewriteRule ^ index.php [L]
 </IfModule>
 
+# ===============================================
+# CACHE CONTROL AND OPTIMIZATION
+# ===============================================
+
 <IfModule mod_headers.c>
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
-    Header set Expires 0
+    # Disable ETags
+    Header unset ETag
+    FileETag None
+
+    # Disable caching for dynamic PHP content
+    <FilesMatch "\.(php)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+
+    # Aggressive cache busting for Vite assets
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+        Header append Vary "Accept-Encoding"
+    </FilesMatch>
+
+    # Prevent caching for images (relevant for slider)
+    <FilesMatch "\.(jpg|jpeg|png|gif|ico|svg|webp)$">
+        Header set Cache-Control "no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+    </FilesMatch>
+
+    # Prevent caching for fonts
+    <FilesMatch "\.(woff|woff2|ttf|eot)$">
+        Header set Cache-Control "no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"
+    </FilesMatch>
+
+    # Prevent caching for Vite manifest
+    <FilesMatch "manifest\.json$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
 </IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 0 seconds"
+    ExpiresByType text/css "access plus 0 seconds"
+    ExpiresByType application/javascript "access plus 0 seconds"
+    ExpiresByType text/javascript "access plus 0 seconds"
+    ExpiresByType image/png "access plus 0 seconds"
+    ExpiresByType image/jpg "access plus 0 seconds"
+    ExpiresByType image/jpeg "access plus 0 seconds"
+    ExpiresByType image/gif "access plus 0 seconds"
+    ExpiresByType image/svg+xml "access plus 0 seconds"
+    ExpiresByType application/font-woff "access plus 0 seconds"
+    ExpiresByType application/font-woff2 "access plus 0 seconds"
+</IfModule>
+
+# LiteSpeed Cache Directives (for cPanel hosts using LiteSpeed)
+<IfModule LiteSpeed>
+    CacheDisable public /
+    CacheDisable private /
+</IfModule>
+
+# Prevent caching of sensitive Laravel files
+<FilesMatch "(\.env|composer\.json|composer\.lock|package\.json|vite\.config\.js)">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </IfModule>
+</FilesMatch>
