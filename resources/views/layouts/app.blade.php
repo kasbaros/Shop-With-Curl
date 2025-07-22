@@ -9,11 +9,12 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
 
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])?v={{ time() }}
     @livewireStyles
+    
 </head>
 <body class="font-sans antialiased bg-gray-50">
 <div class="min-h-screen">
@@ -27,7 +28,7 @@
 
         <!-- Search Bar -->
         <flux:navbar.item class="flex-1 max-w-lg mx-8">
-            <livewire:products.product-search />
+            <livewire:products.product-search/>
         </flux:navbar.item>
 
         <!-- Navigation Items -->
@@ -36,7 +37,7 @@
             <flux:dropdown>
                 <flux:button variant="ghost" class="flex items-center space-x-1">
                     Categories
-                    <flux:icon.chevron-down class="w-4 h-4" />
+                    <flux:icon.chevron-down class="w-4 h-4"/>
                 </flux:button>
 
                 <flux:menu>
@@ -50,7 +51,7 @@
                             </flux:link>
                         </flux:menu.item>
                     @endforeach
-                    <flux:menu.separator />
+                    <flux:menu.separator/>
                     <flux:menu.item>
                         <flux:link href="{{ route('categories.index') }}" class="text-blue-600">
                             View All Categories
@@ -71,9 +72,9 @@
             <flux:navbar.item>
                 <flux:dropdown>
                     <flux:button variant="ghost" class="flex items-center space-x-1">
-                        <flux:icon.user class="w-5 h-5" />
+                        <flux:icon.user class="w-5 h-5"/>
                         {{ auth()->user()->name }}
-                        <flux:icon.chevron-down class="w-4 h-4" />
+                        <flux:icon.chevron-down class="w-4 h-4"/>
                     </flux:button>
 
                     <flux:menu>
@@ -89,7 +90,7 @@
                         <flux:menu.item>
                             <flux:link href="{{ route('user.addresses') }}">Addresses</flux:link>
                         </flux:menu.item>
-                        <flux:menu.separator />
+                        <flux:menu.separator/>
                         <flux:menu.item>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -117,7 +118,7 @@
 
         <!-- Cart -->
         <flux:navbar.item>
-            <livewire:cart.mini-cart />
+            <livewire:cart.mini-cart/>
         </flux:navbar.item>
     </flux:navbar>
 
@@ -142,9 +143,15 @@
                 <div>
                     <flux:heading size="base" class="text-white mb-4">Quick Links</flux:heading>
                     <div class="space-y-2">
-                        <flux:link href="{{ route('home') }}" class="text-gray-300 hover:text-white block text-sm">Home</flux:link>
-                        <flux:link href="{{ route('products.index') }}" class="text-gray-300 hover:text-white block text-sm">Products</flux:link>
-                        <flux:link href="{{ route('categories.index') }}" class="text-gray-300 hover:text-white block text-sm">Categories</flux:link>
+                        <flux:link href="{{ route('home') }}" class="text-gray-300 hover:text-white block text-sm">
+                            Home
+                        </flux:link>
+                        <flux:link href="{{ route('products.index') }}"
+                                   class="text-gray-300 hover:text-white block text-sm">Products
+                        </flux:link>
+                        <flux:link href="{{ route('categories.index') }}"
+                                   class="text-gray-300 hover:text-white block text-sm">Categories
+                        </flux:link>
                         <flux:link href="#" class="text-gray-300 hover:text-white block text-sm">About Us</flux:link>
                         <flux:link href="#" class="text-gray-300 hover:text-white block text-sm">Contact</flux:link>
                     </div>
@@ -155,10 +162,13 @@
                     <flux:heading size="base" class="text-white mb-4">Customer Service</flux:heading>
                     <div class="space-y-2">
                         <flux:link href="#" class="text-gray-300 hover:text-white block text-sm">Help Center</flux:link>
-                        <flux:link href="#" class="text-gray-300 hover:text-white block text-sm">Shipping Info</flux:link>
+                        <flux:link href="#" class="text-gray-300 hover:text-white block text-sm">Shipping Info
+                        </flux:link>
                         <flux:link href="#" class="text-gray-300 hover:text-white block text-sm">Returns</flux:link>
-                        <flux:link href="#" class="text-gray-300 hover:text-white block text-sm">Privacy Policy</flux:link>
-                        <flux:link href="#" class="text-gray-300 hover:text-white block text-sm">Terms of Service</flux:link>
+                        <flux:link href="#" class="text-gray-300 hover:text-white block text-sm">Privacy Policy
+                        </flux:link>
+                        <flux:link href="#" class="text-gray-300 hover:text-white block text-sm">Terms of Service
+                        </flux:link>
                     </div>
                 </div>
 
@@ -167,7 +177,7 @@
                     <flux:heading size="base" class="text-white mb-4">Newsletter</flux:heading>
                     <flux:text size="sm" class="text-gray-300 mb-4">Subscribe for updates and offers</flux:text>
                     <div class="flex">
-                        <flux:input type="email" placeholder="Enter your email" class="flex-1 rounded-r-none" />
+                        <flux:input type="email" placeholder="Enter your email" class="flex-1 rounded-r-none"/>
                         <flux:button type="submit" variant="primary" class="rounded-l-none">
                             Subscribe
                         </flux:button>
@@ -185,7 +195,7 @@
 </div>
 
 <!-- Cart Drawer -->
-<livewire:cart.cart-drawer />
+<livewire:cart.cart-drawer/>
 
 <!-- Notifications -->
 <div id="notifications" class="fixed top-4 right-4 z-50 space-y-2"></div>
