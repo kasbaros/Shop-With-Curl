@@ -1,16 +1,18 @@
 <div class="space-y-6">
     <!-- Header -->
-    <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-gray-900">My Wishlist</h1>
+    <div class="tf-page-title">
+        <div class="container-full">
+            <div class="heading text-center">My wishlist</div>
+        </div>
         <span class="text-sm text-gray-600">
-            {{ $this->wishlistItems->total() }} items
+            {{ $wishlistItems->total() }} items
         </span>
     </div>
 
-    @if($this->wishlistItems->isNotEmpty())
+    @if($wishlistItems->isNotEmpty())
         <!-- Wishlist Items -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            @foreach($this->wishlistItems as $item)
+            @foreach($wishlistItems as $item)
                 <div class="bg-white rounded-lg shadow-sm border overflow-hidden">
                     <!-- Product Image -->
                     <div class="aspect-square bg-gray-100 relative">
@@ -25,7 +27,7 @@
                             wire:click="removeFromWishlist({{ $item->product_id }})"
                             class="absolute top-2 right-2 bg-white/80 hover:bg-white p-2 rounded-full transition-colors"
                         >
-                            <x-heroicon-m-heart class="w-5 h-5 text-red-500 fill-current" />
+                            <x-heroicon-m-heart class="w-5 h-5 text-red-500 fill-current"/>
                         </button>
                     </div>
 
@@ -81,7 +83,7 @@
                                     wire:click="toggleWishlist({{ $item->product_id }})"
                                     class="bg-gray-200 text-gray-800 px-3 py-2 rounded-lg hover:bg-gray-300 transition-colors"
                                 >
-                                    <x-heroicon-m-shopping-cart class="w-4 h-4" />
+                                    <x-heroicon-m-shopping-cart class="w-4 h-4"/>
                                 </button>
                             @endif
                         </div>
@@ -92,19 +94,19 @@
 
         <!-- Pagination -->
         <div class="mt-8">
-            {{ $this->wishlistItems->links() }}
+            {{ $wishlistItems->links() }}
         </div>
     @else
         <!-- Empty State -->
         <div class="text-center py-12">
-            <x-heroicon-o-heart class="w-16 h-16 mx-auto text-gray-400 mb-4" />
+            <x-heroicon-o-heart class="w-16 h-16 mx-auto text-gray-400 mb-4"/>
             <h3 class="text-lg font-medium text-gray-900 mb-2">Your wishlist is empty</h3>
             <p class="text-gray-500 mb-6">Start adding products you love to your wishlist!</p>
             <a
                 href="{{ route('products.index') }}"
                 class="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
-                <x-heroicon-m-shopping-bag class="w-5 h-5 mr-2" />
+                <x-heroicon-m-shopping-bag class="w-5 h-5 mr-2"/>
                 Start Shopping
             </a>
         </div>

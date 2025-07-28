@@ -1,6 +1,7 @@
-<x-app-layout>
-    <x-slot name="title">Home - ShopWithCarl</x-slot>
+<x-app-layout :isAuthPage="false" :cartCount="$cartCount ?? 0" :wishlistCount="$wishlistCount ?? 0"
+              :languages="$languages ?? ['English']" :selectedLanguage="$selectedLanguage ?? 'English'">
 
+    <x-slot name="title">Home - ShopWithCarl</x-slot>
 
     <!-- preload -->
     <div class="preload preload-container">
@@ -2310,7 +2311,8 @@
                 <div class="flat-title mb_1 wow fadeInUp" data-wow-delay="0s"
                      style="visibility: visible; animation-delay: 0s; animation-name: fadeInUp;">
                     <span class="title font-young-serif">Be active. Be social</span>
-                    <p class="sub-title text_black-2">Follow <strong>@shop_with_carl +++++++ testing a few things</strong> on Instagram</p>
+                    <p class="sub-title text_black-2">Follow <strong>@shop_with_carl +++++++ testing a few
+                            things</strong> on Instagram</p>
                 </div>
                 <div class="wrap-carousel wrap-shop-gram">
                     <div dir="ltr"

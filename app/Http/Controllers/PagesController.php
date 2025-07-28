@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class PagesController extends Controller
 {
     /**
      * Display the about us page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function aboutUs()
     {
@@ -19,7 +20,7 @@ class PagesController extends Controller
     /**
      * Display the brands page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function brands()
     {
@@ -29,7 +30,7 @@ class PagesController extends Controller
     /**
      * Display the brands v2 page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function brandsV2()
     {
@@ -39,7 +40,7 @@ class PagesController extends Controller
     /**
      * Display the contact page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function contact()
     {
@@ -49,7 +50,7 @@ class PagesController extends Controller
     /**
      * Display the contact page version 2.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function contactTwo()
     {
@@ -59,7 +60,7 @@ class PagesController extends Controller
     /**
      * Display the FAQ page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function faq()
     {
@@ -69,7 +70,7 @@ class PagesController extends Controller
     /**
      * Display the FAQ page version 2.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function faqTwo()
     {
@@ -79,7 +80,7 @@ class PagesController extends Controller
     /**
      * Display the our store page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function ourStore()
     {
@@ -89,7 +90,7 @@ class PagesController extends Controller
     /**
      * Display the store locator page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function storeLocator()
     {
@@ -99,7 +100,7 @@ class PagesController extends Controller
     /**
      * Display the timeline page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function timeline()
     {
@@ -109,7 +110,7 @@ class PagesController extends Controller
     /**
      * Display the view cart page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function viewCart()
     {
@@ -119,7 +120,7 @@ class PagesController extends Controller
     /**
      * Display the checkout page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function checkout()
     {
@@ -129,7 +130,7 @@ class PagesController extends Controller
     /**
      * Display the payment confirmation page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function paymentConfirmation()
     {
@@ -139,7 +140,7 @@ class PagesController extends Controller
     /**
      * Display the payment failure page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function paymentFailure()
     {
@@ -149,7 +150,7 @@ class PagesController extends Controller
     /**
      * Display the invoice page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function invoice()
     {
@@ -159,7 +160,7 @@ class PagesController extends Controller
     /**
      * Display the 404 page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function notFound()
     {
@@ -169,7 +170,7 @@ class PagesController extends Controller
     /**
      * Display the privacy policy page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function privacyPolicy()
     {
@@ -179,7 +180,7 @@ class PagesController extends Controller
     /**
      * Display the returns and exchanges page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function returnsExchanges()
     {
@@ -189,7 +190,7 @@ class PagesController extends Controller
     /**
      * Display the shipping page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function shipping()
     {
@@ -199,7 +200,7 @@ class PagesController extends Controller
     /**
      * Display the terms and conditions page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function termsConditions()
     {
