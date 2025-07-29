@@ -10,8 +10,8 @@
                 <div class="collection-item hover-img">
                     <div class="collection-inner">
                         <a href="shop-default.html" class="collection-image img-style">
-                            <img class=" ls-is-cached lazyloaded" data-src="images/collections/collection-8.jpg"
-                                 src="images/collections/collection-8.jpg" alt="collection-img">
+                            <img class=" ls-is-cached lazyloaded" data-src="images/collections/full-shot-black-woman-training-outdoors.jpg"
+                                 src="images/collections/full-shot-black-woman-training-outdoors.jpg" alt="collection-img">
                         </a>
                         <div class="collection-content">
                             <a href="shop-default.html" class="tf-btn collection-title hover-icon"><span>Gym/Shape Wear</span><i
