@@ -1,9 +1,14 @@
 <?php
 
+use App\Logging\JsonFormatter;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
+use Monolog\Processor\IntrospectionProcessor;
+use Monolog\Processor\MemoryUsageProcessor;
+use Monolog\Processor\ProcessIdProcessor;
 use Monolog\Processor\PsrLogMessageProcessor;
+use Monolog\Processor\WebProcessor;
 
 return [
 
@@ -51,10 +56,9 @@ return [
     */
 
     'channels' => [
-
         'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', env('LOG_STACK', 'single')),
+            'channels' => explode(',', env('LOG_STACK', 'application')),
             'ignore_exceptions' => false,
         ],
 
@@ -65,11 +69,71 @@ return [
             'replace_placeholders' => true,
         ],
 
+        // Primary application log - structured format
+        'application' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/application.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAYS', 14),
+            'replace_placeholders' => true,
+            'tap' => [\App\Logging\StructuredLogFormatter::class],
+        ],
+
+        // Security events - separate log for security-related events
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_SECURITY_DAYS', 30),
+            'replace_placeholders' => true,
+            'tap' => [\App\Logging\StructuredLogFormatter::class],
+        ],
+
+        // Security logs alias (for backward compatibility)
+        'security_logs' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_SECURITY_DAYS', 30),
+            'replace_placeholders' => true,
+            'tap' => [\App\Logging\StructuredLogFormatter::class],
+        ],
+
+        // User activity logging
+        'user_activity' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/user-activity.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_USER_ACTIVITY_DAYS', 30),
+            'replace_placeholders' => true,
+            'tap' => [\App\Logging\StructuredLogFormatter::class],
+        ],
+
+        // Database logs
+        'database_logs' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/database.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DATABASE_DAYS', 7),
+            'replace_placeholders' => true,
+            'tap' => [\App\Logging\StructuredLogFormatter::class],
+        ],
+
+        // Performance monitoring - separate log for performance metrics
+        'performance' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/performance.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_PERFORMANCE_DAYS', 7),
+            'replace_placeholders' => true,
+            'tap' => [\App\Logging\StructuredLogFormatter::class],
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'days' => env('LOG_DAILY_DAYS', 14),
+            'days' => env('LOG_DAYS', 14),
             'replace_placeholders' => true,
         ],
 
@@ -126,7 +190,6 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
-
     ],
 
 ];

@@ -126,7 +126,8 @@ new class extends Component {
                             {{--                            </a>--}}
                             {{--                        </li>--}}
                             <li class="nav-wishlist">
-                                <a href="{{ route('user.wishlist') }}" class="nav-icon-item" wire:navigate>
+{{--                                <a href="{{ route('user.wishlist') }}" class="nav-icon-item" wire:navigate>--}}
+                                <a href="#" class="nav-icon-item" wire:navigate>
                                     <i class="icon icon-heart"></i>
                                     {{--                                    <span class="count-box">{{ $wishlistCount }}</span>--}}
                                 </a>

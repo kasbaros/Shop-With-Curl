@@ -1,64 +1,70 @@
-<x-app-layout>
-    <x-slot name="title">{{ $category->name }} - ShopWithCarl</x-slot>
+@extends('layouts.app')
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Category Header -->
-        <div class="mb-8">
-            <!-- Breadcrumb -->
-            <nav class="flex mb-4" aria-label="Breadcrumb">
-                <ol class="flex items-center space-x-2 text-sm">
-                    <li><a href="{{ route('home') }}" class="text-gray-500 hover:text-gray-700">Home</a></li>
-                    <li class="flex items-center">
-                        <x-heroicon-m-chevron-right class="w-4 h-4 text-gray-400 mx-2" />
-                        <a href="{{ route('categories.index') }}" class="text-gray-500 hover:text-gray-700">Categories</a>
-                    </li>
-                    <li class="flex items-center">
-                        <x-heroicon-m-chevron-right class="w-4 h-4 text-gray-400 mx-2" />
-                        <span class="text-gray-900">{{ $category->name }}</span>
-                    </li>
-                </ol>
-            </nav>
+@section('title', $category->name . ' - ShopWithCarl')
 
-            <div class="flex items-center space-x-6">
-                @if($category->image)
-                <img src="{{ $category->image }}" alt="{{ $category->name }}" class="w-24 h-24 object-cover rounded-lg">
+@section('content')
+<div class="container mx-auto px-4 py-8">
+    <div class="mb-6">
+        <a href="{{ route('categories.index') }}" class="text-blue-600 hover:text-blue-800">
+            ← Back to Categories
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+        <div class="md:flex">
+            @if($category->image)
+                <div class="md:w-1/3">
+                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="w-full h-64 object-cover">
+                </div>
+            @endif
+
+            <div class="p-6 md:w-2/3">
+                <h1 class="text-3xl font-bold mb-4">{{ $category->name }}</h1>
+
+                @if($category->description)
+                    <div class="text-gray-700 mb-6">
+                        {{ $category->description }}
+                    </div>
                 @endif
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900">{{ $category->name }}</h1>
-                    @if($category->description)
-                    <p class="text-gray-600 mt-2">{{ $category->description }}</p>
-                    @endif
+
+                <div class="flex items-center text-sm text-gray-500">
+                    <span>{{ $category->products->count() }} products in this category</span>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Subcategories -->
-        @if($category->children->count() > 0)
-        <div class="mb-8">
-            <h2 class="text-lg font-semibold text-gray-900 mb-4">Subcategories</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                @foreach($category->children as $subcategory)
-                <a href="{{ route('category.show', $subcategory->slug) }}" class="group">
-                    <div class="bg-white rounded-lg shadow-sm border p-4 hover:shadow-md transition-shadow">
-                        <div class="text-center">
-                            @if($subcategory->image)
-                            <img src="{{ $subcategory->image }}" alt="{{ $subcategory->name }}" class="w-12 h-12 object-cover rounded-lg mx-auto mb-2">
-                            @else
-                            <div class="w-12 h-12 bg-gray-200 rounded-lg mx-auto mb-2 flex items-center justify-center">
-                                <x-heroicon-o-folder class="w-6 h-6 text-gray-400" />
-                            </div>
-                            @endif
-                            <h3 class="font-medium text-gray-900 text-sm">{{ $subcategory->name }}</h3>
-                            <p class="text-xs text-gray-500">{{ $subcategory->products_count }} products</p>
+    <h2 class="text-2xl font-bold mb-6">Products in {{ $category->name }}</h2>
+
+    @if($category->products->count() > 0)
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            @foreach($category->products as $product)
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    @if($product->featured_image)
+                        <img src="{{ asset('storage/' . $product->featured_image) }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
+                    @else
+                        <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                            <span class="text-gray-500">No image</span>
+                        </div>
+                    @endif
+
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">{{ $product->name }}</h3>
+
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-lg">${{ number_format($product->price, 2) }}</span>
+                            <a href="{{ route('products.show', $product->slug) }}" class="text-blue-600 hover:text-blue-800">
+                                View Details
+                            </a>
                         </div>
                     </div>
-                </a>
-                @endforeach
-            </div>
+                </div>
+            @endforeach
         </div>
-        @endif
-
-        <!-- Products -->
-        <livewire:products.product-grid :category="$category" />
-    </div>
-</x-app-layout>
+    @else
+        <div class="bg-gray-100 p-6 rounded-lg text-center">
+            <p class="text-gray-600">No products found in this category.</p>
+        </div>
+    @endif
+</div>
+@endsection

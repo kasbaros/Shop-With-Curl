@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Pagination\Paginator;
+use Log;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,5 +38,25 @@ class AppServiceProvider extends ServiceProvider
             }
             $view->with('cartCount', $cartCount);
         });
+
+        if (config('app.env') !== 'production' || config('logging.log_slow_queries', false)) {
+            DB::listen(function ($query) {
+                if ($query->time > (config('logging.slow_query_threshold', 1000))) {
+                    Log::channel('database_logs')->warning('Slow Query Detected', [
+                        'sql' => $query->sql,
+                        'bindings' => $query->bindings,
+                        'time' => $query->time,
+                        'connection' => $query->connectionName,
+                    ]);
+                }
+
+                Log::channel('database_logs')->debug('Database Query', [
+                    'sql' => $query->sql,
+                    'bindings' => $query->bindings,
+                    'time' => $query->time,
+                    'connection' => $query->connectionName,
+                ]);
+            });
+        }
     }
 }

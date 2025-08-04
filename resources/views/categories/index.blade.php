@@ -1,40 +1,39 @@
-<x-app-layout>
-    <x-slot name="title">Categories - ShopWithCarl</x-slot>
+@extends('layouts.app')
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Page Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900">All Categories</h1>
-            <p class="text-gray-600 mt-2">Browse our product categories</p>
-        </div>
+@section('title', 'Categories - ShopWithCarl')
 
-        <!-- Categories Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($categories as $category)
-                <a href="{{ route('category.show', $category->slug) }}" class="group">
-                    <div class="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-lg transition-shadow">
-                        <div class="aspect-video bg-gray-200 relative">
-                            @if($category->image)
-                                <img src="{{ $category->image }}" alt="{{ $category->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            @else
-                                <div class="w-full h-full flex items-center justify-center">
-                                    <x-heroicon-o-folder class="w-16 h-16 text-gray-400" />
-                                </div>
-                            @endif
-                        </div>
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $category->name }}</h3>
-                            <p class="text-gray-600 mb-4">{{ $category->description }}</p>
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm text-gray-500">{{ $category->products_count }} products</span>
-                                <span class="text-blue-600 font-medium group-hover:text-blue-700">
-                                    View Products →
-                                </span>
-                            </div>
-                        </div>
+@section('content')
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Categories</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h1 class="text-2xl font-bold mb-6">All Categories</h1>
+        @foreach($categories as $category)
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                @if($category->image)
+                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="w-full h-48 object-cover">
+                @else
+                    <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                        <span class="text-gray-500">No image</span>
                     </div>
-                </a>
-            @endforeach
-        </div>
+                @endif
+
+                <div class="p-4">
+                    <h2 class="text-xl font-semibold mb-2">{{ $category->name }}</h2>
+
+                    @if($category->description)
+                        <p class="text-gray-600 mb-4">{{ Str::limit($category->description, 100) }}</p>
+                    @endif
+
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-500">{{ $category->products_count }} products</span>
+                        <a href="{{ route('categories.show', $category->slug) }}" class="text-blue-600 hover:text-blue-800">
+                            View Category →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
-</x-app-layout>
+</div>
+@endsection

@@ -7,4 +7,6 @@ return [
     App\Providers\HorizonServiceProvider::class,
     App\Providers\TelescopeServiceProvider::class,
     App\Providers\VoltServiceProvider::class,
+    App\Providers\EnhancedLoggingServiceProvider::class,
+
 ];

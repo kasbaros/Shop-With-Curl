@@ -1,23 +1,32 @@
 <?php
 
-namespace Database\Seeders;
+    namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+    use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
-{
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    class DatabaseSeeder extends Seeder
     {
-        // User::factory(10)->create();
+        /**
+         * Seed the application's database.
+         */
+        public function run(): void
+        {
+            // Always seed admin users first
+            $this->call([
+                AdminUserSeeder::class,
+                SettingsSeeder::class,
+            ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+            // Only create test users in non-production environments
+            if (!app()->environment('production')) {
+                // Your existing test user
+                \App\Models\User::factory()->create([
+                    'name' => 'Test User',
+                    'email' => 'test@example.com',
+                ]);
+
+                // Additional test users if needed
+                // \App\Models\User::factory(10)->create();
+            }
+        }
     }
-}

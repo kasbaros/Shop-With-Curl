@@ -31,6 +31,7 @@ class Product extends Model implements HasMedia
         'manage_stock',
         'is_active',
         'is_featured',
+        'status',
         'weight',
         'dimensions',
         'meta_title',
@@ -95,6 +96,26 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Category::class, 'product_categories');
     }
 
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('status', 'published');
+    }
+
+    public function scopeDraft(Builder $query): Builder
+    {
+        return $query->where('status', 'draft');
+    }
+
+    public function scopeInactive(Builder $query): Builder
+    {
+        return $query->where('status', 'inactive');
+    }
+
+    public function scopeByStatus(Builder $query, string $status): Builder
+    {
+        return $query->where('status', $status);
+    }
+
     public function variants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
@@ -130,6 +151,7 @@ class Product extends Model implements HasMedia
     {
         return $query->where('is_featured', true);
     }
+
 
     public function scopeInStock(Builder $query): Builder
     {
@@ -201,6 +223,26 @@ class Product extends Model implements HasMedia
                 'large' => $media->getUrl('large'),
             ];
         })->toArray();
+    }
+
+    public function getStatusBadgeAttribute(): string
+    {
+        return match($this->status) {
+            'published' => '<span class="badge bg-success">Published</span>',
+            'draft' => '<span class="badge bg-warning">Draft</span>',
+            'inactive' => '<span class="badge bg-danger">Inactive</span>',
+            default => '<span class="badge bg-secondary">Unknown</span>'
+        };
+    }
+
+    public function getStatusColorAttribute(): string
+    {
+        return match($this->status) {
+            'published' => 'success',
+            'draft' => 'warning',
+            'inactive' => 'danger',
+            default => 'secondary'
+        };
     }
 
     // Scout search
