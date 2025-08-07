@@ -295,8 +295,17 @@
             throw new Exception("Artisan file not found at $artisanPath");
         }
 
+//        $artisanCommands = [
+//            'migrate --force' => 'Run database migrations',
+//            'config:clear' => 'Clear config cache',
+//            'cache:clear' => 'Clear application cache',
+//            'route:clear' => 'Clear route cache',
+//            'view:clear' => 'Clear view cache',
+//        ];
+
+        // TEMPORARY FIX: Use fresh migration for broken database state
         $artisanCommands = [
-            'migrate --force' => 'Run database migrations',
+            'migrate:fresh --seed --force' => 'Fresh migration with seeding (FIXING DATABASE CONFLICTS)',
             'config:clear' => 'Clear config cache',
             'cache:clear' => 'Clear application cache',
             'route:clear' => 'Clear route cache',
