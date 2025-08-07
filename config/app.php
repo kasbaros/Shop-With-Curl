@@ -142,10 +142,6 @@
              * Application Service Providers...
              */
             App\Providers\AppServiceProvider::class,
-//        App\Providers\AuthServiceProvider::class,
-            // App\Providers\BroadcastServiceProvider::class,
-//        App\Providers\EventServiceProvider::class,
-//        App\Providers\RouteServiceProvider::class,
             App\Providers\SettingsServiceProvider::class, // Add this line
         ])->toArray(),
 
@@ -162,5 +158,6 @@
         'admin_password' => env('ADMIN_DEFAULT_PASSWORD', 'SecureAdmin123!'),
         'developer_email' => env('DEVELOPER_DEFAULT_EMAIL'),
         'developer_password' => env('DEVELOPER_DEFAULT_PASSWORD', 'SecureDev123!'),
+
 
     ];
