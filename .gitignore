@@ -32,14 +32,9 @@ public/index.php
 /controllers_list.txt
 /app_structure.txt
 /session_fix_documentation.md
-/test_home_controller.php
 /BLOG_INSTALLATION.md
-/controllers_list.txt
-/livewire_list.txt
-/views_list.txt
-/current_structure.txt
-/session_fix_documentation.md
-/test_controller.php
-/test_session.php
 /category_controller_fix.md
-/app_structure.txt
+
+# Deployment scripts (server-specific)
+public/deploy.php
+public/background_deploy.php
