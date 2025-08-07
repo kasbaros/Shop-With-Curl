@@ -305,7 +305,7 @@
 
         // TEMPORARY FIX: Use fresh migration for broken database state
         $artisanCommands = [
-            'migrate:fresh --seed --force' => 'Fresh migration with seeding (FIXING DATABASE CONFLICTS)',
+            'migrate:fresh --seed --force' => 'Fresh migration with seeding (FIXING DATABASE CONFLICTS but will be removed in the future)',
             'config:clear' => 'Clear config cache',
             'cache:clear' => 'Clear application cache',
             'route:clear' => 'Clear route cache',
