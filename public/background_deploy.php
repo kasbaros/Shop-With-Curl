@@ -348,7 +348,7 @@
             "find {$config['laravel_path']}/storage -type d -exec chmod 775 {} \\;" => 'Set storage directory permissions',
             "find {$config['public_html_path']}/build -type f -exec chmod 664 {} \\;" => 'Set build file permissions',
         ];
-        
+
         foreach ($permissionCommands as $command => $description) {
             try {
                 execute_command($command, $description, true);
