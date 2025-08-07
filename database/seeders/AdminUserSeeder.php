@@ -15,11 +15,11 @@
         {
             // Create main admin user
             $admin = User::firstOrCreate(
-                ['email' => env('ADMIN_DEFAULT_EMAIL', 'admin@shopwithcarl.com')],
+                ['email' => config('app.admin_email', 'admin@shopwithcarl.com')],
                 [
                     'name' => 'System Administrator',
-                    'email' => env('ADMIN_DEFAULT_EMAIL', 'admin@shopwithcarl.com'),
-                    'password' => Hash::make(env('ADMIN_DEFAULT_PASSWORD', 'SecureAdmin123!')),
+                    'email' => config('app.admin_email', 'admin@shopwithcarl.com'),
+                    'password' => Hash::make(config('app.admin_password', 'SecureAdmin123!')),
                     'role' => 'admin',
                     'is_admin' => true,
                     'email_verified_at' => now(),
@@ -33,13 +33,13 @@
             }
 
             // Create developer user if configured
-            if (env('DEVELOPER_DEFAULT_EMAIL')) {
+            if (config('app.developer_email')) {
                 $developer = User::firstOrCreate(
-                    ['email' => env('DEVELOPER_DEFAULT_EMAIL')],
+                    ['email' => config('app.developer_email')],
                     [
                         'name' => 'Developer',
-                        'email' => env('DEVELOPER_DEFAULT_EMAIL'),
-                        'password' => Hash::make(env('DEVELOPER_DEFAULT_PASSWORD', 'SecureDev123!')),
+                        'email' => config('app.developer_email'),
+                        'password' => Hash::make(config('app.developer_password', 'SecureDev123!')),
                         'role' => 'developer',
                         'is_admin' => true,
                         'email_verified_at' => now(),

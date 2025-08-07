@@ -149,4 +149,18 @@
             App\Providers\SettingsServiceProvider::class, // Add this line
         ])->toArray(),
 
+        /*
+    |--------------------------------------------------------------------------
+    | Admin and Developer Credentials
+    |--------------------------------------------------------------------------
+    |
+    | These values are used for seeding admin and developer accounts
+    |
+    */
+
+        'admin_email' => env('ADMIN_DEFAULT_EMAIL', 'admin@shopwithcarl.com'),
+        'admin_password' => env('ADMIN_DEFAULT_PASSWORD', 'SecureAdmin123!'),
+        'developer_email' => env('DEVELOPER_DEFAULT_EMAIL'),
+        'developer_password' => env('DEVELOPER_DEFAULT_PASSWORD', 'SecureDev123!'),
+
     ];
