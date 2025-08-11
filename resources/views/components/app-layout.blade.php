@@ -21,8 +21,11 @@
         }
 
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            /* Brand palette from logo */
+            --brand-primary: #5b3a79; /* dark purple */
+            --brand-secondary: #d9a6cc; /* light lavender */
+            --primary-gradient: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            --accent-gradient: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
             --luxury-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             --premium-gold: linear-gradient(135deg, #d4af37 0%, #f7ef8a 100%);
             --glass-primary: rgba(255, 255, 255, 0.15);
@@ -30,7 +33,7 @@
             --glass-border: rgba(255, 255, 255, 0.2);
             --shadow-soft: 0 8px 32px rgba(31, 38, 135, 0.2);
             --shadow-premium: 0 20px 60px rgba(0, 0, 0, 0.1);
-            --shadow-glow: 0 0 40px rgba(240, 147, 251, 0.3);
+            --shadow-glow: 0 0 40px rgba(91, 58, 121, 0.3);
             --text-primary: #2d3748;
             --text-secondary: #718096;
             --text-luxury: #1a202c;
@@ -49,14 +52,15 @@
             overflow-x: hidden;
         }
 
-        /* Premium Announcement Bar */
+        /* Ultra Modern Announcement Bar */
         .announcement-bar {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             color: white;
-            padding: 12px 0;
+            padding: 14px 0;
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(240, 147, 251, 0.3);
         }
 
         .announcement-bar::before {
@@ -83,28 +87,35 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
             animation: slideAnnouncement 25s linear infinite;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 15px;
+            letter-spacing: 0.5px;
         }
 
         .announcement-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             white-space: nowrap;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
         }
 
         .announcement-icon {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             background: var(--premium-gold);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             animation: pulse 2s infinite;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
         }
 
         @keyframes pulse {
@@ -127,19 +138,20 @@
 
         .close-announcement {
             position: absolute;
-            right: 20px;
+            right: 24px;
             top: 50%;
             transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.15);
             border: none;
             color: white;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
             transition: var(--transition);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 20px;
         }
 
         .close-announcement:hover {
@@ -147,45 +159,45 @@
             transform: translateY(-50%) rotate(90deg) scale(1.1);
         }
 
-        /* Premium Header */
+        /* Ultra Modern Header */
         .header {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(30px);
+            background: rgba(255, 255, 255, 0.90);
+            backdrop-filter: blur(40px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             position: sticky;
             top: 0;
             z-index: 1000;
             transition: var(--transition);
-            box-shadow: var(--shadow-soft);
+            box-shadow: 0 4px 40px rgba(31, 38, 135, 0.1);
         }
 
         .header.scrolled {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(40px);
-            box-shadow: var(--shadow-premium);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(50px);
+            box-shadow: 0 8px 60px rgba(0, 0, 0, 0.15);
+            border-bottom: 1px solid rgba(240, 147, 251, 0.2);
         }
 
         .header-top {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 8px 0;
-            background: rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid rgba(240, 147, 251, 0.1);
+            padding: 10px 0;
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(20px);
         }
 
         .header-top-content {
-            max-width: 1400px;
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
+            font-size: 13px;
         }
 
         .header-top-links {
             display: flex;
-            gap: 20px;
+            gap: 24px;
         }
 
         .header-top-links a {
@@ -193,24 +205,39 @@
             text-decoration: none;
             transition: var(--transition);
             font-weight: 500;
+            position: relative;
+        }
+
+        .header-top-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: var(--transition);
         }
 
         .header-top-links a:hover {
             color: var(--pink-primary);
-            transform: translateY(-1px);
+        }
+
+        .header-top-links a:hover::after {
+            width: 100%;
         }
 
         .header-main {
-            max-width: 1400px;
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 20px 24px;
+            padding: 24px 32px;
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            gap: 40px;
+            gap: 48px;
         }
 
-        /* Logo Section */
+        /* Ultra Modern Logo */
         .logo-section {
             display: flex;
             align-items: center;
@@ -219,7 +246,7 @@
 
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 700;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
@@ -233,10 +260,10 @@
         .logo::after {
             content: '';
             position: absolute;
-            bottom: -2px;
+            bottom: -4px;
             left: 0;
             width: 0;
-            height: 3px;
+            height: 4px;
             background: var(--accent-gradient);
             border-radius: 2px;
             transition: var(--transition);
@@ -248,37 +275,73 @@
 
         .logo:hover {
             transform: scale(1.05);
+            filter: brightness(1.1);
         }
 
         .logo img {
-            height: 40px;
+            height: 45px;
             width: auto;
         }
 
-        /* Search Section */
+        /* Ultra Modern Search */
         .search-section {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
+        }
+        .search-suggestions {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(240, 147, 251, 0.15);
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 20px 60px rgba(240, 147, 251, 0.2);
+            z-index: 1100;
+            animation: fadeInUp 0.25s ease;
+        }
+        .search-suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+        .search-suggestion-item:hover {
+            background: rgba(240, 147, 251, 0.08);
+            color: var(--pink-primary);
+            transform: translateX(4px);
+        }
+        .search-suggestion-empty {
+            padding: 12px 14px;
+            color: var(--text-secondary);
+            font-size: 14px;
         }
 
         .search-container {
             position: relative;
             display: flex;
             align-items: center;
-            background: var(--glass-primary);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(240, 147, 251, 0.2);
+            border-radius: 30px;
+            padding: 6px;
             transition: var(--transition);
+            box-shadow: 0 10px 40px rgba(240, 147, 251, 0.1);
         }
 
         .search-container:hover,
         .search-container:focus-within {
-            background: var(--glass-secondary);
+            background: rgba(255, 255, 255, 0.95);
             border-color: var(--pink-primary);
-            box-shadow: var(--shadow-glow);
+            box-shadow: 0 15px 50px rgba(240, 147, 251, 0.2);
             transform: translateY(-2px);
         }
 
@@ -286,8 +349,8 @@
             flex: 1;
             border: none;
             background: none;
-            padding: 14px 20px;
-            font-size: 15px;
+            padding: 16px 24px;
+            font-size: 16px;
             color: var(--text-primary);
             outline: none;
             font-weight: 500;
@@ -301,79 +364,39 @@
         .search-btn {
             background: var(--accent-gradient);
             border: none;
-            border-radius: 20px;
-            padding: 12px 20px;
+            border-radius: 24px;
+            padding: 14px 24px;
             color: white;
             cursor: pointer;
             transition: var(--transition);
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-size: 14px;
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.3);
         }
 
         .search-btn:hover {
             transform: scale(1.05);
-            box-shadow: var(--shadow-premium);
+            box-shadow: 0 12px 35px rgba(240, 147, 251, 0.4);
         }
 
-        .search-suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(30px);
-            border-radius: 20px;
-            box-shadow: var(--shadow-premium);
-            border: 1px solid var(--glass-border);
-            margin-top: 8px;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-            z-index: 1000;
-        }
-
-        .search-suggestions.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .suggestion-item {
-            padding: 16px 24px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .suggestion-item:hover {
-            background: var(--glass-primary);
-            transform: translateX(8px);
-        }
-
-        .suggestion-item:last-child {
-            border-bottom: none;
-        }
-
-        /* Navigation Icons */
+        /* Ultra Modern Navigation Icons */
         .nav-icons {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
             justify-content: flex-end;
         }
 
         .nav-icon {
             position: relative;
-            padding: 14px;
-            border-radius: 20px;
-            background: var(--glass-primary);
+            padding: 16px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
+            border: 2px solid rgba(240, 147, 251, 0.15);
             color: var(--text-primary);
             transition: var(--transition);
             cursor: pointer;
@@ -381,19 +404,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
         }
 
         .nav-icon:hover {
-            background: var(--glass-secondary);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-premium);
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.2);
             color: var(--pink-primary);
             border-color: var(--pink-primary);
         }
 
         .nav-icon svg {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             transition: var(--transition);
         }
 
@@ -408,59 +432,45 @@
             background: var(--accent-gradient);
             color: white;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 26px;
+            height: 26px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 700;
             border: 3px solid white;
             animation: bounce 0.6s var(--bounce);
-        }
-
-        @keyframes bounce {
-            0%, 20%, 53%, 80%, 100% {
-                transform: scale(1);
-            }
-            40%, 43% {
-                transform: scale(1.2);
-            }
-            70% {
-                transform: scale(1.1);
-            }
-        }
-
-        .user-dropdown {
-            position: relative;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
         }
 
         .user-button {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 20px;
-            border-radius: 20px;
-            background: var(--glass-primary);
+            gap: 14px;
+            padding: 14px 24px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
+            border: 2px solid rgba(240, 147, 251, 0.15);
             color: var(--text-primary);
             cursor: pointer;
             transition: var(--transition);
             text-decoration: none;
             font-weight: 500;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
         }
 
         .user-button:hover {
-            background: var(--glass-secondary);
+            background: rgba(255, 255, 255, 0.9);
             transform: translateY(-2px);
-            box-shadow: var(--shadow-premium);
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.2);
             color: var(--pink-primary);
         }
 
         .user-avatar {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: var(--accent-gradient);
             display: flex;
@@ -469,18 +479,20 @@
             color: white;
             font-weight: 600;
             font-size: 14px;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
         }
 
-        /* Premium Navigation */
+        /* Ultra Modern Navigation Bar */
         .nav-bottom {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(30px);
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            padding: 0 24px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(40px);
+            border-top: 1px solid rgba(240, 147, 251, 0.1);
+            padding: 0 32px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
 
         .nav-container {
-            max-width: 1400px;
+            max-width: 1440px;
             margin: 0 auto;
             display: flex;
             justify-content: center;
@@ -489,8 +501,8 @@
         .main-nav {
             display: flex;
             align-items: center;
-            gap: 60px;
-            padding: 24px 0;
+            gap: 80px;
+            padding: 28px 0;
         }
 
         .nav-item {
@@ -501,17 +513,17 @@
             font-weight: 600;
             color: var(--text-luxury);
             text-decoration: none;
-            padding: 12px 0;
+            padding: 14px 0;
             transition: var(--transition);
             position: relative;
-            font-size: 15px;
+            font-size: 16px;
             letter-spacing: 0.5px;
         }
 
         .nav-link::after {
             content: '';
             position: absolute;
-            bottom: -6px;
+            bottom: -8px;
             left: 50%;
             width: 0;
             height: 4px;
@@ -530,24 +542,24 @@
             transform: translateY(-2px);
         }
 
-        /* Mega Menu */
+        /* Ultra Modern Mega Menu */
         .mega-menu {
             position: absolute;
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(30px);
-            border-radius: 24px;
-            box-shadow: var(--shadow-premium);
-            border: 1px solid var(--glass-border);
-            min-width: 600px;
+            backdrop-filter: blur(40px);
+            border-radius: 28px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(240, 147, 251, 0.1);
+            min-width: 700px;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
             z-index: 1000;
-            margin-top: 20px;
-            padding: 32px;
+            margin-top: 24px;
+            padding: 40px;
         }
 
         .nav-item:hover .mega-menu {
@@ -559,15 +571,15 @@
         .mega-menu-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
+            gap: 40px;
         }
 
         .mega-menu-section h4 {
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
             color: var(--text-luxury);
-            margin-bottom: 16px;
-            font-size: 16px;
+            margin-bottom: 20px;
+            font-size: 18px;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -576,142 +588,44 @@
 
         .mega-menu-item {
             display: block;
-            padding: 12px 0;
+            padding: 14px 0;
             color: var(--text-secondary);
             text-decoration: none;
             transition: var(--transition);
             font-weight: 500;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .mega-menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: var(--transition);
+            transform: translateY(-50%);
         }
 
         .mega-menu-item:hover {
             color: var(--pink-primary);
-            transform: translateX(8px);
+            padding-left: 16px;
             border-color: var(--pink-primary);
         }
 
-        .mega-menu-featured {
-            grid-column: span 3;
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        .mega-menu-item:hover::before {
+            width: 12px;
         }
 
-        .featured-products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-        }
-
-        .featured-product {
-            text-align: center;
-            padding: 16px;
-            border-radius: 16px;
-            background: var(--glass-primary);
-            transition: var(--transition);
-        }
-
-        .featured-product:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-premium);
-        }
-
-        .featured-product img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 12px;
-        }
-
-        .featured-product h5 {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-luxury);
-            margin-bottom: 4px;
-        }
-
-        .featured-product .price {
-            color: var(--pink-primary);
-            font-weight: 700;
-        }
-
-        /* Mobile Toggle */
-        .mobile-toggle {
-            display: none;
-            background: var(--glass-primary);
-            border: 1px solid var(--glass-border);
-            cursor: pointer;
-            padding: 12px;
-            border-radius: 16px;
-            transition: var(--transition);
-            backdrop-filter: blur(20px);
-        }
-
-        .mobile-toggle:hover {
-            background: var(--glass-secondary);
-            transform: translateY(-2px);
-        }
-
-        .mobile-toggle svg {
-            width: 24px;
-            height: 24px;
-            color: var(--text-primary);
-        }
-
-        /* Floating Elements */
-        .floating-element {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        .floating-element:nth-child(1) {
-            width: 6px;
-            height: 6px;
-            background: var(--accent-gradient);
-            border-radius: 50%;
-            top: 20%;
-            left: 10%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .floating-element:nth-child(2) {
-            width: 4px;
-            height: 4px;
-            background: var(--premium-gold);
-            border-radius: 50%;
-            top: 60%;
-            right: 15%;
-            animation: float 8s ease-in-out infinite reverse;
-        }
-
-        .floating-element:nth-child(3) {
-            width: 8px;
-            height: 8px;
-            background: var(--primary-gradient);
-            border-radius: 50%;
-            top: 40%;
-            left: 80%;
-            animation: float 7s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-20px) rotate(180deg);
-            }
-        }
-
-        /* Footer */
+        /* Ultra Modern Footer */
         .footer {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             color: white;
             position: relative;
             overflow: hidden;
-            margin-top: 80px;
+            margin-top: 100px;
         }
 
         .footer::before {
@@ -720,30 +634,30 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 1px;
+            height: 2px;
             background: var(--accent-gradient);
         }
 
         .footer-content {
-            max-width: 1400px;
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 80px 24px 40px;
+            padding: 100px 32px 50px;
             position: relative;
             z-index: 2;
         }
 
         .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 60px;
-            margin-bottom: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 80px;
+            margin-bottom: 80px;
         }
 
         .footer-section h3 {
             font-family: 'Poppins', sans-serif;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
             background: var(--luxury-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -752,8 +666,9 @@
 
         .footer-section p, .footer-section li {
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             line-height: 1.7;
+            font-size: 15px;
         }
 
         .footer-link {
@@ -762,12 +677,13 @@
             transition: var(--transition);
             display: inline-block;
             position: relative;
+            padding: 4px 0;
         }
 
         .footer-link::after {
             content: '';
             position: absolute;
-            bottom: -2px;
+            bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
@@ -777,219 +693,68 @@
 
         .footer-link:hover {
             color: white;
-            transform: translateX(4px);
+            transform: translateX(6px);
         }
 
         .footer-link:hover::after {
             width: 100%;
         }
 
+        /* Ultra Modern Social Links with Flux Icons */
         .social-links {
             display: flex;
-            gap: 16px;
-            margin-top: 24px;
+            gap: 20px;
+            margin-top: 32px;
         }
 
         .social-link {
-            width: 48px;
-            height: 48px;
-            border-radius: 16px;
+            width: 56px;
+            height: 56px;
+            border-radius: 20px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             text-decoration: none;
             transition: var(--transition);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
         .social-link:hover {
             background: var(--glass-primary);
-            transform: translateY(-4px) rotate(5deg);
-            box-shadow: var(--shadow-premium);
-        }
-
-        .newsletter-form {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
-        }
-
-        .newsletter-input {
-            flex: 1;
-            padding: 16px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            color: white;
-            font-size: 14px;
-            outline: none;
-            transition: var(--transition);
-        }
-
-        .newsletter-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .newsletter-input:focus {
+            transform: translateY(-6px) rotate(5deg);
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.3);
             border-color: var(--pink-primary);
-            background: rgba(255, 255, 255, 0.15);
         }
 
-        .newsletter-button {
-            padding: 16px 24px;
-            background: var(--accent-gradient);
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
+        .social-link svg {
+            width: 24px;
+            height: 24px;
         }
 
-        .newsletter-button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-premium);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 40px;
-            text-align: center;
-        }
-
-        .payment-methods {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 24px;
-            flex-wrap: wrap;
-        }
-
-        .payment-method {
-            width: 48px;
-            height: 32px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: var(--transition);
-        }
-
-        .payment-method:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .payment-method img {
-            height: 20px;
-            width: auto;
-        }
-
-        /* Mobile Menu */
-        .offcanvas {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: none;
-        }
-
-        .offcanvas-header {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            padding: 24px;
-        }
-
-        .offcanvas-title {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .offcanvas-body {
-            padding: 24px;
-        }
-
-        .offcanvas .menu-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .offcanvas .menu-link-text {
-            display: block;
-            padding: 16px 0;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-        }
-
-        .offcanvas .menu-link-text:hover {
-            color: var(--pink-primary);
-            transform: translateX(8px);
-        }
-
-        /* Flash Messages */
-        .alert {
-            padding: 16px 20px;
-            border-radius: 12px;
-            margin: 16px 24px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .alert-success {
-            background: rgba(16, 185, 129, 0.1);
-            color: #065f46;
-            border-color: rgba(16, 185, 129, 0.2);
-        }
-
-        .alert-danger {
-            background: rgba(239, 68, 68, 0.1);
-            color: #7f1d1d;
-            border-color: rgba(239, 68, 68, 0.2);
-        }
-
-        /* Responsive Design */
+        /* Mobile Responsive */
         @media (max-width: 1024px) {
             .header-main {
                 grid-template-columns: auto 1fr auto;
-                gap: 20px;
+                gap: 24px;
+                padding: 20px 24px;
             }
 
             .search-section {
                 order: 3;
                 grid-column: 1 / -1;
-                margin-top: 16px;
+                margin-top: 20px;
             }
 
-            .mega-menu {
-                min-width: 90vw;
-            }
-
-            .mega-menu-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 24px;
+            .main-nav {
+                gap: 40px;
             }
         }
 
         @media (max-width: 768px) {
-            .mobile-toggle {
-                display: block;
-            }
-
-            .nav-bottom {
-                display: none;
-            }
-
             .header-top {
                 display: none;
             }
@@ -1000,17 +765,12 @@
                 gap: 16px;
             }
 
-            .search-section {
-                order: initial;
-                margin-top: 0;
+            .nav-bottom {
+                display: none;
             }
 
             .nav-icons {
-                gap: 12px;
-            }
-
-            .nav-icon {
-                padding: 12px;
+                gap: 16px;
             }
 
             .user-button span {
@@ -1018,19 +778,21 @@
             }
 
             .logo {
-                font-size: 24px;
+                font-size: 28px;
             }
 
             .footer-grid {
-                gap: 40px;
-            }
-
-            .newsletter-form {
-                flex-direction: column;
+                gap: 50px;
             }
         }
 
-        /* Premium Animations */
+        /* Main Content */
+        main {
+            min-height: 60vh;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        /* Premium animations and effects */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -1046,87 +808,40 @@
             animation: fadeInUp 0.8s ease-out;
         }
 
-        /* Cart Preview Hover */
-        .cart-preview {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(30px);
+        /* Mobile Toggle */
+        .mobile-toggle {
+            display: none;
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(240, 147, 251, 0.15);
+            cursor: pointer;
+            padding: 14px;
             border-radius: 20px;
-            box-shadow: var(--shadow-premium);
-            border: 1px solid var(--glass-border);
-            min-width: 320px;
-            opacity: 0;
-            visibility: hidden;
             transition: var(--transition);
-            z-index: 1000;
-            margin-top: 12px;
-            padding: 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
         }
 
-        .nav-icon:hover .cart-preview {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+        .mobile-toggle:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            border-color: var(--pink-primary);
         }
 
-        .cart-preview-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        .mobile-toggle svg {
+            width: 26px;
+            height: 26px;
+            color: var(--text-primary);
         }
 
-        .cart-preview-item:last-child {
-            border-bottom: none;
-        }
-
-        .cart-preview-image {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-
-        .cart-preview-details h6 {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-luxury);
-            margin-bottom: 4px;
-        }
-
-        .cart-preview-details .price {
-            color: var(--pink-primary);
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        /* Luxury Search Animation */
-        .search-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 25px;
-            padding: 1px;
-            background: var(--accent-gradient);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask-composite: exclude;
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .search-container:focus-within::before {
-            opacity: 1;
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
         }
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
 
         ::-webkit-scrollbar-track {
@@ -1135,29 +850,18 @@
 
         ::-webkit-scrollbar-thumb {
             background: var(--accent-gradient);
-            border-radius: 4px;
+            border-radius: 5px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary-gradient);
-        }
-
-        /* Main Content */
-        main {
-            min-height: 60vh;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
     </style>
 </head>
 
 <body style="font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased;">
 <div style="min-height: 100vh;">
-    <!-- Floating Elements -->
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-
-    <!-- Announcement Bar -->
+    <!-- Ultra Modern Announcement Bar -->
     @if (!($isAuthPage ?? false) && config('announcements.messages') && count(config('announcements.messages')) > 0)
         <div class="announcement-bar" id="announcementBar">
             <div class="announcement-content">
@@ -1172,20 +876,20 @@
         </div>
     @endif
 
-    <!-- Header -->
+    <!-- Ultra Modern Header -->
     <header class="header" id="header">
         <!-- Header Top -->
         <div class="header-top">
             <div class="header-top-content">
                 <div class="header-top-links">
-                    {{--                        <a href="{{ route('pages.store-locator') }}" wire:navigate>Store Locator</a>--}}
-                    {{--                        <a href="{{ route('pages.size-guide') }}" wire:navigate>Size Guide</a>--}}
-                    {{--                        <a href="{{ route('pages.help') }}" wire:navigate>Customer Care</a>--}}
-                    {{--                        <a href="{{ route('pages.track-order') }}" wire:navigate>Track Order</a>--}}
+                    <a href="#">Free Shipping Over $75</a>
+                    <a href="#">Size Guide</a>
+                    <a href="#">Customer Care</a>
+                    <a href="#">Track Order</a>
                 </div>
                 <div class="header-top-links">
-                    {{--                        <a href="{{ route('pages.shipping') }}" wire:navigate>Free Shipping Over $75</a>--}}
-                    {{--                        <a href="{{ route('pages.shipping') }}" wire:navigate>Returns & Exchanges</a>--}}
+                    <a href="#">Returns & Exchanges</a>
+                    <a href="#">Gift Cards</a>
                 </div>
             </div>
         </div>
@@ -1210,66 +914,110 @@
                 </a>
             </div>
 
-            <!-- Search Section -->
-            <div class="search-section">
-                <div class="search-container">
-                    <input type="text" class="search-input"
-                           placeholder="Search luxury lingerie, shapewear, activewear..."
+            <!-- Ultra Modern Search -->
+            <div class="search-section" role="search">
+                <form class="search-container" action="{{ route('shop.search') }}" method="GET" onsubmit="return submitHeaderSearch(event)">
+                    <input type="text" class="search-input" name="q" id="headerSearchInput"
+                           placeholder="Discover luxury lingerie, shapewear & activewear..."
+                           autocomplete="off"
+                           aria-label="Search products"
                            onkeyup="showSearchSuggestions(this.value)">
-                    <button class="search-btn" data-bs-toggle="modal" data-bs-target="#searchModal">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button type="submit" class="search-btn" aria-label="Search">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                         Search
                     </button>
-                </div>
-                <div class="search-suggestions" id="searchSuggestions">
-                    <div class="suggestion-item">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                        Wireless bras
-                    </div>
-                    <div class="suggestion-item">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                        Seamless shapewear
-                    </div>
-                    <div class="suggestion-item">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                        Sports bras
-                    </div>
-                </div>
+                </form>
+                <div id="headerSearchSuggestions" class="search-suggestions" role="listbox" aria-label="Search suggestions" style="display:none;"></div>
             </div>
 
-            <!-- Navigation Icons -->
+            <!-- Ultra Modern Navigation Icons -->
             <div class="nav-icons">
                 <!-- User Account -->
                 <div class="user-dropdown">
+{{--                    @auth--}}
+{{--                        <div class="dropdown">--}}
+{{--                            <button class="user-button dropdown-toggle" type="button"--}}
+{{--                                    data-bs-toggle="dropdown" aria-expanded="false">--}}
+{{--                                <div class="user-avatar">--}}
+{{--                                    {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}--}}
+{{--                                </div>--}}
+{{--                                <span>{{ auth()->user()->name }}</span>--}}
+{{--                            </button>--}}
+{{--                            <ul class="dropdown-menu">--}}
+{{--                                @if(auth()->user()->isAdmin() || auth()->user()->isDeveloper())--}}
+{{--                                    <li>--}}
+{{--                                        <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('admin.dashboard') }}">--}}
+{{--                                            <i class="bi bi-speedometer2" style="width: 16px;"></i>--}}
+{{--                                            Admin Dashboard--}}
+{{--                                        </a>--}}
+{{--                                    </li>--}}
+{{--                                @endif--}}
+{{--                                <li>--}}
+{{--                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('account.dashboard') }}" wire:navigate>--}}
+{{--                                        <i class="bi bi-house" style="width: 16px;"></i>--}}
+{{--                                        My Account--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                                <li>--}}
+{{--                                    <a class="dropdown-item d-flex align-items-center gap-2"--}}
+{{--                                       href="{{ route('orders.index') }}" wire:navigate>--}}
+{{--                                        <i class="bi bi-bag" style="width: 16px;"></i>--}}
+{{--                                        My Orders--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                                <li>--}}
+{{--                                    <a class="dropdown-item d-flex align-items-center gap-2"--}}
+{{--                                       href="{{ route('account.profile.edit') }}" wire:navigate>--}}
+{{--                                        <i class="bi bi-person" style="width: 16px;"></i>--}}
+{{--                                        Profile--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                                <li>--}}
+{{--                                    <hr class="dropdown-divider">--}}
+{{--                                </li>--}}
+{{--                                <li>--}}
+{{--                                    <form method="POST" action="{{ route('logout') }}" class="m-0">--}}
+{{--                                        @csrf--}}
+{{--                                        <button type="submit"--}}
+{{--                                                class="dropdown-item d-flex align-items-center gap-2 text-danger border-0 bg-transparent w-100 text-start">--}}
+{{--                                            <i class="bi bi-box-arrow-right" style="width: 16px;"></i>--}}
+{{--                                            Logout--}}
+{{--                                        </button>--}}
+{{--                                    </form>--}}
+{{--                                </li>--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
+{{--                    @else--}}
+{{--                        <a href="{{ route('login') }}" class="user-button" wire:navigate>--}}
+{{--                            <div class="user-avatar">AC</div>--}}
+{{--                            <span>Account</span>--}}
+{{--                        </a>--}}
+{{--                    @endauth--}}
                     @auth
                         <div class="dropdown">
-                            <button class="btn btn-ghost dropdown-toggle d-flex align-items-center gap-2" type="button"
+                            <button class="user-button dropdown-toggle" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                <div
-                                    class="user-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
-                                    style="width: 32px; height: 32px; font-size: 12px; font-weight: 600;">
+                                <div class="user-avatar">
                                     {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
                                 </div>
                                 <span>{{ auth()->user()->name }}</span>
                             </button>
                             <ul class="dropdown-menu">
+                                @if(auth()->user()->isAdmin() || auth()->user()->isDeveloper())
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('admin.dashboard') }}">
+                                            <i class="bi bi-speedometer2" style="width: 16px;"></i>
+                                            Admin Dashboard
+                                        </a>
+                                    </li>
+                                @endif
                                 <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('home') }}"
-                                       wire:navigate>
+                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('account.dashboard') }}" wire:navigate>
                                         <i class="bi bi-house" style="width: 16px;"></i>
-                                        Dashboard
+                                        My Account
                                     </a>
                                 </li>
                                 <li>
@@ -1278,18 +1026,6 @@
                                         <i class="bi bi-bag" style="width: 16px;"></i>
                                         My Orders
                                     </a>
-                                </li>
-                                <li>
-            <span class="dropdown-item d-flex align-items-center gap-2 text-muted">
-                <i class="bi bi-heart" style="width: 16px;"></i>
-                Wishlist
-            </span>
-                                </li>
-                                <li>
-            <span class="dropdown-item d-flex align-items-center gap-2 text-muted">
-                <i class="bi bi-geo-alt" style="width: 16px;"></i>
-                Addresses
-            </span>
                                 </li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center gap-2"
@@ -1313,17 +1049,17 @@
                                 </li>
                             </ul>
                         </div>
-                    @else
+                    @endauth
+                    @guest
                         <a href="{{ route('login') }}" class="user-button" wire:navigate>
                             <div class="user-avatar">AC</div>
                             <span>Account</span>
                         </a>
-                    @endauth
+                    @endguest
                 </div>
 
                 @if (!isset($isAuthPage) || !$isAuthPage)
                     <!-- Wishlist -->
-                    {{--                        <a href="{{ route('user.wishlist') }}" class="nav-icon" title="Wishlist" wire:navigate>--}}
                     <a href="#" class="nav-icon" title="Wishlist" wire:navigate>
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1341,7 +1077,7 @@
             </div>
         </div>
 
-        <!-- Bottom Navigation -->
+        <!-- Ultra Modern Navigation -->
         <div class="nav-bottom">
             <div class="nav-container">
                 <nav class="main-nav">
@@ -1356,91 +1092,40 @@
                     </div>
                     <div class="nav-item">
                         <a href="#" class="nav-link">Categories</a>
-                        <div class="mega-menu">
-                            <div class="mega-menu-grid">
-                                <div class="mega-menu-section">
-                                    <h4>By Style</h4>
-                                    @php
-                                        $categories = \App\Models\Category::active()->parent()->orderBy('sort_order')->take(8)->get();
-                                    @endphp
-                                    @foreach($categories as $category)
-                                        <a href="{{ route('categories.show', $category->slug) }}" class="mega-menu-item"
-                                           wire:navigate>{{ $category->name }}</a>
-                                    @endforeach
-                                </div>
-                                <div class="mega-menu-section">
-                                    <h4>By Occasion</h4>
-                                    <a href="#" class="mega-menu-item">Everyday Comfort</a>
-                                    <a href="#" class="mega-menu-item">Special Occasion</a>
-                                    <a href="#" class="mega-menu-item">Sports & Active</a>
-                                    <a href="#" class="mega-menu-item">Sleep & Lounge</a>
-                                </div>
-                                <div class="mega-menu-section">
-                                    <h4>Collections</h4>
-                                    <a href="#" class="mega-menu-item">Luxury Lace</a>
-                                    <a href="#" class="mega-menu-item">Seamless Collection</a>
-                                    <a href="#" class="mega-menu-item">Designer Series</a>
-                                    <a href="{{ route('categories.index') }}" class="mega-menu-item" wire:navigate>View
-                                        All Categories</a>
-                                </div>
-                            </div>
-                            <div class="mega-menu-featured">
-                                <h4 style="text-align: center; margin-bottom: 20px;">Featured Products</h4>
-                                <div class="featured-products">
-                                    <div class="featured-product">
-                                        <img
-                                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='120' viewBox='0 0 150 120'%3E%3Crect width='150' height='120' fill='%23fdf2f8'/%3E%3Ctext x='75' y='65' text-anchor='middle' fill='%23e91e63' font-size='14'%3ELuxury Bra%3C/text%3E%3C/svg%3E"
-                                            alt="Featured Product">
-                                        <h5>Silk Touch Wireless</h5>
-                                        <div class="price">$75.00</div>
-                                    </div>
-                                    <div class="featured-product">
-                                        <img
-                                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='120' viewBox='0 0 150 120'%3E%3Crect width='150' height='120' fill='%23f0f9ff'/%3E%3Ctext x='75' y='65' text-anchor='middle' fill='%230369a1' font-size='14'%3ELace Bralette%3C/text%3E%3C/svg%3E"
-                                            alt="Featured Product">
-                                        <h5>Delicate Lace</h5>
-                                        <div class="price">$55.00</div>
-                                    </div>
-                                    <div class="featured-product">
-                                        <img
-                                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='120' viewBox='0 0 150 120'%3E%3Crect width='150' height='120' fill='%23f7fee7'/%3E%3Ctext x='75' y='65' text-anchor='middle' fill='%236b7280' font-size='12'%3EPush-Up Bra%3C/text%3E%3C/svg%3E"
-                                            alt="Featured Product">
-                                        <h5>Natural Lift</h5>
-                                        <div class="price">$65.00</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{{--                        <div class="mega-menu">--}}
+{{--                            <div class="mega-menu-grid">--}}
+{{--                                <div class="mega-menu-section">--}}
+{{--                                    <h4>By Style</h4>--}}
+{{--                                    @php--}}
+{{--                                        $categories = \App\Models\Category::active()->parent()->orderBy('sort_order')->take(8)->get();--}}
+{{--                                    @endphp--}}
+{{--                                    @foreach($categories as $category)--}}
+{{--                                        <a href="{{ route('categories.show', $category->slug) }}" class="mega-menu-item"--}}
+{{--                                           wire:navigate>{{ $category->name }}</a>--}}
+{{--                                    @endforeach--}}
+{{--                                </div>--}}
+{{--                                <div class="mega-menu-section">--}}
+{{--                                    <h4>By Occasion</h4>--}}
+{{--                                    <a href="#" class="mega-menu-item">Everyday Comfort</a>--}}
+{{--                                    <a href="#" class="mega-menu-item">Special Occasion</a>--}}
+{{--                                    <a href="#" class="mega-menu-item">Sports & Active</a>--}}
+{{--                                    <a href="#" class="mega-menu-item">Sleep & Lounge</a>--}}
+{{--                                </div>--}}
+{{--                                <div class="mega-menu-section">--}}
+{{--                                    <h4>Collections</h4>--}}
+{{--                                    <a href="#" class="mega-menu-item">Luxury Lace</a>--}}
+{{--                                    <a href="#" class="mega-menu-item">Seamless Collection</a>--}}
+{{--                                    <a href="#" class="mega-menu-item">Designer Series</a>--}}
+{{--                                    <a href="{{ route('categories.index') }}" class="mega-menu-item" wire:navigate>View--}}
+{{--                                        All Categories</a>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+                        @include('components.nav.mega-menu')
+
                     </div>
                     <div class="nav-item">
                         <a href="#" class="nav-link">Pages</a>
-                        <div class="mega-menu">
-                            <div class="mega-menu-grid">
-                                <div class="mega-menu-section">
-                                    <h4>Company</h4>
-                                    <a href="{{ route('pages.about') }}" class="mega-menu-item" wire:navigate>About
-                                        Us</a>
-                                    <a href="#" class="mega-menu-item">Brands</a>
-                                    <a href="{{ route('pages.contact') }}" class="mega-menu-item"
-                                       wire:navigate>Contact</a>
-                                    <a href="#" class="mega-menu-item">FAQ</a>
-                                </div>
-                                <div class="mega-menu-section">
-                                    <h4>Support</h4>
-                                    {{--                                        <a href="{{ route('pages.help') }}" class="mega-menu-item" wire:navigate>Help Center</a>--}}
-                                    {{--                                        <a href="{{ route('pages.shipping') }}" class="mega-menu-item" wire:navigate>Shipping & Returns</a>--}}
-                                    {{--                                        <a href="{{ route('pages.terms') }}" class="mega-menu-item" wire:navigate>Terms of Service</a>--}}
-                                    {{--                                        <a href="{{ route('pages.privacy') }}" class="mega-menu-item" wire:navigate>Privacy Policy</a>--}}
-                                </div>
-                                <div class="mega-menu-section">
-                                    <h4>Account</h4>
-                                    {{--                                        <a href="{{ route('user.dashboard') }}" class="mega-menu-item" wire:navigate>Dashboard</a>--}}
-                                    {{--                                        <a href="{{ route('user.orders') }}" class="mega-menu-item" wire:navigate>Orders</a>--}}
-                                    {{--                                        <a href="{{ route('user.wishlist') }}" class="mega-menu-item" wire:navigate>Wishlist</a>--}}
-                                    {{--                                        <a href="{{ route('user.addresses') }}" class="mega-menu-item" wire:navigate>Addresses</a>--}}
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="nav-item">
                         <a href="{{ route('blog.index') }}" class="nav-link" wire:navigate>Blog</a>
@@ -1458,41 +1143,88 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <ul class="menu-list">
+                <ul class="menu-list" style="list-style: none; padding: 0;">
                     <li>
-                        <a href="{{ route('home') }}" class="menu-link-text" wire:navigate>Home</a>
+                        <a href="{{ route('home') }}" class="menu-link-text"
+                           style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
+                           wire:navigate>Home</a>
                     </li>
                     <li>
-                        <a href="{{ route('shop.index') }}" class="menu-link-text" wire:navigate>Shop</a>
+                        <a href="{{ route('shop.index') }}" class="menu-link-text"
+                           style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
+                           wire:navigate>Shop</a>
                     </li>
                     <li>
-                        <a href="{{ route('products.index') }}" class="menu-link-text" wire:navigate>Products</a>
+                        <a href="{{ route('products.index') }}" class="menu-link-text"
+                           style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
+                           wire:navigate>Products</a>
                     </li>
                     <li>
-                        <a href="{{ route('pages.about') }}" class="menu-link-text" wire:navigate>About us</a>
+                        <a href="{{ route('pages.about') }}" class="menu-link-text"
+                           style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
+                           wire:navigate>About us</a>
                     </li>
                     <li>
-                        <a href="{{ route('blog.index') }}" class="menu-link-text" wire:navigate>Blog</a>
+                        <a href="{{ route('blog.index') }}" class="menu-link-text"
+                           style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
+                           wire:navigate>Blog</a>
                     </li>
+{{--                    @auth--}}
+{{--                        <li>--}}
+{{--                            <a href="{{ route('home') }}" class="menu-link-text"--}}
+{{--                               style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"--}}
+{{--                               wire:navigate>Dashboard</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST">--}}
+{{--                                @csrf--}}
+{{--                                <a href="{{ route('logout') }}" class="menu-link-text"--}}
+{{--                                   style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"--}}
+{{--                                   wire:navigate--}}
+{{--                                   onclick="event.preventDefault(); this.closest('form').submit();">Log Out</a>--}}
+{{--                            </form>--}}
+{{--                        </li>--}}
+{{--                    @else--}}
+{{--                        <li>--}}
+{{--                            <a href="{{ route('login') }}" class="menu-link-text"--}}
+{{--                               style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"--}}
+{{--                               wire:navigate>Login</a>--}}
+{{--                        </li>--}}
+{{--                        <li>--}}
+{{--                            <a href="{{ route('register') }}" class="menu-link-text"--}}
+{{--                               style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"--}}
+{{--                               wire:navigate>Register</a>--}}
+{{--                        </li>--}}
+{{--                    @endauth--}}
+
                     @auth
                         <li>
-                            <a href="{{ route('home') }}" class="menu-link-text" wire:navigate>Dashboard</a>
+                            <a href="{{ route('home') }}" class="menu-link-text"
+                               style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
+                               wire:navigate>Dashboard</a>
                         </li>
                         <li>
                             <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <a href="{{ route('logout') }}" class="menu-link-text" wire:navigate
+                                <a href="{{ route('logout') }}" class="menu-link-text"
+                                   style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
+                                   wire:navigate
                                    onclick="event.preventDefault(); this.closest('form').submit();">Log Out</a>
                             </form>
                         </li>
-                    @else
-                        <li>
-                            <a href="{{ route('login') }}" class="menu-link-text" wire:navigate>Login</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('register') }}" class="menu-link-text" wire:navigate>Register</a>
-                        </li>
                     @endauth
+                    @guest
+                        <li>
+                            <a href="{{ route('login') }}" class="menu-link-text"
+                               style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
+                               wire:navigate>Login</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('register') }}" class="menu-link-text"
+                               style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
+                               wire:navigate>Register</a>
+                        </li>
+                    @endguest
                 </ul>
             </div>
         </div>
@@ -1500,13 +1232,15 @@
 
     <!-- Flash Messages -->
     @if (session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-success alert-dismissible fade show" role="alert"
+             style="padding: 16px 20px; border-radius: 12px; margin: 16px 24px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(16, 185, 129, 0.1); color: #065f46; border-color: rgba(16, 185, 129, 0.2);">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
     @if (session()->has('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert"
+             style="padding: 16px 20px; border-radius: 12px; margin: 16px 24px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(239, 68, 68, 0.1); color: #7f1d1d; border-color: rgba(239, 68, 68, 0.2);">
             {{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -1517,13 +1251,9 @@
         {{ $slot }}
     </main>
 
-    <!-- Footer -->
+    <!-- Ultra Modern Footer with Working Flux Icons -->
     @if (!isset($isAuthPage) || !$isAuthPage)
         <footer class="footer">
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-            <div class="floating-element"></div>
-
             <div class="footer-content">
                 <div class="footer-grid">
                     <!-- Company Info -->
@@ -1543,61 +1273,48 @@
                         <a href="{{ route('pages.contact') }}" class="footer-link"
                            style="margin-top: 16px; display: inline-block;" wire:navigate>Get Directions →</a>
 
+                        <!-- Ultra Modern Social Links using Project Icon Font (Icomoon) -->
                         <div class="social-links">
                             @if(config('contact.socials'))
+                                {{-- Inside the social links foreach --}}
                                 @foreach (config('contact.socials') as $platform => $url)
+                                    @php $p = strtolower($platform); @endphp
                                     <a href="{{ $url }}" class="social-link" title="{{ ucfirst($platform) }}">
-                                        @if($platform === 'facebook')
-                                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                                            </svg>
-                                        @elseif($platform === 'instagram')
-                                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.621 5.367 11.988 11.988 11.988s11.987-5.367 11.987-11.988C24.004 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.596-3.205-1.535l1.846-1.846c.39.586 1.054.977 1.808.977 1.297 0 2.345-1.048 2.345-2.345 0-.754-.391-1.418-.977-1.808l1.846-1.846c.939.757 1.535 1.908 1.535 3.205 0 2.247-1.831 4.078-4.078 4.078z"/>
-                                            </svg>
-                                        @elseif($platform === 'twitter')
-                                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.986 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                                            </svg>
-                                        @elseif($platform === 'pinterest')
-                                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.112.165.120.285-.09.924-.297 1.199-.423 1.199-.314 0-1.022-.105-1.371-.394-.841-.696-1.364-1.893-1.364-3.185 0-3.896 2.85-7.466 8.207-7.466 4.312 0 7.662 3.075 7.662 7.174 0 4.288-2.703 7.737-6.453 7.737-1.259 0-2.447-.656-2.853-1.534 0 0-.622 2.378-.775 2.95-.281 1.05-1.03 2.369-1.532 3.177C9.505 23.788 10.748 24 12.017 24c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
-                                            </svg>
+                                        @if($p === 'instagram')
+                                            <span class="icon icon-instagram"></span>
+                                        @elseif($p === 'pinterest')
+                                            <span class="icon icon-pinterest"></span>
+                                        @elseif($p === 'youtube')
+                                            <span class="icon icon-youtube"></span>
+                                        @elseif($p === 'tiktok')
+                                            <span class="icon icon-tiktok"></span>
+                                        @elseif($p === 'twitter')
+                                            <span class="icon icon-twitter"></span>
+                                        @elseif($p === 'x' || $p === 'x-twitter')
+                                            <span class="icon icon-Icon-x"></span>
+                                        @elseif($p === 'facebook')
+                                            <span class="icon icon-share"></span>
                                         @else
-                                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                                <circle cx="12" cy="12" r="10"/>
-                                            </svg>
+                                            <span class="icon icon-share"></span>
                                         @endif
                                     </a>
                                 @endforeach
                             @else
-                                <a href="#" class="social-link" title="Facebook">
-                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                                    </svg>
-                                </a>
+                                <!-- Default social links with icon font -->
                                 <a href="#" class="social-link" title="Instagram">
-                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.621 5.367 11.988 11.988 11.988s11.987-5.367 11.987-11.988C24.004 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.596-3.205-1.535l1.846-1.846c.39.586 1.054.977 1.808.977 1.297 0 2.345-1.048 2.345-2.345 0-.754-.391-1.418-.977-1.808l1.846-1.846c.939.757 1.535 1.908 1.535 3.205 0 2.247-1.831 4.078-4.078 4.078z"/>
-                                    </svg>
+                                    <span class="icon icon-instagram"></span>
                                 </a>
-                                <a href="#" class="social-link" title="Twitter">
-                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.986 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                                    </svg>
+                                <a href="#" class="social-link" title="Twitter/X">
+                                    <span class="icon icon-Icon-x"></span>
                                 </a>
                                 <a href="#" class="social-link" title="Pinterest">
-                                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.112.165.120.285-.09.924-.297 1.199-.423 1.199-.314 0-1.022-.105-1.371-.394-.841-.696-1.364-1.893-1.364-3.185 0-3.896 2.85-7.466 8.207-7.466 4.312 0 7.662 3.075 7.662 7.174 0 4.288-2.703 7.737-6.453 7.737-1.259 0-2.447-.656-2.853-1.534 0 0-.622 2.378-.775 2.95-.281 1.05-1.03 2.369-1.532 3.177C9.505 23.788 10.748 24 12.017 24c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
-                                    </svg>
+                                    <span class="icon icon-pinterest"></span>
+                                </a>
+                                <a href="#" class="social-link" title="YouTube">
+                                    <span class="icon icon-youtube"></span>
+                                </a>
+                                <a href="#" class="social-link" title="TikTok">
+                                    <span class="icon icon-tiktok"></span>
                                 </a>
                             @endif
                         </div>
@@ -1613,7 +1330,6 @@
                                     Arrivals</a></li>
                             <li><a href="#" class="footer-link">Best Sellers</a></li>
                             <li><a href="#" class="footer-link">Sale Items</a></li>
-                            {{--                                <li><a href="{{ route('pages.size-guide') }}" class="footer-link" wire:navigate>Size Guide</a></li>--}}
                             <li><a href="{{ route('pages.about') }}" class="footer-link" wire:navigate>About Us</a></li>
                             <li><a href="{{ route('pages.contact') }}" class="footer-link" wire:navigate>Contact</a>
                             </li>
@@ -1639,13 +1355,13 @@
                     <div class="footer-section">
                         <h3>Customer Care</h3>
                         <ul style="list-style: none; padding: 0;">
-                            {{--                                <li><a href="{{ route('pages.help') }}" class="footer-link" wire:navigate>Help Center</a></li>--}}
-                            {{--                                <li><a href="{{ route('pages.track-order') }}" class="footer-link" wire:navigate>Track Your Order</a></li>--}}
-                            {{--                                <li><a href="{{ route('pages.shipping') }}" class="footer-link" wire:navigate>Shipping & Returns</a></li>--}}
+                            <li><a href="#" class="footer-link">Help Center</a></li>
+                            <li><a href="#" class="footer-link">Track Your Order</a></li>
+                            <li><a href="#" class="footer-link">Shipping & Returns</a></li>
                             <li><a href="#" class="footer-link">Size Exchange</a></li>
                             <li><a href="#" class="footer-link">Gift Cards</a></li>
-                            {{--                                <li><a href="{{ route('pages.privacy') }}" class="footer-link" wire:navigate>Privacy Policy</a></li>--}}
-                            {{--                                <li><a href="{{ route('pages.terms') }}" class="footer-link" wire:navigate>Terms of Service</a></li>--}}
+                            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                            <li><a href="#" class="footer-link">Terms of Service</a></li>
                             <li><a href="#" class="footer-link">Accessibility</a></li>
                         </ul>
                     </div>
@@ -1656,90 +1372,89 @@
                         <p>Join our exclusive community for early access to new collections, styling tips, and special
                             offers just for you.</p>
                         <form class="newsletter-form" action="{{ route('newsletter.subscribe') }}" method="POST"
-                              onsubmit="handleNewsletter(event)">
+                              onsubmit="handleNewsletter(event)" style="display: flex; gap: 12px; margin-top: 24px;">
                             @csrf
                             <input type="email" name="email" class="newsletter-input"
-                                   placeholder="Enter your email address" required>
-                            <button type="submit" class="newsletter-button">Subscribe</button>
+                                   placeholder="Enter your email address" required
+                                   style="flex: 1; padding: 16px 20px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 16px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); color: white; font-size: 14px; outline: none; transition: var(--transition);">
+                            <button type="submit" class="newsletter-button"
+                                    style="padding: 16px 24px; background: var(--accent-gradient); border: none; border-radius: 16px; color: white; font-weight: 600; cursor: pointer; transition: var(--transition);">
+                                Subscribe
+                            </button>
                         </form>
                         <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-top: 12px;">
                             By subscribing, you agree to receive marketing emails. Unsubscribe anytime.
                         </p>
 
-                        <div style="margin-top: 32px;">
-                            <h4 style="font-size: 16px; margin-bottom: 16px; color: rgba(255, 255, 255, 0.9);">Download
-                                Our App</h4>
-                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                                <a href="#" style="display: inline-block;">
-                                    <img
-                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='40' viewBox='0 0 135 40'%3E%3Crect width='135' height='40' rx='5' fill='%23000'/%3E%3Ctext x='67.5' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EApp Store%3C/text%3E%3C/svg%3E"
-                                        alt="Download on the App Store" style="height: 40px;">
-                                </a>
-                                <a href="#" style="display: inline-block;">
-                                    <img
-                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='40' viewBox='0 0 135 40'%3E%3Crect width='135' height='40' rx='5' fill='%23000'/%3E%3Ctext x='67.5' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EGoogle Play%3C/text%3E%3C/svg%3E"
-                                        alt="Get it on Google Play" style="height: 40px;">
-                                </a>
-                            </div>
-                        </div>
+{{--                        <div style="margin-top: 32px;">--}}
+{{--                            <h4 style="font-size: 16px; margin-bottom: 16px; color: rgba(255, 255, 255, 0.9);">Download--}}
+{{--                                Our App</h4>--}}
+{{--                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">--}}
+{{--                                <a href="#" style="display: inline-block;">--}}
+{{--                                    <img--}}
+{{--                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='40' viewBox='0 0 135 40'%3E%3Crect width='135' height='40' rx='5' fill='%23000'/%3E%3Ctext x='67.5' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EApp Store%3C/text%3E%3C/svg%3E"--}}
+{{--                                        alt="Download on the App Store" style="height: 40px;">--}}
+{{--                                </a>--}}
+{{--                                <a href="#" style="display: inline-block;">--}}
+{{--                                    <img--}}
+{{--                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='40' viewBox='0 0 135 40'%3E%3Crect width='135' height='40' rx='5' fill='%23000'/%3E%3Ctext x='67.5' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EGoogle Play%3C/text%3E%3C/svg%3E"--}}
+{{--                                        alt="Get it on Google Play" style="height: 40px;">--}}
+{{--                                </a>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                     </div>
                 </div>
 
                 <!-- Footer Bottom -->
-                <div class="footer-bottom">
+                <div class="footer-bottom"
+                     style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 40px; text-align: center;">
                     <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 16px;">
                         © {{ date('Y') }} {{ config('app.name', 'ShopWithCarl') }}. All rights reserved. Designed with
                         💖 for confident women everywhere.
                     </p>
 
-                    <div class="payment-methods">
-                        @if(config('payment.methods'))
-                            @foreach (config('payment.methods') as $method)
-                                <div class="payment-method" title="{{ $method['name'] }}">
-                                    <img src="{{ asset($method['image']) }}" alt="{{ $method['name'] }}">
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="payment-method" title="Visa">
-                                <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                    <rect width="24" height="16" rx="2" fill="white"/>
-                                    <text x="12" y="10" text-anchor="middle" fill="#1a1f71" font-family="Arial"
-                                          font-size="8" font-weight="bold">VISA
-                                    </text>
-                                </svg>
-                            </div>
-                            <div class="payment-method" title="Mastercard">
-                                <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                    <rect width="24" height="16" rx="2" fill="white"/>
-                                    <circle cx="8" cy="8" r="4" fill="#eb001b"/>
-                                    <circle cx="16" cy="8" r="4" fill="#f79e1b"/>
-                                </svg>
-                            </div>
-                            <div class="payment-method" title="American Express">
-                                <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                    <rect width="24" height="16" rx="2" fill="#006fcf"/>
-                                    <text x="12" y="10" text-anchor="middle" fill="white" font-family="Arial"
-                                          font-size="6" font-weight="bold">AMEX
-                                    </text>
-                                </svg>
-                            </div>
-                            <div class="payment-method" title="PayPal">
-                                <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                    <rect width="24" height="16" rx="2" fill="#003087"/>
-                                    <text x="12" y="10" text-anchor="middle" fill="white" font-family="Arial"
-                                          font-size="6" font-weight="bold">PayPal
-                                    </text>
-                                </svg>
-                            </div>
-                            <div class="payment-method" title="Apple Pay">
-                                <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                    <rect width="24" height="16" rx="2" fill="#000000"/>
-                                    <text x="12" y="10" text-anchor="middle" fill="white" font-family="Arial"
-                                          font-size="6" font-weight="bold">Apple Pay
-                                    </text>
-                                </svg>
-                            </div>
-                        @endif
+                    <!-- Payment Methods -->
+                    <div class="payment-methods"
+                         style="display: flex; justify-content: center; gap: 16px; margin-top: 24px; flex-wrap: wrap;">
+                        <div class="payment-method" title="MTN Mobile Money"
+                             style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition); font-size: 10px; font-weight: bold; color: #FFD700;">
+                            MTN
+                        </div>
+                        <div class="payment-method" title="Airtel Money"
+                             style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition); font-size: 10px; font-weight: bold; color: #FF0000;">
+                            AIRTEL
+                        </div>
+                        <div class="payment-method" title="Flutterwave"
+                             style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition); position: relative;">
+                            <!-- Custom Flutterwave Icon -->
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#FF6B35"/>
+                                <circle cx="12" cy="12" r="3" fill="#1B365C"/>
+                            </svg>
+                        </div>
+                        <div class="payment-method" title="Pesapal"
+                             style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition); position: relative;">
+                            <!-- Custom Pesapal Icon -->
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="6" width="18" height="12" rx="2" fill="#0056B3"/>
+                                <path d="M7 10h10v4H7z" fill="#FF0000"/>
+                                <circle cx="9" cy="12" r="1" fill="white"/>
+                                <circle cx="15" cy="12" r="1" fill="white"/>
+                            </svg>
+                        </div>
+                        <div class="payment-method" title="Bank Transfer"
+                             style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition);">
+                            <!-- Better Bank Transfer Icon -->
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 21h18"/>
+                                <path d="M5 21V7l8-4v18"/>
+                                <path d="M19 21V11l-6-4"/>
+                                <path d="M9 9v.01"/>
+                                <path d="M9 12v.01"/>
+                                <path d="M9 15v.01"/>
+                                <path d="M9 18v.01"/>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1768,15 +1483,77 @@
         }
     });
 
-    // Placeholder for search suggestions
-    function showSearchSuggestions(value) {
-        const suggestions = document.getElementById('searchSuggestions');
-        if (value.length > 2) {
-            suggestions.classList.add('active');
-        } else {
-            suggestions.classList.remove('active');
+    // Header search logic
+    const shopSearchUrl = "{{ route('shop.search') }}";
+    const productsIndexUrl = "{{ route('products.index') }}";
+
+    function submitHeaderSearch(event) {
+        // allow default submit unless query too short
+        const input = document.getElementById('headerSearchInput');
+        if (!input) return true;
+        const q = (input.value || '').trim();
+        if (q.length < 2) {
+            // provide gentle hint and prevent empty/too short queries
+            renderSearchSuggestions(q, true);
+            event.preventDefault();
+            return false;
         }
+        hideSearchSuggestions();
+        return true; // allow form submission
     }
+
+    function showSearchSuggestions(value) {
+        const q = (value || '').trim();
+        if (q.length === 0) {
+            hideSearchSuggestions();
+            return;
+        }
+        renderSearchSuggestions(q, false);
+    }
+
+    function renderSearchSuggestions(q, tooShort) {
+        const box = document.getElementById('headerSearchSuggestions');
+        if (!box) return;
+
+        if (tooShort) {
+            box.innerHTML = `<div class="search-suggestion-empty">Type at least 2 characters to search</div>`;
+            box.style.display = 'block';
+            return;
+        }
+
+        const encoded = encodeURIComponent(q);
+        const resultsLink = `${shopSearchUrl}?q=${encoded}`;
+        const productsLink = `${productsIndexUrl}?q=${encoded}`;
+        box.innerHTML = `
+            <a class="search-suggestion-item" role="option" href="${resultsLink}">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <span>Search for "${q}" in shop</span>
+            </a>
+            <a class="search-suggestion-item" role="option" href="${productsLink}">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h3.28a1 1 0 01.948.684l.894 2.683A1 1 0 0010.08 7H19a1 1 0 01.98 1.197l-1.5 7.5A2 2 0 0116.52 17H8.28a2 2 0 01-1.897-1.316L4.34 8.947A1 1 0 003.38 8H3V4z"/>
+                </svg>
+                <span>View products matching "${q}"</span>
+            </a>
+        `;
+        box.style.display = 'block';
+    }
+
+    function hideSearchSuggestions() {
+        const box = document.getElementById('headerSearchSuggestions');
+        if (box) box.style.display = 'none';
+    }
+
+    document.addEventListener('click', function (e) {
+        const suggestions = document.getElementById('headerSearchSuggestions');
+        const input = document.getElementById('headerSearchInput');
+        if (!suggestions || !input) return;
+        if (!suggestions.contains(e.target) && e.target !== input) {
+            hideSearchSuggestions();
+        }
+    });
 
     // Handle newsletter form submission
     function handleNewsletter(event) {
@@ -1787,6 +1564,29 @@
         alert('Thank you for subscribing!');
         form.reset();
     }
+
+    // Add hover effects for payment methods
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentMethods = document.querySelectorAll('.payment-method');
+        paymentMethods.forEach(method => {
+            method.addEventListener('mouseenter', function () {
+                this.style.background = 'rgba(255, 255, 255, 0.2)';
+                this.style.transform = 'translateY(-2px)';
+            });
+            method.addEventListener('mouseleave', function () {
+                this.style.background = 'rgba(255, 255, 255, 0.1)';
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    });
 </script>
+    <!-- Global Notification Toast -->
+    <livewire:components.notification-toast />
+
+<!-- Shopping Cart Component -->
+<livewire:components.shopping-cart />
+
+<!-- Product Compare Component -->
+<livewire:components.product-compare />
 </body>
 </html>

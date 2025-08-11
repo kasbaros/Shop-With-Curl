@@ -1,828 +1,488 @@
-
 <div>
-
+    <!-- page-title -->
     <div class="tf-page-title">
         <div class="container-full">
             <div class="heading text-center">All Products</div>
             <p class="text-center text-2 text_black-2 mt_5">Shop through our latest selection of Fashion</p>
         </div>
     </div>
+    <!-- /page-title -->
 
+    <!-- Section Product -->
     <section class="flat-spacing-2">
         <div class="container">
             <div class="tf-shop-control grid-3 align-items-center">
-
-                <!-- Filters -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border">
-                    <div class="flex flex-wrap items-center gap-4">
-                        <!-- Category Filter -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                            <select wire:model.live="selectedCategory"
-                                    class="border border-gray-300 rounded-md px-3 py-2">
-                                <option value="">All Categories</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">
-                                        {{ $category->name }} ({{ $category->products_count }})
-                                    </option>
-                                @endforeach
-                            </select>
+                <div class="tf-control-filter ">
+                    <a href="#filterShop" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                       class="tf-btn-filter border border-1 border-black">
+                        <span class="icon icon-filter"></span>
+                        <span class="text">Filter</span>
+                    </a>
+                </div>
+                <ul class="tf-control-layout d-flex justify-content-center">
+                    <li class="tf-view-layout-switch sw-layout-list list-layout" data-value-layout="list">
+                        <div class="item"><span class="icon icon-list"></span></div>
+                    </li>
+                    <li class="tf-view-layout-switch sw-layout-2" data-value-layout="tf-col-2">
+                        <div class="item"><span class="icon icon-grid-2"></span></div>
+                    </li>
+                    <li class="tf-view-layout-switch sw-layout-3" data-value-layout="tf-col-3">
+                        <div class="item"><span class="icon icon-grid-3"></span></div>
+                    </li>
+                    <li class="tf-view-layout-switch sw-layout-4 active" data-value-layout="tf-col-4">
+                        <div class="item"><span class="icon icon-grid-4"></span></div>
+                    </li>
+                    <li class="tf-view-layout-switch sw-layout-5" data-value-layout="tf-col-5">
+                        <div class="item"><span class="icon icon-grid-5"></span></div>
+                    </li>
+                    <li class="tf-view-layout-switch sw-layout-6" data-value-layout="tf-col-6">
+                        <div class="item"><span class="icon icon-grid-6"></span></div>
+                    </li>
+                </ul>
+                <div class="tf-control-sorting d-flex justify-content-end">
+                    <div class="tf-dropdown-sort border border-1 border-black" data-bs-toggle="dropdown">
+                        <div class="btn-select">
+                            <span class="text-sort-value">{{ $sortOptions[$sortBy] ?? 'Featured' }}</span>
+                            <span class="icon icon-arrow-down"></span>
                         </div>
-
-                        <!-- Price Range -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Price Range</label>
-                            <div class="flex items-center space-x-2">
-                                <input
-                                    type="number"
-                                    wire:model.live="minPrice"
-                                    placeholder="Min"
-                                    class="w-20 border border-gray-300 rounded-md px-2 py-2"
-                                >
-                                <span class="text-gray-500">-</span>
-                                <input
-                                    type="number"
-                                    wire:model.live="maxPrice"
-                                    placeholder="Max"
-                                    class="w-20 border border-gray-300 rounded-md px-2 py-2"
-                                >
+                        <div class="dropdown-menu">
+                            <div class="select-item {{ $sortBy == 'featured' ? 'active' : '' }}"
+                                 wire:click="$set('sortBy', 'featured')">
+                                <span class="text-value-item">Featured</span>
+                            </div>
+                            <div class="select-item {{ $sortBy == 'name' ? 'active' : '' }}"
+                                 wire:click="$set('sortBy', 'name')">
+                                <span class="text-value-item">Best selling</span>
+                            </div>
+                            <div class="select-item {{ $sortBy == 'name_asc' ? 'active' : '' }}"
+                                 wire:click="$set('sortBy', 'name_asc')">
+                                <span class="text-value-item">Alphabetically, A-Z</span>
+                            </div>
+                            <div class="select-item {{ $sortBy == 'name_desc' ? 'active' : '' }}"
+                                 wire:click="$set('sortBy', 'name_desc')">
+                                <span class="text-value-item">Alphabetically, Z-A</span>
+                            </div>
+                            <div class="select-item {{ $sortBy == 'price_asc' ? 'active' : '' }}"
+                                 wire:click="$set('sortBy', 'price_asc')">
+                                <span class="text-value-item">Price, low to high</span>
+                            </div>
+                            <div class="select-item {{ $sortBy == 'price_desc' ? 'active' : '' }}"
+                                 wire:click="$set('sortBy', 'price_desc')">
+                                <span class="text-value-item">Price, high to low</span>
+                            </div>
+                            <div class="select-item {{ $sortBy == 'created_asc' ? 'active' : '' }}"
+                                 wire:click="$set('sortBy', 'created_asc')">
+                                <span class="text-value-item">Date, old to new</span>
+                            </div>
+                            <div class="select-item {{ $sortBy == 'created_desc' ? 'active' : '' }}"
+                                 wire:click="$set('sortBy', 'created_desc')">
+                                <span class="text-value-item">Date, new to old</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
 
-                        <!-- Filter Checkboxes -->
-                        <div class="flex flex-wrap gap-4">
-                            <label class="flex items-center">
-                                <input type="checkbox" wire:model.live="inStockOnly" class="mr-2">
-                                <span class="text-sm">In Stock Only</span>
-                            </label>
-
-                            <label class="flex items-center">
-                                <input type="checkbox" wire:model.live="onSaleOnly" class="mr-2">
-                                <span class="text-sm">On Sale</span>
-                            </label>
-
-                            <label class="flex items-center">
-                                <input type="checkbox" wire:model.live="featuredOnly" class="mr-2">
-                                <span class="text-sm">Featured</span>
-                            </label>
-                        </div>
-
-                        <!-- Clear Filters -->
-                        <button
-                            wire:click="clearFilters"
-                            class="text-sm text-blue-600 hover:text-blue-700 underline"
-                        >
-                            Clear Filters
+            <div class="wrapper-control-shop">
+                <div class="meta-filter-shop">
+                    <div id="product-count-grid" class="count-text">
+                        <span class="count">{{ $products->total() }}</span> Products Found
+                    </div>
+                    <div id="product-count-list" class="count-text">
+                        <span class="count">{{ $products->total() }}</span> Products Found
+                    </div>
+                    <div id="applied-filters">
+                        @if($selectedCategory)
+                            <span class="filter-item">
+                                Category: {{ $categories->find($selectedCategory)?->name }}
+                                <i class="icon-close" wire:click="$set('selectedCategory', '')"></i>
+                            </span>
+                        @endif
+                        @if($minPrice || $maxPrice)
+                            <span class="filter-item">
+                                Price: ${{ $minPrice ?? 0 }} - ${{ $maxPrice ?? 1000 }}
+                                <i class="icon-close" wire:click="clearPriceFilter"></i>
+                            </span>
+                        @endif
+                        @if($inStockOnly)
+                            <span class="filter-item">
+                                In Stock Only
+                                <i class="icon-close" wire:click="$set('inStockOnly', false)"></i>
+                            </span>
+                        @endif
+                        @if($onSaleOnly)
+                            <span class="filter-item">
+                                On Sale
+                                <i class="icon-close" wire:click="$set('onSaleOnly', false)"></i>
+                            </span>
+                        @endif
+                        @if($featuredOnly)
+                            <span class="filter-item">
+                                Featured
+                                <i class="icon-close" wire:click="$set('featuredOnly', false)"></i>
+                            </span>
+                        @endif
+                    </div>
+                    @if($this->hasActiveFilters())
+                        <button id="remove-all" class="remove-all-filters" wire:click="clearFilters">
+                            Remove All <i class="icon icon-close"></i>
                         </button>
-                    </div>
+                    @endif
                 </div>
 
-            </div>
-
-            </div>
-            <div class="wrapper-control-shop gridLayout-wrapper">
-                <div class="meta-filter-shop" style="display: none;">
-                    <div id="product-count-grid" class="count-text"><span class="count">12</span> Products Found</div>
-                    <div id="product-count-list" class="count-text"><span class="count">8</span> Products Found</div>
-                    <div id="applied-filters"></div>
-                    <button id="remove-all" class="remove-all-filters" style="display: none;">Remove All <i
-                            class="icon icon-close"></i></button>
-                </div>
+                <!-- List Layout -->
                 <div class="tf-list-layout wrapper-shop" id="listLayout" style="display: none;">
-                    <!-- card product 1 -->
-                    <div class="card-product list-layout" data-availability="In stock" data-brand="Ecomus">
-                        <div class="card-product-wrapper">
-                            <a href="#" class="product-img">
-                                <img class="img-product ls-is-cached lazyloaded"
-                                     data-src="images/products/shop_with_carl-1.jpg"
-                                     src="images/products/shop_with_carl-1.jpg" alt="image-product">
-                                <img class="img-hover ls-is-cached lazyloaded"
-                                     data-src="images/products/shop_with_carl-1.jpg"
-                                     src="images/products/shop_with_carl-1.jpg" alt="image-product">
-                            </a>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="#" class="title link">Ribbed Tank Top</a>
-                            <span class="price current-price">$16.95</span>
-                            <p class="description">Button-up shirt sleeves and a relaxed silhouette. It’s tailored
-                                with drapey, crinkle-texture fabric that’s made from LENZING™ ECOVERO™ Viscose —
-                                responsibly sourced wood-based fibres produced through a process that reduces...</p>
-                            <ul class="list-color-product">
-                                <li class="list-color-item hover-tooltip color-swatch active">
-                                    <span class="tooltip tooltip-bottom">Orange</span>
-                                    <span class="swatch-value bg_orange-3"></span>
-                                    <img src="images/products/shop_with_carl-1.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Black</span>
-                                    <span class="swatch-value bg_dark"></span>
-                                    <img class=" ls-is-cached lazyloaded"
-                                         data-src="images/products/shop_with_carl-2.jpg"
-                                         src="images/products/shop_with_carl-2.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">White</span>
-                                    <span class="swatch-value bg_white"></span>
-                                    <img class=" ls-is-cached lazyloaded"
-                                         data-src="images/products/shop_with_carl-3.jpg"
-                                         src="images/products/shop_with_carl-3.jpg" alt="image-product">
-                                </li>
-                            </ul>
-                            <div class="size-list">
-                                <span class="size-item">S</span>
-                                <span class="size-item">M</span>
-                                <span class="size-item">L</span>
-                                <span class="size-item">XL</span>
+                    @forelse($products as $product)
+                        <div class="card-product list-layout"
+                             data-availability="{{ $product->stock_quantity > 0 ? 'In stock' : 'Out of stock' }}"
+                             data-brand="{{ $product->brand ?? 'ShopWithCarl' }}">
+                            <div class="card-product-wrapper">
+                                <a href="{{ route('products.show', $product->slug) }}" class="product-img">
+                                    @if($product->images->count() > 0)
+                                        <img class="img-product lazyload"
+                                             data-src="{{ $product->images->first()->url }}"
+                                             src="{{ $product->images->first()->url }}"
+                                             alt="{{ $product->name }}">
+                                        @if($product->images->count() > 1)
+                                            <img class="img-hover lazyload"
+                                                 data-src="{{ $product->images->skip(1)->first()->url }}"
+                                                 src="{{ $product->images->skip(1)->first()->url }}"
+                                                 alt="{{ $product->name }}">
+                                        @endif
+                                    @else
+                                        <img class="img-product" src="{{ asset('images/placeholder-product.jpg') }}"
+                                             alt="{{ $product->name }}">
+                                    @endif
+                                </a>
+                                @if($product->sale_price && $product->sale_price < $product->price)
+                                    <div class="countdown-box">
+                                        <!-- Add countdown if needed -->
+                                    </div>
+                                @endif
                             </div>
-                            <div class="list-product-btn">
-                                <a href="#quick_add" data-bs-toggle="modal"
-                                   class="box-icon quick-add style-3 hover-tooltip"><span
-                                        class="icon icon-bag"></span><span class="tooltip">Quick add</span></a>
-                                <a href="#" class="box-icon wishlist style-3 hover-tooltip"><span
-                                        class="icon icon-heart"></span> <span class="tooltip">Add to
-                                            Wishlist</span></a>
-                                <a href="#compare" data-bs-toggle="offcanvas"
-                                   class="box-icon compare style-3 hover-tooltip"><span
-                                        class="icon icon-compare"></span> <span class="tooltip">Add to
-                                            Compare</span></a>
-                                <a href="#quick_view" data-bs-toggle="modal"
-                                   class="box-icon quickview style-3 hover-tooltip"><span class="icon icon-view"></span><span
-                                        class="tooltip">Quick view</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- card product 2 -->
-                    <div class="card-product list-layout" data-availability="In stock" data-brand="Ecomus">
-                        <div class="card-product-wrapper">
-                            <div class="product-img">
-                                <img class="img-product ls-is-cached lazyloaded" data-src="images/products/brown.jpg"
-                                src="images/products/brown.jpg" alt="image-product">
-                                <img class="img-hover ls-is-cached lazyloaded" data-src="images/products/purple.jpg"
-                                     src="images/products/purple.jpg" alt="image-product">
-                            </div>
-                            <div class="countdown-box">
-                                <div class="js-countdown" data-timer="1007500" data-labels="d :,h :,m :,s">
-                                    <div aria-hidden="true" class="countdown__timer"><span class="countdown__item"><span
-                                                class="countdown__value countdown__value--0 js-countdown__value--0">11</span><span
-                                                class="countdown__label">d :</span></span><span class="countdown__item"><span
-                                                class="countdown__value countdown__value--1 js-countdown__value--1">15</span><span
-                                                class="countdown__label">h :</span></span><span class="countdown__item"><span
-                                                class="countdown__value countdown__value--2 js-countdown__value--2">49</span><span
-                                                class="countdown__label">m :</span></span><span class="countdown__item"><span
-                                                class="countdown__value countdown__value--3 js-countdown__value--3">08</span><span
-                                                class="countdown__label">s</span></span></div>
+                            <div class="card-product-info">
+                                <a href="{{ route('products.show', $product->slug) }}"
+                                   class="title link">{{ $product->name }}</a>
+                                <div class="price-wrapper">
+                                    @if($product->sale_price && $product->sale_price < $product->price)
+                                        <span
+                                            class="price current-price">${{ number_format($product->sale_price, 2) }}</span>
+                                        <span
+                                            class="price compare-at-price">${{ number_format($product->price, 2) }}</span>
+                                    @else
+                                        <span
+                                            class="price current-price">${{ number_format($product->price, 2) }}</span>
+                                    @endif
+                                </div>
+                                <p class="description">{{ Str::limit($product->description, 150) }}</p>
+
+                                @if($product->variants->where('type', 'color')->count() > 0)
+                                    <ul class="list-color-product">
+                                        @foreach($product->variants->where('type', 'color')->take(3) as $colorVariant)
+                                            <li class="list-color-item color-swatch {{ $loop->first ? 'active' : '' }}">
+                                                <span class="tooltip">{{ $colorVariant->value }}</span>
+                                                <span class="swatch-value"
+                                                      style="background-color: {{ $this->getColorCode($colorVariant->value) }}"></span>
+                                                @if($colorVariant->image)
+                                                    <img class="lazyload" data-src="{{ $colorVariant->image }}"
+                                                         src="{{ $colorVariant->image }}" alt="{{ $product->name }}">
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+
+                                @if($product->variants->where('type', 'size')->count() > 0)
+                                    <div class="size-list">
+                                        @foreach($product->variants->where('type', 'size')->take(4) as $sizeVariant)
+                                            <span class="size-item">{{ $sizeVariant->value }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                <div class="list-product-btn">
+                                    <a href="#quick_add" data-bs-toggle="modal"
+                                       class="box-icon quick-add style-3 hover-tooltip"
+                                       data-product-id="{{ $product->id }}">
+                                        <span class="icon icon-bag"></span>
+                                        <span class="tooltip">Quick add</span>
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                       class="box-icon wishlist style-3 hover-tooltip"
+                                       wire:click="toggleWishlist({{ $product->id }})">
+                                        <span class="icon icon-heart"></span>
+                                        <span class="tooltip">Add to Wishlist</span>
+                                    </a>
+                                    <a href="#compare" data-bs-toggle="offcanvas"
+                                       class="box-icon compare style-3 hover-tooltip"
+                                       wire:click="toggleCompare({{ $product->id }})">
+                                        <span class="icon icon-compare"></span>
+                                        <span class="tooltip">Add to Compare</span>
+                                    </a>
+                                    <a href="#quick_view" data-bs-toggle="modal"
+                                       class="box-icon quickview style-3 hover-tooltip"
+                                       data-product-id="{{ $product->id }}">
+                                        <span class="icon icon-view"></span>
+                                        <span class="tooltip">Quick view</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="card-product-info">
-                            <a href="#" class="title link">Ribbed modal T-shirt</a>
-                            <span class="price current-price">$18.95</span>
-                            <p class="description">Button-up shirt sleeves and a relaxed silhouette. It’s tailored
-                                with drapey, crinkle-texture fabric that’s made from LENZING™ ECOVERO™ Viscose —
-                                responsibly sourced wood-based fibres produced through a process that reduces...</p>
-                            <ul class="list-color-product">
-                                <li class="list-color-item color-swatch active">
-                                    <span class="tooltip">Brown</span>
-                                    <span class="swatch-value bg_brown"></span>
-                                    <img class="lazyload" data-src="images/products/brown.jpg"
-                                    src="images/products/brown.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Light Purple</span>
-                                    <span class="swatch-value bg_purple"></span>
-                                    <img class="lazyload" data-src="images/products/purple.jpg"
-                                    src="images/products/purple.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Light Green</span>
-                                    <span class="swatch-value bg_light-green"></span>
-                                    <img class="lazyload" data-src="images/products/green.jpg"
-                                    src="images/products/green.jpg" alt="image-product">
-                                </li>
-                            </ul>
-                            <div class="size-list">
-                                <span class="size-item">S</span>
-                                <span class="size-item">M</span>
-                                <span class="size-item">L</span>
-                                <span class="size-item">XL</span>
-                            </div>
-                            <div class="list-product-btn">
-                                <a href="#quick_add" data-bs-toggle="modal" class="box-icon quick-add style-3"><span
-                                        class="icon icon-bag"></span><span class="tooltip">Quick add</span></a>
-                                <a href="#" class="box-icon wishlist style-3"><span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span></a>
-                                <a href="#compare" data-bs-toggle="offcanvas" class="box-icon compare style-3"><span
-                                        class="icon icon-compare"></span> <span class="tooltip">Add to
-                                            Compare</span></a>
-                                <a href="#quick_view" data-bs-toggle="modal" class="box-icon quickview style-3"><span
-                                        class="icon icon-view"></span><span class="tooltip">Quick view</span></a>
-                            </div>
+                    @empty
+                        <div class="no-products text-center py-5">
+                            <h3>No products found</h3>
+                            <p>Try adjusting your filters or search criteria.</p>
                         </div>
-                    </div>
-                    <!-- card product 3 -->
-                    <div class="card-product list-layout" data-availability="In stock" data-brand="Ecomus">
-                        <div class="card-product-wrapper">
-                            <div class="product-img">
-                                <img class="lazyload img-product" data-src="images/products/white-3.jpg"
-                                     src="images/products/white-3.jpg" alt="image-product">
-                                <img class="lazyload img-hover" data-src="images/products/white-4.jpg"
-                                     src="images/products/white-4.jpg" alt="image-product">
-                            </div>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="#" class="title link">Oversized Printed T-shirt</a>
-                            <span class="price current-price">$10.00</span>
-                            <p class="description">Button-up shirt sleeves and a relaxed silhouette. It’s tailored
-                                with drapey, crinkle-texture fabric that’s made from LENZING™ ECOVERO™ Viscose —
-                                responsibly sourced wood-based fibres produced through a process that reduces...</p>
-                            <div class="list-product-btn">
-                                <a href="#quick_add" data-bs-toggle="modal" class="box-icon quick-add style-3"><span
-                                        class="icon icon-bag"></span><span class="tooltip">Quick add</span></a>
-                                <a href="#" class="box-icon wishlist style-3"><span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span></a>
-                                <a href="#compare" data-bs-toggle="offcanvas" class="box-icon compare style-3"><span
-                                        class="icon icon-compare"></span> <span class="tooltip">Add to
-                                            Compare</span></a>
-                                <a href="#quick_view" data-bs-toggle="modal" class="box-icon quickview style-3"><span
-                                        class="icon icon-view"></span><span class="tooltip">Quick view</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- card product 4 -->
-                    <div class="card-product list-layout" data-availability="In stock" data-brand="Ecomus">
-                        <div class="card-product-wrapper">
-                            <div class="product-img">
-                                <img class="lazyload img-product" data-src="images/products/white-2.jpg"
-                                     src="images/products/white-2.jpg" alt="image-product">
-                                <img class="lazyload img-hover" data-src="images/products/pink-1.jpg"
-                                     src="images/products/pink-1.jpg" alt="image-product">
-                            </div>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="#" class="title link">Oversized Printed T-shirt</a>
-                            <span class="price current-price">$16.95</span>
-                            <p class="description">Button-up shirt sleeves and a relaxed silhouette. It’s tailored
-                                with drapey, crinkle-texture fabric that’s made from LENZING™ ECOVERO™ Viscose —
-                                responsibly sourced wood-based fibres produced through a process that reduces...</p>
-                            <ul class="list-color-product">
-                                <li class="list-color-item color-swatch active">
-                                    <span class="tooltip">White</span>
-                                    <span class="swatch-value bg_white"></span>
-                                    <img class="lazyload" data-src="images/products/white-2.jpg"
-                                         src="images/products/white-2.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Pink</span>
-                                    <span class="swatch-value bg_purple"></span>
-                                    <img class="lazyload" data-src="images/products/pink-1.jpg"
-                                         src="images/products/pink-1.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Black</span>
-                                    <span class="swatch-value bg_dark"></span>
-                                    <img class="lazyload" data-src="images/products/black-2.jpg"
-                                         src="images/products/black-2.jpg" alt="image-product">
-                                </li>
-                            </ul>
-                            <div class="size-list">
-                                <span class="size-item">S</span>
-                                <span class="size-item">M</span>
-                                <span class="size-item">L</span>
-                                <span class="size-item">XL</span>
-                            </div>
-                            <div class="list-product-btn">
-                                <a href="#quick_add" data-bs-toggle="modal" class="box-icon quick-add style-3"><span
-                                        class="icon icon-bag"></span><span class="tooltip">Quick add</span></a>
-                                <a href="#" class="box-icon wishlist style-3"><span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span></a>
-                                <a href="#compare" data-bs-toggle="offcanvas" class="box-icon compare style-3"><span
-                                        class="icon icon-compare"></span> <span class="tooltip">Add to
-                                            Compare</span></a>
-                                <a href="#quick_view" data-bs-toggle="modal" class="box-icon quickview style-3"><span
-                                        class="icon icon-view"></span><span class="tooltip">Quick view</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- card product 5 -->
-                    <div class="card-product list-layout" data-availability="In stock" data-brand="Ecomus">
-                        <div class="card-product-wrapper">
-                            <div class="product-img">
-                                <img class="lazyload img-product" data-src="images/products/brown-2.jpg"
-                                     src="images/products/brown-2.jpg" alt="image-product">
-                                <img class="lazyload img-hover" data-src="images/products/brown-3.jpg"
-                                     src="images/products/brown-3.jpg" alt="image-product">
-                            </div>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="#" class="title link">V-neck linen T-shirt</a>
-                            <span class="price current-price">$114.95</span>
-                            <p class="description">Button-up shirt sleeves and a relaxed silhouette. It’s tailored
-                                with drapey, crinkle-texture fabric that’s made from LENZING™ ECOVERO™ Viscose —
-                                responsibly sourced wood-based fibres produced through a process that reduces...</p>
-                            <ul class="list-color-product">
-                                <li class="list-color-item color-swatch active">
-                                    <span class="tooltip">Brown</span>
-                                    <span class="swatch-value bg_brown"></span>
-                                    <img class="lazyload" data-src="images/products/brown-2.jpg"
-                                         src="images/products/brown-2.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">White</span>
-                                    <span class="swatch-value bg_white"></span>
-                                    <img class="lazyload" data-src="images/products/white-5.jpg"
-                                         src="images/products/white-5.jpg" alt="image-product">
-                                </li>
-                            </ul>
-                            <div class="size-list">
-                                <span class="size-item">S</span>
-                                <span class="size-item">M</span>
-                                <span class="size-item">L</span>
-                                <span class="size-item">XL</span>
-                            </div>
-                            <div class="list-product-btn">
-                                <a href="#quick_add" data-bs-toggle="modal" class="box-icon quick-add style-3"><span
-                                        class="icon icon-bag"></span><span class="tooltip">Quick add</span></a>
-                                <a href="#" class="box-icon wishlist style-3"><span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span></a>
-                                <a href="#compare" data-bs-toggle="offcanvas" class="box-icon compare style-3"><span
-                                        class="icon icon-compare"></span> <span class="tooltip">Add to
-                                            Compare</span></a>
-                                <a href="#quick_view" data-bs-toggle="modal" class="box-icon quickview style-3"><span
-                                        class="icon icon-view"></span><span class="tooltip">Quick view</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- card product 6 -->
-                    <div class="card-product list-layout" data-availability="In stock" data-brand="M&amp;H">
-                        <div class="card-product-wrapper">
-                            <div class="product-img">
-                                <img class="lazyload img-product" data-src="images/products/light-green-1.jpg"
-                                     src="images/products/light-green-1.jpg" alt="image-product">
-                                <img class="lazyload img-hover" data-src="images/products/light-green-2.jpg"
-                                     src="images/products/light-green-2.jpg" alt="image-product">
-                            </div>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="#" class="title link">Loose Fit Sweatshirt</a>
-                            <span class="price current-price">$10.00</span>
-                            <p class="description">Button-up shirt sleeves and a relaxed silhouette. It’s tailored
-                                with drapey, crinkle-texture fabric that’s made from LENZING™ ECOVERO™ Viscose —
-                                responsibly sourced wood-based fibres produced through a process that reduces...</p>
-                            <ul class="list-color-product">
-                                <li class="list-color-item color-swatch active">
-                                    <span class="tooltip">Light Green</span>
-                                    <span class="swatch-value bg_light-green"></span>
-                                    <img class="lazyload" data-src="images/products/light-green-1.jpg"
-                                         src="images/products/light-green-1.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Black</span>
-                                    <span class="swatch-value bg_dark"></span>
-                                    <img class="lazyload" data-src="images/products/black-3.jpg"
-                                         src="images/products/black-3.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Blue</span>
-                                    <span class="swatch-value bg_blue-2"></span>
-                                    <img class="lazyload" data-src="images/products/blue.jpg"
-                                         src="images/products/blue.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Dark Blue</span>
-                                    <span class="swatch-value bg_dark-blue"></span>
-                                    <img class="lazyload" data-src="images/products/dark-blue.jpg"
-                                         src="images/products/dark-blue.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">White</span>
-                                    <span class="swatch-value bg_white"></span>
-                                    <img class="lazyload" data-src="images/products/white-6.jpg"
-                                         src="images/products/white-6.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Light Grey</span>
-                                    <span class="swatch-value bg_light-grey"></span>
-                                    <img class="lazyload" data-src="images/products/light-grey.jpg"
-                                         src="images/products/light-grey.jpg" alt="image-product">
-                                </li>
-                            </ul>
-                            <div class="list-product-btn">
-                                <a href="#quick_add" data-bs-toggle="modal" class="box-icon quick-add style-3"><span
-                                        class="icon icon-bag"></span><span class="tooltip">Quick add</span></a>
-                                <a href="#" class="box-icon wishlist style-3"><span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span></a>
-                                <a href="#compare" data-bs-toggle="offcanvas" class="box-icon compare style-3"><span
-                                        class="icon icon-compare"></span> <span class="tooltip">Add to
-                                            Compare</span></a>
-                                <a href="#quick_view" data-bs-toggle="modal" class="box-icon quickview style-3"><span
-                                        class="icon icon-view"></span><span class="tooltip">Quick view</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- card product 7 -->
-                    <div class="card-product list-layout" data-availability="Out of stock" data-brand="M&amp;H">
-                        <div class="card-product-wrapper">
-                            <div class="product-img">
-                                <img class="lazyload img-product" data-src="images/products/black-4.jpg"
-                                     src="images/products/black-4.jpg" alt="image-product">
-                                <img class="lazyload img-hover" data-src="images/products/black-5.jpg"
-                                     src="images/products/black-5.jpg" alt="image-product">
-                            </div>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="#" class="title link">Regular Fit Oxford Shirt</a>
-                            <span class="price current-price">$10.00</span>
-                            <p class="description">Button-up shirt sleeves and a relaxed silhouette. It’s tailored
-                                with drapey, crinkle-texture fabric that’s made from LENZING™ ECOVERO™ Viscose —
-                                responsibly sourced wood-based fibres produced through a process that reduces...</p>
-                            <ul class="list-color-product">
-                                <li class="list-color-item color-swatch active">
-                                    <span class="tooltip">Black</span>
-                                    <span class="swatch-value bg_dark"></span>
-                                    <img class="lazyload" data-src="images/products/black-4.jpg"
-                                         src="images/products/black-4.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Dark Blue</span>
-                                    <span class="swatch-value bg_dark-blue"></span>
-                                    <img class="lazyload" data-src="images/products/dark-blue-2.jpg"
-                                         src="images/products/dark-blue-2.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Beige</span>
-                                    <span class="swatch-value bg_beige"></span>
-                                    <img class="lazyload" data-src="images/products/beige.jpg"
-                                         src="images/products/beige.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Light Blue</span>
-                                    <span class="swatch-value bg_light-blue"></span>
-                                    <img class="lazyload" data-src="images/products/light-blue.jpg"
-                                         src="images/products/light-blue.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">White</span>
-                                    <span class="swatch-value bg_white"></span>
-                                    <img class="lazyload" data-src="images/products/white-7.jpg"
-                                         src="images/products/white-7.jpg" alt="image-product">
-                                </li>
-                            </ul>
-                            <div class="size-list">
-                                <span class="size-item">S</span>
-                                <span class="size-item">M</span>
-                                <span class="size-item">L</span>
-                            </div>
-                            <div class="list-product-btn">
-                                <a href="#quick_add" data-bs-toggle="modal" class="box-icon quick-add style-3"><span
-                                        class="icon icon-bag"></span><span class="tooltip">Quick add</span></a>
-                                <a href="#" class="box-icon wishlist style-3"><span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span></a>
-                                <a href="#compare" data-bs-toggle="offcanvas" class="box-icon compare style-3"><span
-                                        class="icon icon-compare"></span> <span class="tooltip">Add to
-                                            Compare</span></a>
-                                <a href="#quick_view" data-bs-toggle="modal" class="box-icon quickview style-3"><span
-                                        class="icon icon-view"></span><span class="tooltip">Quick view</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- card product 8 -->
-                    <div class="card-product list-layout" data-availability="Out of stock" data-brand="M&amp;H">
-                        <div class="card-product-wrapper">
-                            <div class="product-img">
-                                <img class="lazyload img-product" data-src="images/products/white-8.jpg"
-                                     src="images/products/white-8.jpg" alt="image-product">
-                                <img class="lazyload img-hover" data-src="images/products/black-6.jpg"
-                                     src="images/products/black-6.jpg" alt="image-product">
-                            </div>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="#" class="title link">Loose Fit Hoodie</a>
-                            <span class="price current-price">$9.95</span>
-                            <p class="description">Button-up shirt sleeves and a relaxed silhouette. It’s tailored
-                                with drapey, crinkle-texture fabric that’s made from LENZING™ ECOVERO™ Viscose —
-                                responsibly sourced wood-based fibres produced through a process that reduces...</p>
-                            <ul class="list-color-product">
-                                <li class="list-color-item color-swatch active">
-                                    <span class="tooltip">White</span>
-                                    <span class="swatch-value bg_white"></span>
-                                    <img class="lazyload" data-src="images/products/white-8.jpg"
-                                         src="images/products/white-8.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Black</span>
-                                    <span class="swatch-value bg_dark"></span>
-                                    <img class="lazyload" data-src="images/products/black-7.jpg"
-                                         src="images/products/black-7.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Blue</span>
-                                    <span class="swatch-value bg_blue-2"></span>
-                                    <img class="lazyload" data-src="images/products/blue-2.jpg"
-                                         src="images/products/blue-2.jpg" alt="image-product">
-                                </li>
-                            </ul>
-                            <div class="size-list">
-                                <span class="size-item">S</span>
-                                <span class="size-item">M</span>
-                                <span class="size-item">L</span>
-                                <span class="size-item">XL</span>
-                            </div>
-                            <div class="list-product-btn">
-                                <a href="#quick_add" data-bs-toggle="modal" class="box-icon quick-add style-3"><span
-                                        class="icon icon-bag"></span><span class="tooltip">Quick add</span></a>
-                                <a href="#" class="box-icon wishlist style-3"><span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span></a>
-                                <a href="#compare" data-bs-toggle="offcanvas" class="box-icon compare style-3"><span
-                                        class="icon icon-compare"></span> <span class="tooltip">Add to
-                                            Compare</span></a>
-                                <a href="#quick_view" data-bs-toggle="modal" class="box-icon quickview style-3"><span
-                                        class="icon icon-view"></span><span class="tooltip">Quick view</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- pagination -->
-                    <ul class="wg-pagination tf-pagination-list justify-content-start">
-                        <li class="active">
-                            <a href="#" class="pagination-link">1</a>
-                        </li>
-                        <li>
-                            <a href="#" class="pagination-link animate-hover-btn">2</a>
-                        </li>
-                        <li>
-                            <a href="#" class="pagination-link animate-hover-btn">3</a>
-                        </li>
-                        <li>
-                            <a href="#" class="pagination-link animate-hover-btn">
-                                <span class="icon icon-arrow-right"></span>
-                            </a>
-                        </li>
-                    </ul>
+                    @endforelse
                 </div>
+
+                <!-- Grid Layout -->
                 <div class="tf-grid-layout wrapper-shop tf-col-4" id="gridLayout">
-                    <!-- card product 1 -->
-                    <div class="card-product grid" data-availability="In stock" data-brand="Ecomus">
-                        <div class="card-product-wrapper">
-                            <a href="product-detail.html" class="product-img">
-                                <img class="img-product ls-is-cached lazyloaded" data-src="images/products/orange-1.jpg"
-                                     src="images/products/orange-1.jpg" alt="image-product">
-                                <img class="img-hover ls-is-cached lazyloaded" data-src="images/products/white-1.jpg"
-                                     src="images/products/white-1.jpg" alt="image-product">
-                            </a>
-                            <div class="list-product-btn absolute-2">
-                                <a href="#quick_add" data-bs-toggle="modal"
-                                   class="box-icon bg_white quick-add tf-btn-loading">
-                                    <span class="icon icon-bag"></span>
-                                    <span class="tooltip">Quick Add</span>
+                    @forelse($products as $product)
+                        <div class="card-product grid"
+                             data-availability="{{ $product->stock_quantity > 0 ? 'In stock' : 'Out of stock' }}"
+                             data-brand="{{ $product->brand ?? 'ShopWithCarl' }}">
+                            <div class="card-product-wrapper">
+                                <a href="{{ route('products.show', $product->slug) }}" class="product-img">
+                                    @if($product->images->count() > 0)
+                                        <img class="img-product lazyload"
+                                             data-src="{{ $product->images->first()->url }}"
+                                             src="{{ $product->images->first()->url }}"
+                                             alt="{{ $product->name }}">
+                                        @if($product->images->count() > 1)
+                                            <img class="img-hover lazyload"
+                                                 data-src="{{ $product->images->skip(1)->first()->url }}"
+                                                 src="{{ $product->images->skip(1)->first()->url }}"
+                                                 alt="{{ $product->name }}">
+                                        @endif
+                                    @else
+                                        <img class="img-product" src="{{ asset('images/placeholder-product.jpg') }}"
+                                             alt="{{ $product->name }}">
+                                    @endif
                                 </a>
-                                <a href="#" class="box-icon bg_white wishlist btn-icon-action">
-                                    <span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span>
-                                    <span class="icon icon-delete"></span>
-                                </a>
-                                <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
-                                   class="box-icon bg_white compare btn-icon-action">
-                                    <span class="icon icon-compare"></span>
-                                    <span class="tooltip">Add to Compare</span>
-                                    <span class="icon icon-check"></span>
-                                </a>
-                                <a href="#quick_view" data-bs-toggle="modal"
-                                   class="box-icon bg_white quickview tf-btn-loading">
-                                    <span class="icon icon-view"></span>
-                                    <span class="tooltip">Quick View</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="product-detail.html" class="title link">Ribbed Tank Top</a>
-                            <span class="price current-price">$16.95</span>
-                            <ul class="list-color-product">
-                                <li class="list-color-item color-swatch active">
-                                    <span class="tooltip">Orange</span>
-                                    <span class="swatch-value bg_orange-3"></span>
-                                    <img class=" ls-is-cached lazyloaded" data-src="images/products/orange-1.jpg"
-                                         src="images/products/orange-1.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Black</span>
-                                    <span class="swatch-value bg_dark"></span>
-                                    <img class=" ls-is-cached lazyloaded" data-src="images/products/black-1.jpg"
-                                         src="images/products/black-1.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">White</span>
-                                    <span class="swatch-value bg_white"></span>
-                                    <img class=" ls-is-cached lazyloaded" data-src="images/products/white-1.jpg"
-                                         src="images/products/white-1.jpg" alt="image-product">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- card product 2 -->
-                    <div class="card-product grid" data-availability="In stock" data-brand="Ecomus">
-                        <div class="card-product-wrapper">
-                            <a href="product-detail.html" class="product-img">
-                                <img class="img-product ls-is-cached lazyloaded" data-src="images/products/brown.jpg"
-                                     src="images/products/brown.jpg" alt="image-product">
-                                <img class="img-hover ls-is-cached lazyloaded" data-src="images/products/purple.jpg"
-                                     src="images/products/purple.jpg" alt="image-product">
-                            </a>
-                            <div class="list-product-btn">
-                                <a href="#quick_add" data-bs-toggle="modal"
-                                   class="box-icon bg_white quick-add tf-btn-loading">
-                                    <span class="icon icon-bag"></span>
-                                    <span class="tooltip">Quick Add</span>
-                                </a>
-                                <a href="#" class="box-icon bg_white wishlist btn-icon-action">
-                                    <span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span>
-                                    <span class="icon icon-delete"></span>
-                                </a>
-                                <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
-                                   class="box-icon bg_white compare btn-icon-action">
-                                    <span class="icon icon-compare"></span>
-                                    <span class="tooltip">Add to Compare</span>
-                                    <span class="icon icon-check"></span>
-                                </a>
-                                <a href="#quick_view" data-bs-toggle="modal"
-                                   class="box-icon bg_white quickview tf-btn-loading">
-                                    <span class="icon icon-view"></span>
-                                    <span class="tooltip">Quick View</span>
-                                </a>
-                            </div>
-                            <div class="size-list">
-                                <span class="size-item">M</span>
-                                <span class="size-item">L</span>
-                                <span class="size-item">XL</span>
-                            </div>
-                            <div class="countdown-box">
-                                <div class="js-countdown" data-timer="1007500" data-labels="d :,h :,m :,s">
-                                    <div aria-hidden="true" class="countdown__timer"><span class="countdown__item"><span
-                                                class="countdown__value countdown__value--0 js-countdown__value--0">11</span><span
-                                                class="countdown__label">d :</span></span><span class="countdown__item"><span
-                                                class="countdown__value countdown__value--1 js-countdown__value--1">15</span><span
-                                                class="countdown__label">h :</span></span><span class="countdown__item"><span
-                                                class="countdown__value countdown__value--2 js-countdown__value--2">49</span><span
-                                                class="countdown__label">m :</span></span><span class="countdown__item"><span
-                                                class="countdown__value countdown__value--3 js-countdown__value--3">07</span><span
-                                                class="countdown__label">s</span></span></div>
+                                <div
+                                    class="list-product-btn {{ $product->variants->where('type', 'size')->count() > 0 ? '' : 'absolute-2' }}">
+                                    <a href="#quick_add" data-bs-toggle="modal"
+                                       class="box-icon bg_white quick-add tf-btn-loading"
+                                       data-product-id="{{ $product->id }}">
+                                        <span class="icon icon-bag"></span>
+                                        <span class="tooltip">Quick Add</span>
+                                    </a>
+                                    <a href="javascript:void(0)"
+                                       class="box-icon bg_white wishlist btn-icon-action"
+                                       wire:click="toggleWishlist({{ $product->id }})">
+                                        <span class="icon icon-heart"></span>
+                                        <span class="tooltip">Add to Wishlist</span>
+                                        <span class="icon icon-delete"></span>
+                                    </a>
+                                    <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                                       class="box-icon bg_white compare btn-icon-action"
+                                       wire:click="toggleCompare({{ $product->id }})">
+                                        <span class="icon icon-compare"></span>
+                                        <span class="tooltip">Add to Compare</span>
+                                        <span class="icon icon-check"></span>
+                                    </a>
+                                    <a href="#quick_view" data-bs-toggle="modal"
+                                       class="box-icon bg_white quickview tf-btn-loading"
+                                       data-product-id="{{ $product->id }}">
+                                        <span class="icon icon-view"></span>
+                                        <span class="tooltip">Quick View</span>
+                                    </a>
                                 </div>
-                            </div>
-                            <div class="on-sale-wrap text-end">
-                                <div class="on-sale-item">-33%</div>
-                            </div>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="product-detail.html" class="title link">Ribbed modal T-shirt</a>
-                            <span class="price current-price">$18.95</span>
-                            <ul class="list-color-product">
-                                <li class="list-color-item color-swatch active">
-                                    <span class="tooltip">Brown</span>
-                                    <span class="swatch-value bg_brown"></span>
-                                    <img class=" ls-is-cached lazyloaded" data-src="images/products/brown.jpg"
-                                         src="images/products/brown.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Light Purple</span>
-                                    <span class="swatch-value bg_purple"></span>
-                                    <img class=" ls-is-cached lazyloaded" data-src="images/products/purple.jpg"
-                                         src="images/products/purple.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Light Green</span>
-                                    <span class="swatch-value bg_light-green"></span>
-                                    <img class=" ls-is-cached lazyloaded" data-src="images/products/green.jpg"
-                                         src="images/products/green.jpg" alt="image-product">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- card product 3 -->
-                    <div class="card-product grid" data-availability="In stock" data-brand="Ecomus">
-                        <div class="card-product-wrapper">
-                            <a href="product-detail.html" class="product-img">
-                                <img class="img-product ls-is-cached lazyloaded" data-src="images/products/white-3.jpg"
-                                     src="images/products/white-3.jpg" alt="image-product">
-                                <img class="img-hover ls-is-cached lazyloaded" data-src="images/products/white-4.jpg"
-                                     src="images/products/white-4.jpg" alt="image-product">
-                            </a>
-                            <div class="list-product-btn absolute-2">
-                                <a href="#shoppingCart" data-bs-toggle="modal"
-                                   class="box-icon bg_white quick-add tf-btn-loading">
-                                    <span class="icon icon-bag"></span>
-                                    <span class="tooltip">Add to cart</span>
-                                </a>
-                                <a href="#" class="box-icon bg_white wishlist btn-icon-action">
-                                    <span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span>
-                                    <span class="icon icon-delete"></span>
-                                </a>
-                                <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
-                                   class="box-icon bg_white compare btn-icon-action">
-                                    <span class="icon icon-compare"></span>
-                                    <span class="tooltip">Add to Compare</span>
-                                    <span class="icon icon-check"></span>
-                                </a>
-                                <a href="#quick_view" data-bs-toggle="modal"
-                                   class="box-icon bg_white quickview tf-btn-loading">
-                                    <span class="icon icon-view"></span>
-                                    <span class="tooltip">Quick View</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="product-detail.html" class="title link">Oversized Printed T-shirt</a>
-                            <span class="price current-price">$10.00</span>
-                        </div>
-                    </div>
-                    <!-- card product 4 -->
-                    <div class="card-product grid" data-availability="In stock" data-brand="Ecomus">
-                        <div class="card-product-wrapper">
-                            <a href="product-detail.html" class="product-img">
-                                <img class="img-product ls-is-cached lazyloaded" data-src="images/products/white-2.jpg"
-                                     src="images/products/white-2.jpg" alt="image-product">
-                                <img class="img-hover ls-is-cached lazyloaded" data-src="images/products/pink-1.jpg"
-                                     src="images/products/pink-1.jpg" alt="image-product">
-                            </a>
-                            <div class="list-product-btn">
-                                <a href="#quick_add" data-bs-toggle="modal"
-                                   class="box-icon bg_white quick-add tf-btn-loading">
-                                    <span class="icon icon-bag"></span>
-                                    <span class="tooltip">Quick Add</span>
-                                </a>
-                                <a href="#" class="box-icon bg_white wishlist btn-icon-action">
-                                    <span class="icon icon-heart"></span>
-                                    <span class="tooltip">Add to Wishlist</span>
-                                    <span class="icon icon-delete"></span>
-                                </a>
-                                <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
-                                   class="box-icon bg_white compare btn-icon-action">
-                                    <span class="icon icon-compare"></span>
-                                    <span class="tooltip">Add to Compare</span>
-                                    <span class="icon icon-check"></span>
-                                </a>
-                                <a href="#quick_view" data-bs-toggle="modal"
-                                   class="box-icon bg_white quickview tf-btn-loading">
-                                    <span class="icon icon-view"></span>
-                                    <span class="tooltip">Quick View</span>
-                                </a>
-                            </div>
-                            <div class="size-list">
-                                <span class="size-item">S</span>
-                                <span class="size-item">M</span>
-                                <span class="size-item">L</span>
-                                <span class="size-item">XL</span>
-                            </div>
-                        </div>
-                        <div class="card-product-info">
-                            <a href="product-detail.html" class="title">Oversized Printed T-shirt</a>
-                            <span class="price current-price">$16.95</span>
-                            <ul class="list-color-product">
-                                <li class="list-color-item color-swatch active">
-                                    <span class="tooltip">White</span>
-                                    <span class="swatch-value bg_white"></span>
-                                    <img class=" ls-is-cached lazyloaded" data-src="images/products/white-2.jpg"
-                                         src="images/products/white-2.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Pink</span>
-                                    <span class="swatch-value bg_purple"></span>
-                                    <img class=" ls-is-cached lazyloaded" data-src="images/products/pink-1.jpg"
-                                         src="images/products/pink-1.jpg" alt="image-product">
-                                </li>
-                                <li class="list-color-item color-swatch">
-                                    <span class="tooltip">Black</span>
-                                    <span class="swatch-value bg_dark"></span>
-                                    <img class=" ls-is-cached lazyloaded" data-src="images/products/black-2.jpg"
-                                         src="images/products/black-2.jpg" alt="image-product">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <!-- pagination -->
-                    <ul class="wg-pagination tf-pagination-list">
-                        <li class="active">
-                            <a href="#" class="pagination-link">1</a>
-                        </li>
-                        <li>
-                            <a href="#" class="pagination-link animate-hover-btn">2</a>
-                        </li>
-                        <li>
-                            <a href="#" class="pagination-link animate-hover-btn">3</a>
-                        </li>
-                        <li>
-                            <a href="#" class="pagination-link animate-hover-btn">4</a>
-                        </li>
-                        <li>
-                            <a href="#" class="pagination-link animate-hover-btn">
-                                <span class="icon icon-arrow-right"></span>
-                            </a>
-                        </li>
-                    </ul>
+                                @if($product->variants->where('type', 'size')->count() > 0)
+                                    <div class="size-list">
+                                        @foreach($product->variants->where('type', 'size')->take(4) as $sizeVariant)
+                                            <span class="size-item">{{ $sizeVariant->value }}</span>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                @if($product->sale_price && $product->sale_price < $product->price)
+                                    <div class="countdown-box">
+                                        <!-- Add countdown if needed -->
+                                    </div>
+                                    <div class="on-sale-wrap text-end">
+                                        <div class="on-sale-item">
+                                            -{{ round((($product->price - $product->sale_price) / $product->price) * 100) }}
+                                            %
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="card-product-info">
+                                <a href="{{ route('products.show', $product->slug) }}"
+                                   class="title link">{{ $product->name }}</a>
+                                <div class="price-wrapper">
+                                    @if($product->sale_price && $product->sale_price < $product->price)
+                                        <span
+                                            class="price current-price">${{ number_format($product->sale_price, 2) }}</span>
+                                        <span
+                                            class="price compare-at-price">${{ number_format($product->price, 2) }}</span>
+                                    @else
+                                        <span
+                                            class="price current-price">${{ number_format($product->price, 2) }}</span>
+                                    @endif
+                                </div>
+
+                                @if($product->variants->where('type', 'color')->count() > 0)
+                                    <ul class="list-color-product">
+                                        @foreach($product->variants->where('type', 'color')->take(3) as $colorVariant)
+                                            <li class="list-color-item color-swatch {{ $loop->first ? 'active' : '' }}">
+                                                <span class="tooltip">{{ $colorVariant->value }}</span>
+                                                <span class="swatch-value"
+                                                      style="background-color: {{ $this->getColorCode($colorVariant->value) }}"></span>
+                                                @if($colorVariant->image)
+                                                    <img class="lazyload" data-src="{{ $colorVariant->image }}"
+                                                         src="{{ $colorVariant->image }}" alt="{{ $product->name }}">
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </div>
+                        </div>
+                    @empty
+                        <div class="no-products text-center py-5 col-12">
+                            <h3>No products found</h3>
+                            <p>Try adjusting your filters or search criteria.</p>
+                        </div>
+                    @endforelse
+
+                    <!-- Pagination -->
+                    @if($products->hasPages())
+                        <div class="col-12">
+                            {{ $products->links('pagination::bootstrap-4', ['paginator' => $products]) }}
+                        </div>
+                    @endif
                 </div>
-
             </div>
         </div>
     </section>
 
+    <!-- Filter Offcanvas from template, wired to Livewire -->
+    <div class="offcanvas offcanvas-start canvas-filter" id="filterShop">
+        <div class="canvas-wrapper">
+            <header class="canvas-header">
+                <div class="filter-icon">
+                    <span class="icon icon-filter"></span>
+                    <span>Filter</span>
+                </div>
+                <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
+            </header>
+            <div class="canvas-body">
+                <!-- Categories -->
+                <div class="widget-facet wd-categories">
+                    <div class="facet-title" data-bs-target="#categories" data-bs-toggle="collapse" aria-expanded="true"
+                         aria-controls="categories">
+                        <span>Product categories</span>
+                        <span class="icon icon-arrow-up"></span>
+                    </div>
+                    <div id="categories" class="collapse show">
+                        <ul class="list-categoris current-scrollbar mb_36">
+                            <li class="cate-item {{ empty($selectedCategory) ? 'current' : '' }}">
+                                <a href="javascript:void(0)"
+                                   wire:click="$set('selectedCategory','')"><span>All</span></a>
+                            </li>
+                            @foreach($categories as $category)
+                                <li class="cate-item {{ (string)$selectedCategory === (string)$category->id ? 'current' : '' }}">
+                                    <a href="javascript:void(0)"
+                                       wire:click="$set('selectedCategory','{{ $category->id }}')">
+                                        <span>{{ $category->name }}</span>&nbsp;<span>({{ $category->products_count ?? $category->products_count }})</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Availability & Flags -->
+                <div class="widget-facet">
+                    <div class="facet-title" data-bs-target="#availability" data-bs-toggle="collapse"
+                         aria-expanded="true" aria-controls="availability">
+                        <span>Options</span>
+                        <span class="icon icon-arrow-up"></span>
+                    </div>
+                    <div id="availability" class="collapse show">
+                        <ul class="tf-filter-group current-scrollbar mb_36">
+                            <li class="list-item d-flex gap-12 align-items-center">
+                                <input type="checkbox" class="tf-check" id="inStockOnly" wire:model.live="inStockOnly">
+                                <label for="inStockOnly" class="label"><span>In stock only</span></label>
+                            </li>
+                            <li class="list-item d-flex gap-12 align-items-center">
+                                <input type="checkbox" class="tf-check" id="onSaleOnly" wire:model.live="onSaleOnly">
+                                <label for="onSaleOnly" class="label"><span>On sale</span></label>
+                            </li>
+                            <li class="list-item d-flex gap-12 align-items-center">
+                                <input type="checkbox" class="tf-check" id="featuredOnly"
+                                       wire:model.live="featuredOnly">
+                                <label for="featuredOnly" class="label"><span>Featured</span></label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="widget-facet">
+                    <div class="facet-title" data-bs-target="#price" data-bs-toggle="collapse" aria-expanded="true"
+                         aria-controls="price">
+                        <span>Price</span>
+                        <span class="icon icon-arrow-up"></span>
+                    </div>
+                    <div id="price" class="collapse show">
+                        <div class="widget-price filter-price">
+                            <div class="box-title-price">
+                                <span class="title-price">Price :</span>
+                                <div class="caption-price d-flex align-items-center gap-2">
+                                    <input type="number" class="form-control" placeholder="Min"
+                                           wire:model.live="minPrice" style="max-width: 120px;"/>
+                                    <span>-</span>
+                                    <input type="number" class="form-control" placeholder="Max"
+                                           wire:model.live="maxPrice" style="max-width: 120px;"/>
+                                </div>
+                                <div class="mt-2">
+                                    <button class="btn btn-sm btn-outline-secondary" wire:click="clearPriceFilter">Clear
+                                        price
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex gap-10">
+                    <button class="tf-btn btn-fill" wire:click="clearFilters">Remove All</button>
+                    <button class="tf-btn" data-bs-dismiss="offcanvas">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /Section Product -->
+    <style>
+        .filter-item {
+            display: inline-block;
+            background: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin-right: 10px;
+            font-size: 12px;
+        }
+
+        .filter-item .icon-close {
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        .price-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .compare-at-price {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+    </style>
 </div>

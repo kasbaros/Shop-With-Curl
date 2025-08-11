@@ -190,6 +190,22 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        // Structured daily logs with JSON formatting
+        'structured_daily' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/structured.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAYS', 14),
+            'tap' => [\App\Logging\StructuredLogFormatter::class],
+        ],
+
+        // Structured stack for combining multiple structured log channels
+        'structured_stack' => [
+            'driver' => 'stack',
+            'channels' => ['structured_daily'],
+            'ignore_exceptions' => false,
+        ],
     ],
 
 ];

@@ -8,6 +8,9 @@
 /* Flux styles */
 @import '../../vendor/livewire/flux/dist/flux.css';
 
+/* Project icon font (Icomoon) */
+@import '../fonts/font-icons.css';
+
 /* Custom styles (template-specific) */
 @import './styles.css';
 

@@ -1,27 +1,4 @@
 <?php
-//
-//use App\Traits\SharedLayoutData;
-//use Livewire\Volt\Component;
-//
-//new class extends Component {
-//    use SharedLayoutData;
-//
-//    public function mount(): void
-//    {
-//        // Remove the language and currency logic since we're not using them
-//    }
-//
-//    public function getCartCountProperty(): int
-//    {
-//        return $this->getLayoutData()['cartCount'];
-//    }
-//
-//    public function getWishlistCountProperty(): int
-//    {
-//        return $this->getLayoutData()['wishlistCount'];
-//    }
-//};
-//
 
 namespace App\Livewire\Shared;
 
@@ -42,14 +19,6 @@ class Header extends Component
         $this->refreshCart();
     }
 
-//    public function refreshCart(): void
-//    {
-//        $cart = session()->get('cart', []);
-//        $this->itemCount = collect($cart)->sum('quantity');
-//        $this->total = collect($cart)->sum(function ($item) {
-//            return $item['price'] * $item['quantity'];
-//        });
-//    }
 
     public $cartCount = 0;
 

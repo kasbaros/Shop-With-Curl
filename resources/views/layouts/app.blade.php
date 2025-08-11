@@ -199,24 +199,24 @@
                     <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
                         <li class="nav-search">
                             <a href="#searchModal" data-bs-toggle="modal" class="nav-icon-item">
-                                <flux:icon.magnifying-glass class="w-6 h-6"/>
+                                <span class="icon icon-search"></span>
                             </a>
                         </li>
                         <li class="nav-account">
                             @auth
                                 <a href="{{ route('account.dashboard') }}" class="nav-icon-item" wire:navigate>
-                                    <flux:icon.user class="w-6 h-6"/>
+                                    <span class="icon icon-user"></span>
                                 </a>
                             @else
                                 <a href="{{ route('login') }}" class="nav-icon-item" wire:navigate>
-                                    <flux:icon.user class="w-6 h-6"/>
+                                    <span class="icon icon-user"></span>
                                 </a>
                             @endauth
                         </li>
                         @auth
                             <li class="nav-wishlist">
                                 <a href="{{ route('wishlist.index') }}" class="nav-icon-item" wire:navigate>
-                                    <flux:icon.heart class="w-6 h-6"/>
+                                    <span class="icon icon-heart"></span>
                                     <span class="count-box">{{ auth()->user()->wishlist()->count() }}</span>
                                 </a>
                             </li>

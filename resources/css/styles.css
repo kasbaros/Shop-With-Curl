@@ -40,7 +40,9 @@
 :root {
   --main: #000000;
   --white: #ffffff;
-  --primary: #db1215;
+  /* Brand colors updated to match logo */
+  --primary: #5b3a79; /* Dark purple */
+  --secondary: #d9a6cc; /* Light lavender */
   --red_1: #db1215;
   --backdrop: rgba(0, 0, 0, 0.5);
   --yellow: #ffb321;

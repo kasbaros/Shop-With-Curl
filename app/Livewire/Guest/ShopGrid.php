@@ -91,8 +91,13 @@
                         ->orWhere('short_description', 'like', '%' . $this->search . '%');
                 })
                 ->when($this->selectedCategory, function ($query) {
-                    $query->whereHas('categories', function ($q) {
-                        $q->where('categories.id', $this->selectedCategory);
+                    $selected = $this->selectedCategory;
+                    $query->whereHas('categories', function ($q) use ($selected) {
+                        if (is_numeric($selected)) {
+                            $q->where('categories.id', (int) $selected);
+                        } else {
+                            $q->where('categories.slug', $selected);
+                        }
                     });
                 })
                 ->when($this->minPrice, function ($query) {

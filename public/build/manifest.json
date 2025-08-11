@@ -16,9 +16,25 @@
     "src": "public/images/slider/image_bg_testimonials.jpg"
   },
   "resources/css/app.css": {
-    "file": "assets/app-EZo2RXSA.css",
+    "file": "assets/app-Bt3TnrfU.css",
     "src": "resources/css/app.css",
     "isEntry": true
+  },
+  "resources/fonts/icomoon.eot": {
+    "file": "assets/icomoon-CEwkQGgf.eot",
+    "src": "resources/fonts/icomoon.eot"
+  },
+  "resources/fonts/icomoon.svg": {
+    "file": "assets/icomoon-B_PpoHwZ.svg",
+    "src": "resources/fonts/icomoon.svg"
+  },
+  "resources/fonts/icomoon.ttf": {
+    "file": "assets/icomoon-CIv7jP8I.ttf",
+    "src": "resources/fonts/icomoon.ttf"
+  },
+  "resources/fonts/icomoon.woff": {
+    "file": "assets/icomoon-BTIk2HWW.woff",
+    "src": "resources/fonts/icomoon.woff"
   },
   "resources/js/app.js": {
     "file": "assets/app--kMY2K3-.js",

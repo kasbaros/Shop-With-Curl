@@ -131,4 +131,41 @@
         {
             return $this->products()->count();
         }
+
+
+        /**
+         * Get all brands that have products in this category.
+         */
+        public function getBrandsAttribute()
+        {
+            return Brand::whereHas('products', function ($query) {
+                $query->whereHas('categories', function ($subQuery) {
+                    $subQuery->where('categories.id', $this->id);
+                });
+            })->get();
+        }
+
+        /**
+         * Get all colors available in products of this category.
+         */
+        public function getColorsAttribute()
+        {
+            return Color::whereHas('products', function ($query) {
+                $query->whereHas('categories', function ($subQuery) {
+                    $subQuery->where('categories.id', $this->id);
+                });
+            })->get();
+        }
+
+        /**
+         * Get all sizes available in products of this category.
+         */
+        public function getSizesAttribute()
+        {
+            return Size::whereHas('products', function ($query) {
+                $query->whereHas('categories', function ($subQuery) {
+                    $subQuery->where('categories.id', $this->id);
+                });
+            })->get();
+        }
     }

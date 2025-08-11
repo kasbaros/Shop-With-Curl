@@ -131,7 +131,7 @@
                 'approved_reviews' => $user->reviews()->where('is_approved', true)->count(),
             ];
 
-            return view('admin.users.show', array_merge(
+            return view('admin.user.show', array_merge(
                 $this->getAdminViewData(),
                 compact('user', 'userStats')
             ));
@@ -139,7 +139,7 @@
 
         public function edit(User $user)
         {
-            return view('admin.users.edit', array_merge(
+            return view('admin.user.edit', array_merge(
                 $this->getAdminViewData(),
                 compact('user')
             ));
@@ -180,21 +180,21 @@
             // Prevent deletion of users with orders
             if ($user->orders()->count() > 0) {
                 return redirect()
-                    ->route('admin.users.index')
+                    ->route('admin.user.index')
                     ->with('error', 'Cannot delete user with existing orders.');
             }
 
             // Prevent deletion of admin users (safety check)
             if ($user->isAdmin() && User::where('role', '!=', 'customer')->count() <= 1) {
                 return redirect()
-                    ->route('admin.users.index')
+                    ->route('admin.user.index')
                     ->with('error', 'Cannot delete the last admin user.');
             }
 
             $user->delete();
 
             return redirect()
-                ->route('admin.users.index')
+                ->route('admin.user.index')
                 ->with('success', 'User deleted successfully!');
         }
 

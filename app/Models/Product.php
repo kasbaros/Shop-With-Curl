@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
@@ -62,6 +63,34 @@ class Product extends Model implements HasMedia
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Get the brand that the product belongs to.
+     */
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    /**
+     * Get the colors available for this product.
+     */
+    public function colors(): BelongsToMany
+    {
+        return $this->belongsToMany(Color::class, 'product_colors')
+                    ->withPivot(['stock_quantity', 'additional_price', 'sku_suffix'])
+                    ->withTimestamps();
+    }
+
+    /**
+     * Get the sizes available for this product.
+     */
+    public function sizes(): BelongsToMany
+    {
+        return $this->belongsToMany(Size::class, 'product_sizes')
+                    ->withPivot(['stock_quantity', 'additional_price', 'sku_suffix'])
+                    ->withTimestamps();
     }
 
     public function registerMediaCollections(): void

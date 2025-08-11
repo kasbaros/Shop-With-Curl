@@ -11,6 +11,25 @@
             <i class="bi bi-speedometer2"></i> Dashboard
         </a>
 
+        <!-- Banners -->
+        <a class="nav-link {{ request()->routeIs('admin.banners.*') ? 'active' : '' }}" href="{{ route('admin.banners.index') }}">
+            <i class="bi bi-images"></i> Banners
+        </a>
+
+        <!-- Promo Banners -->
+        <a class="nav-link {{ request()->routeIs('admin.promo-banners.*') ? 'active' : '' }}" href="{{ route('admin.promo-banners.index') }}">
+            <i class="bi bi-megaphone"></i> Promo Banners
+        </a>
+
+        <!-- Lookbooks -->
+        <a class="nav-link {{ request()->routeIs('admin.lookbooks.*') ? 'active' : '' }}" href="{{ route('admin.lookbooks.index') }}">
+            <i class="bi bi-collection"></i> Lookbooks
+        </a>
+
+        <a class="nav-link {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}" href="{{ route('admin.gallery.index') }}">
+            <i class="bi bi-camera"></i> Gallery
+        </a>
+
         <a class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
             <i class="bi bi-box-seam"></i> Products
             @if(isset($pendingProducts) && $pendingProducts > 0)
@@ -56,6 +75,15 @@
                 <i class="bi bi-lightning"></i> Quick Actions
             </a>
             <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="{{ route('admin.banners.create') }}">
+                        <i class="bi bi-plus-circle me-2"></i> Add Banner
+                    </a></li>
+                <li><a class="dropdown-item" href="{{ route('admin.promo-banners.create') }}">
+                        <i class="bi bi-plus-circle me-2"></i> Add Promo Banner
+                    </a></li>
+                <li><a class="dropdown-item" href="{{ route('admin.lookbooks.create') }}">
+                        <i class="bi bi-plus-circle me-2"></i> Add Lookbook
+                    </a></li>
                 <li><a class="dropdown-item" href="{{ route('admin.products.create') }}">
                         <i class="bi bi-plus-circle me-2"></i> Add Product
                     </a></li>

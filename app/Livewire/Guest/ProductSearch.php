@@ -71,6 +71,7 @@
 
         public function render()
         {
-            return view('livewire.products.product-search');
+            // Point to the correct Blade view location under resources/views/livewire/guest/products/
+            return view('livewire.guest.products.product-search');
         }
     }
