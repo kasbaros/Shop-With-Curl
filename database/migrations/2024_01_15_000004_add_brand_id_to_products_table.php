@@ -11,11 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->foreignId('brand_id')->nullable()->after('category_id')->constrained()->nullOnDelete();
+        // Ensure the table exists and the column doesn't already exist
+        if (!Schema::hasTable('products')) {
+            return; // products will be created later with the correct schema
+        }
 
-            $table->index('brand_id');
-        });
+        if (!Schema::hasColumn('products', 'brand_id')) {
+            Schema::table('products', function (Blueprint $table) {
+                // Add brand_id without relying on a non-existent column order reference
+                $table->foreignId('brand_id')->nullable()->constrained()->nullOnDelete();
+                $table->index('brand_id');
+            });
+        }
     }
 
     /**
@@ -23,9 +30,16 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropForeign(['brand_id']);
-            $table->dropColumn('brand_id');
-        });
+        if (Schema::hasTable('products') && Schema::hasColumn('products', 'brand_id')) {
+            Schema::table('products', function (Blueprint $table) {
+                // Drop FK safely if exists, then the column
+                try {
+                    $table->dropForeign(['brand_id']);
+                } catch (\Throwable $e) {
+                    // ignore if FK name differs or doesn't exist
+                }
+                $table->dropColumn('brand_id');
+            });
+        }
     }
 };
