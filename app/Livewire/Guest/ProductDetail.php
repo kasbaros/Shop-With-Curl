@@ -69,6 +69,6 @@
 
         public function render()
         {
-            return view('livewire.products.product-detail');
+            return view('livewire.guest.products.product-detail');
         }
     }

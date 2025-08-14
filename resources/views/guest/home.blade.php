@@ -186,51 +186,54 @@
         <!-- /Iconbox -->
 
         <!-- Collection -->
-        <section class="flat-spacing-25 pb_0">
-            <div class="container-full">
-                <div class="masonry-layout-v4 style-2 wow fadeInUp" data-wow-delay="0s">
-                    <div class="item-1 collection-item style-2 hover-img">
-                        <div class="collection-inner">
-                            <a href="shop-collection-sub.html" class="collection-image img-style">
-                                <img class="lazyload" data-src="images/collections/shape-wear.webp"
-                                     src="images/collections/shape-wear.webp" alt="collection-img">
-                            </a>
-                            <div class="collection-content">
-                                <a href="shop-collection-sub.html"
-                                   class="tf-btn collection-title hover-icon font-young-serif text-22 rounded-full"><span>Shape Wear</span><i
-                                        class="icon icon-arrow1-top-left"></i></a>
-                            </div>
+
+        <section class="flat-spacing-12 bg_grey-3">
+            <div class="container">
+                <div class="flat-title flex-row justify-content-between align-items-center px-0 wow fadeInUp"
+                    data-wow-delay="0s">
+                    <h3 class="title">Season Collection</h3>
+                    <a href="{{ route('categories.index') }}" class="btn btn-line">View all categories<i
+                            class="icon icon-arrow1-top-left"></i></a>
+                </div>
+                <div class="hover-sw-nav hover-sw-2">
+                    <div dir="ltr" class="swiper tf-sw-collection" data-preview="6" data-tablet="3" data-mobile="2"
+                        data-space-lg="50" data-space-md="30" data-space="15" data-loop="false" data-auto-play="false">
+                        <div class="swiper-wrapper">
+                            @forelse($categories as $category)
+                                @php
+                                    $imageUrl = $category->image_url ?: 'https://source.unsplash.com/featured/300x300/?' . urlencode($category->name);
+                                @endphp
+                                <div class="swiper-slide" lazy="true">
+                                    <div class="collection-item-circle hover-img">
+                                        <a href="{{ route('categories.show', $category) }}" class="collection-image img-style">
+                                            <img class="lazyload" data-src="{{ $imageUrl }}" src="{{ $imageUrl }}" alt="{{ $category->name }}">
+                                        </a>
+                                        <div class="collection-content text-center">
+                                            <a href="{{ route('categories.show', $category) }}" class="link title fw-5">{{ $category->name }}</a>
+                                            <div class="count">{{ $category->products_count ?? 0 }} items</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="swiper-slide">
+                                    <div class="collection-item-circle hover-img">
+                                        <div class="collection-content text-center">
+                                            <div class="link title fw-5">No categories available</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforelse
                         </div>
                     </div>
-                    <div class="item-2 collection-item style-2 hover-img">
-                        <div class="collection-inner">
-                            <a href="shop-collection-sub.html" class="collection-image img-style">
-                                <img class="lazyload" data-src="images/collections/leggings.webp"
-                                     src="images/collections/leggings.webp" alt="collection-img">
-                            </a>
-                            <div class="collection-content">
-                                <a href="shop-collection-sub.html"
-                                   class="tf-btn collection-title hover-icon font-young-serif text-22 rounded-full"><span>Leggings</span><i
-                                        class="icon icon-arrow1-top-left"></i></a>
-                            </div>
-                        </div>
+                    <div class="sw-dots style-2 sw-pagination-collection justify-content-center"></div>
+                    <div class="nav-sw nav-next-slider nav-next-collection"><span class="icon icon-arrow-left"></span>
                     </div>
-                    <div class="item-3 collection-item style-2 hover-img">
-                        <div class="collection-inner">
-                            <a href="shop-collection-sub.html" class="collection-image img-style">
-                                <img class="lazyload" data-src="images/collections/sports-bra.webp"
-                                     src="images/collections/sports-bra.webp" alt="collection-img">
-                            </a>
-                            <div class="collection-content">
-                                <a href="shop-collection-sub.html"
-                                   class="tf-btn collection-title hover-icon font-young-serif text-22 rounded-full"><span>Sport
-                                        Bras</span><i class="icon icon-arrow1-top-left"></i></a>
-                            </div>
-                        </div>
+                    <div class="nav-sw nav-prev-slider nav-prev-collection"><span class="icon icon-arrow-right"></span>
                     </div>
                 </div>
             </div>
         </section>
+
         <!-- /Collection -->
         <!-- New releases -->
         <section class="flat-spacing-12">
@@ -254,12 +257,11 @@
                         <div class="swiper-wrapper" aria-live="polite">
                             @forelse($latestProducts as $product)
                                 @php
-                                    $img = data_get($product, 'thumbnail_url')
-                                        ?? data_get($product, 'image_url')
-                                        ?? asset('images/placeholder-product.jpg');
-                                    $hover = $img;
-                                    $price = (float) (data_get($product, 'price') ?? 0);
-                                    $sale = (float) (data_get($product, 'sale_price') ?? 0);
+                                    $primary = $product->getFirstMediaUrl('images', 'large') ?: $product->getFirstMediaUrl('images');
+                                    $hover = $product->getMedia('images')->get(1)?->getUrl('large') ?? $primary;
+                                    $img = $primary ?: asset('images/placeholder-product.jpg');
+                                    $price = (float) ($product->price ?? 0);
+                                    $sale = (float) ($product->sale_price ?? 0);
                                     $isOnSale = $sale > 0 && $sale < $price;
                                 @endphp
                                 <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $latestProducts->count() }}">
@@ -309,145 +311,121 @@
             </div>
         </section>
 
-        {{-- Trending (Featured / On Sale) --}}
-        <section class="flat-spacing-5">
-            <div class="container">
-                <div class="flat-title mb_1 px-0 align-items-md-start">
-                    <span class="title wow fadeInUp font-young-serif" data-wow-delay="0s">Trending Now</span>
-                </div>
+        @livewire('components.product-quick-add')
+        @livewire('components.product-quick-view')
+        @livewire('components.compare-modal')
+        @livewire('components.shopping-cart')
 
-                <div class="flat-animate-tab">
-                    <ul class="widget-tab-3 style-3 d-flex justify-content-center" role="tablist">
-                        <li class="nav-tab-item" role="presentation">
-                            <a href="#featured-tab" class="active" data-bs-toggle="tab" aria-selected="true" role="tab">Featured</a>
-                        </li>
-                        <li class="nav-tab-item" role="presentation">
-                            <a href="#onsale-tab" data-bs-toggle="tab" aria-selected="false" role="tab">On Sale</a>
-                        </li>
-                    </ul>
+        @push('styles')
+            <style>
+                .list-product-btn .wishlist .icon-delete { display: none; }
+                .list-product-btn .wishlist.active .icon-delete { display: inline-block; }
+                .list-product-btn .wishlist.active .icon-heart { display: none; }
+            </style>
+        @endpush
 
-                    <div class="tab-content">
-                        {{-- Featured --}}
-                        <div class="tab-pane hover-sw-nav active show" id="featured-tab" role="tabpanel">
-                            <div class="swiper tf-sw-product-sell wrap-sw-over"
-                                 data-preview="4" data-tablet="3" data-mobile="2" data-space-lg="30" data-space-md="15">
-                                <div class="swiper-wrapper" aria-live="polite">
-                                    @forelse($featuredProducts as $product)
-                                        @php
-                                            $img = data_get($product, 'thumbnail_url')
-                                                ?? data_get($product, 'image_url')
-                                                ?? asset('images/placeholder-product.jpg');
-                                            $hover = $img;
-                                            $price = (float) (data_get($product, 'price') ?? 0);
-                                            $sale = (float) (data_get($product, 'sale_price') ?? 0);
-                                            $isOnSale = $sale > 0 && $sale < $price;
-                                        @endphp
-                                        <div class="swiper-slide">
-                                            <div class="card-product">
-                                                <div class="card-product-wrapper">
-                                                    <a href="{{ route('products.show', $product->slug) }}" class="product-img">
-                                                        <img class="img-product" src="{{ $img }}" alt="{{ $product->name }}">
-                                                        <img class="img-hover" src="{{ $hover }}" alt="{{ $product->name }}">
-                                                    </a>
-                                                    <div class="list-product-btn">
-                                                        <a href="javascript:void(0)" class="box-icon bg_white quick-add" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-bag"></span>
-                                                            <span class="tooltip">Quick Add</span>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="box-icon bg_white wishlist btn-icon-action" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-heart"></span>
-                                                            <span class="tooltip">Add to Wishlist</span>
-                                                            <span class="icon icon-delete"></span>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="box-icon bg_white quickview" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-view"></span>
-                                                            <span class="tooltip">Quick View</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="card-product-info">
-                                                    <a href="{{ route('products.show', $product->slug) }}" class="title link">{{ $product->name }}</a>
-                                                    @if($isOnSale)
-                                                        <span class="price">
-                                                    <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
-                                                    <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
-                                                </span>
-                                                    @else
-                                                        <span class="price">UGX {{ number_format($price, 0) }}</span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @empty
-                                        <div class="swiper-slide w-100">
-                                            <div class="text-center py-4 w-100">No featured products yet.</div>
-                                        </div>
-                                    @endforelse
-                                </div>
-                            </div>
-                        </div>
+        @push('scripts')
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const root = document;
 
-                        {{-- On Sale --}}
-                        <div class="tab-pane hover-sw-nav" id="onsale-tab" role="tabpanel">
-                            <div class="swiper tf-sw-product-sell wrap-sw-over"
-                                 data-preview="4" data-tablet="3" data-mobile="2" data-space-lg="30" data-space-md="15">
-                                <div class="swiper-wrapper" aria-live="polite">
-                                    @forelse($onSaleProducts as $product)
-                                        @php
-                                            $img = data_get($product, 'thumbnail_url')
-                                                ?? data_get($product, 'image_url')
-                                                ?? asset('images/placeholder-product.jpg');
-                                            $hover = $img;
-                                            $price = (float) (data_get($product, 'price') ?? 0);
-                                            $sale = (float) (data_get($product, 'sale_price') ?? 0);
-                                        @endphp
-                                        <div class="swiper-slide">
-                                            <div class="card-product">
-                                                <div class="card-product-wrapper">
-                                                    <a href="{{ route('products.show', $product->slug) }}" class="product-img">
-                                                        <img class="img-product" src="{{ $img }}" alt="{{ $product->name }}">
-                                                        <img class="img-hover" src="{{ $hover }}" alt="{{ $product->name }}">
-                                                    </a>
-                                                    <div class="list-product-btn">
-                                                        <a href="javascript:void(0)" class="box-icon bg_white quick-add" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-bag"></span>
-                                                            <span class="tooltip">Quick Add</span>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="box-icon bg_white wishlist btn-icon-action" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-heart"></span>
-                                                            <span class="tooltip">Add to Wishlist</span>
-                                                            <span class="icon icon-delete"></span>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="box-icon bg_white quickview" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-view"></span>
-                                                            <span class="tooltip">Quick View</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="card-product-info">
-                                                    <a href="{{ route('products.show', $product->slug) }}" class="title link">{{ $product->name }}</a>
-                                                    <span class="price">
-                                                <span class="text-danger fw-6">UGX {{ number_format($sale > 0 ? $sale : $price, 0) }}</span>
-                                                @if($sale > 0 && $sale < $price)
-                                                            <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
-                                                        @endif
-                                            </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @empty
-                                        <div class="swiper-slide w-100">
-                                            <div class="text-center py-4 w-100">No products on sale right now.</div>
-                                        </div>
-                                    @endforelse
-                                </div>
-                            </div>
-                        </div>
+                    function getProductId(el) {
+                        const btn = el.closest('[data-product-id]') || el.closest('a[data-product-id]') || el;
+                        return btn?.dataset?.productId || el.getAttribute('data-product-id');
+                    }
 
-                    </div>
-                </div>
-            </div>
-        </section>
+                    function notify(msg, type = 'info') {
+                        if (window.Livewire?.dispatch) {
+                            window.Livewire.dispatch('notify', {message: msg, type});
+                        } else {
+                            console.log(type.toUpperCase() + ': ' + msg);
+                        }
+                    }
+
+                    // Delegate clicks for New releases actions
+                    root.addEventListener('click', function (e) {
+                        const quickAdd = e.target.closest('.quick-add');
+                        const quickView = e.target.closest('.quickview');
+                        const wishlist = e.target.closest('.wishlist');
+                        const compare = e.target.closest('.compare');
+
+                        if (quickAdd) {
+                            e.preventDefault();
+                            const id = getProductId(quickAdd);
+                            if (window.Livewire?.dispatch) {
+                                window.Livewire.dispatch('product:quickAdd', { productId: id });                            } else {
+                                notify('Livewire not loaded. Cannot quick add right now.', 'error');
+                            }
+                            return;
+                        }
+
+                        if (quickView) {
+                            e.preventDefault();
+                            const id = getProductId(quickView);
+                            if (window.Livewire?.dispatch) {
+                                window.Livewire.dispatch('product:quickView', {productId: Number(id)});
+                            } else {
+                                // Fallback: navigate to product page if Livewire missing
+                                const link = quickView.closest('.card-product')?.querySelector('a.product-img');
+                                if (link) window.location.href = link.getAttribute('href');
+                            }
+                            return;
+                        }
+
+                        if (compare) {
+                            e.preventDefault();
+                            const id = getProductId(compare);
+                            if (window.Livewire?.dispatch) {
+                                window.Livewire.dispatch('compare:toggle', {id: Number(id)});
+                            }
+                            return;
+                        }
+
+                        if (wishlist) {
+                            e.preventDefault();
+                            const id = getProductId(wishlist);
+
+                            // Try Livewire event first if you have per-item listeners, otherwise use fetch to route
+                            if (window.Livewire?.dispatch) {
+                                // If a WishListToggle component exists on the page it will react to this
+                                window.Livewire.dispatch('wishlist:toggle', {id: Number(id)});
+                            }
+
+                            // Also call the wishlist add route to ensure persistence
+                            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                            if (!token) return;
+
+                            fetch("{{ route('wishlist.add') }}", {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': token,
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify({ product_id: Number(id) })
+                            }).then(async (res) => {
+                                if (res.status === 401) {
+                                    // Not logged in -> redirect to login
+                                    window.location.href = "{{ route('login') }}";
+                                    return;
+                                }
+                                const data = await res.json().catch(() => ({}));
+                                // Toggle icon state visually
+                                wishlist.classList.toggle('active');
+                                const tooltip = wishlist.querySelector('.tooltip');
+                                if (tooltip) {
+                                    tooltip.textContent = wishlist.classList.contains('active') ? 'Remove from Wishlist' : 'Add to Wishlist';
+                                }
+                                notify(data?.message || 'Wishlist updated', 'success');
+                            }).catch(() => {
+                                notify('Failed to update wishlist', 'error');
+                            });
+                            return;
+                        }
+                    });
+                });
+            </script>
+        @endpush
 
         {{-- Mobile Menu (categories dynamic) --}}
         <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
@@ -499,55 +477,6 @@
             </div>
         </div>
         <!-- /New releases -->
-        <!-- Banner Countdown  -->
-{{--        <section>--}}
-{{--            <div class="container">--}}
-{{--                <div class="tf-hero-image-liquid radius-10 o-hidden banner-countdown-v2">--}}
-{{--                    <div class="banner-bg"></div>--}}
-
-{{--                    <div class="floating-elements">--}}
-{{--                        <div class="floating-shape"></div>--}}
-{{--                        <div class="floating-shape"></div>--}}
-{{--                        <div class="floating-shape"></div>--}}
-{{--                        <div class="sparkle"></div>--}}
-{{--                        <div class="sparkle"></div>--}}
-{{--                        <div class="sparkle"></div>--}}
-{{--                        <div class="sparkle"></div>--}}
-{{--                    </div>--}}
-
-{{--                    <div class="box-content">--}}
-{{--                        <h2 class="heading font-young-serif">Bra Spotlight</h2>--}}
-{{--                        <p class="subtitle">Discover comfort that embraces your confidence</p>--}}
-
-{{--                        <div class="features-grid">--}}
-{{--                            <div class="feature-item">--}}
-{{--                                <div class="feature-icon">✨</div>--}}
-{{--                                <span class="feature-text">Premium Materials</span>--}}
-{{--                            </div>--}}
-{{--                            <div class="feature-item">--}}
-{{--                                <div class="feature-icon">💎</div>--}}
-{{--                                <span class="feature-text">Perfect Fit</span>--}}
-{{--                            </div>--}}
-{{--                            <div class="feature-item">--}}
-{{--                                <div class="feature-icon">🌸</div>--}}
-{{--                                <span class="feature-text">All-Day Comfort</span>--}}
-{{--                            </div>--}}
-{{--                            <div class="feature-item">--}}
-{{--                                <div class="feature-icon">💫</div>--}}
-{{--                                <span class="feature-text">Elegant Design</span>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-{{--                        <div class="cta-section">--}}
-{{--                            <a href="shop-default.html" class="tf-btn btn-fill btn-md animate-hover-btn radius-60">--}}
-{{--                                Shop Collection--}}
-{{--                            </a>--}}
-{{--                            <div class="tf-btn price-badge">Starting at UGX 35,000</div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </section>--}}
 
         <section>
             <div class="container">
@@ -600,11 +529,19 @@
         </section>
         <!-- /Banner Countdown -->
 
-        <!-- Trending -->
+        <!-- Trending Now -->
         <section class="flat-spacing-5">
             <div class="container">
-                <div class="flat-title mb_1 px-0 align-items-md-start">
+                <div class="flat-title mb_1 flex-row justify-content-between px-0">
                     <span class="title wow fadeInUp font-young-serif" data-wow-delay="0s">Trending Now</span>
+                    <div class="box-sw-navigation">
+                        <div class="nav-sw round nav-next-brand nav-next-slider" tabindex="0" role="button" aria-label="Previous slide">
+                            <span class="icon icon-arrow1-left"></span>
+                        </div>
+                        <div class="nav-sw round nav-prev-brand nav-prev-slider" tabindex="0" role="button" aria-label="Next slide">
+                            <span class="icon icon-arrow1-right"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="flat-animate-tab">
@@ -619,102 +556,114 @@
 
                     <div class="tab-content">
                         <div class="tab-pane hover-sw-nav active show" id="featured-tab" role="tabpanel">
-                            <div class="swiper tf-sw-product-sell wrap-sw-over" data-preview="4" data-tablet="3" data-mobile="2" data-space-lg="30" data-space-md="15">
-                                <div class="swiper-wrapper">
-                                    @foreach($featuredProducts as $product)
-                                        @php
-                                            $primary = $product->getFirstMediaUrl('images', 'large') ?: $product->getFirstMediaUrl('images');
-                                            $hover = $product->getMedia('images')[1]->getUrl('large') ?? $primary;
-                                            $isOnSale = $product->sale_price && $product->sale_price < $product->price;
-                                        @endphp
-                                        <div class="swiper-slide">
-                                            <div class="card-product">
-                                                <div class="card-product-wrapper">
-                                                    <a href="{{ route('products.show', $product->slug) }}" class="product-img">
-                                                        <img class="img-product" src="{{ $primary }}" alt="{{ $product->name }}">
-                                                        <img class="img-hover" src="{{ $hover }}" alt="{{ $product->name }}">
-                                                    </a>
-                                                    <div class="list-product-btn">
-                                                        <a href="javascript:void(0)" class="box-icon bg_white quick-add" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-bag"></span>
-                                                            <span class="tooltip">Quick Add</span>
+                            <div class="hover-sw-nav hover-sw-3">
+                                <div class="swiper tf-sw-brand rounded-0 border-0 wrap-sw-over"
+                                     data-loop="false" data-play="false" data-preview="4" data-tablet="3" data-mobile="2"
+                                     data-space-lg="30" data-space-md="15">
+                                    <div class="swiper-wrapper" aria-live="polite">
+                                        @forelse($featuredProducts as $product)
+                                            @php
+                                                $primary = $product->getFirstMediaUrl('images', 'large') ?: $product->getFirstMediaUrl('images');
+                                                $hover = $product->getMedia('images')->get(1)?->getUrl('large') ?? $primary;
+                                                $isOnSale = $product->sale_price && $product->sale_price < $product->price;
+                                                $img = $primary ?: asset('images/placeholder-product.jpg');
+                                            @endphp
+                                            <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $featuredProducts->count() }}">
+                                                <div class="card-product">
+                                                    <div class="card-product-wrapper">
+                                                        <a href="{{ route('products.show', $product->slug) }}" class="product-img">
+                                                            <img class="img-product" src="{{ $img }}" alt="{{ $product->name }}">
+                                                            <img class="img-hover" src="{{ $hover }}" alt="{{ $product->name }}">
                                                         </a>
-                                                        <a href="javascript:void(0)" class="box-icon bg_white wishlist btn-icon-action" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-heart"></span>
-                                                            <span class="tooltip">Add to Wishlist</span>
-                                                            <span class="icon icon-delete"></span>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="box-icon bg_white quickview" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-view"></span>
-                                                            <span class="tooltip">Quick View</span>
-                                                        </a>
+                                                        <div class="list-product-btn">
+                                                            <a href="javascript:void(0)" class="box-icon bg_white quick-add" data-product-id="{{ $product->id }}">
+                                                                <span class="icon icon-bag"></span>
+                                                                <span class="tooltip">Quick Add</span>
+                                                            </a>
+                                                            <a href="javascript:void(0)" class="box-icon bg_white wishlist btn-icon-action" data-product-id="{{ $product->id }}">
+                                                                <span class="icon icon-heart"></span>
+                                                                <span class="tooltip">Add to Wishlist</span>
+                                                                <span class="icon icon-delete"></span>
+                                                            </a>
+                                                            <a href="javascript:void(0)" class="box-icon bg_white quickview" data-product-id="{{ $product->id }}">
+                                                                <span class="icon icon-view"></span>
+                                                                <span class="tooltip">Quick View</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-product-info">
+                                                        <a href="{{ route('products.show', $product->slug) }}" class="title link">{{ $product->name }}</a>
+                                                        @if($isOnSale)
+                                                            <span class="price">
+                                                                <span class="text-danger fw-6">{{ money_format_ugx($product->sale_price) }}</span>
+                                                                <span class="text-muted text-decoration-line-through ms-1">{{ money_format_ugx($product->price) }}</span>
+                                                            </span>
+                                                        @else
+                                                            <span class="price">{{ money_format_ugx($product->price) }}</span>
+                                                        @endif
                                                     </div>
                                                 </div>
-                                                <div class="card-product-info">
-                                                    <a href="{{ route('products.show', $product->slug) }}" class="title link">{{ $product->name }}</a>
-                                                    @if($isOnSale)
-                                                        <span class="price">
-                                                    <span class="text-danger fw-6">{{ money_format_ugx($product->sale_price) }}</span>
-                                                    <span class="text-muted text-decoration-line-through ms-1">{{ money_format_ugx($product->price) }}</span>
-                                                </span>
-                                                    @else
-                                                        <span class="price">{{ money_format_ugx($product->price) }}</span>
-                                                    @endif
-                                                </div>
                                             </div>
-                                        </div>
-                                    @endforeach
-                                    @if($featuredProducts->isEmpty())
-                                        <div class="text-center py-4 w-100">No featured products yet.</div>
-                                    @endif
+                                        @empty
+                                            <div class="swiper-slide w-100">
+                                                <div class="text-center py-4 w-100">No featured products yet.</div>
+                                            </div>
+                                        @endforelse
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="tab-pane hover-sw-nav" id="onsale-tab" role="tabpanel">
-                            <div class="swiper tf-sw-product-sell wrap-sw-over" data-preview="4" data-tablet="3" data-mobile="2" data-space-lg="30" data-space-md="15">
-                                <div class="swiper-wrapper">
-                                    @foreach($onSaleProducts as $product)
-                                        @php
-                                            $primary = $product->getFirstMediaUrl('images', 'large') ?: $product->getFirstMediaUrl('images');
-                                            $hover = $product->getMedia('images')[1]->getUrl('large') ?? $primary;
-                                        @endphp
-                                        <div class="swiper-slide">
-                                            <div class="card-product">
-                                                <div class="card-product-wrapper">
-                                                    <a href="{{ route('products.show', $product->slug) }}" class="product-img">
-                                                        <img class="img-product" src="{{ $primary }}" alt="{{ $product->name }}">
-                                                        <img class="img-hover" src="{{ $hover }}" alt="{{ $product->name }}">
-                                                    </a>
-                                                    <div class="list-product-btn">
-                                                        <a href="javascript:void(0)" class="box-icon bg_white quick-add" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-bag"></span>
-                                                            <span class="tooltip">Quick Add</span>
+                            <div class="hover-sw-nav hover-sw-3">
+                                <div class="swiper tf-sw-brand rounded-0 border-0 wrap-sw-over"
+                                     data-loop="false" data-play="false" data-preview="4" data-tablet="3" data-mobile="2"
+                                     data-space-lg="30" data-space-md="15">
+                                    <div class="swiper-wrapper" aria-live="polite">
+                                        @forelse($onSaleProducts as $product)
+                                            @php
+                                                $primary = $product->getFirstMediaUrl('images', 'large') ?: $product->getFirstMediaUrl('images');
+                                                $hover = $product->getMedia('images')->get(1)?->getUrl('large') ?? $primary;
+                                                $img = $primary ?: asset('images/placeholder-product.jpg');
+                                            @endphp
+                                            <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $onSaleProducts->count() }}">
+                                                <div class="card-product">
+                                                    <div class="card-product-wrapper">
+                                                        <a href="{{ route('products.show', $product->slug) }}" class="product-img">
+                                                            <img class="img-product" src="{{ $img }}" alt="{{ $product->name }}">
+                                                            <img class="img-hover" src="{{ $hover }}" alt="{{ $product->name }}">
                                                         </a>
-                                                        <a href="javascript:void(0)" class="box-icon bg_white wishlist btn-icon-action" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-heart"></span>
-                                                            <span class="tooltip">Add to Wishlist</span>
-                                                            <span class="icon icon-delete"></span>
-                                                        </a>
-                                                        <a href="javascript:void(0)" class="box-icon bg_white quickview" data-product-id="{{ $product->id }}">
-                                                            <span class="icon icon-view"></span>
-                                                            <span class="tooltip">Quick View</span>
-                                                        </a>
+                                                        <div class="list-product-btn">
+                                                            <a href="javascript:void(0)" class="box-icon bg_white quick-add" data-product-id="{{ $product->id }}">
+                                                                <span class="icon icon-bag"></span>
+                                                                <span class="tooltip">Quick Add</span>
+                                                            </a>
+                                                            <a href="javascript:void(0)" class="box-icon bg_white wishlist btn-icon-action" data-product-id="{{ $product->id }}">
+                                                                <span class="icon icon-heart"></span>
+                                                                <span class="tooltip">Add to Wishlist</span>
+                                                                <span class="icon icon-delete"></span>
+                                                            </a>
+                                                            <a href="javascript:void(0)" class="box-icon bg_white quickview" data-product-id="{{ $product->id }}">
+                                                                <span class="icon icon-view"></span>
+                                                                <span class="tooltip">Quick View</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-product-info">
+                                                        <a href="{{ route('products.show', $product->slug) }}" class="title link">{{ $product->name }}</a>
+                                                        <span class="price">
+                                                            <span class="text-danger fw-6">{{ money_format_ugx($product->sale_price) }}</span>
+                                                            <span class="text-muted text-decoration-line-through ms-1">{{ money_format_ugx($product->price) }}</span>
+                                                        </span>
                                                     </div>
                                                 </div>
-                                                <div class="card-product-info">
-                                                    <a href="{{ route('products.show', $product->slug) }}" class="title link">{{ $product->name }}</a>
-                                                    <span class="price">
-                                                <span class="text-danger fw-6">{{ money_format_ugx($product->sale_price) }}</span>
-                                                <span class="text-muted text-decoration-line-through ms-1">{{ money_format_ugx($product->price) }}</span>
-                                            </span>
-                                                </div>
                                             </div>
-                                        </div>
-                                    @endforeach
-                                    @if($onSaleProducts->isEmpty())
-                                        <div class="text-center py-4 w-100">No products on sale right now.</div>
-                                    @endif
+                                        @empty
+                                            <div class="swiper-slide w-100">
+                                                <div class="text-center py-4 w-100">No products on sale right now.</div>
+                                            </div>
+                                        @endforelse
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -723,7 +672,7 @@
                 </div>
             </div>
         </section>
-        <!-- /Trending -->
+        <!-- /Trending Now -->
         <!-- Lookbook -->
 {{--        <section class="section-lookbook-activewear">--}}
 {{--            <div class="container-full">--}}
@@ -3043,6 +2992,114 @@
         });
 
 
+    </script>
+
+    <!-- Swiper Initialization Script -->
+    <script>
+    (function initSwipersWhenReady() {
+        function startInit() {
+            // Initialize Season Collection Swiper (guard against double init)
+            const collectionEl = document.querySelector('.tf-sw-collection');
+            if (collectionEl && !collectionEl.swiper) {
+                new (window.Swiper)('.tf-sw-collection', {
+                    slidesPerView: 2,
+                    spaceBetween: 15,
+                    loop: false,
+                    autoplay: false,
+                    navigation: {
+                        nextEl: '.nav-next-collection',
+                        prevEl: '.nav-prev-collection',
+                    },
+                    pagination: {
+                        el: '.sw-pagination-collection',
+                        clickable: true,
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 30,
+                        },
+                        1024: {
+                            slidesPerView: 6,
+                            spaceBetween: 50,
+                        }
+                    }
+                });
+            }
+
+            // Initialize New Releases Swiper (guard against double init)
+            const brandEl = document.querySelector('.tf-sw-brand');
+            if (brandEl && !brandEl.swiper) {
+                new (window.Swiper)('.tf-sw-brand', {
+                    slidesPerView: 2,
+                    spaceBetween: 15,
+                    loop: false,
+                    autoplay: false,
+                    navigation: {
+                        nextEl: '.nav-next-brand',
+                        prevEl: '.nav-prev-brand',
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 3,
+                            spaceBetween: 15,
+                        },
+                        1024: {
+                            slidesPerView: 4,
+                            spaceBetween: 30,
+                        }
+                    }
+                });
+            }
+        }
+
+        function tryInit() {
+            if (window.Swiper) {
+                startInit();
+            } else {
+                // Retry a few times in case Vite module hasn't attached Swiper to window yet
+                let attempts = 0;
+                const maxAttempts = 20; // ~2s if 100ms interval
+                const timer = setInterval(() => {
+                    attempts++;
+                    if (window.Swiper) {
+                        clearInterval(timer);
+                        startInit();
+                    } else if (attempts >= maxAttempts) {
+                        clearInterval(timer);
+                        // As a fallback, load Swiper from CDN and then initialize
+                        if (!window.__loadingSwiperCDN && !window.Swiper) {
+                            window.__loadingSwiperCDN = true;
+                            const script = document.createElement('script');
+                            script.src = 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js';
+                            script.async = true;
+                            script.onload = () => {
+                                window.__loadingSwiperCDN = false;
+                                if (window.Swiper) {
+                                    startInit();
+                                } else {
+                                    console.warn('Swiper CDN loaded but Swiper is still undefined.');
+                                }
+                            };
+                            script.onerror = () => {
+                                window.__loadingSwiperCDN = false;
+                                console.error('Failed to load Swiper from CDN.');
+                            };
+                            document.head.appendChild(script);
+                        } else {
+                            console.warn('Swiper library not found. Skipping swiper initialization.');
+                        }
+                    }
+                }, 100);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+            tryInit();
+        }
+    })();
     </script>
 
 </x-app-layout>

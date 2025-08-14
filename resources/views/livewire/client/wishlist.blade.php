@@ -34,7 +34,7 @@
                     <!-- Product Info -->
                     <div class="p-4">
                         <h3 class="font-medium text-gray-900 mb-2">
-                            <a href="{{ route('product.show', $item->product->slug) }}" class="hover:text-blue-600">
+                            <a href="{{ route('products.show', $item->product->slug) }}" class="hover:text-blue-600">
                                 {{ $item->product->name }}
                             </a>
                         </h3>
@@ -72,7 +72,7 @@
                         <!-- Actions -->
                         <div class="flex space-x-2">
                             <a
-                                href="{{ route('product.show', $item->product->slug) }}"
+                                href="{{ route('products.show', $item->product->slug) }}"
                                 class="flex-1 bg-blue-600 text-white text-center py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm"
                             >
                                 View Product
@@ -111,4 +111,7 @@
             </a>
         </div>
     @endif
+
 </div>
+
+

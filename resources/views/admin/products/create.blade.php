@@ -133,10 +133,18 @@
                         <select class="form-select @error('category_id') is-invalid @enderror"
                                 id="category_id" name="category_id" required>
                             <option value="">Select Category</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
+                            @foreach($categoryGroups as $parent)
+                                @if($parent->children->isNotEmpty())
+                                    <optgroup label="{{ $parent->name }}">
+                                        @foreach($parent->children as $child)
+                                            <option value="{{ $child->id }}" {{ old('category_id') == $child->id ? 'selected' : '' }}>
+                                                {{ $child->name }}
+                                            </option>
+                                        @endforeach
+                                    </optgroup>
+                                @else
+                                    <option value="" disabled style="font-weight: bold;">{{ $parent->name }}</option>
+                                @endif
                             @endforeach
                         </select>
                         @error('category_id')

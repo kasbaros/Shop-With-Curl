@@ -17,12 +17,60 @@ class ShopController extends Controller
     public function category(Category $category): View
     {
         // Complex category logic, SEO meta, analytics tracking, etc.
-        $category->load(['products', 'children', 'parent']);
+        $category->load(['children', 'parent']);
 
-        // You might have complex business rules here
-        // that don't belong in a Livewire component
+        // Query products that belong to this category
+        // You might have complex business rules here that don't belong in a Livewire component
+        $products = \App\Models\Product::whereHas('categories', function($query) use ($category) {
+            $query->where('categories.id', $category->id);
+        })
+        ->active()
+        ->with(['categories', 'media', 'variants'])
+        ->paginate(12);
 
-        return view('livewire.guest.shop.shop-grid', compact('category'));
+        // Define sort options for the template dropdown
+        $sortOptions = [
+            'featured' => 'Featured',
+            'name' => 'Best selling',
+            'name_asc' => 'Alphabetically, A-Z',
+            'name_desc' => 'Alphabetically, Z-A',
+            'price_asc' => 'Price, low to high',
+            'price_desc' => 'Price, high to low',
+            'created_asc' => 'Date, old to new',
+            'created_desc' => 'Date, new to old',
+        ];
+
+        // Set default sort by
+        $sortBy = 'featured';
+
+        // Set the selected category to the current category's ID
+        $selectedCategory = $category->id;
+
+        // Get all categories for the filter
+        $categories = Category::active()->withCount('products')->orderBy('name')->get();
+
+        // Initialize price filter variables
+        $minPrice = null;
+        $maxPrice = null;
+
+        // Initialize filter options
+        $inStockOnly = false;
+        $onSaleOnly = false;
+        $featuredOnly = false;
+
+        return view('livewire.guest.shop.shop-grid', compact(
+            'category',
+            'products',
+            'sortBy',
+            'sortOptions',
+            'selectedCategory',
+            'categories',
+            'minPrice',
+            'maxPrice',
+            'inStockOnly',
+            'onSaleOnly',
+            'featuredOnly'
+        ));
     }
 
 }

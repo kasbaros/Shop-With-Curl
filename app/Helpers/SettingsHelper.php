@@ -208,6 +208,19 @@
         }
     }
 
+    if (!function_exists('money_format_ugx')) {
+        /**
+         * Format amount as Ugandan Shilling with no decimals
+         *
+         * @param float|int $amount
+         * @return string
+         */
+        function money_format_ugx($amount): string
+        {
+            return 'UGX ' . number_format((float)$amount, 0);
+        }
+    }
+
     if (!function_exists('format_date')) {
         /**
          * Format date using site settings

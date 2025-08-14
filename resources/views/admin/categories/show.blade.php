@@ -112,8 +112,11 @@
                         @foreach($recentProducts as $product)
                             <div class="col-md-6">
                                 <div class="d-flex align-items-center p-3 border rounded">
-                                    @if($product->images->first())
-                                        <img src="{{ Storage::url($product->images->first()->image_path) }}"
+                                    @php
+                                        $thumb = $product->getFirstMediaUrl('images', 'thumb') ?: $product->getFirstMediaUrl('images');
+                                    @endphp
+                                    @if($thumb)
+                                        <img src="{{ $thumb }}"
                                              alt="{{ $product->name }}"
                                              class="rounded me-3"
                                              style="width: 60px; height: 60px; object-fit: cover;">
@@ -156,16 +159,33 @@
         <!-- Sidebar -->
         <div class="col-lg-4">
             <!-- Category Image -->
-            @if($category->image_path)
-                <div class="stat-card p-4 mb-4">
-                    <h5 class="mb-3">Category Image</h5>
-                    <img src="{{ Storage::url($category->image_path) }}"
+            @php
+                $catMedia = $category->getFirstMedia('images');
+                if ($catMedia) {
+                    $catImg = $catMedia->hasGeneratedConversion('thumb') ? $catMedia->getUrl('thumb') : $catMedia->getUrl();
+                } else {
+                    $catImg = $category->image_path ? Storage::url($category->image_path) : null;
+                }
+            @endphp
+            <div class="stat-card p-4 mb-4">
+                <h5 class="mb-3">Category Image</h5>
+                @if($catImg)
+                    <img src="{{ $catImg }}"
                          alt="{{ $category->name }}"
                          class="img-fluid rounded cursor-pointer"
-                         onclick="showImageModal('{{ Storage::url($category->image_path) }}', '{{ $category->name }}')"
+                         onclick="showImageModal('{{ $catImg }}', '{{ $category->name }}')"
                          style="width: 100%; max-height: 300px; object-fit: cover;">
-                </div>
-            @endif
+                @else
+                    <div class="bg-light rounded d-flex flex-column align-items-center justify-content-center border"
+                         style="width: 100%; max-height: 300px; height: 220px;">
+                        <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
+                        <div class="text-muted mt-2">No image uploaded</div>
+                        <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-sm btn-outline-primary mt-3">
+                            Add Image
+                        </a>
+                    </div>
+                @endif
+            </div>
 
             <!-- Quick Stats -->
             <div class="stat-card p-4 mb-4">

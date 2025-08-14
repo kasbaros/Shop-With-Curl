@@ -50,7 +50,8 @@
         public function registerMediaCollections(): void
         {
             $this->addMediaCollection('images')
-                ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
+                ->useDisk('media')
+                ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
                 ->singleFile();
         }
 
@@ -106,7 +107,12 @@
 
         public function getImageUrlAttribute(): ?string
         {
-            return $this->getFirstMediaUrl('images');
+            // Prefer a generated thumb if available; otherwise, fall back to the original
+            $media = $this->getFirstMedia('images');
+            if ($media) {
+                return $media->hasGeneratedConversion('thumb') ? $media->getUrl('thumb') : $media->getUrl();
+            }
+            return null;
         }
 
         public function getBreadcrumbsAttribute(): array

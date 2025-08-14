@@ -276,26 +276,26 @@ if ($(".thumbs-slider-white").length > 0) {
 }
 
 if ($(".tf-sw-collection").length > 0) {
-  var preview = $(".tf-sw-collection").data("preview");
-  var tablet = $(".tf-sw-collection").data("tablet");
-  var mobile = $(".tf-sw-collection").data("mobile");
-  var spacingLg = $(".tf-sw-collection").data("space-lg");
-  var spacingMd = $(".tf-sw-collection").data("space-md");
-  var spacing = $(".tf-sw-collection").data("space");
-  var loop = $(".tf-sw-collection").data("loop");
-  var play = $(".tf-sw-collection").data("auto-play");
+  var preview = Number($(".tf-sw-collection").data("preview"));
+  var tablet = Number($(".tf-sw-collection").data("tablet"));
+  var mobile = Number($(".tf-sw-collection").data("mobile"));
+  var spacingLg = Number($(".tf-sw-collection").data("space-lg"));
+  var spacingMd = Number($(".tf-sw-collection").data("space-md"));
+  var spacing = Number($(".tf-sw-collection").data("space"));
+  var loop = Boolean($(".tf-sw-collection").data("loop"));
+  var play = Boolean($(".tf-sw-collection").data("auto-play"));
+  var autoplayConf = play ? {
+    delay: 2000,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  } : false;
   var swiper = new Swiper(".tf-sw-collection", {
-    autoplay: {
-      delay: 2000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
-    // observer: true,
-    // observeParents: true,
-    autoplay: play,
-    slidesPerView: mobile,
+    observer: true,
+    observeParents: true,
+    autoplay: autoplayConf,
+    slidesPerView: mobile || 1,
     loop: loop,
-    spaceBetween: spacing,
+    spaceBetween: spacing || 0,
     speed: 1000,
     pagination: {
       el: ".sw-pagination-collection",
@@ -304,19 +304,19 @@ if ($(".tf-sw-collection").length > 0) {
     slidesPerGroup: 1,
     navigation: {
       clickable: true,
-      nextEl: ".nav-prev-collection",
-      prevEl: ".nav-next-collection",
+      nextEl: ".nav-next-collection",
+      prevEl: ".nav-prev-collection",
     },
     breakpoints: {
       768: {
-        slidesPerView: tablet,
-        spaceBetween: spacingMd,
-        slidesPerGroup: 2,
+        slidesPerView: tablet || mobile || 1,
+        spaceBetween: spacingMd || spacing || 0,
+        slidesPerGroup: 1,
       },
       1150: {
-        slidesPerView: preview,
-        spaceBetween: spacingLg,
-        slidesPerGroup: 2,
+        slidesPerView: preview || tablet || mobile || 1,
+        spaceBetween: spacingLg || spacingMd || spacing || 0,
+        slidesPerGroup: 1,
       },
     },
     init: true,
@@ -455,7 +455,7 @@ if ($(".tf-sw-brand").length > 0) {
     autoplay: play,
     observer: true,
     observeParents: true,
-    slidesPerGroup: 2,
+    slidesPerGroup: 1,
     navigation: {
       clickable: true,
       nextEl: ".nav-prev-brand",
@@ -465,12 +465,12 @@ if ($(".tf-sw-brand").length > 0) {
       768: {
         slidesPerView: tablet,
         spaceBetween: spacingLg,
-        slidesPerGroup: 3,
+        slidesPerGroup: 1,
       },
       1150: {
         slidesPerView: preview,
         spaceBetween: spacingLg,
-        slidesPerGroup: 3,
+        slidesPerGroup: 1,
       },
     },
     init: true,
@@ -652,8 +652,8 @@ if ($(".tf-sw-product-sell").length > 0) {
     slidesPerGroup: perGroup,
     navigation: {
       clickable: true,
-      nextEl: ".nav-prev-product",
-      prevEl: ".nav-next-product",
+      nextEl: ".tf-sw-product-sell .swiper-button-next",
+      prevEl: ".tf-sw-product-sell .swiper-button-prev",
     },
     breakpoints: {
       768: {

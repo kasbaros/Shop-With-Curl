@@ -38,3 +38,10 @@ public/index.php
 # Deployment scripts (server-specific)
 public/deploy.php
 public/background_deploy.php
+
+# Migration and deployment scripts (keep local only)
+public/fresh_migrate.php
+public/*migrate*.php
+public/generate_secure_token.php
+public/fix_migration_deployment.php
+public/deployment_*.php

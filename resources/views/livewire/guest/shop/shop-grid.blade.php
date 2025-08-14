@@ -211,11 +211,6 @@
                                                 <span class="tooltip">Add to Wishlist</span>
                                                 <span class="icon icon-delete"></span>
                                             </a>
-                                            <a href="javascript:void(0);" class="box-icon bg_white compare btn-icon-action" wire:click.prevent="$dispatch('compare:toggle', {id: {{ $product->id }} })">
-                                                <span class="icon icon-compare"></span>
-                                                <span class="tooltip">Add to Compare</span>
-                                                <span class="icon icon-check"></span>
-                                            </a>
                                             <a href="javascript:void(0);"
                                                class="box-icon bg_white quickview"
                                                wire:click.prevent="$dispatch('product:quickView', {productId: {{ $product->id }}})">

@@ -1,42 +1,67 @@
 <?php
 
-namespace App\Livewire\Components;
+    namespace App\Livewire\Components;
 
-use Livewire\Attributes\On;
-use Livewire\Component;
+    use Livewire\Attributes\On;
+    use Livewire\Component;
 
-class NotificationToast extends Component
-{
-    public array $notifications = [];
-
-    #[On('notify')]
-    public function addNotification($message, $type = 'success', $duration = 3000)
+    class NotificationToast extends Component
     {
-        $id = uniqid();
-        $this->notifications[] = [
-            'id' => $id,
-            'message' => $message,
-            'type' => $type,
-            'show' => true
-        ];
+        public array $notifications = [];
 
-        // Auto-remove after duration
-        $this->dispatch('removeNotification', ['id' => $id])->delay($duration);
-    }
+        // No constructor needed - Livewire handles initialization
 
-    #[On('removeNotification')]
-    public function removeNotification($id)
-    {
-        $this->notifications = array_filter($this->notifications, fn($n) => $n['id'] !== $id);
-    }
+        #[On('notify')]
+        public function addNotification($data = []): void
+        {
+            // Normalize payload: accept array or plain string
+            $message = '';
+            $type = 'success';
+            $duration = 3000;
 
-    public function dismiss($id)
-    {
-        $this->notifications = array_filter($this->notifications, fn($n) => $n['id'] !== $id);
-    }
+            if (is_array($data)) {
+                $message = $data['message'] ?? '';
+                $type = $data['type'] ?? 'success';
+                $duration = $data['duration'] ?? 3000;
+            } elseif (is_string($data)) {
+                $message = $data;
+            }
 
-    public function render()
-    {
-        return view('livewire.components.notification-toast');
+            if ($message === '') {
+                $message = 'Action completed';
+            }
+
+            $id = uniqid();
+            $this->notifications[] = [
+                'id' => $id,
+                'message' => $message,
+                'type' => $type,
+                'show' => true
+            ];
+
+            // Use JavaScript timeout for auto-removal
+            $this->dispatch('setupAutoRemove', [
+                'id' => $id,
+                'duration' => $duration
+            ]);
+        }
+
+        #[On('removeNotification')]
+        public function removeNotification($data = []): void
+        {
+            $id = $data['id'] ?? null;
+            if ($id) {
+                $this->notifications = array_filter($this->notifications, fn($n) => $n['id'] !== $id);
+            }
+        }
+
+        public function dismiss($id)
+        {
+            $this->notifications = array_filter($this->notifications, fn($n) => $n['id'] !== $id);
+        }
+
+        public function render()
+        {
+            return view('livewire.components.notification-toast');
+        }
     }
-}

@@ -40,14 +40,16 @@
             return $query->orderBy('sort_order')->orderBy('created_at');
         }
 
-        // Get image URL with fallback
+        // Get image URL with fallback (use relative URL to avoid APP_URL host mismatches)
         public function getImageUrlAttribute(): string
         {
-            if ($this->image && file_exists(public_path('storage/' . $this->image))) {
-                return asset('storage/' . $this->image);
+            $path = ltrim((string) $this->image, '/');
+            // If stored path points within the public storage disk, return relative URL
+            if ($path !== '' && \Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
+                return '/storage/' . $path;
             }
 
-            // Fallback to a default banner image
-            return asset('images/banners/default-banner.jpg');
+            // Fallback to a default banner image (also relative)
+            return '/images/banners/default-banner.jpg';
         }
     }

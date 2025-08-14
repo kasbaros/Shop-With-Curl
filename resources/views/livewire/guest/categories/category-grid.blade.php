@@ -1,4 +1,7 @@
 <div>
+    <!-- Breadcrumbs -->
+    <livewire:components.breadcrumbs />
+
     <!-- page-title -->
     <div class="tf-page-title">
         <div class="container-full">
@@ -315,30 +318,7 @@
                         <!-- pagination -->
                         @if(isset($categories) && $categories->hasPages())
                         <div class="col-12">
-                            <ul class="wg-pagination tf-pagination-list justify-content-center">
-                                 Previous Page Link
-                                @if ($categories->onFirstPage())
-                                    <li class="disabled"><span class="pagination-link">«</span></li>
-                                @else
-                                    <li><a href="#" wire:click="previousPage" wire:loading.attr="disabled" class="pagination-link animate-hover-btn">«</a></li>
-                                @endif
-
-                                 Pagination Elements
-                                @foreach ($categories->getUrlRange(1, $categories->lastPage()) as $page => $url)
-                                    @if ($page == $categories->currentPage())
-                                        <li class="active"><span class="pagination-link">{{ $page }}</span></li>
-                                    @else
-                                        <li><a href="#" wire:click="gotoPage({{ $page }})" wire:loading.attr="disabled" class="pagination-link animate-hover-btn">{{ $page }}</a></li>
-                                    @endif
-                                @endforeach
-
-                                 Next Page Link
-                                @if ($categories->hasMorePages())
-                                    <li><a href="#" wire:click="nextPage" wire:loading.attr="disabled" class="pagination-link animate-hover-btn">»</a></li>
-                                @else
-                                    <li class="disabled"><span class="pagination-link">»</span></li>
-                                @endif
-                            </ul>
+                            {{ $categories->onEachSide(1)->links('components.pagination.tf') }}
                         </div>
                         @endif
                     </div>

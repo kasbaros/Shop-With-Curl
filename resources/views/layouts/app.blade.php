@@ -215,10 +215,7 @@
                         </li>
                         @auth
                             <li class="nav-wishlist">
-                                <a href="{{ route('wishlist.index') }}" class="nav-icon-item" wire:navigate>
-                                    <span class="icon icon-heart"></span>
-                                    <span class="count-box">{{ auth()->user()->wishlist()->count() }}</span>
-                                </a>
+                                <livewire:components.wishlist-icon />
                             </li>
                         @endauth
                         <li class="nav-cart">
@@ -381,6 +378,19 @@
 {{ $slot }}
 
 @fluxScripts
-@livewireScripts
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        // Update wishlist count in header when event is emitted
+        Livewire.on('wishlist:updated', (data) => {
+            try {
+                const count = (data && typeof data.count !== 'undefined') ? data.count : null;
+                if (count !== null) {
+                    const el = document.querySelector('.nav-wishlist .count-box');
+                    if (el) el.textContent = count;
+                }
+            } catch (_) {}
+        });
+    });
+</script>
 </body>
 </html>

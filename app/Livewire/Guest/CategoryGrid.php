@@ -71,7 +71,7 @@ class CategoryGrid extends Component
         $this->resetPage();
     }
 
-    public function setLayout($layout)
+    public function setLayout($layout): void
     {
         $this->layout = $layout;
     }

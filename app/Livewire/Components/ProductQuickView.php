@@ -14,15 +14,23 @@ class ProductQuickView extends Component
     public array $selectedVariants = [];
 
     #[On('product:quickView')]
-    public function showQuickView($productId)
+    public function showQuickView($productId = null): void
     {
+        // Support both primitive ID and object payloads { productId: X } or { id: X }
+        if (is_array($productId)) {
+            $productId = $productId['productId'] ?? $productId['id'] ?? null;
+        }
+        if (!$productId) return;
+
         $this->product = Product::with(['categories', 'media'])->find($productId);
+        if (!$this->product) return;
+
         $this->showModal = true;
         $this->quantity = 1;
         $this->selectedVariants = [];
     }
 
-    public function closeModal()
+    public function closeModal(): void
     {
         $this->showModal = false;
         $this->product = null;
@@ -45,12 +53,8 @@ class ProductQuickView extends Component
     {
         if (!$this->product) return;
 
-        // Emit event for cart addition
-        $this->dispatch('cart:add', [
-            'productId' => $this->product->id,
-            'quantity' => $this->quantity,
-            'variants' => $this->selectedVariants
-        ]);
+        // Emit event for cart addition (use positional args for compatibility)
+        $this->dispatch('cart:add', $this->product->id, $this->quantity, $this->selectedVariants);
 
         // Show success message
         $this->dispatch('notify', [

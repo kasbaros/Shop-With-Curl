@@ -95,8 +95,16 @@
                 @forelse($categories as $category)
                     <tr>
                         <td>
-                            @if($category->image_path)
-                                <img src="{{ Storage::url($category->image_path) }}"
+                            @php
+                                $media = $category->getFirstMedia('images');
+                                if ($media) {
+                                    $thumb = $media->hasGeneratedConversion('thumb') ? $media->getUrl('thumb') : $media->getUrl();
+                                } else {
+                                    $thumb = $category->image_path ? Storage::url($category->image_path) : null;
+                                }
+                            @endphp
+                            @if($thumb)
+                                <img src="{{ $thumb }}"
                                      alt="{{ $category->name }}"
                                      class="rounded"
                                      style="width: 50px; height: 50px; object-fit: cover;">

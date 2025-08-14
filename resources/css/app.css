@@ -45,6 +45,11 @@
   display: block !important;
 }
 
+/* Swiper core fallback styles: ensure horizontal layout even if vendor CSS fails */
+.swiper { position: relative; overflow: hidden; }
+.swiper-wrapper { display: flex; box-sizing: content-box; }
+.swiper-slide { flex-shrink: 0; }
+
 /* Container override */
 .wrap-carousel, .container-full {
   width: 100% !important;

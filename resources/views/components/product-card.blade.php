@@ -2,7 +2,7 @@
 
 <div class="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow">
     <div class="aspect-square bg-gray-100 relative">
-        <a href="{{ route('product.show', $product->slug) }}">
+        <a href="{{ route('products.show', $product->slug) }}">
             <img
                 src="{{ $product->featured_image ?: '/images/placeholder.png' }}"
                 alt="{{ $product->name }}"
@@ -31,7 +31,7 @@
     <div class="p-4">
         <!-- Product Name -->
         <h3 class="font-medium text-gray-900 mb-2">
-            <a href="{{ route('product.show', $product->slug) }}" class="hover:text-blue-600">
+            <a href="{{ route('products.show', $product->slug) }}" class="hover:text-blue-600">
                 {{ $product->name }}
             </a>
         </h3>

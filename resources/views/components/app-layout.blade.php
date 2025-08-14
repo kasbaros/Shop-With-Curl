@@ -12,6 +12,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @fluxAppearance
+    @stack('styles')
 
     <style>
         * {
@@ -1060,13 +1061,15 @@
 
                 @if (!isset($isAuthPage) || !$isAuthPage)
                     <!-- Wishlist -->
-                    <a href="#" class="nav-icon" title="Wishlist" wire:navigate>
+                    <a href="{{ route('wishlist.index') }}"
+                       class="nav-icon {{ (($wishlistCount ?? (auth()->check() ? auth()->user()->wishlist()->count() : 0)) > 0) ? 'active' : '' }}" title="Wishlist" wire:navigate>
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                         </svg>
-                        <span
-                            class="count-badge">{{ $wishlistCount ?? (auth()->check() ? auth()->user()->wishlist()->count() : 0) }}</span>
+                        <span class="count-badge">
+                            {{ $wishlistCount ?? (auth()->check() ? auth()->user()->wishlist()->count() : 0) }}
+                        </span>
                     </a>
 
                     <!-- Shopping Cart -->
@@ -1248,7 +1251,7 @@
 
     <!-- Main Content -->
     <main>
-        {{ $slot }}
+        {!! $slot !!}
     </main>
 
     <!-- Ultra Modern Footer with Working Flux Icons -->
@@ -1464,6 +1467,7 @@
 
 @livewireScripts
 @fluxScripts
+@stack('scripts')
 <script>
     // Close announcement bar
     function closeAnnouncement() {
@@ -1588,5 +1592,11 @@
 
 <!-- Product Compare Component -->
 <livewire:components.product-compare />
+
+<!-- Quick View Modal (Global) -->
+<livewire:components.product-quick-view />
+
+<!-- Compare Modal (Quick feedback) -->
+<livewire:components.compare-modal />
 </body>
 </html>

@@ -89,11 +89,19 @@
                     <h5 class="mb-3">Category Image</h5>
 
                     <!-- Current Image -->
-                    @if($category->image_path)
+                    @php
+                        $currentMedia = $category->getFirstMedia('images');
+                        if ($currentMedia) {
+                            $currentImg = $currentMedia->hasGeneratedConversion('thumb') ? $currentMedia->getUrl('thumb') : $currentMedia->getUrl();
+                        } else {
+                            $currentImg = $category->image_path ? Storage::url($category->image_path) : null;
+                        }
+                    @endphp
+                    @if($currentImg)
                         <div class="mb-3">
                             <label class="form-label">Current Image</label>
                             <div class="position-relative d-inline-block">
-                                <img src="{{ Storage::url($category->image_path) }}"
+                                <img src="{{ $currentImg }}"
                                      class="img-fluid rounded"
                                      style="max-height: 200px;"
                                      alt="{{ $category->name }}">
@@ -108,7 +116,7 @@
                     @endif
 
                     <div class="mb-3">
-                        <label for="image" class="form-label">{{ $category->image_path ? 'Replace Image' : 'Upload Image' }}</label>
+                        <label for="image" class="form-label">{{ $currentImg ? 'Replace Image' : 'Upload Image' }}</label>
                         <input type="file" class="form-control @error('image') is-invalid @enderror"
                                id="image" name="image" accept="image/*">
                         <div class="form-text">Recommended size: 400x400px. Max 2MB.</div>

@@ -71,12 +71,13 @@
                 }
             }
 
-            // Handle image upload
-            if ($request->hasFile('image')) {
-                $validated['image_path'] = $request->file('image')->store('categories', 'public');
-            }
-
+            // Create category without handling legacy image_path
             $category = Category::create($validated);
+
+            // Handle image upload via Spatie Media Library
+            if ($request->hasFile('image')) {
+                $category->addMediaFromRequest('image')->toMediaCollection('images');
+            }
 
             return redirect()
                 ->route('admin.categories.show', $category)
@@ -85,9 +86,9 @@
 
         public function show(Category $category)
         {
-            $category->loadCount('products');
+            $category->loadCount('products')->load('media');
             $recentProducts = $category->products()
-                ->with('images')
+                ->with('media')
                 ->latest()
                 ->limit(8)
                 ->get();
@@ -134,22 +135,32 @@
                 }
             }
 
-            // Handle image removal
-            if ($request->boolean('remove_image') && $category->image_path) {
-                Storage::disk('public')->delete($category->image_path);
-                $validated['image_path'] = null;
-            }
-
-            // Handle new image upload
-            if ($request->hasFile('image')) {
-                // Remove old image
+            // Handle image removal - clear media and legacy path
+            if ($request->boolean('remove_image')) {
+                // Clear Spatie media
+                $category->clearMediaCollection('images');
+                // Remove legacy stored file if exists
                 if ($category->image_path) {
                     Storage::disk('public')->delete($category->image_path);
                 }
-                $validated['image_path'] = $request->file('image')->store('categories', 'public');
+                $validated['image_path'] = null;
             }
 
+            // Persist other fields first
             $category->update($validated);
+
+            // Handle new image upload via Spatie Media Library
+            if ($request->hasFile('image')) {
+                // Clear existing media to maintain single file behavior
+                $category->clearMediaCollection('images');
+                $category->addMediaFromRequest('image')->toMediaCollection('images');
+                // Also clear legacy image_path value if present
+                if ($category->image_path) {
+                    Storage::disk('public')->delete($category->image_path);
+                    $category->image_path = null;
+                    $category->save();
+                }
+            }
 
             return redirect()
                 ->route('admin.categories.show', $category)
@@ -165,7 +176,10 @@
                     ->with('error', 'Cannot delete category with existing products. Please move or delete all products first.');
             }
 
-            // Remove image
+            // Remove media image(s)
+            $category->clearMediaCollection('images');
+
+            // Remove legacy stored image
             if ($category->image_path) {
                 Storage::disk('public')->delete($category->image_path);
             }

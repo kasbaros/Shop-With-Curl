@@ -60,14 +60,14 @@
                 $desktopImage = $request->file('image_desktop');
                 $desktopFilename = time() . '_desktop_promo.' . $desktopImage->getClientOriginalExtension();
                 $desktopPath = $desktopImage->storeAs('promo-banners', $desktopFilename, 'public');
-                $data['image_desktop'] = Storage::url($desktopPath);
+                $data['image_desktop'] = '/storage/' . $desktopPath;
             }
 
             if ($request->hasFile('image_mobile')) {
                 $mobileImage = $request->file('image_mobile');
                 $mobileFilename = time() . '_mobile_promo.' . $mobileImage->getClientOriginalExtension();
                 $mobilePath = $mobileImage->storeAs('promo-banners', $mobileFilename, 'public');
-                $data['image_mobile'] = Storage::url($mobilePath);
+                $data['image_mobile'] = '/storage/' . $mobilePath;
             }
 
             PromoBanner::create($data);
@@ -127,7 +127,7 @@
                 $desktopImage = $request->file('image_desktop');
                 $desktopFilename = time() . '_desktop_promo.' . $desktopImage->getClientOriginalExtension();
                 $desktopPath = $desktopImage->storeAs('promo-banners', $desktopFilename, 'public');
-                $data['image_desktop'] = Storage::url($desktopPath);
+                $data['image_desktop'] = '/storage/' . $desktopPath;
             }
 
             if ($request->hasFile('image_mobile')) {
@@ -139,7 +139,7 @@
                 $mobileImage = $request->file('image_mobile');
                 $mobileFilename = time() . '_mobile_promo.' . $mobileImage->getClientOriginalExtension();
                 $mobilePath = $mobileImage->storeAs('promo-banners', $mobileFilename, 'public');
-                $data['image_mobile'] = Storage::url($mobilePath);
+                $data['image_mobile'] = '/storage/' . $mobilePath;
             }
 
             $promoBanner->update($data);

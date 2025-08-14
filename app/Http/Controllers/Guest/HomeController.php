@@ -52,10 +52,11 @@
                 ->limit(8)
                 ->get();
 
-            // Get main categories
+            // Get kinds (child categories) with media for images
             $categories = Category::active()
-                ->parent()
-                ->withCount('products')
+                ->child()
+                ->withCount(['products', 'children'])
+                ->with(['media', 'parent'])
                 ->orderBy('sort_order')
                 ->limit(10)
                 ->get();

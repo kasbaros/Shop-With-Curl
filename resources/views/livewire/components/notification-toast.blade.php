@@ -19,4 +19,13 @@
                     aria-label="Close"></button>
         </div>
     @endforeach
+        <script>
+            document.addEventListener('livewire:initialized', () => {
+                Livewire.on('setupAutoRemove', (data) => {
+                    setTimeout(() => {
+                        Livewire.dispatch('removeNotification', { id: data.id });
+                    }, data.duration);
+                });
+            });
+        </script>
 </div>

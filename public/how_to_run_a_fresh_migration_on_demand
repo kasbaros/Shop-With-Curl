@@ -1,0 +1,13 @@
+# Using curl (recommended)
+curl -X POST \
+  -H "X-Auth-Token: your-64-char-hex-token" \
+  -H "X-Confirm: 1" \
+  -d "confirm=1" \
+  https://yourdomain.com/fresh_migrate.php
+
+# Test with dry run first
+curl -X POST \
+  -H "X-Auth-Token: your-token" \
+  -H "X-Confirm: 1" \
+  -d "confirm=1&dry_run=1" \
+  https://yourdomain.com/fresh_migrate.php

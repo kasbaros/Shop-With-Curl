@@ -205,6 +205,7 @@
                     <h5 class="mb-3">Stock Management</h5>
 
                     <div class="mb-3">
+                        <input type="hidden" name="manage_stock" value="0">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="manage_stock" name="manage_stock"
                                    value="1" {{ old('manage_stock', $product->manage_stock) ? 'checked' : '' }}>
@@ -242,6 +243,20 @@
                     <h5 class="mb-3">Product Settings</h5>
 
                     <div class="mb-3">
+                        <label for="status" class="form-label">Status *</label>
+                        <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
+                            @php $currentStatus = old('status', $product->status); @endphp
+                            <option value="draft" {{ $currentStatus === 'draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="published" {{ $currentStatus === 'published' ? 'selected' : '' }}>Published</option>
+                            <option value="inactive" {{ $currentStatus === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                        </select>
+                        @error('status')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="hidden" name="is_active" value="0">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="is_active" name="is_active"
                                    value="1" {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
@@ -252,6 +267,7 @@
                     </div>
 
                     <div class="mb-3">
+                        <input type="hidden" name="is_featured" value="0">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="is_featured" name="is_featured"
                                    value="1" {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}>

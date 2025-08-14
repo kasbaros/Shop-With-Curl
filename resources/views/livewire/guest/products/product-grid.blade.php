@@ -92,38 +92,43 @@
                         <span class="count">{{ $products->total() }}</span> Products Found
                     </div>
                     <div id="applied-filters">
-                        @if($selectedCategory)
+                        @if(isset($selectedCategory) && $selectedCategory)
                             <span class="filter-item">
                                 Category: {{ $categories->find($selectedCategory)?->name }}
                                 <i class="icon-close" wire:click="$set('selectedCategory', '')"></i>
                             </span>
                         @endif
-                        @if($minPrice || $maxPrice)
+                        @if((isset($minPrice) && $minPrice) || (isset($maxPrice) && $maxPrice))
                             <span class="filter-item">
                                 Price: ${{ $minPrice ?? 0 }} - ${{ $maxPrice ?? 1000 }}
                                 <i class="icon-close" wire:click="clearPriceFilter"></i>
                             </span>
                         @endif
-                        @if($inStockOnly)
+                        @if(isset($inStockOnly) && $inStockOnly)
                             <span class="filter-item">
                                 In Stock Only
                                 <i class="icon-close" wire:click="$set('inStockOnly', false)"></i>
                             </span>
                         @endif
-                        @if($onSaleOnly)
+                        @if(isset($onSaleOnly) && $onSaleOnly)
                             <span class="filter-item">
                                 On Sale
                                 <i class="icon-close" wire:click="$set('onSaleOnly', false)"></i>
                             </span>
                         @endif
-                        @if($featuredOnly)
+                        @if(isset($featuredOnly) && $featuredOnly)
                             <span class="filter-item">
                                 Featured
                                 <i class="icon-close" wire:click="$set('featuredOnly', false)"></i>
                             </span>
                         @endif
                     </div>
-                    @if($this->hasActiveFilters())
+                    @if((isset($selectedCategory) && $selectedCategory) ||
+                        (isset($minPrice) && $minPrice) ||
+                        (isset($maxPrice) && $maxPrice) ||
+                        (isset($inStockOnly) && $inStockOnly) ||
+                        (isset($onSaleOnly) && $onSaleOnly) ||
+                        (isset($featuredOnly) && $featuredOnly))
                         <button id="remove-all" class="remove-all-filters" wire:click="clearFilters">
                             Remove All <i class="icon icon-close"></i>
                         </button>
@@ -138,15 +143,19 @@
                              data-brand="{{ $product->brand ?? 'ShopWithCarl' }}">
                             <div class="card-product-wrapper">
                                 <a href="{{ route('products.show', $product->slug) }}" class="product-img">
-                                    @if($product->images->count() > 0)
+                                    @php
+                                        $primary = $product->getFirstMediaUrl('images', 'large') ?: $product->getFirstMediaUrl('images');
+                                        $hover = $product->getMedia('images')->get(1)?->getUrl('large') ?? $primary;
+                                    @endphp
+                                    @if($primary)
                                         <img class="img-product lazyload"
-                                             data-src="{{ $product->images->first()->url }}"
-                                             src="{{ $product->images->first()->url }}"
+                                             data-src="{{ $primary }}"
+                                             src="{{ $primary }}"
                                              alt="{{ $product->name }}">
-                                        @if($product->images->count() > 1)
+                                        @if($hover && $hover !== $primary)
                                             <img class="img-hover lazyload"
-                                                 data-src="{{ $product->images->skip(1)->first()->url }}"
-                                                 src="{{ $product->images->skip(1)->first()->url }}"
+                                                 data-src="{{ $hover }}"
+                                                 src="{{ $hover }}"
                                                  alt="{{ $product->name }}">
                                         @endif
                                     @else
@@ -244,15 +253,19 @@
                              data-brand="{{ $product->brand ?? 'ShopWithCarl' }}">
                             <div class="card-product-wrapper">
                                 <a href="{{ route('products.show', $product->slug) }}" class="product-img">
-                                    @if($product->images->count() > 0)
+                                    @php
+                                        $primary = $product->getFirstMediaUrl('images', 'large') ?: $product->getFirstMediaUrl('images');
+                                        $hover = $product->getMedia('images')->get(1)?->getUrl('large') ?? $primary;
+                                    @endphp
+                                    @if($primary)
                                         <img class="img-product lazyload"
-                                             data-src="{{ $product->images->first()->url }}"
-                                             src="{{ $product->images->first()->url }}"
+                                             data-src="{{ $primary }}"
+                                             src="{{ $primary }}"
                                              alt="{{ $product->name }}">
-                                        @if($product->images->count() > 1)
+                                        @if($hover && $hover !== $primary)
                                             <img class="img-hover lazyload"
-                                                 data-src="{{ $product->images->skip(1)->first()->url }}"
-                                                 src="{{ $product->images->skip(1)->first()->url }}"
+                                                 data-src="{{ $hover }}"
+                                                 src="{{ $hover }}"
                                                  alt="{{ $product->name }}">
                                         @endif
                                     @else

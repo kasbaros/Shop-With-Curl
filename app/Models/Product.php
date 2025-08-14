@@ -96,9 +96,11 @@ class Product extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')
+            ->useDisk('media')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
 
         $this->addMediaCollection('gallery')
+            ->useDisk('media')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
     }
 
@@ -295,5 +297,33 @@ class Product extends Model implements HasMedia
     public function shouldBeSearchable(): bool
     {
         return $this->is_active && $this->published_at && $this->published_at->isPast();
+    }
+
+    /**
+     * Get the previous product based on ID
+     *
+     * @return \App\Models\Product|null
+     */
+    public function previous()
+    {
+        return static::where('id', '<', $this->id)
+            ->where('status', 'published')
+            ->where('is_active', true)
+            ->orderBy('id', 'desc')
+            ->first();
+    }
+
+    /**
+     * Get the next product based on ID
+     *
+     * @return \App\Models\Product|null
+     */
+    public function next()
+    {
+        return static::where('id', '>', $this->id)
+            ->where('status', 'published')
+            ->where('is_active', true)
+            ->orderBy('id', 'asc')
+            ->first();
     }
 }

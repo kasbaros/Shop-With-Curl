@@ -47,6 +47,17 @@ return [
             'report' => false,
         ],
 
+        // Publicly accessible disk for media stored directly under public/media
+        'media' => [
+        'driver' => 'local',
+        'root' => storage_path('app/public/media'),
+        // Use a relative URL to ensure images load correctly regardless of host/port
+        'url' => '/storage/media',
+        'visibility' => 'public',
+        'throw' => false,
+        'report' => false,
+    ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

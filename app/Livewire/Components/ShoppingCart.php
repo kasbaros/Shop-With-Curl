@@ -17,9 +17,29 @@ class ShoppingCart extends Component
     }
 
     #[On('cart:add')]
-    public function addToCart($productId, $quantity = 1, $variants = [])
+    public function addToCart($payloadOrProductId, $quantity = null, $variants = null)
     {
-        $success = $this->cartService->add($productId, $quantity, $variants);
+        // Normalize payload: support both associative array payload and positional args
+        if (is_array($payloadOrProductId)) {
+            $productId = $payloadOrProductId['productId'] ?? $payloadOrProductId['id'] ?? null;
+            $qty = isset($payloadOrProductId['quantity']) ? (int)$payloadOrProductId['quantity'] : 1;
+            $vars = $payloadOrProductId['variants'] ?? [];
+        } else {
+            $productId = $payloadOrProductId;
+            $qty = isset($quantity) ? (int)$quantity : 1;
+            $vars = $variants ?? [];
+        }
+
+        // Basic validation
+        if (!$productId || $qty < 1) {
+            $this->dispatch('notify', [
+                'message' => 'Unable to add to cart. Invalid product or quantity.',
+                'type' => 'error'
+            ]);
+            return;
+        }
+
+        $success = $this->cartService->add($productId, $qty, is_array($vars) ? $vars : []);
 
         if ($success) {
             $this->dispatch('notify', [

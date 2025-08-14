@@ -1,101 +1,104 @@
 <?php
 
-namespace App\Livewire\Components;
+    namespace App\Livewire\Components;
 
-use App\Services\CompareService;
-use Livewire\Attributes\On;
-use Livewire\Component;
+    use App\Services\CompareService;
+    use Livewire\Attributes\On;
+    use Livewire\Component;
 
-class ProductCompare extends Component
-{
-    public bool $showCompare = false;
-    protected CompareService $compareService;
-
-    public function boot(CompareService $compareService)
+    class ProductCompare extends Component
     {
-        $this->compareService = $compareService;
-    }
+        public bool $showCompare = false;
 
-    #[On('compare:toggle')]
-    public function toggleCompare($data)
-    {
-        $productId = $data['id'] ?? null;
-
-        if (!$productId) return;
-
-        if ($this->compareService->isInCompare($productId)) {
-            $success = $this->compareService->remove($productId);
-            $message = $success ? 'Product removed from comparison!' : 'Failed to remove product';
-        } else {
-            if (!$this->compareService->canAdd()) {
-                $this->dispatch('notify', [
-                    'message' => 'Maximum ' . $this->compareService->getMaxItems() . ' products allowed for comparison',
-                    'type' => 'error'
-                ]);
-                return;
-            }
-
-            $success = $this->compareService->add($productId);
-            $message = $success ? 'Product added to comparison!' : 'Failed to add product';
+        public function __construct()
+        {
+            // Empty constructor to prevent dependency injection issues
         }
 
-        if ($success) {
+        #[On('compare:toggle')]
+        public function toggleCompare($eventPayload) // Renamed $data to $eventPayload
+        {
+            $productId = $eventPayload['id'] ?? null; // Use $eventPayload here
+
+            if (!$productId) return;
+
+            $compareService = app(CompareService::class); // Resolve from container
+
+            if ($compareService->isInCompare($productId)) {
+                $success = $compareService->remove($productId);
+                $message = $success ? 'Product removed from comparison!' : 'Failed to remove product';
+            } else {
+                if (!$compareService->canAdd()) {
+                    $this->dispatch('notify', [
+                        'message' => 'Maximum ' . $compareService->getMaxItems() . ' products allowed for comparison',
+                        'type' => 'error'
+                    ]);
+                    return;
+                }
+
+                $success = $compareService->add($productId);
+                $message = $success ? 'Product added to comparison!' : 'Failed to add product';
+            }
+
+            if ($success) {
+                $this->dispatch('notify', [
+                    'message' => $message,
+                    'type' => 'success'
+                ]);
+
+                $this->dispatch('compare:updated', ['count' => $compareService->getCount()]);
+            }
+        }
+
+        #[On('compare:show')]
+        public function showCompareModal()
+        {
+            $this->showCompare = true;
+        }
+
+        #[On('compare:clear')]
+        public function clearCompare()
+        {
+            $compareService = app(CompareService::class); // Resolve from container
+            $compareService->clear();
+
             $this->dispatch('notify', [
-                'message' => $message,
+                'message' => 'Comparison cleared!',
                 'type' => 'success'
             ]);
 
-            $this->dispatch('compare:updated', ['count' => $this->compareService->getCount()]);
-        }
-    }
-
-    #[On('compare:show')]
-    public function showCompareModal()
-    {
-        $this->showCompare = true;
-    }
-
-    #[On('compare:clear')]
-    public function clearCompare()
-    {
-        $this->compareService->clear();
-
-        $this->dispatch('notify', [
-            'message' => 'Comparison cleared!',
-            'type' => 'success'
-        ]);
-
-        $this->dispatch('compare:updated', ['count' => 0]);
-        $this->showCompare = false;
-    }
-
-    public function closeCompare()
-    {
-        $this->showCompare = false;
-    }
-
-    public function removeFromCompare($productId)
-    {
-        $this->compareService->remove($productId);
-        $this->dispatch('compare:updated', ['count' => $this->compareService->getCount()]);
-
-        if ($this->compareService->isEmpty()) {
+            $this->dispatch('compare:updated', ['count' => 0]);
             $this->showCompare = false;
         }
-    }
 
-    public function getCompareProductsProperty()
-    {
-        return $this->compareService->getProducts();
-    }
+        public function closeCompare()
+        {
+            $this->showCompare = false;
+        }
 
-    public function getCompareCountProperty()
-    {
-        return $this->compareService->getCount();
-    }
+        public function removeFromCompare($productId)
+        {
+            $compareService = app(CompareService::class); // Resolve from container
+            $compareService->remove($productId);
+            $this->dispatch('compare:updated', ['count' => $compareService->getCount()]);
 
-    public function render()
-    {
-        return view('livewire.components.product-compare');
+            if ($compareService->isEmpty()) {
+                $this->showCompare = false;
+            }
+        }
+
+        public function getCompareProductsProperty()
+        {
+            return app(CompareService::class)->getProducts(); // Resolve from container
+        }
+
+        public function getCompareCountProperty()
+        {
+            return app(CompareService::class)->getCount(); // Resolve from container
+        }
+
+        public function render()
+        {
+            return view('livewire.components.product-compare');
+        }
     }
-}

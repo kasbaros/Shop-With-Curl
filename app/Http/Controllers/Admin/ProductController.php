@@ -74,11 +74,18 @@
 
         public function create()
         {
-            $categories = Category::where('is_active', true)->get();
+            // Fetch parent categories as groups with their active children
+            $categoryGroups = Category::active()
+                ->parent()
+                ->with(['children' => function ($q) {
+                    $q->active()->orderBy('name');
+                }])
+                ->orderBy('name')
+                ->get();
 
             return view('admin.products.create', array_merge(
                 $this->getAdminViewData(),
-                compact('categories')
+                compact('categoryGroups')
             ));
         }
 
@@ -90,8 +97,7 @@
                 'description' => 'required|string',
                 'short_description' => 'nullable|string|max:500',
                 'sku' => 'required|string|max:100|unique:products,sku',
-                'categories' => 'required|array|min:1',
-                'categories.*' => 'exists:categories,id',
+                'category_id' => 'required|exists:categories,id',
                 'price' => 'required|numeric|min:0',
                 'sale_price' => 'nullable|numeric|min:0|lt:price',
                 'manage_stock' => 'boolean',
@@ -101,9 +107,9 @@
                 'dimensions' => 'nullable|string|max:100',
                 'is_active' => 'boolean',
                 'is_featured' => 'boolean',
-                'status' => 'required|in:draft,published,inactive',
                 'meta_title' => 'nullable|string|max:255',
                 'meta_description' => 'nullable|string|max:500',
+                'images' => 'nullable|array',
                 'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
 
@@ -119,9 +125,9 @@
                 }
             }
 
-            // Remove categories from validated data as it's handled separately
-            $categories = $validated['categories'];
-            unset($validated['categories']);
+            // Transform single category_id into array for attaching
+            $categories = [$validated['category_id']];
+            unset($validated['category_id']);
 
             $product = Product::create($validated);
 
@@ -183,6 +189,7 @@
                 'status' => 'required|in:draft,published,inactive',
                 'meta_title' => 'nullable|string|max:255',
                 'meta_description' => 'nullable|string|max:500',
+                'images' => 'nullable|array',
                 'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
 
@@ -208,6 +215,16 @@
 
             // Sync categories
             $product->categories()->sync($categories);
+
+            // Remove selected existing images
+            if ($request->filled('remove_images')) {
+                foreach ($request->input('remove_images') as $mediaId) {
+                    $media = $product->media()->where('id', $mediaId)->first();
+                    if ($media) {
+                        $media->delete();
+                    }
+                }
+            }
 
             // Handle new image uploads
             if ($request->hasFile('images')) {

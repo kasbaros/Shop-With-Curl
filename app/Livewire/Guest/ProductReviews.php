@@ -115,7 +115,7 @@
 
             $ratingCounts = [];
             for ($i = 1; $i <= 5; $i++) {
-                $count = $reviews->where('rating', $i)->count();
+                $count = (clone $reviews)->where('rating', $i)->count();
                 $ratingCounts[$i] = [
                     'count' => $count,
                     'percentage' => round(($count / $totalReviews) * 100, 1),
@@ -131,6 +131,6 @@
 
         public function render()
         {
-            return view('livewire.products.product-reviews');
+            return view('livewire.guest.products.product-reviews');
         }
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\WishList;
 use Illuminate\Http\Request;
 
 class CompareController extends Controller
@@ -68,5 +69,72 @@ class CompareController extends Controller
 
         return redirect()->route('compare.index')
             ->with('success', 'Product removed from comparison list.');
+    }
+
+    /**
+     * Display the user's wishlist page.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function wishlist()
+    {
+        // Render the wishlist Blade which bootstraps the Livewire component
+        return view('client.wishlist');
+    }
+
+    /**
+     * Add or toggle a product in the user's wishlist.
+     */
+    public function addToWishlist(Request $request)
+    {
+        $validated = $request->validate([
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        $userId = auth()->id();
+        $productId = (int) $validated['product_id'];
+
+        // Toggle behavior: if exists -> remove, else -> create
+        $existing = WishList::where('user_id', $userId)
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($existing) {
+            $existing->delete();
+            $message = 'Product removed from wishlist.';
+        } else {
+            WishList::create([
+                'user_id' => $userId,
+                'product_id' => $productId,
+            ]);
+            $message = 'Product added to wishlist.';
+        }
+
+        $count = WishList::where('user_id', $userId)->count();
+
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'count' => $count,
+        ]);
+    }
+
+    /**
+     * Remove a product from the user's wishlist.
+     */
+    public function removeFromWishlist($product)
+    {
+        $userId = auth()->id();
+
+        WishList::where('user_id', $userId)
+            ->where('product_id', (int) $product)
+            ->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Removed from wishlist.']);
+        }
+
+        return redirect()->route('wishlist.index')
+            ->with('success', 'Removed from wishlist.');
     }
 }

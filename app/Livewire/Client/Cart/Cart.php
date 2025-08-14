@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Livewire\Cart;
+namespace App\Livewire\Client\Cart;
 
 use App\Models\Product;
 use App\Models\ProductVariant;
 use Livewire\Component;
-use Livewire\Attributes\On;
 
-class AddToCart extends Component
+class Cart extends Component
 {
     public Product $product;
     public $selectedVariant = null;
@@ -175,8 +174,8 @@ class AddToCart extends Component
         return ProductVariant::find($this->selectedVariant);
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\View\View
     {
-        return view('livewire.cart.add-to-cart');
+        return view('livewire.client.cart.add-to-cart');
     }
 }

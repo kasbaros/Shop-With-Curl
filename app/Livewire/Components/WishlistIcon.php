@@ -16,9 +16,15 @@ class WishlistIcon extends Component
     }
 
     #[On('wishlist:updated')]
-    public function updateWishlistCountFromEvent($count)
+    public function updateWishlistCountFromEvent($data = null)
     {
-        $this->wishlistCount = $count;
+        if (is_array($data) && array_key_exists('count', $data)) {
+            $this->wishlistCount = (int) $data['count'];
+        } elseif (is_numeric($data)) {
+            $this->wishlistCount = (int) $data;
+        } else {
+            $this->wishlistCount = auth()->check() ? auth()->user()->wishlist()->count() : 0;
+        }
     }
 
     private function updateWishlistCount()
