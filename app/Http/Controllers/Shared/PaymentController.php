@@ -148,7 +148,7 @@
             }
         }
 
-        public function success($paymentUuid)
+        public function paymentSuccess($paymentUuid)
         {
             $payment = Payment::where('uuid', $paymentUuid)->firstOrFail();
 

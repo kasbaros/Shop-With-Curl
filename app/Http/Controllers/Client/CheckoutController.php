@@ -137,7 +137,7 @@ class CheckoutController extends Controller
         }
     }
 
-    public function success(Order $order)
+    public function orderSuccess(Order $order): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View
     {
         // Ensure user can only view their own orders
         if ($order->user_id !== Auth::id()) {

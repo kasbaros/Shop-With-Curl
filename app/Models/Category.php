@@ -2,11 +2,13 @@
 
     namespace App\Models;
 
+    use App\Traits\HasStorageImages;
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Relations\BelongsTo;
     use Illuminate\Database\Eloquent\Relations\HasMany;
     use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+    use Illuminate\Testing\Fluent\Concerns\Has;
     use Spatie\Sluggable\HasSlug;
     use Spatie\Sluggable\SlugOptions;
     use Spatie\MediaLibrary\HasMedia;
@@ -15,7 +17,12 @@
 
     class Category extends Model implements HasMedia
     {
-        use HasFactory, HasSlug, InteractsWithMedia;
+        use HasFactory, HasSlug, InteractsWithMedia, HasStorageImages {
+            // Resolve the getFirstMediaUrl collision by using our trait's version
+            HasStorageImages::getFirstMediaUrl insteadof InteractsWithMedia;
+            // But keep Spatie's original available as an alias
+            InteractsWithMedia::getFirstMediaUrl as getSpatieMediaUrl;
+        }
 
         protected $fillable = [
             'name',
@@ -107,10 +114,15 @@
 
         public function getImageUrlAttribute(): ?string
         {
-            // Prefer a generated thumb if available; otherwise, fall back to the original
+            // First try using the image field if it exists
+            if ($this->image) {
+                return $this->getStorageImageUrl($this->image);
+            }
+
+            // Fallback to media library
             $media = $this->getFirstMedia('images');
             if ($media) {
-                return $media->hasGeneratedConversion('thumb') ? $media->getUrl('thumb') : $media->getUrl();
+                return $this->getMediaStorageUrl('images', 'thumb');
             }
             return null;
         }
@@ -136,6 +148,19 @@
         public function getProductsCountAttribute(): int
         {
             return $this->products()->count();
+        }
+
+
+        /**
+         * Get category thumbnail URL
+         */
+        public function getThumbnailUrlAttribute(): string
+        {
+            if ($this->image) {
+                return $this->getStorageImageUrl($this->image, 300, 300);
+            }
+
+            return $this->getMediaStorageUrl('images', 'thumb');
         }
 
 

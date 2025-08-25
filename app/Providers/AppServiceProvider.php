@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Helpers\StorageHelper;
+use Blade;
 use DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -59,5 +61,19 @@ class AppServiceProvider extends ServiceProvider
                 ]);
             });
         }
+
+        // Register Blade directive for storage URLs
+        Blade::directive('storage', function ($expression) {
+            return "<?php echo " . StorageHelper::class . "::url($expression); ?>";
+        });
+
+        Blade::directive('storageImage', function ($expression) {
+            $params = explode(',', $expression);
+            $path = trim($params[0]);
+            $width = isset($params[1]) ? trim($params[1]) : 'null';
+            $height = isset($params[2]) ? trim($params[2]) : 'null';
+
+            return "<?php echo " . StorageHelper::class . "::imageUrl($path, $width, $height); ?>";
+        });
     }
 }

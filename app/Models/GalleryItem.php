@@ -2,13 +2,22 @@
 
     namespace App\Models;
 
+    use App\Traits\HasStorageImages;
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Builder;
+    use Spatie\MediaLibrary\HasMedia;
+    use Spatie\MediaLibrary\InteractsWithMedia;
+    use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-    class GalleryItem extends Model
+    class GalleryItem extends Model implements HasMedia
     {
-        use HasFactory;
+        use HasFactory, InteractsWithMedia, HasStorageImages {
+            // Resolve the getFirstMediaUrl collision by using our trait's version
+            HasStorageImages::getFirstMediaUrl insteadof InteractsWithMedia;
+            // But keep Spatie's original available as an alias
+            InteractsWithMedia::getFirstMediaUrl as getSpatieMediaUrl;
+        }
 
         protected $fillable = [
             'image',
@@ -52,21 +61,21 @@
         }
 
         // Accessors
-        public function getImageUrlAttribute(): string
-        {
-            // If it's already a full URL (external image/Instagram)
-            if (filter_var($this->image, FILTER_VALIDATE_URL)) {
-                return $this->image;
-            }
-
-            // If it's a local storage path
-            if ($this->image && file_exists(public_path('storage/' . $this->image))) {
-                return asset('storage/' . $this->image);
-            }
-
-            // Fallback to a default image
-            return asset('images/gallery/default-gallery.jpg');
-        }
+//        public function getImageUrlAttribute(): string
+//        {
+//            // If it's already a full URL (external image/Instagram)
+//            if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+//                return $this->image;
+//            }
+//
+//            // If it's a local storage path
+//            if ($this->image && file_exists(public_path('storage/' . $this->image))) {
+//                return asset('storage/' . $this->image);
+//            }
+//
+//            // Fallback to a default image
+//            return asset('images/gallery/default-gallery.jpg');
+//        }
 
         public function getHashtagsStringAttribute(): string
         {
@@ -74,5 +83,49 @@
                 return implode(' ', array_map(fn($tag) => '#' . $tag, $this->hashtags));
             }
             return $this->hashtags ?? '';
+        }
+
+        /**
+         * Get gallery image URL
+         */
+        public function getImageUrlAttribute(): string
+        {
+            if ($this->image) {
+                return $this->getStorageImageUrl($this->image);
+            }
+
+            return $this->getFirstMediaUrl('gallery');
+        }
+
+        /**
+         * Get gallery thumbnail URL
+         */
+        public function getThumbnailUrlAttribute(): string
+        {
+            if ($this->image) {
+                return $this->getStorageImageUrl($this->image, 400, 400);
+            }
+
+            return $this->getMediaStorageUrl('gallery', 'thumb');
+        }
+
+        public function registerMediaCollections(): void
+        {
+            $this->addMediaCollection('gallery')
+                ->useDisk('media')
+                ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
+        }
+
+        public function registerMediaConversions(?Media $media = null): void
+        {
+            $this->addMediaConversion('thumb')
+                ->width(300)
+                ->height(300)
+                ->sharpen(10);
+
+            $this->addMediaConversion('medium')
+                ->width(600)
+                ->height(600)
+                ->sharpen(10);
         }
     }

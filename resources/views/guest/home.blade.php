@@ -185,32 +185,124 @@
 
         <!-- /Iconbox -->
 
-        <!-- Collection -->
+        <!-- Season Collection -->
+
+{{--        <section class="flat-spacing-12 bg_grey-3">--}}
+{{--            <div class="container">--}}
+{{--                <div class="flat-title flex-row justify-content-between align-items-center px-0 wow fadeInUp"--}}
+{{--                    data-wow-delay="0s">--}}
+{{--                    <h3 class="title">Season Collection</h3>--}}
+{{--                    <a href="{{ route('categories.index') }}" class="btn btn-line">View all categories<i--}}
+{{--                            class="icon icon-arrow1-top-left"></i></a>--}}
+{{--                </div>--}}
+{{--                <div class="hover-sw-nav hover-sw-2">--}}
+{{--                    <div dir="ltr" class="swiper tf-sw-collection" data-preview="6" data-tablet="3" data-mobile="2"--}}
+{{--                        data-space-lg="50" data-space-md="30" data-space="15" data-loop="false" data-auto-play="false">--}}
+{{--                        <div class="swiper-wrapper">--}}
+{{--                            @forelse($categories as $category)--}}
+{{--                                @php--}}
+{{--                                    $imageUrl = $category->image_url ?: 'https://source.unsplash.com/featured/300x300/?' . urlencode($category->name);--}}
+{{--                                @endphp--}}
+{{--                                <div class="swiper-slide" lazy="true">--}}
+{{--                                    <div class="collection-item-circle hover-img">--}}
+{{--                                        <a href="{{ route('categories.show', $category) }}" class="collection-image img-style">--}}
+{{--                                            <img class="lazyload" data-src="{{ $imageUrl }}" src="{{ $imageUrl }}" alt="{{ $category->name }}">--}}
+{{--                                        </a>--}}
+{{--                                        <div class="collection-content text-center">--}}
+{{--                                            <a href="{{ route('categories.show', $category) }}" class="link title fw-5">{{ $category->name }}</a>--}}
+{{--                                            <div class="count">{{ $category->products_count ?? 0 }} items</div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            @empty--}}
+{{--                                <div class="swiper-slide">--}}
+{{--                                    <div class="collection-item-circle hover-img">--}}
+{{--                                        <div class="collection-content text-center">--}}
+{{--                                            <div class="link title fw-5">No categories available</div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            @endforelse--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="sw-dots style-2 sw-pagination-collection justify-content-center"></div>--}}
+{{--                    <div class="nav-sw nav-next-slider nav-next-collection"><span class="icon icon-arrow-left"></span>--}}
+{{--                    </div>--}}
+{{--                    <div class="nav-sw nav-prev-slider nav-prev-collection"><span class="icon icon-arrow-right"></span>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </section>--}}
 
         <section class="flat-spacing-12 bg_grey-3">
             <div class="container">
                 <div class="flat-title flex-row justify-content-between align-items-center px-0 wow fadeInUp"
-                    data-wow-delay="0s">
+                     data-wow-delay="0s">
                     <h3 class="title">Season Collection</h3>
                     <a href="{{ route('categories.index') }}" class="btn btn-line">View all categories<i
                             class="icon icon-arrow1-top-left"></i></a>
                 </div>
                 <div class="hover-sw-nav hover-sw-2">
                     <div dir="ltr" class="swiper tf-sw-collection" data-preview="6" data-tablet="3" data-mobile="2"
-                        data-space-lg="50" data-space-md="30" data-space="15" data-loop="false" data-auto-play="false">
+                         data-space-lg="50" data-space-md="30" data-space="15" data-loop="false" data-auto-play="false">
                         <div class="swiper-wrapper">
                             @forelse($categories as $category)
                                 @php
-                                    $imageUrl = $category->image_url ?: 'https://source.unsplash.com/featured/300x300/?' . urlencode($category->name);
+                                    // 1) Prefer Spatie media (thumb -> original)
+                                    $imageUrl = method_exists($category, 'getFirstMediaUrl')
+                                        ? ($category->getFirstMediaUrl('images', 'thumb') ?: $category->getFirstMediaUrl('images'))
+                                        : null;
+
+                                    // 2) Then the model accessors
+                                    if (empty($imageUrl)) {
+                                        $imageUrl = $category->thumbnail_url ?? $category->image_url;
+                                    }
+
+                                    // 3) If relative storage path, normalize to absolute URL
+                                    if (!empty($imageUrl) && !preg_match('#^https?://#i', $imageUrl) && !str_starts_with($imageUrl, '/')) {
+                                        // Common storage prefix
+                                        if (str_starts_with($imageUrl, 'storage/')) {
+                                            $imageUrl = url($imageUrl); // -> http(s)://host/storage/...
+                                        } else {
+                                            $imageUrl = asset($imageUrl);
+                                        }
+                                    }
+
+                                    // Varied fallback pool
+                                    $fallbackImages = [
+                                        'images/products/shop_with_carl-1.jpg',
+                                        'images/products/shop_with_carl-2.jpg',
+                                        'images/products/shop_with_carl-3.jpg',
+                                        'images/products/shop_with_carl-4.jpg',
+                                        'images/products/shop_with_carl-5.jpg',
+                                        'images/products/shop_with_carl-6.jpg',
+                                        'images/products/shop_with_carl-7.jpg',
+                                        'images/products/shop_with_carl-8.jpg',
+                                        'images/products/shop_with_carl-9.jpg',
+                                        'images/products/shop_with_carl-10.jpg',
+                                    ];
+                                    $fallbackIndex = ($category->id - 1) % count($fallbackImages);
+                                    $fallbackImage = asset($fallbackImages[$fallbackIndex]);
+
+                                    // Final URL (don’t use file_exists on URLs)
+                                    $finalUrl = $imageUrl ?: $fallbackImage;
                                 @endphp
                                 <div class="swiper-slide" lazy="true">
                                     <div class="collection-item-circle hover-img">
                                         <a href="{{ route('categories.show', $category) }}" class="collection-image img-style">
-                                            <img class="lazyload" data-src="{{ $imageUrl }}" src="{{ $imageUrl }}" alt="{{ $category->name }}">
+                                            <img
+                                                src="{{ $finalUrl }}"
+                                                alt="{{ $category->name }}"
+                                                style="width: 100%; height: 200px; object-fit: cover;"
+                                                onload="this.style.opacity=1"
+                                                onerror="this.src='{{ $fallbackImage }}'">
                                         </a>
                                         <div class="collection-content text-center">
                                             <a href="{{ route('categories.show', $category) }}" class="link title fw-5">{{ $category->name }}</a>
                                             <div class="count">{{ $category->products_count ?? 0 }} items</div>
+                                            @if(config('app.debug'))
+                                                <small class="text-muted d-block">{{ $finalUrl }}</small>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -226,15 +318,14 @@
                         </div>
                     </div>
                     <div class="sw-dots style-2 sw-pagination-collection justify-content-center"></div>
-                    <div class="nav-sw nav-next-slider nav-next-collection"><span class="icon icon-arrow-left"></span>
-                    </div>
-                    <div class="nav-sw nav-prev-slider nav-prev-collection"><span class="icon icon-arrow-right"></span>
-                    </div>
+                    <div class="nav-sw nav-next-slider nav-next-collection"><span class="icon icon-arrow-left"></span></div>
+                    <div class="nav-sw nav-prev-slider nav-prev-collection"><span class="icon icon-arrow-right"></span></div>
                 </div>
             </div>
         </section>
 
-        <!-- /Collection -->
+        <!-- /Season Collection -->
+
         <!-- New releases -->
         <section class="flat-spacing-12">
             <div class="container">
@@ -310,6 +401,8 @@
                 </div>
             </div>
         </section>
+
+
 
         @livewire('components.product-quick-add')
         @livewire('components.product-quick-view')
@@ -2995,111 +3088,346 @@
     </script>
 
     <!-- Swiper Initialization Script -->
+{{--    <script>--}}
+{{--    (function initSwipersWhenReady() {--}}
+{{--        function startInit() {--}}
+{{--            // Initialize Season Collection Swiper (guard against double init)--}}
+{{--            const collectionEl = document.querySelector('.tf-sw-collection');--}}
+{{--            if (collectionEl && !collectionEl.swiper) {--}}
+{{--                new (window.Swiper)('.tf-sw-collection', {--}}
+{{--                    slidesPerView: 2,--}}
+{{--                    spaceBetween: 15,--}}
+{{--                    loop: false,--}}
+{{--                    autoplay: false,--}}
+{{--                    navigation: {--}}
+{{--                        nextEl: '.nav-next-collection',--}}
+{{--                        prevEl: '.nav-prev-collection',--}}
+{{--                    },--}}
+{{--                    pagination: {--}}
+{{--                        el: '.sw-pagination-collection',--}}
+{{--                        clickable: true,--}}
+{{--                    },--}}
+{{--                    breakpoints: {--}}
+{{--                        768: {--}}
+{{--                            slidesPerView: 3,--}}
+{{--                            spaceBetween: 30,--}}
+{{--                        },--}}
+{{--                        1024: {--}}
+{{--                            slidesPerView: 6,--}}
+{{--                            spaceBetween: 50,--}}
+{{--                        }--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            }--}}
+
+{{--            // Initialize New Releases Swiper (guard against double init)--}}
+{{--            const brandEl = document.querySelector('.tf-sw-brand');--}}
+{{--            if (brandEl && !brandEl.swiper) {--}}
+{{--                new (window.Swiper)('.tf-sw-brand', {--}}
+{{--                    slidesPerView: 2,--}}
+{{--                    spaceBetween: 15,--}}
+{{--                    loop: false,--}}
+{{--                    autoplay: false,--}}
+{{--                    navigation: {--}}
+{{--                        nextEl: '.nav-next-brand',--}}
+{{--                        prevEl: '.nav-prev-brand',--}}
+{{--                    },--}}
+{{--                    breakpoints: {--}}
+{{--                        768: {--}}
+{{--                            slidesPerView: 3,--}}
+{{--                            spaceBetween: 15,--}}
+{{--                        },--}}
+{{--                        1024: {--}}
+{{--                            slidesPerView: 4,--}}
+{{--                            spaceBetween: 30,--}}
+{{--                        }--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            }--}}
+{{--        }--}}
+
+{{--        function tryInit() {--}}
+{{--            if (window.Swiper) {--}}
+{{--                startInit();--}}
+{{--            } else {--}}
+{{--                // Retry a few times in case Vite module hasn't attached Swiper to window yet--}}
+{{--                let attempts = 0;--}}
+{{--                const maxAttempts = 20; // ~2s if 100ms interval--}}
+{{--                const timer = setInterval(() => {--}}
+{{--                    attempts++;--}}
+{{--                    if (window.Swiper) {--}}
+{{--                        clearInterval(timer);--}}
+{{--                        startInit();--}}
+{{--                    } else if (attempts >= maxAttempts) {--}}
+{{--                        clearInterval(timer);--}}
+{{--                        // As a fallback, load Swiper from CDN and then initialize--}}
+{{--                        if (!window.__loadingSwiperCDN && !window.Swiper) {--}}
+{{--                            window.__loadingSwiperCDN = true;--}}
+{{--                            const script = document.createElement('script');--}}
+{{--                            script.src = 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js';--}}
+{{--                            script.async = true;--}}
+{{--                            script.onload = () => {--}}
+{{--                                window.__loadingSwiperCDN = false;--}}
+{{--                                if (window.Swiper) {--}}
+{{--                                    startInit();--}}
+{{--                                } else {--}}
+{{--                                    console.warn('Swiper CDN loaded but Swiper is still undefined.');--}}
+{{--                                }--}}
+{{--                            };--}}
+{{--                            script.onerror = () => {--}}
+{{--                                window.__loadingSwiperCDN = false;--}}
+{{--                                console.error('Failed to load Swiper from CDN.');--}}
+{{--                            };--}}
+{{--                            document.head.appendChild(script);--}}
+{{--                        } else {--}}
+{{--                            console.warn('Swiper library not found. Skipping swiper initialization.');--}}
+{{--                        }--}}
+{{--                    }--}}
+{{--                }, 100);--}}
+{{--            }--}}
+{{--        }--}}
+
+{{--        if (document.readyState === 'loading') {--}}
+{{--            document.addEventListener('DOMContentLoaded', tryInit);--}}
+{{--        } else {--}}
+{{--            tryInit();--}}
+{{--        }--}}
+{{--    })();--}}
+{{--    </script>--}}
+
     <script>
-    (function initSwipersWhenReady() {
-        function startInit() {
-            // Initialize Season Collection Swiper (guard against double init)
-            const collectionEl = document.querySelector('.tf-sw-collection');
-            if (collectionEl && !collectionEl.swiper) {
-                new (window.Swiper)('.tf-sw-collection', {
-                    slidesPerView: 2,
-                    spaceBetween: 15,
-                    loop: false,
-                    autoplay: false,
-                    navigation: {
-                        nextEl: '.nav-next-collection',
-                        prevEl: '.nav-prev-collection',
-                    },
-                    pagination: {
-                        el: '.sw-pagination-collection',
-                        clickable: true,
-                    },
-                    breakpoints: {
-                        768: {
-                            slidesPerView: 3,
-                            spaceBetween: 30,
-                        },
-                        1024: {
-                            slidesPerView: 6,
-                            spaceBetween: 50,
-                        }
-                    }
-                });
-            }
-
-            // Initialize New Releases Swiper (guard against double init)
-            const brandEl = document.querySelector('.tf-sw-brand');
-            if (brandEl && !brandEl.swiper) {
-                new (window.Swiper)('.tf-sw-brand', {
-                    slidesPerView: 2,
-                    spaceBetween: 15,
-                    loop: false,
-                    autoplay: false,
-                    navigation: {
-                        nextEl: '.nav-next-brand',
-                        prevEl: '.nav-prev-brand',
-                    },
-                    breakpoints: {
-                        768: {
-                            slidesPerView: 3,
+        (function initSwipersWhenReady() {
+            function startInit() {
+                // Initialize Season Collection Swiper with better error handling
+                const collectionEl = document.querySelector('.tf-sw-collection');
+                if (collectionEl && !collectionEl.swiper) {
+                    try {
+                        new (window.Swiper)('.tf-sw-collection', {
+                            slidesPerView: 2,
                             spaceBetween: 15,
-                        },
-                        1024: {
-                            slidesPerView: 4,
-                            spaceBetween: 30,
-                        }
-                    }
-                });
-            }
-        }
-
-        function tryInit() {
-            if (window.Swiper) {
-                startInit();
-            } else {
-                // Retry a few times in case Vite module hasn't attached Swiper to window yet
-                let attempts = 0;
-                const maxAttempts = 20; // ~2s if 100ms interval
-                const timer = setInterval(() => {
-                    attempts++;
-                    if (window.Swiper) {
-                        clearInterval(timer);
-                        startInit();
-                    } else if (attempts >= maxAttempts) {
-                        clearInterval(timer);
-                        // As a fallback, load Swiper from CDN and then initialize
-                        if (!window.__loadingSwiperCDN && !window.Swiper) {
-                            window.__loadingSwiperCDN = true;
-                            const script = document.createElement('script');
-                            script.src = 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js';
-                            script.async = true;
-                            script.onload = () => {
-                                window.__loadingSwiperCDN = false;
-                                if (window.Swiper) {
-                                    startInit();
-                                } else {
-                                    console.warn('Swiper CDN loaded but Swiper is still undefined.');
+                            loop: false,
+                            autoplay: false,
+                            watchOverflow: true,
+                            navigation: {
+                                nextEl: '.nav-next-collection',
+                                prevEl: '.nav-prev-collection',
+                            },
+                            pagination: {
+                                el: '.sw-pagination-collection',
+                                clickable: true,
+                            },
+                            breakpoints: {
+                                768: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 30,
+                                },
+                                1024: {
+                                    slidesPerView: 6,
+                                    spaceBetween: 50,
                                 }
-                            };
-                            script.onerror = () => {
-                                window.__loadingSwiperCDN = false;
-                                console.error('Failed to load Swiper from CDN.');
-                            };
-                            document.head.appendChild(script);
-                        } else {
-                            console.warn('Swiper library not found. Skipping swiper initialization.');
-                        }
+                            },
+                            on: {
+                                init: function() {
+                                    console.log('Collection swiper initialized');
+                                    // Force image loading
+                                    this.slides.forEach(slide => {
+                                        const img = slide.querySelector('img');
+                                        if (img && img.dataset.src) {
+                                            img.src = img.dataset.src;
+                                        }
+                                    });
+                                },
+                                slideChange: function() {
+                                    // Ensure images are loaded when slides change
+                                    const activeSlide = this.slides[this.activeIndex];
+                                    if (activeSlide) {
+                                        const img = activeSlide.querySelector('img[data-src]');
+                                        if (img && !img.src) {
+                                            img.src = img.dataset.src;
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error initializing collection swiper:', error);
                     }
-                }, 100);
-            }
-        }
+                }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', tryInit);
-        } else {
-            tryInit();
-        }
-    })();
+                // Initialize New Releases Swiper with better error handling
+                const brandEl = document.querySelector('.tf-sw-brand');
+                if (brandEl && !brandEl.swiper) {
+                    try {
+                        new (window.Swiper)('.tf-sw-brand', {
+                            slidesPerView: 2,
+                            spaceBetween: 15,
+                            loop: false,
+                            autoplay: false,
+                            watchOverflow: true,
+                            navigation: {
+                                nextEl: '.nav-next-brand',
+                                prevEl: '.nav-prev-brand',
+                            },
+                            breakpoints: {
+                                768: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 15,
+                                },
+                                1024: {
+                                    slidesPerView: 4,
+                                    spaceBetween: 30,
+                                }
+                            },
+                            on: {
+                                init: function() {
+                                    console.log('Brand swiper initialized');
+                                    // Force image loading
+                                    this.slides.forEach(slide => {
+                                        const imgs = slide.querySelectorAll('img');
+                                        imgs.forEach(img => {
+                                            if (img.dataset.src && !img.src) {
+                                                img.src = img.dataset.src;
+                                            }
+                                        });
+                                    });
+                                },
+                                slideChange: function() {
+                                    // Ensure images are loaded when slides change
+                                    const activeSlide = this.slides[this.activeIndex];
+                                    if (activeSlide) {
+                                        const imgs = activeSlide.querySelectorAll('img[data-src]');
+                                        imgs.forEach(img => {
+                                            if (!img.src) {
+                                                img.src = img.dataset.src;
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error initializing brand swiper:', error);
+                    }
+                }
+
+                // Initialize Gallery Swiper if it exists
+                const galleryEl = document.querySelector('.tf-sw-shop-gallery');
+                if (galleryEl && !galleryEl.swiper) {
+                    try {
+                        new (window.Swiper)('.tf-sw-shop-gallery', {
+                            slidesPerView: 2,
+                            spaceBetween: 7,
+                            loop: false,
+                            autoplay: false,
+                            navigation: {
+                                nextEl: '.nav-next-gallery',
+                                prevEl: '.nav-prev-gallery',
+                            },
+                            pagination: {
+                                el: '.sw-pagination-gallery',
+                                clickable: true,
+                            },
+                            breakpoints: {
+                                768: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 7,
+                                },
+                                1024: {
+                                    slidesPerView: 5,
+                                    spaceBetween: 7,
+                                }
+                            },
+                            on: {
+                                init: function() {
+                                    console.log('Gallery swiper initialized');
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error initializing gallery swiper:', error);
+                    }
+                }
+            }
+
+            function tryInit() {
+                if (window.Swiper) {
+                    startInit();
+                } else {
+                    // Retry with exponential backoff
+                    let attempts = 0;
+                    const maxAttempts = 20;
+                    const timer = setInterval(() => {
+                        attempts++;
+                        if (window.Swiper) {
+                            clearInterval(timer);
+                            startInit();
+                        } else if (attempts >= maxAttempts) {
+                            clearInterval(timer);
+                            console.warn('Swiper library not found after maximum attempts');
+
+                            // Fallback: try to load from CDN
+                            if (!window.__loadingSwiperCDN && !window.Swiper) {
+                                window.__loadingSwiperCDN = true;
+                                const link = document.createElement('link');
+                                link.rel = 'stylesheet';
+                                link.href = 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css';
+                                document.head.appendChild(link);
+
+                                const script = document.createElement('script');
+                                script.src = 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js';
+                                script.async = true;
+                                script.onload = () => {
+                                    window.__loadingSwiperCDN = false;
+                                    if (window.Swiper) {
+                                        startInit();
+                                    }
+                                };
+                                script.onerror = () => {
+                                    window.__loadingSwiperCDN = false;
+                                    console.error('Failed to load Swiper from CDN.');
+                                };
+                                document.head.appendChild(script);
+                            }
+                        }
+                    }, Math.min(100 * Math.pow(1.5, attempts), 1000)); // Exponential backoff
+                }
+            }
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', tryInit);
+            } else {
+                // DOM is already loaded
+                setTimeout(tryInit, 100); // Small delay to ensure all scripts are loaded
+            }
+        })();
+
+        // Additional image error handling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle image loading errors globally
+            document.addEventListener('error', function(e) {
+                if (e.target.tagName === 'IMG') {
+                    const img = e.target;
+                    if (!img.getAttribute('data-error-handled')) {
+                        img.setAttribute('data-error-handled', 'true');
+                        img.src = '{{ asset('images/products/shop_with_carl-1.jpg') }}';
+                        console.warn('Image load error, using fallback:', img.alt || 'Unknown image');
+                    }
+                }
+            }, true);
+
+            // Pre-load critical images
+            const criticalImages = [
+                '{{ asset('images/products/shop_with_carl-1.jpg') }}',
+                '{{ asset('images/placeholder-product.jpg') }}',
+                '{{ asset('images/placeholder-category.jpg') }}'
+            ];
+
+            criticalImages.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+        });
     </script>
 
 </x-app-layout>

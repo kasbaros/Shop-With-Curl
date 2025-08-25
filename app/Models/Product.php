@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasStorageImages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +18,12 @@ use Laravel\Scout\Searchable;
 
 class Product extends Model implements HasMedia
 {
-    use HasFactory, HasSlug, InteractsWithMedia, Searchable;
+    use HasFactory, HasSlug, InteractsWithMedia, Searchable, HasStorageImages {
+        // Resolve the getFirstMediaUrl collision by using our trait's version
+        HasStorageImages::getFirstMediaUrl insteadof InteractsWithMedia;
+        // But keep Spatie's original available as an alias
+        InteractsWithMedia::getFirstMediaUrl as getSpatieMediaUrl;
+    }
 
     protected $fillable = [
         'name',
@@ -325,5 +331,68 @@ class Product extends Model implements HasMedia
             ->where('is_active', true)
             ->orderBy('id', 'asc')
             ->first();
+    }
+
+    /**
+     * Get product images array
+     */
+    public function getImagesAttribute(): array
+    {
+        // Try Spatie Media Library first
+        $mediaImages = $this->getMedia('images');
+
+        if ($mediaImages->count() > 0) {
+            return $mediaImages->map(function ($media, $index) {
+                return [
+                    'thumb' => $this->getMediaStorageUrl('images', 'thumb', $index),
+                    'large' => $this->getMediaStorageUrl('images', 'large', $index),
+                    'original' => $this->getMediaStorageUrl('images', '', $index),
+                ];
+            })->toArray();
+        }
+
+        // Fallback to featured_image field
+        if ($this->featured_image) {
+            return [
+                [
+                    'thumb' => $this->getStorageImageUrl($this->featured_image, 400, 400),
+                    'large' => $this->getStorageImageUrl($this->featured_image, 1200, 1200),
+                    'original' => $this->getStorageImageUrl($this->featured_image),
+                ]
+            ];
+        }
+
+        // Default placeholder
+        return [
+            [
+                'thumb' => $this->getPlaceholderImage(),
+                'large' => $this->getPlaceholderImage(),
+                'original' => $this->getPlaceholderImage(),
+            ]
+        ];
+    }
+
+    /**
+     * Get featured image URL
+     */
+    public function getFeaturedImageUrlAttribute(): string
+    {
+        if ($this->featured_image) {
+            return $this->getStorageImageUrl($this->featured_image);
+        }
+
+        return $this->getFirstMediaUrl('images');
+    }
+
+    /**
+     * Get thumbnail URL
+     */
+    public function getThumbnailUrlAttribute(): string
+    {
+        if ($this->featured_image) {
+            return $this->getStorageImageUrl($this->featured_image, 400, 400);
+        }
+
+        return $this->getMediaStorageUrl('images', 'thumb');
     }
 }
