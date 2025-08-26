@@ -35,11 +35,23 @@
     |
     */
 
+
+// Storage route - MUST be first to avoid conflicts
     Route::get('storage/{path}', [StorageController::class, 'serve'])
         ->where('path', '.*')
-        ->name('storage.serve')
-        ->middleware(['web']); // Explicitly add web middleware
+        ->name('storage.serve');
 
+    // Add this RIGHT AFTER the storage route for testing
+    Route::get('storage-test', function() {
+        return response()->json([
+            'message' => 'Storage route test works',
+            'storage_path' => storage_path('app/public'),
+            'gallery_exists' => is_dir(storage_path('app/public/gallery')),
+            'files' => \Illuminate\Support\Facades\File::files(storage_path('app/public/gallery')),
+            'route_exists' => \Illuminate\Support\Facades\Route::has('storage.serve'),
+            'route_url' => route('storage.serve', ['path' => 'gallery/test.jpg'])
+        ]);
+    });
 
 // ==================================================
 // GUEST ROUTES (Public Access) - HYBRID APPROACH
