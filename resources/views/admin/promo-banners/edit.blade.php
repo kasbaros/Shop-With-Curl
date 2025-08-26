@@ -83,7 +83,7 @@
                             <input type="file" class="form-control @error('image_desktop') is-invalid @enderror"
                                    id="image_desktop" name="image_desktop" accept="image/*">
                             @if($promoBanner->image_desktop)
-                                <img src="{{ $promoBanner->image_desktop }}" alt="Desktop Banner"
+                                <img src="{{ $promoBanner->desktopImageUrl }}" alt="Desktop Banner"
                                      class="mt-2 img-fluid rounded">
                             @endif
                             @error('image_desktop')
@@ -95,7 +95,7 @@
                             <input type="file" class="form-control @error('image_mobile') is-invalid @enderror"
                                    id="image_mobile" name="image_mobile" accept="image/*">
                             @if($promoBanner->image_mobile)
-                                <img src="{{ $promoBanner->image_mobile }}" alt="Mobile Banner"
+                                <img src="{{ $promoBanner->mobileImageUrl }}" alt="Mobile Banner"
                                      class="mt-2 img-fluid rounded">
                             @endif
                             @error('image_mobile')

@@ -102,13 +102,13 @@
                     @if($promoBanner->image_desktop)
                         <div class="col-md-6">
                             <p><strong>Desktop:</strong></p>
-                            <img src="{{ $promoBanner->image_desktop }}" alt="Desktop Image" class="img-fluid rounded">
+                            <img src="{{ $promoBanner->desktopImageUrl }}" alt="Desktop Image" class="img-fluid rounded">
                         </div>
                     @endif
                     @if($promoBanner->image_mobile)
                         <div class="col-md-6">
                             <p><strong>Mobile:</strong></p>
-                            <img src="{{ $promoBanner->image_mobile }}" alt="Mobile Image" class="img-fluid rounded">
+                            <img src="{{ $promoBanner->mobileImageUrl }}" alt="Mobile Image" class="img-fluid rounded">
                         </div>
                     @endif
                 </div>
