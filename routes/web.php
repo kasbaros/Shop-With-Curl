@@ -41,16 +41,50 @@
         ->where('path', '.*')
         ->name('storage.serve');
 
-    // Add this temporary test route
-    Route::get('test-image-helper', function () {
+    // Update the test route to actually create directories
+    Route::get('test-image-helper', function() {
         $basePath = $_SERVER['DOCUMENT_ROOT'] . '/storage';
+
+        // Try to create the base storage directory
+        $created = false;
+        $error = null;
+
+        try {
+            if (!is_dir($basePath)) {
+                $created = mkdir($basePath, 0755, true);
+            }
+
+            // Try to create subdirectories
+            $subdirs = ['gallery', 'products', 'categories', 'media'];
+            $subdirResults = [];
+
+            foreach ($subdirs as $subdir) {
+                $subdirPath = $basePath . '/' . $subdir;
+                if (!is_dir($subdirPath)) {
+                    $subdirResults[$subdir] = mkdir($subdirPath, 0755, true);
+                } else {
+                    $subdirResults[$subdir] = 'already_exists';
+                }
+            }
+
+        } catch (Exception $e) {
+            $error = $e->getMessage();
+        }
 
         return response()->json([
             'document_root' => $_SERVER['DOCUMENT_ROOT'],
             'storage_base_path' => $basePath,
-            'storage_exists' => is_dir($basePath),
-            'storage_writable' => is_writable($_SERVER['DOCUMENT_ROOT']),
-            'can_create_test_dir' => is_writable($_SERVER['DOCUMENT_ROOT']),
+            'storage_exists_now' => is_dir($basePath),
+            'storage_writable' => is_writable($basePath),
+            'created' => $created,
+            'error' => $error,
+            'subdirectories' => $subdirResults ?? null,
+            'final_check' => [
+                'gallery_exists' => is_dir($basePath . '/gallery'),
+                'products_exists' => is_dir($basePath . '/products'),
+                'categories_exists' => is_dir($basePath . '/categories'),
+                'media_exists' => is_dir($basePath . '/media'),
+            ]
         ]);
     });
 
