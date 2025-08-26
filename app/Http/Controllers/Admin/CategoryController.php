@@ -2,6 +2,7 @@
 
     namespace App\Http\Controllers\Admin;
 
+    use App\Helpers\ImageStorageHelper;
     use App\Models\Category;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Storage;
@@ -46,42 +47,77 @@
             return view('admin.categories.create', $this->getAdminViewData());
         }
 
+//        public function store(Request $request)
+//        {
+//            $validated = $request->validate([
+//                'name' => 'required|string|max:255',
+//                'slug' => 'nullable|string|max:255|unique:categories,slug',
+//                'description' => 'nullable|string',
+//                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+//                'is_active' => 'boolean',
+//                'meta_title' => 'nullable|string|max:255',
+//                'meta_description' => 'nullable|string|max:500',
+//                'sort_order' => 'nullable|integer|min:0',
+//            ]);
+//
+//            // Generate slug if not provided
+//            if (empty($validated['slug'])) {
+//                $validated['slug'] = Str::slug($validated['name']);
+//
+//                // Ensure unique slug
+//                $originalSlug = $validated['slug'];
+//                $counter = 1;
+//                while (Category::where('slug', $validated['slug'])->exists()) {
+//                    $validated['slug'] = $originalSlug . '-' . $counter++;
+//                }
+//            }
+//
+//            // Create category without handling legacy image_path
+//            $category = Category::create($validated);
+//
+//            // Handle image upload via Spatie Media Library
+//            if ($request->hasFile('image')) {
+//                $category->addMediaFromRequest('image')->toMediaCollection('images');
+//            }
+//
+//            return redirect()
+//                ->route('admin.categories.show', $category)
+//                ->with('success', 'Category created successfully!');
+//        }
+
         public function store(Request $request)
         {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'slug' => 'nullable|string|max:255|unique:categories,slug',
                 'description' => 'nullable|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+                'parent_id' => 'nullable|exists:categories,id',
+                'sort_order' => 'nullable|integer|min:0',
                 'is_active' => 'boolean',
                 'meta_title' => 'nullable|string|max:255',
                 'meta_description' => 'nullable|string|max:500',
-                'sort_order' => 'nullable|integer|min:0',
             ]);
 
-            // Generate slug if not provided
             if (empty($validated['slug'])) {
-                $validated['slug'] = Str::slug($validated['name']);
-
-                // Ensure unique slug
-                $originalSlug = $validated['slug'];
-                $counter = 1;
+                $base = \Str::slug($validated['name']);
+                $validated['slug'] = $base;
+                $i = 1;
                 while (Category::where('slug', $validated['slug'])->exists()) {
-                    $validated['slug'] = $originalSlug . '-' . $counter++;
+                    $validated['slug'] = $base . '-' . $i++;
                 }
             }
 
-            // Create category without handling legacy image_path
-            $category = Category::create($validated);
-
-            // Handle image upload via Spatie Media Library
             if ($request->hasFile('image')) {
-                $category->addMediaFromRequest('image')->toMediaCollection('images');
+                $validated['image'] = ImageStorageHelper::store($request->file('image'), 'categories');
             }
 
-            return redirect()
-                ->route('admin.categories.show', $category)
-                ->with('success', 'Category created successfully!');
+            $validated['is_active'] = $request->boolean('is_active', true);
+
+            $category = Category::create($validated);
+
+            return redirect()->route('admin.categories.show', $category)
+                ->with('success', 'Category created successfully.');
         }
 
         public function show(Category $category)
@@ -107,88 +143,140 @@
             ));
         }
 
+//        public function update(Request $request, Category $category)
+//        {
+//            $validated = $request->validate([
+//                'name' => 'required|string|max:255',
+//                'slug' => ['nullable', 'string', 'max:255', Rule::unique('categories')->ignore($category)],
+//                'description' => 'nullable|string',
+//                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+//                'is_active' => 'boolean',
+//                'meta_title' => 'nullable|string|max:255',
+//                'meta_description' => 'nullable|string|max:500',
+//                'sort_order' => 'nullable|integer|min:0',
+//                'remove_image' => 'boolean',
+//            ]);
+//
+//            // Generate slug if not provided
+//            if (empty($validated['slug'])) {
+//                $validated['slug'] = Str::slug($validated['name']);
+//
+//                // Ensure unique slug
+//                $originalSlug = $validated['slug'];
+//                $counter = 1;
+//                while (Category::where('slug', $validated['slug'])
+//                    ->where('id', '!=', $category->id)
+//                    ->exists()) {
+//                    $validated['slug'] = $originalSlug . '-' . $counter++;
+//                }
+//            }
+//
+//            // Handle image removal - clear media and legacy path
+//            if ($request->boolean('remove_image')) {
+//                // Clear Spatie media
+//                $category->clearMediaCollection('images');
+//                // Remove legacy stored file if exists
+//                if ($category->image_path) {
+//                    Storage::disk('public')->delete($category->image_path);
+//                }
+//                $validated['image_path'] = null;
+//            }
+//
+//            // Persist other fields first
+//            $category->update($validated);
+//
+//            // Handle new image upload via Spatie Media Library
+//            if ($request->hasFile('image')) {
+//                // Clear existing media to maintain single file behavior
+//                $category->clearMediaCollection('images');
+//                $category->addMediaFromRequest('image')->toMediaCollection('images');
+//                // Also clear legacy image_path value if present
+//                if ($category->image_path) {
+//                    Storage::disk('public')->delete($category->image_path);
+//                    $category->image_path = null;
+//                    $category->save();
+//                }
+//            }
+//
+//            return redirect()
+//                ->route('admin.categories.show', $category)
+//                ->with('success', 'Category updated successfully!');
+//        }
+
+
+
+//        public function destroy(Category $category)
+//        {
+//            // Check if category has products
+//            if ($category->products()->count() > 0) {
+//                return redirect()
+//                    ->route('admin.categories.index')
+//                    ->with('error', 'Cannot delete category with existing products. Please move or delete all products first.');
+//            }
+//
+//            // Remove media image(s)
+//            $category->clearMediaCollection('images');
+//
+//            // Remove legacy stored image
+//            if ($category->image_path) {
+//                Storage::disk('public')->delete($category->image_path);
+//            }
+//
+//            $category->delete();
+//
+//            return redirect()
+//                ->route('admin.categories.index')
+//                ->with('success', 'Category deleted successfully!');
+//        }
+
         public function update(Request $request, Category $category)
         {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'slug' => ['nullable', 'string', 'max:255', Rule::unique('categories')->ignore($category)],
+                'slug' => ['nullable','string','max:255', Rule::unique('categories')->ignore($category)],
                 'description' => 'nullable|string',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+                'parent_id' => 'nullable|exists:categories,id',
+                'sort_order' => 'nullable|integer|min:0',
                 'is_active' => 'boolean',
                 'meta_title' => 'nullable|string|max:255',
                 'meta_description' => 'nullable|string|max:500',
-                'sort_order' => 'nullable|integer|min:0',
-                'remove_image' => 'boolean',
             ]);
 
-            // Generate slug if not provided
             if (empty($validated['slug'])) {
-                $validated['slug'] = Str::slug($validated['name']);
-
-                // Ensure unique slug
-                $originalSlug = $validated['slug'];
-                $counter = 1;
-                while (Category::where('slug', $validated['slug'])
-                    ->where('id', '!=', $category->id)
-                    ->exists()) {
-                    $validated['slug'] = $originalSlug . '-' . $counter++;
+                $base = \Str::slug($validated['name']);
+                $validated['slug'] = $base;
+                $i = 1;
+                while (Category::where('slug', $validated['slug'])->where('id','!=',$category->id)->exists()) {
+                    $validated['slug'] = $base . '-' . $i++;
                 }
             }
 
-            // Handle image removal - clear media and legacy path
-            if ($request->boolean('remove_image')) {
-                // Clear Spatie media
-                $category->clearMediaCollection('images');
-                // Remove legacy stored file if exists
-                if ($category->image_path) {
-                    Storage::disk('public')->delete($category->image_path);
+            if ($request->hasFile('image')) {
+                if (!empty($category->image)) {
+                    ImageStorageHelper::delete($category->image);
                 }
-                $validated['image_path'] = null;
+                $validated['image'] = ImageStorageHelper::store($request->file('image'), 'categories');
             }
 
-            // Persist other fields first
+            $validated['is_active'] = $request->boolean('is_active', $category->is_active);
+
             $category->update($validated);
 
-            // Handle new image upload via Spatie Media Library
-            if ($request->hasFile('image')) {
-                // Clear existing media to maintain single file behavior
-                $category->clearMediaCollection('images');
-                $category->addMediaFromRequest('image')->toMediaCollection('images');
-                // Also clear legacy image_path value if present
-                if ($category->image_path) {
-                    Storage::disk('public')->delete($category->image_path);
-                    $category->image_path = null;
-                    $category->save();
-                }
-            }
-
-            return redirect()
-                ->route('admin.categories.show', $category)
-                ->with('success', 'Category updated successfully!');
+            return redirect()->route('admin.categories.show', $category)
+                ->with('success', 'Category updated successfully.');
         }
 
         public function destroy(Category $category)
         {
-            // Check if category has products
-            if ($category->products()->count() > 0) {
-                return redirect()
-                    ->route('admin.categories.index')
-                    ->with('error', 'Cannot delete category with existing products. Please move or delete all products first.');
-            }
-
-            // Remove media image(s)
-            $category->clearMediaCollection('images');
-
-            // Remove legacy stored image
-            if ($category->image_path) {
-                Storage::disk('public')->delete($category->image_path);
+            if (!empty($category->image)) {
+                ImageStorageHelper::delete($category->image);
             }
 
             $category->delete();
 
-            return redirect()
-                ->route('admin.categories.index')
-                ->with('success', 'Category deleted successfully!');
+            return redirect()->route('admin.categories.index')
+                ->with('success', 'Category deleted successfully.');
         }
 
         public function toggleStatus(Category $category)
