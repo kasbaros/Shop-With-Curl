@@ -41,17 +41,28 @@
         ->where('path', '.*')
         ->name('storage.serve');
 
-    // Add this RIGHT AFTER the storage route for testing
-    Route::get('test-paths', function() {
-        return response()->json([
-            'document_root' => $_SERVER['DOCUMENT_ROOT'],
-            'base_path' => base_path(),
-            'storage_path' => storage_path(),
-            'app_path' => app_path(),
-            'laravel_storage_exists' => file_exists('/home/shopwithcaug/Laravel/storage/app/public/gallery'),
-            'image_exists' => file_exists('/home/shopwithcaug/Laravel/storage/app/public/gallery/1756191489_gallery.png'),
-            'base_path_storage' => file_exists(base_path('storage/app/public/gallery')),
-        ]);
+    // Add this route to verify your specific file
+    Route::get('verify-file', function () {
+        $specificFile = '/home/shopwithcaug/Laravel/storage/app/public/gallery/1756195140_gallery.jpeg';
+        $galleryDir = '/home/shopwithcaug/Laravel/storage/app/public/gallery';
+
+        $result = [
+            'specific_file_path' => $specificFile,
+            'specific_file_exists' => file_exists($specificFile),
+            'gallery_dir_exists' => is_dir($galleryDir),
+            'gallery_dir_readable' => is_readable($galleryDir),
+            'files_in_gallery' => [],
+        ];
+
+        // List all files in gallery directory
+        if (is_dir($galleryDir)) {
+            $files = scandir($galleryDir);
+            $result['files_in_gallery'] = array_filter($files, function ($file) {
+                return $file !== '.' && $file !== '..';
+            });
+        }
+
+        return response()->json($result, 200, [], JSON_PRETTY_PRINT);
     });
 
 // ==================================================
@@ -162,7 +173,8 @@
         Route::prefix('checkout')->name('checkout.')->group(function () {
             Route::get('/', [\App\Http\Controllers\Client\CheckoutController::class, 'index'])->name('index');
             Route::post('/', [\App\Http\Controllers\Client\CheckoutController::class, 'store'])->name('store');
-            Route::get('/checkout/success/{order}', [CheckoutController::class, 'orderSuccess'])->name('checkout.order-success');        });
+            Route::get('/checkout/success/{order}', [CheckoutController::class, 'orderSuccess'])->name('checkout.order-success');
+        });
 
         // Payment (Keep Controllers - Financial processing, security)
         Route::prefix('payment')->name('payment.')->group(function () {
