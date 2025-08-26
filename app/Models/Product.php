@@ -249,18 +249,18 @@ class Product extends Model implements HasMedia
         return $this->getFirstMediaUrl('images');
     }
 
-    public function getGalleryImagesAttribute(): array
-    {
-        return $this->getMedia('gallery')->map(function ($media) {
-            return [
-                'id' => $media->id,
-                'url' => $media->getUrl(),
-                'thumb' => $media->getUrl('thumb'),
-                'medium' => $media->getUrl('medium'),
-                'large' => $media->getUrl('large'),
-            ];
-        })->toArray();
-    }
+//    public function getGalleryImagesAttribute(): array
+//    {
+//        return $this->getMedia('gallery')->map(function ($media) {
+//            return [
+//                'id' => $media->id,
+//                'url' => $media->getUrl(),
+//                'thumb' => $media->getUrl('thumb'),
+//                'medium' => $media->getUrl('medium'),
+//                'large' => $media->getUrl('large'),
+//            ];
+//        })->toArray();
+//    }
 
     public function getStatusBadgeAttribute(): string
     {
@@ -394,5 +394,84 @@ class Product extends Model implements HasMedia
         }
 
         return $this->getMediaStorageUrl('images', 'thumb');
+    }
+
+    /**
+     * Primary image URL (prefers featured_image, else first gallery image, else placeholder)
+     */
+    public function getPrimaryImageUrlAttribute(): string
+    {
+        if (!empty($this->featured_image)) {
+            return $this->getStorageImageUrl($this->featured_image);
+        }
+        if (is_array($this->gallery) && !empty($this->gallery[0])) {
+            return $this->getStorageImageUrl($this->gallery[0]);
+        }
+        return $this->getPlaceholderImage();
+    }
+
+    /**
+     * Secondary/hover image URL (second gallery image if present, else primary)
+     */
+    public function getHoverImageUrlAttribute(): string
+    {
+        if (is_array($this->gallery) && isset($this->gallery[1])) {
+            return $this->getStorageImageUrl($this->gallery[1]);
+        }
+        return $this->primary_image_url;
+    }
+
+    /**
+     * Backward-compat for places that still call getFirstMediaUrl('images', 'large')
+     * Returns our primary image URL ignoring collection/conversion.
+     */
+    public function getFirstMediaUrl(string $collectionName = 'images', string $conversionName = ''): string
+    {
+        return $this->primary_image_url;
+    }
+
+    /**
+     * Gallery images array (compat shape)
+     */
+    public function getGalleryImagesAttribute(): array
+    {
+        $items = [];
+
+        // Use stored gallery array first
+        if (is_array($this->gallery) && count($this->gallery) > 0) {
+            foreach ($this->gallery as $idx => $path) {
+                $url = $this->getStorageImageUrl($path);
+                $items[] = [
+                    'id' => $idx,
+                    'url' => $url,
+                    'thumb' => $url,
+                    'medium' => $url,
+                    'large' => $url,
+                ];
+            }
+            return $items;
+        }
+
+        // Fallback to featured_image
+        if (!empty($this->featured_image)) {
+            $url = $this->getStorageImageUrl($this->featured_image);
+            return [[
+                'id' => 0,
+                'url' => $url,
+                'thumb' => $url,
+                'medium' => $url,
+                'large' => $url,
+            ]];
+        }
+
+        // Fallback to placeholder
+        $url = $this->getPlaceholderImage();
+        return [[
+            'id' => 0,
+            'url' => $url,
+            'thumb' => $url,
+            'medium' => $url,
+            'large' => $url,
+        ]];
     }
 }
