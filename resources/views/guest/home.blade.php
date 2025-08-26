@@ -572,9 +572,12 @@
             <div class="container">
                 <div class="tf-hero-image-liquid radius-10 o-hidden banner-countdown-v2">
                     <div class="banner-bg"
-                         @if(!empty($promoBanner?->image_desktop))
-                             style="background-image: url('{{ $promoBanner->image_desktop }}')"
-                        @endif
+{{--                         @if(!empty($promoBanner?->image_desktop))--}}
+{{--                             style="background-image: url('{{ $promoBanner->image_desktop }}')"--}}
+{{--                        @endif--}}
+                    @if(!empty($promoBanner))
+                        <div class="banner-bg" style="background-image: url('{{ $promoBanner->desktopImageUrl }}')"></div>
+                    @endif
                     ></div>
 
                     <div class="floating-elements">
