@@ -92,7 +92,7 @@ class CheckoutController extends Controller
                 'shipping_amount' => $shipping,
                 'discount_amount' => $discount,
                 'total_amount' => $total,
-                'currency' => 'USD',
+                'currency' => 'UGX',
                 'shipping_address' => $shippingAddress->full_address,
                 'billing_address' => $billingAddress->full_address,
                 'notes' => $request->notes,

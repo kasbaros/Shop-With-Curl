@@ -300,9 +300,6 @@
                                         <div class="collection-content text-center">
                                             <a href="{{ route('categories.show', $category) }}" class="link title fw-5">{{ $category->name }}</a>
                                             <div class="count">{{ $category->products_count ?? 0 }} items</div>
-                                            @if(config('app.debug'))
-                                                <small class="text-muted d-block">{{ $finalUrl }}</small>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -765,177 +762,10 @@
                 </div>
             </div>
         </section>
-        <!-- /Trending Now -->
-        <!-- Lookbook -->
-{{--        <section class="section-lookbook-activewear">--}}
-{{--            <div class="container-full">--}}
-{{--                <div class="flat-activewear-lookbook radius-20 o-hidden bg_grey-11 flat-spacing-12">--}}
-{{--                    <div class="container">--}}
-{{--                        <div class="flat-lookbook-v3 d-flex">--}}
-{{--                            <div class="col-left w-50">--}}
-{{--                                <div class="slider-wrap-lookbook">--}}
-{{--                                    <div class="inner-sw-lookbook">--}}
-{{--                                        <div class="flat-title-lookbook">--}}
-{{--                                            <p class="label text_black">SHOP THIS LOOK</p>--}}
-{{--                                            <h3 class="heading font-young-serif">Bundle &amp; Save</h3>--}}
-{{--                                        </div>--}}
-{{--                                        <form>--}}
-{{--                                            <div dir="ltr"--}}
-{{--                                                 class="swiper tf-lookbook swiper-initialized swiper-vertical swiper-pointer-events swiper-backface-hidden"--}}
-{{--                                                 data-preview="3" data-tablet="1" data-mobile="1" data-space-lg="0"--}}
-{{--                                                 data-space-md="0">--}}
-{{--                                                <div class="swiper-wrapper" id="swiper-wrapper-099c4f076f73543b"--}}
-{{--                                                     aria-live="polite" style="transform: translate3d(0px, 0px, 0px);">--}}
-{{--                                                    <div class="swiper-slide swiper-slide-active" lazy="true"--}}
-{{--                                                         style="height: 276.667px;" role="group" aria-label="1 / 3">--}}
-{{--                                                        <div class="tf-bundle-product-item type-lg">--}}
-{{--                                                            <div class="tf-product-bundle-image">--}}
-{{--                                                                <a href="product-detail.html" class="radius-5 o-hidden">--}}
-{{--                                                                    <img src="images/products//white-17.jpg" alt="">--}}
-{{--                                                                </a>--}}
-{{--                                                            </div>--}}
-{{--                                                            <div class="tf-product-bundle-infos">--}}
-{{--                                                                <a href="product-detail.html"--}}
-{{--                                                                   class="tf-product-bundle-title fs-16">Ruched Strappy--}}
-{{--                                                                    Sports Bra</a>--}}
-{{--                                                                <div class="tf-product-bundle-price">--}}
-{{--                                                                    <div class="price fs-16">$38.00</div>--}}
-{{--                                                                </div>--}}
-{{--                                                                <div--}}
-{{--                                                                    class="tf-product-bundle-variant position-relative">--}}
-{{--                                                                    <select class="tf-select">--}}
-{{--                                                                        <option selected="selected">S / White</option>--}}
-{{--                                                                        <option>S / Green</option>--}}
-{{--                                                                        <option>S / Black</option>--}}
-{{--                                                                        <option>S / Pink</option>--}}
-{{--                                                                        <option>M / White</option>--}}
-{{--                                                                        <option>M / Green</option>--}}
-{{--                                                                        <option>M / Black</option>--}}
-{{--                                                                        <option>M / Pink</option>--}}
-{{--                                                                        <option>L / White</option>--}}
-{{--                                                                        <option>L / Green</option>--}}
-{{--                                                                        <option>L / Black</option>--}}
-{{--                                                                        <option>L / Pink</option>--}}
-{{--                                                                        <option>XL / White</option>--}}
-{{--                                                                        <option>XL / Green</option>--}}
-{{--                                                                        <option>XL / Black</option>--}}
-{{--                                                                        <option>XL / Pink</option>--}}
-{{--                                                                    </select>--}}
-{{--                                                                </div>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                    <div class="swiper-slide swiper-slide-next" lazy="true"--}}
-{{--                                                         style="height: 276.667px;" role="group" aria-label="2 / 3">--}}
-{{--                                                        <div class="tf-bundle-product-item type-lg">--}}
-{{--                                                            <div class="tf-product-bundle-image">--}}
-{{--                                                                <a href="product-detail.html">--}}
-{{--                                                                    <img src="images/products/blue-5.jpg" alt="">--}}
-{{--                                                                </a>--}}
-{{--                                                            </div>--}}
-{{--                                                            <div class="tf-product-bundle-infos">--}}
-{{--                                                                <a href="product-detail.html"--}}
-{{--                                                                   class="tf-product-bundle-title fs-16">Pocket--}}
-{{--                                                                    Shorts</a>--}}
-{{--                                                                <div class="tf-product-bundle-price">--}}
-{{--                                                                    <div class="price fs-16">$38.00</div>--}}
-{{--                                                                </div>--}}
-{{--                                                                <div--}}
-{{--                                                                    class="tf-product-bundle-variant position-relative">--}}
-{{--                                                                    <select class="tf-select">--}}
-{{--                                                                        <option selected="selected">S / Blue</option>--}}
-{{--                                                                        <option>S / Green</option>--}}
-{{--                                                                        <option>S / Black</option>--}}
-{{--                                                                        <option>S / Pink</option>--}}
-{{--                                                                        <option>M / White</option>--}}
-{{--                                                                        <option>M / Green</option>--}}
-{{--                                                                        <option>M / Black</option>--}}
-{{--                                                                        <option>M / Pink</option>--}}
-{{--                                                                        <option>L / White</option>--}}
-{{--                                                                        <option>L / Green</option>--}}
-{{--                                                                        <option>L / Black</option>--}}
-{{--                                                                        <option>L / Pink</option>--}}
-{{--                                                                        <option>XL / White</option>--}}
-{{--                                                                        <option>XL / Green</option>--}}
-{{--                                                                        <option>XL / Black</option>--}}
-{{--                                                                        <option>XL / Pink</option>--}}
-{{--                                                                    </select>--}}
-{{--                                                                </div>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                    <div class="swiper-slide" lazy="true" role="group"--}}
-{{--                                                         aria-label="3 / 3" style="height: 276.667px;">--}}
-{{--                                                        <div class="tf-bundle-product-item type-lg">--}}
-{{--                                                            <div class="tf-product-bundle-image">--}}
-{{--                                                                <a href="product-detail.html">--}}
-{{--                                                                    <img src="images/products/brown-11.jpg" alt="">--}}
-{{--                                                                </a>--}}
-{{--                                                            </div>--}}
-{{--                                                            <div class="tf-product-bundle-infos">--}}
-{{--                                                                <span class="tf-product-bundle-title fs-16">Crossover--}}
-{{--                                                                    Leggings</span>--}}
-{{--                                                                <div class="tf-product-bundle-price">--}}
-{{--                                                                    <div class="price fs-16">$38.00</div>--}}
-{{--                                                                </div>--}}
-{{--                                                                <div--}}
-{{--                                                                    class="tf-product-bundle-variant position-relative">--}}
-{{--                                                                    <select class="tf-select">--}}
-{{--                                                                        <option selected="selected">Brown / S</option>--}}
-{{--                                                                        <option>Beige / M</option>--}}
-{{--                                                                        <option>Black / S</option>--}}
-{{--                                                                        <option>Black / M</option>--}}
-{{--                                                                        <option>Black / L</option>--}}
-{{--                                                                        <option>Black / XL</option>--}}
-{{--                                                                        <option>Blue / S</option>--}}
-{{--                                                                        <option>Blue / M</option>--}}
-{{--                                                                        <option>Blue / L</option>--}}
-{{--                                                                        <option>Blue / XL</option>--}}
-{{--                                                                        <option>White / S</option>--}}
-{{--                                                                        <option>White / M</option>--}}
-{{--                                                                        <option>White / L</option>--}}
-{{--                                                                        <option>White / XL</option>--}}
-{{--                                                                    </select>--}}
-{{--                                                                </div>--}}
-{{--                                                            </div>--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                                <div--}}
-{{--                                                    class="sw-dots style-2 sw-pagination-lookbook justify-content-center d-xl-none swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-vertical swiper-pagination-lock">--}}
-{{--                                                    <span--}}
-{{--                                                        class="swiper-pagination-bullet swiper-pagination-bullet-active"--}}
-{{--                                                        tabindex="0" role="button" aria-label="Go to slide 1"--}}
-{{--                                                        aria-current="true"></span></div>--}}
-{{--                                                <span class="swiper-notification" aria-live="assertive"--}}
-{{--                                                      aria-atomic="true"></span></div>--}}
-{{--                                            <button type="submit"--}}
-{{--                                                    class="tf-btn justify-content-center style-2 btn-fill radius-3 animate-hover-btn">--}}
-{{--                                                Add--}}
-{{--                                                selected to cart - $114.00 USD--}}
-{{--                                            </button>--}}
-{{--                                        </form>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col-right w-50">--}}
-{{--                                <div class="wrap-lookbook lookbook-sw">--}}
-{{--                                    <div class="image">--}}
-{{--                                        <img class=" ls-is-cached lazyloaded"--}}
-{{--                                             data-src="images/shop/file/lb-activewear.jpg"--}}
-{{--                                             src="images/shop/file/lb-activewear.jpg" alt="collection-img">--}}
-{{--                                    </div>--}}
-{{--                                    <div class="navigation-sw-dot type-black item-1"><span></span></div>--}}
-{{--                                    <div class="navigation-sw-dot type-black item-2"><span></span></div>--}}
-{{--                                    <div class="navigation-sw-dot type-black item-3"><span></span></div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </section>--}}
 
+        <!-- /Trending Now -->
+
+        <!-- Lookbook -->
         <section class="section-lookbook-activewear">
             <div class="container-full">
                 <div class="flat-activewear-lookbook radius-20 o-hidden bg_grey-11 flat-spacing-12">
@@ -1382,123 +1212,6 @@
     <!-- /toolbar-bottom -->
 
     <!-- mobile menu -->
-{{--    <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">--}}
-{{--        <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>--}}
-{{--        <div class="mb-canvas-content">--}}
-{{--            <div class="mb-body">--}}
-{{--                <ul class="nav-ul-mb" id="wrapper-menu-navigation">--}}
-{{--                    <li class="nav-mb-item">--}}
-{{--                        <a href="#dropdown-menu-one" class="collapsed mb-menu-link current" data-bs-toggle="collapse"--}}
-{{--                           aria-expanded="true" aria-controls="dropdown-menu-one">--}}
-{{--                            <span>Home</span>--}}
-{{--                            <span class="btn-open-sub"></span>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                    <li class="nav-mb-item">--}}
-{{--                        <a href="#dropdown-menu-two" class="collapsed mb-menu-link current" data-bs-toggle="collapse"--}}
-{{--                           aria-expanded="true" aria-controls="dropdown-menu-two">--}}
-{{--                            <span>Shop</span>--}}
-{{--                            <span class="btn-open-sub"></span>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                    <li class="nav-mb-item">--}}
-{{--                        <a href="#dropdown-menu-three" class="collapsed mb-menu-link current" data-bs-toggle="collapse"--}}
-{{--                           aria-expanded="true" aria-controls="dropdown-menu-three">--}}
-{{--                            <span>Products</span>--}}
-{{--                            <span class="btn-open-sub"></span>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
-{{--                    <li class="nav-mb-item">--}}
-{{--                        <a href="#dropdown-menu-four" class="collapsed mb-menu-link current" data-bs-toggle="collapse"--}}
-{{--                           aria-expanded="true" aria-controls="dropdown-menu-four">--}}
-{{--                            <span>Pages</span>--}}
-{{--                            <span class="btn-open-sub"></span>--}}
-{{--                        </a>--}}
-{{--                        <div id="dropdown-menu-four" class="collapse">--}}
-{{--                            <ul class="sub-nav-menu" id="sub-menu-navigation2">--}}
-{{--                                <li><a href="about-us.html" class="sub-nav-link">About us</a></li>--}}
-{{--                                <li><a href="brands.html" class="sub-nav-link line-clamp">Brands--}}
-{{--                                        <div class="demo-label">--}}
-{{--                                            <span class="demo-new">New</span>--}}
-{{--                                        </div>--}}
-{{--                                    </a></li>--}}
-{{--                                <li><a href="brands-v2.html" class="sub-nav-link">Brands</a></li>--}}
-{{--                                <li><a href="contact-1.html" class="sub-nav-link">Contact</a></li>--}}
-{{--                                <li><a href="faq-1.html" class="sub-nav-link">FAQ</a></li>--}}
-{{--                                <li><a href="our-store.html" class="sub-nav-link">Our store</a></li>--}}
-{{--                                <li><a href="view-cart.html" class="sub-nav-link line-clamp">View cart</a></li>--}}
-{{--                                <li><a href="checkout.html" class="sub-nav-link line-clamp">Check out</a></li>--}}
-{{--                                <li><a href="payment-confirmation.html" class="sub-nav-link line-clamp">Payment--}}
-{{--                                        Confirmation</a></li>--}}
-{{--                                <li><a href="payment-failure.html" class="sub-nav-link line-clamp">Payment Failure</a>--}}
-{{--                                </li>--}}
-{{--                                <li><a href="#sub-account" class="sub-nav-link collapsed" data-bs-toggle="collapse"--}}
-{{--                                       aria-expanded="true" aria-controls="sub-account">--}}
-{{--                                        <span>My Account</span>--}}
-{{--                                        <span class="btn-open-sub"></span>--}}
-{{--                                    </a>--}}
-{{--                                    <div id="sub-account" class="collapse">--}}
-{{--                                        <ul class="sub-nav-menu sub-menu-level-2">--}}
-{{--                                            <li><a href="my-account.html" class="sub-nav-link">My account</a></li>--}}
-{{--                                            <li><a href="my-account-orders.html" class="sub-nav-link">My order</a></li>--}}
-{{--                                            <li><a href="my-account-orders-details.html" class="sub-nav-link">My order--}}
-{{--                                                    details</a></li>--}}
-{{--                                            <li><a href="my-account-address.html" class="sub-nav-link">My address</a>--}}
-{{--                                            </li>--}}
-{{--                                            <li><a href="my-account-edit.html" class="sub-nav-link">My account--}}
-{{--                                                    details</a></li>--}}
-{{--                                            <li><a href="my-account-wishlist.html" class="sub-nav-link">My wishlist</a>--}}
-{{--                                            </li>--}}
-{{--                                        </ul>--}}
-{{--                                    </div>--}}
-{{--                                </li>--}}
-{{--                                <li><a href="invoice.html" class="sub-nav-link line-clamp">Invoice</a></li>--}}
-{{--                            </ul>--}}
-{{--                        </div>--}}
-
-{{--                    </li>--}}
-{{--                    <li class="nav-mb-item">--}}
-{{--                        <a href="#dropdown-menu-five" class="collapsed mb-menu-link current" data-bs-toggle="collapse"--}}
-{{--                           aria-expanded="true" aria-controls="dropdown-menu-five">--}}
-{{--                            <span>Blog</span>--}}
-{{--                            <span class="btn-open-sub"></span>--}}
-{{--                        </a>--}}
-
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--                <div class="mb-other-content">--}}
-{{--                    <div class="d-flex group-icon">--}}
-{{--                        <a href="wishlist.html" class="site-nav-icon"><i class="icon icon-heart"></i>Wishlist</a>--}}
-{{--                        <a href="#" class="site-nav-icon"><i class="icon icon-search"></i>Search</a>--}}
-{{--                    </div>--}}
-{{--                    <div class="mb-notice">--}}
-{{--                        <a href="contact-1.html" class="text-need">Need help ?</a>--}}
-{{--                    </div>--}}
-{{--                    <ul class="mb-info">--}}
-{{--                        <li>Address: 1234 Fashion Street, Suite 567, <br> New York, NY 10001</li>--}}
-{{--                        <li>Email: <b>info@fashionshop.com</b></li>--}}
-{{--                        <li>Phone: <b>(212) 555-1234</b></li>--}}
-{{--                    </ul>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="mb-bottom">--}}
-{{--                <a href="login.html" class="site-nav-icon"><i class="icon icon-account"></i>Login</a>--}}
-{{--                <div class="bottom-bar-language">--}}
-{{--                    <div class="tf-currencies">--}}
-{{--                        <select class="image-select center style-default type-currencies">--}}
-{{--                            <option data-thumbnail="images/country/fr.svg">UGX Shs | Uganda</option>--}}
-{{--                            <option selected data-thumbnail="images/country/us.svg">USD $ | United States</option>--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
-{{--                    <div class="tf-languages">--}}
-{{--                        <select class="image-select center style-default type-languages">--}}
-{{--                            <option>English</option>--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
     <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
         <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
         <div class="mb-canvas-content">
@@ -1590,8 +1303,8 @@
                                     <div class="content">
                                         <a href="product-detail.html">Cotton jersey top</a>
                                         <div class="tf-product-info-price">
-                                            <div class="compare-at-price">$10.00</div>
-                                            <div class="price-on-sale fw-6">$8.00</div>
+                                            <div class="compare-at-price">UGX 10,000</div>
+                                            <div class="price-on-sale fw-6">UGX 8,000</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1604,7 +1317,7 @@
                                     <div class="content">
                                         <a href="product-detail.html">Mini crossbody bag</a>
                                         <div class="tf-product-info-price">
-                                            <div class="price fw-6">$18.00</div>
+                                            <div class="price fw-6">UGX 18,000</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1617,7 +1330,7 @@
                                     <div class="content">
                                         <a href="product-detail.html">Oversized Printed T-shirt</a>
                                         <div class="tf-product-info-price">
-                                            <div class="price fw-6">$18.00</div>
+                                            <div class="price fw-6">UGX 18,000</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1969,7 +1682,7 @@
                             </span>
                         </div>
                         <div class="tf-progress-msg">
-                            Buy <span class="price fw-6">$75.00</span> more to enjoy <span class="fw-6">Free
+                            Buy <span class="price fw-6">UGX 75,000</span> more to enjoy <span class="fw-6">Free
                                 Shipping</span>
                         </div>
                     </div>
@@ -1986,7 +1699,7 @@
                                         <div class="tf-mini-cart-info">
                                             <a class="title link" href="product-detail.html">T-shirt</a>
                                             <div class="meta-variant">Light gray</div>
-                                            <div class="price fw-6">$25.00</div>
+                                            <div class="price fw-6">UGX 25,000</div>
                                             <div class="tf-mini-cart-btns">
                                                 <div class="wg-quantity small">
                                                     <span class="btn-quantity minus-btn">-</span>
@@ -2005,7 +1718,7 @@
                                         </div>
                                         <div class="tf-mini-cart-info">
                                             <a class="title link" href="product-detail.html">Oversized Motif T-shirt</a>
-                                            <div class="price fw-6">$25.00</div>
+                                            <div class="price fw-6">UGX 25,000</div>
                                             <div class="tf-mini-cart-btns">
                                                 <div class="wg-quantity small">
                                                     <span class="btn-quantity minus-btn">-</span>
@@ -2034,7 +1747,7 @@
                                                     <div class="tf-minicart-recommendations-item-infos flex-grow-1">
                                                         <a class="title" href="product-detail.html">Loose Fit
                                                             Sweatshirt</a>
-                                                        <div class="price">$25.00</div>
+                                                        <div class="price">UGX 25,000</div>
                                                     </div>
                                                     <div class="tf-minicart-recommendations-item-quickview">
                                                         <div class="btn-show-quickview quickview hover-tooltip">
@@ -2052,7 +1765,7 @@
                                                     </div>
                                                     <div class="tf-minicart-recommendations-item-infos flex-grow-1">
                                                         <a class="title" href="product-detail.html">Loose Fit Hoodie</a>
-                                                        <div class="price">$25.00</div>
+                                                        <div class="price">UGX 25,000</div>
                                                     </div>
                                                     <div class="tf-minicart-recommendations-item-quickview">
                                                         <div class="btn-show-quickview quickview hover-tooltip">
@@ -2099,7 +1812,7 @@
                             <div class="tf-mini-cart-bottom-wrap">
                                 <div class="tf-cart-totals-discounts">
                                     <div class="tf-cart-total">Subtotal</div>
-                                    <div class="tf-totals-total-value fw-6">$49.99 USD</div>
+                                    <div class="tf-totals-total-value fw-6">UGX 49,990</div>
                                 </div>
                                 <div class="tf-cart-tax">Taxes and <a href="#">shipping</a> calculated at checkout</div>
                                 <div class="tf-mini-cart-line"></div>
@@ -2168,7 +1881,7 @@
                                         <div class="tf-gift-wrap-infos">
                                             <p>Do you want a gift wrap?</p>
                                             Only
-                                            <span class="price fw-6">$5.00</span>
+                                            <span class="price fw-6">UGX 5,000</span>
                                         </div>
                                     </div>
                                     <div class="tf-cart-tool-btns">
@@ -2367,10 +2080,10 @@
                         <div class="content">
                             <a href="product-detail.html">Ribbed Tank Top</a>
                             <div class="tf-product-info-price">
-                                <!-- <div class="price-on-sale">$8.00</div>
-                                <div class="compare-at-price">$10.00</div>
+                                <!-- <div class="price-on-sale">UGX 8,000</div>
+                                <div class="compare-at-price">UGX 10,000</div>
                                 <div class="badges-on-sale"><span>20</span>% OFF</div> -->
-                                <div class="price">$18.00</div>
+                                <div class="price">UGX 18,000</div>
                             </div>
                         </div>
                     </div>
@@ -2433,7 +2146,7 @@
                         <form>
                             <a href="javascript:void(0);"
                                class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"><span>Add
-                                    to cart -&nbsp;</span><span class="tf-qty-price">$18.00</span></a>
+                                    to cart -&nbsp;</span><span class="tf-qty-price">UGX 18,000</span></a>
                             <div class="tf-product-btn-wishlist btn-icon-action">
                                 <i class="icon-heart"></i>
                                 <i class="icon-delete"></i>
@@ -2494,7 +2207,7 @@
                                 </div>
                             </div>
                             <div class="tf-product-info-price">
-                                <div class="price">$18.00</div>
+                                <div class="price">UGX 18,000</div>
                             </div>
                             <div class="tf-product-description">
                                 <p>Nunc arcu faucibus a et lorem eu a mauris adipiscing conubia ac aptent ligula
@@ -2563,7 +2276,7 @@
                                 <form class="">
                                     <a href="javascript:void(0);"
                                        class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"><span>Add
-                                            to cart -&nbsp;</span><span class="tf-qty-price">$8.00</span></a>
+                                            to cart -&nbsp;</span><span class="tf-qty-price">UGX 8,000</span></a>
                                     <a href="javascript:void(0);"
                                        class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
                                         <span class="icon icon-heart"></span>
@@ -3088,112 +2801,6 @@
     </script>
 
     <!-- Swiper Initialization Script -->
-{{--    <script>--}}
-{{--    (function initSwipersWhenReady() {--}}
-{{--        function startInit() {--}}
-{{--            // Initialize Season Collection Swiper (guard against double init)--}}
-{{--            const collectionEl = document.querySelector('.tf-sw-collection');--}}
-{{--            if (collectionEl && !collectionEl.swiper) {--}}
-{{--                new (window.Swiper)('.tf-sw-collection', {--}}
-{{--                    slidesPerView: 2,--}}
-{{--                    spaceBetween: 15,--}}
-{{--                    loop: false,--}}
-{{--                    autoplay: false,--}}
-{{--                    navigation: {--}}
-{{--                        nextEl: '.nav-next-collection',--}}
-{{--                        prevEl: '.nav-prev-collection',--}}
-{{--                    },--}}
-{{--                    pagination: {--}}
-{{--                        el: '.sw-pagination-collection',--}}
-{{--                        clickable: true,--}}
-{{--                    },--}}
-{{--                    breakpoints: {--}}
-{{--                        768: {--}}
-{{--                            slidesPerView: 3,--}}
-{{--                            spaceBetween: 30,--}}
-{{--                        },--}}
-{{--                        1024: {--}}
-{{--                            slidesPerView: 6,--}}
-{{--                            spaceBetween: 50,--}}
-{{--                        }--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            }--}}
-
-{{--            // Initialize New Releases Swiper (guard against double init)--}}
-{{--            const brandEl = document.querySelector('.tf-sw-brand');--}}
-{{--            if (brandEl && !brandEl.swiper) {--}}
-{{--                new (window.Swiper)('.tf-sw-brand', {--}}
-{{--                    slidesPerView: 2,--}}
-{{--                    spaceBetween: 15,--}}
-{{--                    loop: false,--}}
-{{--                    autoplay: false,--}}
-{{--                    navigation: {--}}
-{{--                        nextEl: '.nav-next-brand',--}}
-{{--                        prevEl: '.nav-prev-brand',--}}
-{{--                    },--}}
-{{--                    breakpoints: {--}}
-{{--                        768: {--}}
-{{--                            slidesPerView: 3,--}}
-{{--                            spaceBetween: 15,--}}
-{{--                        },--}}
-{{--                        1024: {--}}
-{{--                            slidesPerView: 4,--}}
-{{--                            spaceBetween: 30,--}}
-{{--                        }--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            }--}}
-{{--        }--}}
-
-{{--        function tryInit() {--}}
-{{--            if (window.Swiper) {--}}
-{{--                startInit();--}}
-{{--            } else {--}}
-{{--                // Retry a few times in case Vite module hasn't attached Swiper to window yet--}}
-{{--                let attempts = 0;--}}
-{{--                const maxAttempts = 20; // ~2s if 100ms interval--}}
-{{--                const timer = setInterval(() => {--}}
-{{--                    attempts++;--}}
-{{--                    if (window.Swiper) {--}}
-{{--                        clearInterval(timer);--}}
-{{--                        startInit();--}}
-{{--                    } else if (attempts >= maxAttempts) {--}}
-{{--                        clearInterval(timer);--}}
-{{--                        // As a fallback, load Swiper from CDN and then initialize--}}
-{{--                        if (!window.__loadingSwiperCDN && !window.Swiper) {--}}
-{{--                            window.__loadingSwiperCDN = true;--}}
-{{--                            const script = document.createElement('script');--}}
-{{--                            script.src = 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js';--}}
-{{--                            script.async = true;--}}
-{{--                            script.onload = () => {--}}
-{{--                                window.__loadingSwiperCDN = false;--}}
-{{--                                if (window.Swiper) {--}}
-{{--                                    startInit();--}}
-{{--                                } else {--}}
-{{--                                    console.warn('Swiper CDN loaded but Swiper is still undefined.');--}}
-{{--                                }--}}
-{{--                            };--}}
-{{--                            script.onerror = () => {--}}
-{{--                                window.__loadingSwiperCDN = false;--}}
-{{--                                console.error('Failed to load Swiper from CDN.');--}}
-{{--                            };--}}
-{{--                            document.head.appendChild(script);--}}
-{{--                        } else {--}}
-{{--                            console.warn('Swiper library not found. Skipping swiper initialization.');--}}
-{{--                        }--}}
-{{--                    }--}}
-{{--                }, 100);--}}
-{{--            }--}}
-{{--        }--}}
-
-{{--        if (document.readyState === 'loading') {--}}
-{{--            document.addEventListener('DOMContentLoaded', tryInit);--}}
-{{--        } else {--}}
-{{--            tryInit();--}}
-{{--        }--}}
-{{--    })();--}}
-{{--    </script>--}}
 
     <script>
         (function initSwipersWhenReady() {

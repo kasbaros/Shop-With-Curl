@@ -156,16 +156,14 @@ class CategoryDetail extends Component
         // Apply color filter if available
         if (!empty($this->selectedColors)) {
             $productsQuery->whereHas('variants', function($query) {
-                $query->where('type', 'color')
-                      ->whereIn('value', $this->selectedColors);
+                $query->whereIn('color', $this->selectedColors);
             });
         }
 
         // Apply size filter if available
         if (!empty($this->selectedSizes)) {
             $productsQuery->whereHas('variants', function($query) {
-                $query->where('type', 'size')
-                      ->whereIn('value', $this->selectedSizes);
+                $query->whereIn('size', $this->selectedSizes);
             });
         }
 
@@ -193,21 +191,21 @@ class CategoryDetail extends Component
             }])->get();
 
             // Get colors from product variants in this category
-            $colors = \App\Models\ProductVariant::where('type', 'color')
+            $colors = \App\Models\ProductVariant::whereNotNull('color')
                 ->whereHas('product.categories', function($query) {
                     $query->where('categories.id', $this->category->id);
                 })
-                ->selectRaw('value as name, value, COUNT(*) as products_count')
-                ->groupBy('value')
+                ->selectRaw('color as name, color, COUNT(*) as products_count')
+                ->groupBy('color')
                 ->get();
 
             // Get sizes from product variants in this category
-            $sizes = \App\Models\ProductVariant::where('type', 'size')
+            $sizes = \App\Models\ProductVariant::whereNotNull('size')
                 ->whereHas('product.categories', function($query) {
                     $query->where('categories.id', $this->category->id);
                 })
-                ->selectRaw('value, COUNT(*) as products_count')
-                ->groupBy('value')
+                ->selectRaw('size as value, COUNT(*) as products_count')
+                ->groupBy('size')
                 ->get();
         }
 

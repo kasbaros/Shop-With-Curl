@@ -182,7 +182,7 @@
          */
         function format_currency($amount, $currency = null): string
         {
-            $currency = $currency ?? setting('currency', 'USD');
+            $currency = $currency ?? setting('currency', 'UGX');
             $currencySymbols = [
                 'USD' => '$',
                 'EUR' => '€',
@@ -286,7 +286,7 @@
                     'phone' => setting('site_phone'),
                     'logo' => setting('site_logo'),
                     'favicon' => setting('site_favicon'),
-                    'currency' => setting('currency', 'USD'),
+                    'currency' => setting('currency', 'UGX'),
                     'timezone' => setting('timezone', 'UTC'),
                     'language' => setting('language', 'en'),
                     'primary_color' => setting('primary_color', '#007bff'),

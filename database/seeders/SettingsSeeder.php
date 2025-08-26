@@ -57,7 +57,7 @@
                 ],
                 [
                     'key' => 'currency',
-                    'value' => 'USD',
+                    'value' => 'UGX',
                     'group' => 'general',
                     'type' => 'select',
                     'description' => 'Default currency for products and orders',

@@ -112,7 +112,7 @@
                             <label for="currency" class="form-label">Default Currency *</label>
                             <select class="form-select @error('currency') is-invalid @enderror" id="currency" name="currency" required>
                                 @foreach($currencies as $code => $name)
-                                    <option value="{{ $code }}" {{ old('currency', setting('currency', 'USD')) === $code ? 'selected' : '' }}>
+                                    <option value="{{ $code }}" {{ old('currency', setting('currency', 'UGX')) === $code ? 'selected' : '' }}>
                                         {{ $name }}
                                     </option>
                                 @endforeach
@@ -324,7 +324,7 @@
                     <h6 class="mb-3">Current Settings</h6>
                     <ul class="list-unstyled small">
                         <li><strong>Timezone:</strong> {{ setting('timezone', 'UTC') }}</li>
-                        <li><strong>Currency:</strong> {{ setting('currency', 'USD') }}</li>
+                        <li><strong>Currency:</strong> {{ setting('currency', 'UGX') }}</li>
                         <li><strong>Language:</strong> {{ setting('language', 'English') }}</li>
                         <li><strong>Date Format:</strong> {{ now()->format(setting('date_format', 'M j, Y')) }}</li>
                         <li><strong>Time Format:</strong> {{ now()->format(setting('time_format', 'g:i A')) }}</li>
@@ -384,7 +384,7 @@
                 document.getElementById('site_tagline').value = '';
                 document.getElementById('site_description').value = '';
                 document.getElementById('timezone').value = 'UTC';
-                document.getElementById('currency').value = 'USD';
+                document.getElementById('currency').value = 'UGX';
                 document.getElementById('date_format').value = 'M j, Y';
                 document.getElementById('time_format').value = 'g:i A';
                 document.getElementById('language').value = 'en';

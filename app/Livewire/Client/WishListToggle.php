@@ -3,14 +3,13 @@
 namespace App\Livewire\Client;
 
 use App\Models\Product;
-use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
 class WishListToggle extends Component
 {
     public Product $product;
-    public bool $isInWishlist = false;
+    public $isInWishlist = false; // Remove 'bool' type hint for Livewire compatibility
 
     public function mount(Product $product)
     {
@@ -24,45 +23,38 @@ class WishListToggle extends Component
             $this->isInWishlist = Auth::user()->wishlist()
                 ->where('product_id', $this->product->id)
                 ->exists();
-        }
-    }
-
-    #[On('wishlist:toggle')]
-    public function handleToggle($data)
-    {
-        if (isset($data['id']) && $data['id'] == $this->product->id) {
-            $this->toggle();
+        } else {
+            $this->isInWishlist = false;
         }
     }
 
     public function toggle()
     {
         if (!Auth::check()) {
-            $this->dispatch('notify', [
-                'message' => 'Please login to manage your wishlist',
-                'type' => 'error'
-            ]);
-            return;
+            return redirect()->route('login');
         }
 
         $user = Auth::user();
+        $existingWishlistItem = $user->wishlist()
+            ->where('product_id', $this->product->id)
+            ->first();
 
-        if ($this->isInWishlist) {
-            $user->wishlist()->where('product_id', $this->product->id)->delete();
+        if ($existingWishlistItem) {
+            // Remove from wishlist
+            $existingWishlistItem->delete();
             $this->isInWishlist = false;
-            $message = 'Product removed from wishlist';
+            session()->flash('message', 'Removed from wishlist');
         } else {
-            $user->wishlist()->create(['product_id' => $this->product->id]);
+            // Add to wishlist
+            $user->wishlist()->create([
+                'product_id' => $this->product->id
+            ]);
             $this->isInWishlist = true;
-            $message = 'Product added to wishlist';
+            session()->flash('message', 'Added to wishlist');
         }
 
-        $this->dispatch('notify', [
-            'message' => $message,
-            'type' => 'success'
-        ]);
-
-        $this->dispatch('wishlist:updated', ['count' => $user->wishlist()->count()]);
+        // Dispatch event to update wishlist count in header
+        $this->dispatch('wishlist-updated');
     }
 
     public function render()

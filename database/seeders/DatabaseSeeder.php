@@ -2,6 +2,7 @@
 
     namespace Database\Seeders;
 
+    use App\Models\Category;
     use Illuminate\Database\Seeder;
 
     class DatabaseSeeder extends Seeder
@@ -15,6 +16,9 @@
             $this->call([
                 AdminUserSeeder::class,
                 SettingsSeeder::class,
+                CategoryTypeSeeder::class,
+                GallerySeeder::class,
+                BannerSeeder::class,
             ]);
 
             // Only create test users in non-production environments

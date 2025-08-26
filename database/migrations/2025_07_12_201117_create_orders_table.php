@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('shipping_amount', 10, 2)->default(0);
             $table->decimal('discount_amount', 10, 2)->default(0);
             $table->decimal('total_amount', 10, 2);
-            $table->string('currency', 3)->default('USD');
+            $table->string('currency', 3)->default('UGX');
             $table->json('shipping_address');
             $table->json('billing_address');
             $table->text('notes')->nullable();
