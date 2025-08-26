@@ -1,11 +1,11 @@
 <?php
 //
-//namespace App\Http\Controllers\Guest;
-//
-//use App\Http\Controllers\Controller;
-//use Illuminate\Http\Request;
-//use Log;
-//
+namespace App\Http\Controllers\Guest;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Log;
+
 //class StorageController extends Controller
 //{
 //    public function serve(Request $request, $path)

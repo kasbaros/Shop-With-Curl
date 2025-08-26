@@ -41,28 +41,17 @@
         ->where('path', '.*')
         ->name('storage.serve');
 
-    // Add this route to verify your specific file
-    Route::get('verify-file', function () {
-        $specificFile = '/home/shopwithcaug/Laravel/storage/app/public/gallery/1756195140_gallery.jpeg';
-        $galleryDir = '/home/shopwithcaug/Laravel/storage/app/public/gallery';
+    // Add this temporary test route
+    Route::get('test-image-helper', function () {
+        $basePath = $_SERVER['DOCUMENT_ROOT'] . '/storage';
 
-        $result = [
-            'specific_file_path' => $specificFile,
-            'specific_file_exists' => file_exists($specificFile),
-            'gallery_dir_exists' => is_dir($galleryDir),
-            'gallery_dir_readable' => is_readable($galleryDir),
-            'files_in_gallery' => [],
-        ];
-
-        // List all files in gallery directory
-        if (is_dir($galleryDir)) {
-            $files = scandir($galleryDir);
-            $result['files_in_gallery'] = array_filter($files, function ($file) {
-                return $file !== '.' && $file !== '..';
-            });
-        }
-
-        return response()->json($result, 200, [], JSON_PRETTY_PRINT);
+        return response()->json([
+            'document_root' => $_SERVER['DOCUMENT_ROOT'],
+            'storage_base_path' => $basePath,
+            'storage_exists' => is_dir($basePath),
+            'storage_writable' => is_writable($_SERVER['DOCUMENT_ROOT']),
+            'can_create_test_dir' => is_writable($_SERVER['DOCUMENT_ROOT']),
+        ]);
     });
 
 // ==================================================
