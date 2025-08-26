@@ -834,8 +834,8 @@
                             <div class="col-right w-50">
                                 <div class="wrap-lookbook lookbook-sw">
                                     <div class="image">
-                                        @if(!empty($lookbook?->image))
-                                            <img src="{{ $lookbook->image }}" alt="{{ $lookbook->title }}">
+                                        @if(!empty($lookbook))
+                                            <img src="{{ $lookbook->imageUrl }}" alt="{{ $lookbook->title }}">
                                         @endif
                                     </div>
                                     <div class="navigation-sw-dot type-black item-1"><span></span></div>

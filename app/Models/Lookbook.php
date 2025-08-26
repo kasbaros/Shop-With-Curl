@@ -3,12 +3,13 @@
     namespace App\Models;
 
     use App\Traits\HasStorageImages;
-    use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Builder;
+    use Illuminate\Database\Eloquent\Factories\HasFactory;
+    use Illuminate\Database\Eloquent\Model;
 
     class Lookbook extends Model
     {
-        use HasStorageImages;
+        use HasFactory, HasStorageImages;
 
         protected $fillable = [
             'title',
@@ -50,8 +51,18 @@
          */
         public function getImageUrlAttribute(): string
         {
+            return $this->image
+                ? $this->getStorageImageUrl($this->image)
+                : $this->getPlaceholderImage();
+        }
+
+        /**
+         * Get lookbook thumbnail URL
+         */
+        public function getThumbnailUrlAttribute(): string
+        {
             if ($this->image) {
-                return $this->getStorageImageUrl($this->image);
+                return $this->getStorageImageUrl($this->image, 400, 400);
             }
 
             return $this->getPlaceholderImage();

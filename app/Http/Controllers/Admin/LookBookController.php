@@ -33,49 +33,6 @@
             return view('admin.lookbooks.create', compact('products'));
         }
 
-//        public function store(Request $request)
-//        {
-//            $request->validate([
-//                'title' => 'required|string|max:255',
-//                'label' => 'nullable|string|max:100',
-//                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-//                'active' => 'boolean',
-//                'priority' => 'nullable|integer|min:0',
-//                'starts_at' => 'nullable|date',
-//                'ends_at' => 'nullable|date|after:starts_at',
-//                'product_ids' => 'nullable|array',
-//                'product_ids.*' => 'exists:products,id',
-//            ]);
-//
-//            $data = $request->only(['title', 'label', 'priority']);
-//            $data['active'] = $request->boolean('active', true);
-//            $data['starts_at'] = $request->starts_at ? now()->parse($request->starts_at) : null;
-//            $data['ends_at'] = $request->ends_at ? now()->parse($request->ends_at) : null;
-//
-//            // Handle image upload
-//            if ($request->hasFile('image')) {
-//                $image = $request->file('image');
-//                $filename = time() . '_lookbook.' . $image->getClientOriginalExtension();
-//                $path = $image->storeAs('lookbooks', $filename, 'public');
-//                $data['image'] = Storage::url($path);
-//            }
-//
-//            $lookbook = Lookbook::create($data);
-//
-//            // Add selected products
-//            if ($request->product_ids) {
-//                foreach ($request->product_ids as $index => $productId) {
-//                    LookbookItem::create([
-//                        'lookbook_id' => $lookbook->id,
-//                        'product_id' => $productId,
-//                        'sort_order' => $index,
-//                    ]);
-//                }
-//            }
-//
-//            return redirect()->route('admin.lookbooks.index')
-//                ->with('success', 'Lookbook created successfully.');
-//        }
 
         public function store(Request $request)
         {
@@ -158,69 +115,6 @@
 
             return view('admin.lookbooks.edit', compact('lookbook', 'products'));
         }
-
-//        public function update(Request $request, Lookbook $lookbook)
-//        {
-//            $request->validate([
-//                'title' => 'required|string|max:255',
-//                'label' => 'nullable|string|max:100',
-//                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-//                'active' => 'boolean',
-//                'priority' => 'nullable|integer|min:0',
-//                'starts_at' => 'nullable|date',
-//                'ends_at' => 'nullable|date|after:starts_at',
-//                'product_ids' => 'nullable|array',
-//                'product_ids.*' => 'exists:products,id',
-//            ]);
-//
-//            $data = $request->only(['title', 'label', 'priority']);
-//            $data['active'] = $request->boolean('active');
-//            $data['starts_at'] = $request->starts_at ? now()->parse($request->starts_at) : null;
-//            $data['ends_at'] = $request->ends_at ? now()->parse($request->ends_at) : null;
-//
-//            // Handle image update
-//            if ($request->hasFile('image')) {
-//                // Delete old image
-//                if ($lookbook->image) {
-//                    Storage::disk('public')->delete(str_replace('/storage/', '', $lookbook->image));
-//                }
-//
-//                $image = $request->file('image');
-//                $filename = time() . '_lookbook.' . $image->getClientOriginalExtension();
-//                $path = $image->storeAs('lookbooks', $filename, 'public');
-//                $data['image'] = Storage::url($path);
-//            }
-//
-//            $lookbook->update($data);
-//
-//            // Update products
-//            $lookbook->items()->delete(); // Remove existing items
-//            if ($request->product_ids) {
-//                foreach ($request->product_ids as $index => $productId) {
-//                    LookbookItem::create([
-//                        'lookbook_id' => $lookbook->id,
-//                        'product_id' => $productId,
-//                        'sort_order' => $index,
-//                    ]);
-//                }
-//            }
-//
-//            return redirect()->route('admin.lookbooks.index')
-//                ->with('success', 'Lookbook updated successfully.');
-//        }
-//
-//        public function destroy(Lookbook $lookbook)
-//        {
-//            // Delete image
-//            if ($lookbook->image) {
-//                Storage::disk('public')->delete(str_replace('/storage/', '', $lookbook->image));
-//            }
-//
-//            $lookbook->delete();
-//
-//            return redirect()->route('admin.lookbooks.index')
-//                ->with('success', 'Lookbook deleted successfully.');
-//        }
 
         public function toggleStatus(Lookbook $lookbook)
         {

@@ -74,10 +74,10 @@
                     </table>
                 </div>
 
-                @if($lookbook->image)
+                @if($lookbook->imageUrl)
                     <h5 class="mt-4">Main Image</h5>
                     <div class="text-center mt-3">
-                        <img src="{{ $lookbook->image }}" alt="{{ $lookbook->title }}" class="img-fluid rounded shadow-sm" style="max-height: 400px;">
+                        <img src="{{ $lookbook->imageUrl }}" alt="{{ $lookbook->title }}" class="img-fluid rounded shadow-sm" style="max-height: 400px;">
                     </div>
                 @endif
 
