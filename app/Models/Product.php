@@ -14,11 +14,11 @@ use Spatie\Sluggable\SlugOptions;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Laravel\Scout\Searchable;
+//use Laravel\Scout\Searchable;
 
 class Product extends Model implements HasMedia
 {
-    use HasFactory, HasSlug, InteractsWithMedia, Searchable, HasStorageImages {
+    use HasFactory, HasSlug, InteractsWithMedia, HasStorageImages {
         // Resolve the getFirstMediaUrl collision by using our trait's version
         HasStorageImages::getFirstMediaUrl insteadof InteractsWithMedia;
         // But keep Spatie's original available as an alias
@@ -282,7 +282,8 @@ class Product extends Model implements HasMedia
         };
     }
 
-    // Scout search
+    // Scout search - disabled
+    /*
     public function toSearchableArray(): array
     {
         return [
@@ -304,6 +305,7 @@ class Product extends Model implements HasMedia
     {
         return $this->is_active && $this->published_at && $this->published_at->isPast();
     }
+    */
 
     /**
      * Get the previous product based on ID
