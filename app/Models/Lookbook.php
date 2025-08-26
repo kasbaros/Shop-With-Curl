@@ -2,11 +2,14 @@
 
     namespace App\Models;
 
+    use App\Traits\HasStorageImages;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Builder;
 
     class Lookbook extends Model
     {
+        use HasStorageImages;
+
         protected $fillable = [
             'title',
             'label',
@@ -40,5 +43,17 @@
             })->where(function ($w) {
                 $w->whereNull('ends_at')->orWhere('ends_at', '>=', now());
             });
+        }
+
+        /**
+         * Get lookbook image URL
+         */
+        public function getImageUrlAttribute(): string
+        {
+            if ($this->image) {
+                return $this->getStorageImageUrl($this->image);
+            }
+
+            return $this->getPlaceholderImage();
         }
     }

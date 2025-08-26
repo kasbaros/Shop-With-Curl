@@ -37,110 +37,11 @@
     */
 
 
-// Storage route - MUST be first to avoid conflicts
-    Route::get('storage/{path}', [StorageController::class, 'serve'])
-        ->where('path', '.*')
-        ->name('storage.serve');
+//// Storage route - MUST be first to avoid conflicts
+//    Route::get('storage/{path}', [StorageController::class, 'serve'])
+//        ->where('path', '.*')
+//        ->name('storage.serve');
 
-    // Update the test route to actually create directories
-    Route::get('test-image-helper', function() {
-        $basePath = $_SERVER['DOCUMENT_ROOT'] . '/storage';
-
-        // Try to create the base storage directory
-        $created = false;
-        $error = null;
-
-        try {
-            if (!is_dir($basePath)) {
-                $created = mkdir($basePath, 0755, true);
-            }
-
-            // Try to create subdirectories
-            $subdirs = ['gallery', 'products', 'categories', 'media'];
-            $subdirResults = [];
-
-            foreach ($subdirs as $subdir) {
-                $subdirPath = $basePath . '/' . $subdir;
-                if (!is_dir($subdirPath)) {
-                    $subdirResults[$subdir] = mkdir($subdirPath, 0755, true);
-                } else {
-                    $subdirResults[$subdir] = 'already_exists';
-                }
-            }
-
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-        }
-
-        return response()->json([
-            'document_root' => $_SERVER['DOCUMENT_ROOT'],
-            'storage_base_path' => $basePath,
-            'storage_exists_now' => is_dir($basePath),
-            'storage_writable' => is_writable($basePath),
-            'created' => $created,
-            'error' => $error,
-            'subdirectories' => $subdirResults ?? null,
-            'final_check' => [
-                'gallery_exists' => is_dir($basePath . '/gallery'),
-                'products_exists' => is_dir($basePath . '/products'),
-                'categories_exists' => is_dir($basePath . '/categories'),
-                'media_exists' => is_dir($basePath . '/media'),
-            ]
-        ]);
-    });
-
-
-// Test upload form
-    Route::get('test-upload-form', function() {
-        return '
-    <html>
-    <body>
-        <h2>Test Image Upload</h2>
-        <form action="/test-upload" method="POST" enctype="multipart/form-data">
-            ' . csrf_field() . '
-            <div>
-                <label>Select Image:</label>
-                <input type="file" name="image" accept="image/*" required>
-            </div>
-            <div style="margin-top: 10px;">
-                <button type="submit">Upload Test Image</button>
-            </div>
-        </form>
-    </body>
-    </html>';
-    });
-
-// Test upload handler
-    Route::post('test-upload', function(Illuminate\Http\Request $request) {
-        try {
-            if (!$request->hasFile('image')) {
-                return response()->json(['error' => 'No file uploaded']);
-            }
-
-            $file = $request->file('image');
-
-            // Test our helper
-            $savedPath = ImageStorageHelper::store($file, 'gallery');
-
-            $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/storage/' . $savedPath;
-
-            return response()->json([
-                'success' => true,
-                'saved_path' => $savedPath,
-                'full_path' => $fullPath,
-                'file_exists' => file_exists($fullPath),
-                'file_size' => file_exists($fullPath) ? filesize($fullPath) : 'N/A',
-                'url' => ImageStorageHelper::url($savedPath),
-                'direct_url' => asset('storage/' . $savedPath),
-            ]);
-
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-        }
-    });
 
 // ==================================================
 // GUEST ROUTES (Public Access) - HYBRID APPROACH

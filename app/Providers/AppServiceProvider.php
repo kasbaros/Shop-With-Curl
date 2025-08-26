@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\ImageStorageHelper;
 use App\Helpers\StorageHelper;
 use Blade;
 use DB;
@@ -67,13 +68,23 @@ class AppServiceProvider extends ServiceProvider
             return "<?php echo " . StorageHelper::class . "::url($expression); ?>";
         });
 
-        Blade::directive('storageImage', function ($expression) {
-            $params = explode(',', $expression);
-            $path = trim($params[0]);
-            $width = isset($params[1]) ? trim($params[1]) : 'null';
-            $height = isset($params[2]) ? trim($params[2]) : 'null';
+//        Blade::directive('storageImage', function ($expression) {
+//            $params = explode(',', $expression);
+//            $path = trim($params[0]);
+//            $width = isset($params[1]) ? trim($params[1]) : 'null';
+//            $height = isset($params[2]) ? trim($params[2]) : 'null';
+//
+/*            return "<?php echo " . StorageHelper::class . "::imageUrl($path, $width, $height); ?>";*/
+//        });
 
-            return "<?php echo " . StorageHelper::class . "::imageUrl($path, $width, $height); ?>";
+        // Replace the old storage directive with the new one
+        Blade::directive('imageUrl', function ($expression) {
+            return "<?php echo " . ImageStorageHelper::class . "::url($expression); ?>";
+        });
+
+        // Keep this simple for now - we can add optimization later
+        Blade::directive('imageOptimized', function ($expression) {
+            return "<?php echo " . ImageStorageHelper::class . "::url($expression); ?>";
         });
     }
 }
