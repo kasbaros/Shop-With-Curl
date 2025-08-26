@@ -96,10 +96,10 @@
             ]);
 
             if ($request->hasFile('image_desktop')) {
-                $data['image_desktop'] = ImageStorageHelper::store($request->file('image_desktop'), 'banners');
+                $data['image_desktop'] = ImageStorageHelper::store($request->file('image_desktop'), 'promobanners');
             }
             if ($request->hasFile('image_mobile')) {
-                $data['image_mobile'] = ImageStorageHelper::store($request->file('image_mobile'), 'banners');
+                $data['image_mobile'] = ImageStorageHelper::store($request->file('image_mobile'), 'promobanners');
             }
 
             $data['active'] = $request->boolean('active', true);
@@ -132,14 +132,14 @@
                 if (!empty($promoBanner->image_desktop)) {
                     ImageStorageHelper::delete($promoBanner->image_desktop);
                 }
-                $data['image_desktop'] = ImageStorageHelper::store($request->file('image_desktop'), 'banners');
+                $data['image_desktop'] = ImageStorageHelper::store($request->file('image_desktop'), 'promobanners');
             }
 
             if ($request->hasFile('image_mobile')) {
                 if (!empty($promoBanner->image_mobile)) {
                     ImageStorageHelper::delete($promoBanner->image_mobile);
                 }
-                $data['image_mobile'] = ImageStorageHelper::store($request->file('image_mobile'), 'banners');
+                $data['image_mobile'] = ImageStorageHelper::store($request->file('image_mobile'), 'promobanners');
             }
 
             $data['active'] = $request->boolean('active', $promoBanner->active);
