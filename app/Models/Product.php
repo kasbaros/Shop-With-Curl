@@ -418,7 +418,8 @@ class Product extends Model implements HasMedia
         if (is_array($this->gallery) && isset($this->gallery[1])) {
             return $this->getStorageImageUrl($this->gallery[1]);
         }
-        return $this->primary_image_url;
+        // Use the accessor directly instead of $this->primary_image_url
+        return $this->getPrimaryImageUrlAttribute();
     }
 
     /**
@@ -427,7 +428,8 @@ class Product extends Model implements HasMedia
      */
     public function getFirstMediaUrl(string $collectionName = 'images', string $conversionName = ''): string
     {
-        return $this->primary_image_url;
+        // Use the accessor directly instead of $this->primary_image_url
+        return $this->getPrimaryImageUrlAttribute();
     }
 
     /**
