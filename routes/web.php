@@ -37,7 +37,9 @@
 
     Route::get('storage/{path}', [StorageController::class, 'serve'])
         ->where('path', '.*')
-        ->name('storage.serve');
+        ->name('storage.serve')
+        ->middleware(['web']); // Explicitly add web middleware
+
 
 // ==================================================
 // GUEST ROUTES (Public Access) - HYBRID APPROACH
@@ -95,12 +97,6 @@
 
 // Newsletter (Keep Controller - Email processing, validation, external APIs)
     Route::post('/newsletter/subscribe', [\App\Http\Controllers\Guest\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
-//
-//// Storage routes - Serve files from the public disk
-//    Route::get('storage/{path}', [StorageController::class, 'serve'])
-//        ->where('path', '.*')
-//        ->name('storage.serve');
-
 
 
 // ==================================================
