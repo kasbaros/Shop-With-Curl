@@ -1,6 +1,7 @@
 <?php
 
 
+    use App\Helpers\ImageStorageHelper;
     use App\Http\Controllers\Client\CheckoutController;
     use App\Http\Controllers\Guest\StorageController;
     use App\Livewire\Guest\CategoryDetail;
@@ -86,6 +87,59 @@
                 'media_exists' => is_dir($basePath . '/media'),
             ]
         ]);
+    });
+
+
+// Test upload form
+    Route::get('test-upload-form', function() {
+        return '
+    <html>
+    <body>
+        <h2>Test Image Upload</h2>
+        <form action="/test-upload" method="POST" enctype="multipart/form-data">
+            ' . csrf_field() . '
+            <div>
+                <label>Select Image:</label>
+                <input type="file" name="image" accept="image/*" required>
+            </div>
+            <div style="margin-top: 10px;">
+                <button type="submit">Upload Test Image</button>
+            </div>
+        </form>
+    </body>
+    </html>';
+    });
+
+// Test upload handler
+    Route::post('test-upload', function(Illuminate\Http\Request $request) {
+        try {
+            if (!$request->hasFile('image')) {
+                return response()->json(['error' => 'No file uploaded']);
+            }
+
+            $file = $request->file('image');
+
+            // Test our helper
+            $savedPath = ImageStorageHelper::store($file, 'gallery');
+
+            $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/storage/' . $savedPath;
+
+            return response()->json([
+                'success' => true,
+                'saved_path' => $savedPath,
+                'full_path' => $fullPath,
+                'file_exists' => file_exists($fullPath),
+                'file_size' => file_exists($fullPath) ? filesize($fullPath) : 'N/A',
+                'url' => ImageStorageHelper::url($savedPath),
+                'direct_url' => asset('storage/' . $savedPath),
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
     });
 
 // ==================================================
