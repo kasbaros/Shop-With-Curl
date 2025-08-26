@@ -42,14 +42,15 @@
         ->name('storage.serve');
 
     // Add this RIGHT AFTER the storage route for testing
-    Route::get('storage-test', function() {
+    Route::get('test-paths', function() {
         return response()->json([
-            'message' => 'Storage route test works',
-            'storage_path' => storage_path('app/public'),
-            'gallery_exists' => is_dir(storage_path('app/public/gallery')),
-            'files' => \Illuminate\Support\Facades\File::files(storage_path('app/public/gallery')),
-            'route_exists' => \Illuminate\Support\Facades\Route::has('storage.serve'),
-            'route_url' => route('storage.serve', ['path' => 'gallery/test.jpg'])
+            'document_root' => $_SERVER['DOCUMENT_ROOT'],
+            'base_path' => base_path(),
+            'storage_path' => storage_path(),
+            'app_path' => app_path(),
+            'laravel_storage_exists' => file_exists('/home/shopwithcaug/Laravel/storage/app/public/gallery'),
+            'image_exists' => file_exists('/home/shopwithcaug/Laravel/storage/app/public/gallery/1756191489_gallery.png'),
+            'base_path_storage' => file_exists(base_path('storage/app/public/gallery')),
         ]);
     });
 
