@@ -185,7 +185,7 @@
                         @forelse($products as $product)
                             @php
                                 $media = $product->media->first();
-                                $img = method_exists($media, 'getUrl') ? $media->getUrl() : ($media->url ?? null);
+                                $img = $media && method_exists($media, 'getUrl') ? $media->getUrl() : ($media->url ?? null);
                                 $imageUrl = $img ?: $productFallback;
 
                                 $hasSale = !is_null($product->sale_price) && $product->sale_price < $product->price;
