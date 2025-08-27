@@ -110,24 +110,51 @@
                 </div>
             </div>
 
+{{--            <!-- Product Images -->--}}
+{{--            @if($product->getMedia('images')->count() > 0)--}}
+{{--                <div class="stat-card p-4 mb-4">--}}
+{{--                    <h5 class="mb-3">Product Images ({{ $product->getMedia('images')->count() }})</h5>--}}
+{{--                    <div class="row g-3">--}}
+{{--                        @foreach($product->getMedia('images') as $media)--}}
+{{--                            <div class="col-md-3">--}}
+{{--                                <div class="position-relative">--}}
+{{--                                    @php--}}
+{{--                                        $imgUrl = method_exists($product, 'getMediaStorageUrl')--}}
+{{--                                            ? $product->getMediaStorageUrl('images', 'large', $loop->index)--}}
+{{--                                            : $media->getUrl();--}}
+{{--                                    @endphp--}}
+{{--                                    <img src="{{ $imgUrl }}"--}}
+{{--                                         class="img-fluid rounded cursor-pointer"--}}
+{{--                                         style="height: 150px; width: 100%; object-fit: cover;"--}}
+{{--                                         onclick="showImageModal('{{ $imgUrl }}', '{{ $product->name }}')">--}}
+{{--                                    @if($loop->first)--}}
+{{--                                        <div class="badge bg-primary position-absolute top-0 start-0 m-2">Main</div>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        @endforeach--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            @endif--}}
+
             <!-- Product Images -->
-            @if($product->getMedia('images')->count() > 0)
+            @if($product->gallery || $product->getMedia('images')->count() > 0)
                 <div class="stat-card p-4 mb-4">
-                    <h5 class="mb-3">Product Images ({{ $product->getMedia('images')->count() }})</h5>
+                    @php
+                        $images = $product->getImagesAttribute();
+                        $imageCount = count($images);
+                    @endphp
+                    <h5 class="mb-3">Product Images ({{ $imageCount }})</h5>
                     <div class="row g-3">
-                        @foreach($product->getMedia('images') as $media)
+                        @foreach($images as $index => $image)
                             <div class="col-md-3">
                                 <div class="position-relative">
-                                    @php
-                                        $imgUrl = method_exists($product, 'getMediaStorageUrl')
-                                            ? $product->getMediaStorageUrl('images', 'large', $loop->index)
-                                            : $media->getUrl();
-                                    @endphp
-                                    <img src="{{ $imgUrl }}"
+                                    <img src="{{ $image['large'] ?? $image['original'] ?? $product->getPlaceholderImage() }}"
                                          class="img-fluid rounded cursor-pointer"
                                          style="height: 150px; width: 100%; object-fit: cover;"
-                                         onclick="showImageModal('{{ $imgUrl }}', '{{ $product->name }}')">
-                                    @if($loop->first)
+                                         onclick="showImageModal('{{ $image['original'] ?? $product->getPlaceholderImage() }}', '{{ $product->name }}')"
+                                         onerror="this.src='{{ $product->getPlaceholderImage() }}'">
+                                    @if($index === 0)
                                         <div class="badge bg-primary position-absolute top-0 start-0 m-2">Main</div>
                                     @endif
                                 </div>

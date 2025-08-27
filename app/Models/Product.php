@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\ImageStorageHelper;
 use App\Traits\HasStorageImages;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -335,20 +336,43 @@ class Product extends Model implements HasMedia
             ->first();
     }
 
+
     /**
      * Get product images array
      */
     public function getImagesAttribute(): array
     {
-        // Try Spatie Media Library first
-        $mediaImages = $this->getMedia('images');
+        // First check if we have a gallery array (your new storage system)
+        if (is_array($this->gallery) && count($this->gallery) > 0) {
+            return array_map(function ($path, $index) {
+                return [
+                    'thumb' => $this->getStorageImageUrl($path, 400, 400),
+                    'large' => $this->getStorageImageUrl($path, 1200, 1200),
+                    'original' => $this->getStorageImageUrl($path),
+                ];
+            }, $this->gallery, array_keys($this->gallery));
+        }
 
+        // Fallback to Spatie Media Library
+        $mediaImages = $this->getMedia('images');
         if ($mediaImages->count() > 0) {
             return $mediaImages->map(function ($media, $index) {
+                // Try to get the actual URL from Spatie first
+                $originalUrl = $media->getUrl();
+
+                // If Spatie URL doesn't work, try to find the file in your storage
+                if (!$this->urlExists($originalUrl)) {
+                    $filename = $media->file_name;
+                    $storagePath = 'products/' . $filename;
+                    if (ImageStorageHelper::exists($storagePath)) {
+                        $originalUrl = ImageStorageHelper::url($storagePath);
+                    }
+                }
+
                 return [
-                    'thumb' => $this->getMediaStorageUrl('images', 'thumb', $index),
-                    'large' => $this->getMediaStorageUrl('images', 'large', $index),
-                    'original' => $this->getMediaStorageUrl('images', '', $index),
+                    'thumb' => $originalUrl, // You can add thumbnail generation later
+                    'large' => $originalUrl,
+                    'original' => $originalUrl,
                 ];
             })->toArray();
         }
@@ -374,28 +398,64 @@ class Product extends Model implements HasMedia
         ];
     }
 
+
+    /**
+     * Check if URL exists (helper method)
+     */
+    private function urlExists($url): bool
+    {
+        if (!$url || !filter_var($url, FILTER_VALIDATE_URL)) {
+            return false;
+        }
+
+        // For local URLs, check file existence
+        if (str_starts_with($url, asset(''))) {
+            $relativePath = str_replace(asset(''), '', $url);
+            $fullPath = public_path($relativePath);
+            return file_exists($fullPath);
+        }
+
+        return true; // For external URLs, assume they exist
+    }
+
+
     /**
      * Get featured image URL
      */
     public function getFeaturedImageUrlAttribute(): string
     {
+        // Use featured_image field first (your new storage system)
         if ($this->featured_image) {
             return $this->getStorageImageUrl($this->featured_image);
         }
 
-        return $this->getFirstMediaUrl('images');
+        // Fallback to first gallery image
+        $images = $this->getImagesAttribute();
+        if (!empty($images[0]['original'])) {
+            return $images[0]['original'];
+        }
+
+        return $this->getPlaceholderImage();
     }
+
 
     /**
      * Get thumbnail URL
      */
     public function getThumbnailUrlAttribute(): string
     {
+        // Use featured_image field first
         if ($this->featured_image) {
             return $this->getStorageImageUrl($this->featured_image, 400, 400);
         }
 
-        return $this->getMediaStorageUrl('images', 'thumb');
+        // Fallback to first gallery image thumbnail
+        $images = $this->getImagesAttribute();
+        if (!empty($images[0]['thumb'])) {
+            return $images[0]['thumb'];
+        }
+
+        return $this->getPlaceholderImage();
     }
 
     /**
@@ -403,13 +463,7 @@ class Product extends Model implements HasMedia
      */
     public function getPrimaryImageUrlAttribute(): string
     {
-        if (!empty($this->featured_image)) {
-            return $this->getStorageImageUrl($this->featured_image);
-        }
-        if (is_array($this->gallery) && !empty($this->gallery[0])) {
-            return $this->getStorageImageUrl($this->gallery[0]);
-        }
-        return $this->getPlaceholderImage();
+        return $this->getFeaturedImageUrlAttribute();
     }
 
     /**
@@ -417,65 +471,45 @@ class Product extends Model implements HasMedia
      */
     public function getHoverImageUrlAttribute(): string
     {
-        if (is_array($this->gallery) && isset($this->gallery[1])) {
-            return $this->getStorageImageUrl($this->gallery[1]);
+        $images = $this->getImagesAttribute();
+
+        // Use second image if available
+        if (isset($images[1]['original'])) {
+            return $images[1]['original'];
         }
-        // Use the accessor directly instead of $this->primary_image_url
+
+        // Fallback to primary image
         return $this->getPrimaryImageUrlAttribute();
     }
 
     /**
      * Backward-compat for places that still call getFirstMediaUrl('images', 'large')
-     * Returns our primary image URL ignoring collection/conversion.
      */
     public function getFirstMediaUrl(string $collectionName = 'images', string $conversionName = ''): string
     {
-        // Use the accessor directly instead of $this->primary_image_url
-        return $this->getPrimaryImageUrlAttribute();
+        $images = $this->getImagesAttribute();
+
+        if (empty($images)) {
+            return $this->getPlaceholderImage();
+        }
+
+        // Return appropriate image based on conversion
+        switch ($conversionName) {
+            case 'thumb':
+                return $images[0]['thumb'] ?? $this->getPlaceholderImage();
+            case 'large':
+                return $images[0]['large'] ?? $this->getPlaceholderImage();
+            default:
+                return $images[0]['original'] ?? $this->getPlaceholderImage();
+        }
     }
 
     /**
-     * Gallery images array (compat shape)
+     * Override the gallery images accessor to use the new system
      */
     public function getGalleryImagesAttribute(): array
     {
-        $items = [];
-
-        // Use stored gallery array first
-        if (is_array($this->gallery) && count($this->gallery) > 0) {
-            foreach ($this->gallery as $idx => $path) {
-                $url = $this->getStorageImageUrl($path);
-                $items[] = [
-                    'id' => $idx,
-                    'url' => $url,
-                    'thumb' => $url,
-                    'medium' => $url,
-                    'large' => $url,
-                ];
-            }
-            return $items;
-        }
-
-        // Fallback to featured_image
-        if (!empty($this->featured_image)) {
-            $url = $this->getStorageImageUrl($this->featured_image);
-            return [[
-                'id' => 0,
-                'url' => $url,
-                'thumb' => $url,
-                'medium' => $url,
-                'large' => $url,
-            ]];
-        }
-
-        // Fallback to placeholder
-        $url = $this->getPlaceholderImage();
-        return [[
-            'id' => 0,
-            'url' => $url,
-            'thumb' => $url,
-            'medium' => $url,
-            'large' => $url,
-        ]];
+        return $this->getImagesAttribute();
     }
+
 }

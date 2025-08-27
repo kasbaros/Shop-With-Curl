@@ -32,6 +32,22 @@
          */
         public function getMediaStorageUrl(string $collection = 'images', string $conversion = '', int $index = 0): string
         {
+            // For products, use the new gallery system first
+            if (method_exists($this, 'getImagesAttribute') && $collection === 'images') {
+                $images = $this->getImagesAttribute();
+                if (isset($images[$index])) {
+                    switch ($conversion) {
+                        case 'thumb':
+                            return $images[$index]['thumb'] ?? $this->getPlaceholderImage();
+                        case 'large':
+                            return $images[$index]['large'] ?? $this->getPlaceholderImage();
+                        default:
+                            return $images[$index]['original'] ?? $this->getPlaceholderImage();
+                    }
+                }
+            }
+
+            // Fallback to Spatie Media Library
             if (!method_exists($this, 'getMedia')) {
                 return $this->getPlaceholderImage();
             }
@@ -42,16 +58,49 @@
                 return $this->getPlaceholderImage();
             }
 
-            // For Spatie media, we'll store in media subfolder
-            $path = 'media/' . $media->id . '/' . $media->file_name;
-
-            if ($conversion === 'thumb') {
-                return ImageStorageHelper::url($path);
-            } elseif ($conversion === 'large') {
-                return ImageStorageHelper::url($path);
+            // Try Spatie's URL first
+            try {
+                $spatieUrl = $media->getUrl($conversion);
+                if ($spatieUrl && $this->urlIsAccessible($spatieUrl)) {
+                    return $spatieUrl;
+                }
+            } catch (\Exception $e) {
+                // Spatie URL failed, continue to fallbacks
             }
 
-            return ImageStorageHelper::url($path);
+            // Fallback: try to find file in your storage system
+            $modelFolder = strtolower(class_basename($this)) . 's';
+            $relativePath = $modelFolder . '/' . $media->file_name;
+
+            if (ImageStorageHelper::exists($relativePath)) {
+                return ImageStorageHelper::url($relativePath);
+            }
+
+            // Final fallback: try media directory structure
+            $mediaPath = 'media/' . $media->id . '/' . $media->file_name;
+            if (ImageStorageHelper::exists($mediaPath)) {
+                return ImageStorageHelper::url($mediaPath);
+            }
+
+            return $this->getPlaceholderImage();
+        }
+
+        /**
+         * Check if URL is accessible
+         */
+        private function urlIsAccessible(string $url): bool
+        {
+            if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                return false;
+            }
+
+            // For local URLs, check file existence
+            if (str_starts_with($url, asset('storage/'))) {
+                $relativePath = str_replace(asset('storage/'), '', $url);
+                return ImageStorageHelper::exists($relativePath);
+            }
+
+            return true; // For external URLs, assume they exist
         }
 
         /**
