@@ -803,8 +803,13 @@
                                                     @forelse(($lookbook?->items) ?? [] as $item)
                                                         @php
                                                             $p = $item->product;
-                                                            // Use the thumbnail_url accessor which handles image processing and placeholders
-                                                            $img = $p ? $p->thumbnail_url : asset('images/placeholder-product.jpg');
+                                                            // Get product image, ensuring consistency with other sections
+                                                            $imagePath = null;
+                                                            if ($p) {
+                                                                $galleryPaths = is_array($p->gallery) ? $p->gallery : [];
+                                                                $imagePath = $galleryPaths[0] ?? $p->featured_image;
+                                                            }
+                                                            $img = $p ? $p->getStorageImageUrl($imagePath) : asset('images/placeholder-product.jpg');
                                                             $price = (float) ($p->price ?? 0);
                                                             $sale = (float) ($p->sale_price ?? 0);
                                                             $onSale = $sale > 0 && $sale < $price;

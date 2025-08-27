@@ -444,15 +444,22 @@ class Product extends Model implements HasMedia
      */
     public function getThumbnailUrlAttribute(): string
     {
-        // Use featured_image field first
+        // First try gallery images
+        if (is_array($this->gallery) && count($this->gallery) > 0) {
+            return $this->getStorageImageUrl($this->gallery[0], 400, 400);
+        }
+
+        // Then try featured_image field
         if ($this->featured_image) {
             return $this->getStorageImageUrl($this->featured_image, 400, 400);
         }
 
-        // Fallback to first gallery image thumbnail
-        $images = $this->getImagesAttribute();
-        if (!empty($images[0]['thumb'])) {
-            return $images[0]['thumb'];
+        // Finally try Spatie media library
+        if (method_exists($this, 'getFirstMediaUrl')) {
+            $mediaUrl = $this->getFirstMediaUrl('images', 'thumb');
+            if ($mediaUrl) {
+                return $mediaUrl;
+            }
         }
 
         return $this->getPlaceholderImage();

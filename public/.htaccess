@@ -42,7 +42,7 @@
 
     # Fallback: storage media not found -> serve a neutral slider image
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^storage/media/.+\.(jpg|jpeg|png|webp)$ images/slider/swm-slider1.jpg [L,NC]
+    RewriteRule ^storage/media/.+\.(jpg|jpeg|png|webp)$ images/placeholder-product.jpg [L,NC]
 </IfModule>
 
 # ===============================================
