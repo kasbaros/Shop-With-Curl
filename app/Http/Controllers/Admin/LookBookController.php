@@ -44,6 +44,8 @@
                 'priority' => 'nullable|integer|min:0',
                 'starts_at' => 'nullable|date',
                 'ends_at' => 'nullable|date|after_or_equal:starts_at',
+                'product_ids' => 'nullable|array',
+                'product_ids.*' => 'exists:products,id',
             ]);
 
             if ($request->hasFile('image')) {
@@ -53,6 +55,18 @@
             $data['active'] = $request->boolean('active', true);
 
             $lookbook = Lookbook::create($data);
+
+            // Add products to lookbook
+            if ($request->has('product_ids')) {
+                $sortOrder = 0;
+                foreach ($request->product_ids as $productId) {
+                    LookbookItem::create([
+                        'lookbook_id' => $lookbook->id,
+                        'product_id' => $productId,
+                        'sort_order' => $sortOrder++,
+                    ]);
+                }
+            }
 
             return redirect()->route('admin.lookbooks.show', $lookbook)
                 ->with('success', 'Lookbook created successfully.');
@@ -68,6 +82,8 @@
                 'priority' => 'nullable|integer|min:0',
                 'starts_at' => 'nullable|date',
                 'ends_at' => 'nullable|date|after_or_equal:starts_at',
+                'product_ids' => 'nullable|array',
+                'product_ids.*' => 'exists:products,id',
             ]);
 
             if ($request->hasFile('image')) {
@@ -80,6 +96,25 @@
             $data['active'] = $request->boolean('active', $lookbook->active);
 
             $lookbook->update($data);
+
+            // Update products in lookbook
+            if ($request->has('product_ids')) {
+                // Delete existing items
+                LookbookItem::where('lookbook_id', $lookbook->id)->delete();
+
+                // Add new items
+                $sortOrder = 0;
+                foreach ($request->product_ids as $productId) {
+                    LookbookItem::create([
+                        'lookbook_id' => $lookbook->id,
+                        'product_id' => $productId,
+                        'sort_order' => $sortOrder++,
+                    ]);
+                }
+            } else {
+                // If no products selected, remove all existing items
+                LookbookItem::where('lookbook_id', $lookbook->id)->delete();
+            }
 
             return redirect()->route('admin.lookbooks.show', $lookbook)
                 ->with('success', 'Lookbook updated successfully.');
