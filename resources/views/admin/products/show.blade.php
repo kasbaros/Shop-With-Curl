@@ -110,32 +110,6 @@
                 </div>
             </div>
 
-{{--            <!-- Product Images -->--}}
-{{--            @if($product->getMedia('images')->count() > 0)--}}
-{{--                <div class="stat-card p-4 mb-4">--}}
-{{--                    <h5 class="mb-3">Product Images ({{ $product->getMedia('images')->count() }})</h5>--}}
-{{--                    <div class="row g-3">--}}
-{{--                        @foreach($product->getMedia('images') as $media)--}}
-{{--                            <div class="col-md-3">--}}
-{{--                                <div class="position-relative">--}}
-{{--                                    @php--}}
-{{--                                        $imgUrl = method_exists($product, 'getMediaStorageUrl')--}}
-{{--                                            ? $product->getMediaStorageUrl('images', 'large', $loop->index)--}}
-{{--                                            : $media->getUrl();--}}
-{{--                                    @endphp--}}
-{{--                                    <img src="{{ $imgUrl }}"--}}
-{{--                                         class="img-fluid rounded cursor-pointer"--}}
-{{--                                         style="height: 150px; width: 100%; object-fit: cover;"--}}
-{{--                                         onclick="showImageModal('{{ $imgUrl }}', '{{ $product->name }}')">--}}
-{{--                                    @if($loop->first)--}}
-{{--                                        <div class="badge bg-primary position-absolute top-0 start-0 m-2">Main</div>--}}
-{{--                                    @endif--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        @endforeach--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            @endif--}}
 
             <!-- Product Images -->
             @if($product->gallery || $product->getMedia('images')->count() > 0)
@@ -389,7 +363,7 @@
 
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = `/admin/products/${productId}`;
+            form.action = "{{ url('/admin/products') }}/" + productId;
             form.innerHTML = `
         <input type="hidden" name="_token" value="${document.querySelector('meta[name="csrf-token"]').getAttribute('content')}">
         <input type="hidden" name="_method" value="DELETE">
