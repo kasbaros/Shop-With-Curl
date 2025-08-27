@@ -345,14 +345,14 @@
                         <div class="swiper-wrapper" aria-live="polite">
                             @forelse($latestProducts as $product)
                                 @php
-                                    // Use the unified storage helper which correctly resolves paths.
-                                    // The main image comes from the `featured_image` attribute.
-                                    $img = $product->getStorageImageUrl($product->featured_image);
-
-                                    // The hover image is the first from the gallery, falling back to the main image.
-                                    // The helper will provide a placeholder if both are missing.
                                     $galleryPaths = is_array($product->gallery) ? $product->gallery : [];
-                                    $hoverPath = $galleryPaths[0] ?? $product->featured_image;
+
+                                    // The main image is the FIRST image from the gallery, falling back to the featured image.
+                                    $primaryPath = $galleryPaths[0] ?? $product->featured_image;
+                                    $img = $product->getStorageImageUrl($primaryPath);
+
+                                    // The hover image is the featured_image, falling back to the primary image if it doesn't exist.
+                                    $hoverPath = $product->featured_image ?? $primaryPath;
                                     $hover = $product->getStorageImageUrl($hoverPath);
 
                                     $price = (float) ($product->price ?? 0);
@@ -660,12 +660,14 @@
                                     <div class="swiper-wrapper" aria-live="polite">
                                         @forelse($featuredProducts as $product)
                                             @php
-                                                // Use the unified storage helper which correctly resolves paths.
-                                                $img = $product->getStorageImageUrl($product->featured_image);
-
-                                                // The hover image is the first from the gallery, falling back to the main image.
                                                 $galleryPaths = is_array($product->gallery) ? $product->gallery : [];
-                                                $hoverPath = $galleryPaths[0] ?? $product->featured_image;
+
+                                                // The main image is the FIRST image from the gallery, falling back to the featured image.
+                                                $primaryPath = $galleryPaths[0] ?? $product->featured_image;
+                                                $img = $product->getStorageImageUrl($primaryPath);
+
+                                                // The hover image is the featured_image, falling back to the primary image if it doesn't exist.
+                                                $hoverPath = $product->featured_image ?? $primaryPath;
                                                 $hover = $product->getStorageImageUrl($hoverPath);
 
                                                 $isOnSale = $product->sale_price && $product->sale_price < $product->price;
@@ -724,12 +726,14 @@
                                     <div class="swiper-wrapper" aria-live="polite">
                                         @forelse($onSaleProducts as $product)
                                             @php
-                                                // Use the unified storage helper which correctly resolves paths.
-                                                $img = $product->getStorageImageUrl($product->featured_image);
-
-                                                // The hover image is the first from the gallery, falling back to the main image.
                                                 $galleryPaths = is_array($product->gallery) ? $product->gallery : [];
-                                                $hoverPath = $galleryPaths[0] ?? $product->featured_image;
+
+                                                // The main image is the FIRST image from the gallery, falling back to the featured image.
+                                                $primaryPath = $galleryPaths[0] ?? $product->featured_image;
+                                                $img = $product->getStorageImageUrl($primaryPath);
+
+                                                // The hover image is the featured_image, falling back to the primary image if it doesn't exist.
+                                                $hoverPath = $product->featured_image ?? $primaryPath;
                                                 $hover = $product->getStorageImageUrl($hoverPath);
                                             @endphp
                                             <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $onSaleProducts->count() }}">
