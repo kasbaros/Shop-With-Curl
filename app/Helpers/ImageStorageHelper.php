@@ -12,17 +12,12 @@
          * Get the base path where images should be stored
          * This points directly to public_html/storage for production
          */
-//        private static function getStorageBasePath(): string
-//        {
-//            // In your setup, this should point to public_html/storage
-//            return $_SERVER['DOCUMENT_ROOT'] . '/storage';
-//        }
-
         private static function getStorageBasePath(): string
         {
-            // Use Laravel's canonical helper for robustness instead of $_SERVER['DOCUMENT_ROOT']
-            return public_path('storage');
+            // In your setup, this should point to public_html/storage
+            return $_SERVER['DOCUMENT_ROOT'] . '/storage';
         }
+
 
         /**
          * Store image in public_html/storage directory
