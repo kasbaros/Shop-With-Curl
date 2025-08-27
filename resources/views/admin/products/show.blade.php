@@ -35,11 +35,9 @@
                             {{ $product->is_featured ? 'Unfeature' : 'Feature' }}
                         </button></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <li><button class="dropdown-item text-danger" onclick="deleteProduct({{ $product->id }})">
                             <i class="bi bi-trash me-2"></i>Delete
-                        </button>
-                    </li>
+                        </button></li>
                 </ul>
             </div>
             <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary">
@@ -290,7 +288,7 @@
                         <i class="bi bi-{{ $product->is_active ? 'eye-slash' : 'eye' }} me-1"></i>
                         {{ $product->is_active ? 'Deactivate' : 'Activate' }}
                     </button>
-                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <button class="btn btn-outline-danger" onclick="deleteProduct({{ $product->id }})">
                         <i class="bi bi-trash me-1"></i> Delete Product
                     </button>
                 </div>
@@ -308,30 +306,6 @@
                 </div>
                 <div class="modal-body text-center">
                     <img id="modalImage" src="" class="img-fluid rounded" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title">Delete Product</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this product? This action cannot be undone.</p>
-                    <p class="mb-0"><strong>{{ $product->name }}</strong></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form id="deleteProductForm" action="{{ url('/admin/products/'.$product->id) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete Product</button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -382,6 +356,21 @@
                 });
         }
 
+        function deleteProduct(productId) {
+            if (!confirm('Are you sure you want to delete this product?\n\nWarning: This action cannot be undone and will permanently remove the product from the system.')) {
+                return;
+            }
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `{{ url('/admin/products') }}/${productId}`;
+            form.innerHTML = `
+        <input type="hidden" name="_token" value="${document.querySelector('meta[name="csrf-token"]').getAttribute('content')}">
+        <input type="hidden" name="_method" value="DELETE">
+    `;
+            document.body.appendChild(form);
+            form.submit();
+        }
 
         function duplicateProduct(productId) {
             alert('Duplicate product feature coming soon!');

@@ -76,7 +76,7 @@
                     <button type="button" class="btn btn-sm btn-info" onclick="bulkAction('feature')">
                         <i class="bi bi-star"></i> Feature
                     </button>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="showBulkDeleteModal()">
+                    <button type="button" class="btn btn-sm btn-danger" onclick="bulkAction('delete')">
                         <i class="bi bi-trash"></i> Delete
                     </button>
                 </div>
@@ -208,11 +208,9 @@
                                             <i class="bi bi-star me-2"></i>{{ $product->is_featured ? 'Unfeature' : 'Feature' }}
                                         </button></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <button class="dropdown-item text-danger" onclick="showDeleteModal({{ $product->id }}, '{{ $product->name }}')">
+                                    <li><button class="dropdown-item text-danger" onclick="deleteProduct({{ $product->id }})">
                                             <i class="bi bi-trash me-2"></i>Delete
-                                        </button>
-                                    </li>
+                                        </button></li>
                                 </ul>
                             </div>
                         </td>
@@ -240,50 +238,6 @@
                 {{ $products->links() }}
             </div>
         @endif
-    </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title">Delete Product</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this product? This action cannot be undone.</p>
-                    <p class="mb-0"><strong id="deleteProductName"></strong></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form id="deleteProductForm" action="" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete Product</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bulk Delete Confirmation Modal -->
-    <div class="modal fade" id="bulkDeleteModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title">Delete Multiple Products</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete the selected products? This action cannot be undone.</p>
-                    <p>Number of products to be deleted: <strong id="bulkDeleteCount">0</strong></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" onclick="confirmBulkDelete()">Delete Products</button>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
 
@@ -368,7 +322,7 @@
                 return;
             }
 
-            if (action === 'delete' && !confirm('Are you sure you want to delete the selected products?')) {
+            if (action === 'delete' && !confirm('Are you sure you want to delete the selected products?\n\nWarning: This action cannot be undone and will permanently remove all selected products from the system.')) {
                 return;
             }
 
@@ -394,30 +348,21 @@
                 });
         }
 
-        // Setup delete modal
-        function showDeleteModal(productId, productName) {
-            document.getElementById('deleteProductName').textContent = productName;
-            document.getElementById('deleteProductForm').action = "{{ url('/admin/products') }}/" + productId;
-            new bootstrap.Modal(document.getElementById('deleteModal')).show();
-        }
-
-        // Show bulk delete modal
-        function showBulkDeleteModal() {
-            const selected = document.querySelectorAll('.product-checkbox:checked');
-            if (selected.length === 0) {
-                alert('Please select products first');
+        // Delete Product
+        function deleteProduct(productId) {
+            if (!confirm('Are you sure you want to delete this product?\n\nWarning: This action cannot be undone and will permanently remove the product from the system.')) {
                 return;
             }
 
-            document.getElementById('bulkDeleteCount').textContent = selected.length;
-            new bootstrap.Modal(document.getElementById('bulkDeleteModal')).show();
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `{{ url('/admin/products') }}/${productId}`;
+            form.innerHTML = `
+        <input type="hidden" name="_token" value="${document.querySelector('meta[name="csrf-token"]').getAttribute('content')}">
+        <input type="hidden" name="_method" value="DELETE">
+    `;
+            document.body.appendChild(form);
+            form.submit();
         }
-
-        // Confirm bulk delete
-        function confirmBulkDelete() {
-            bulkAction('delete');
-            document.getElementById('bulkDeleteModal').querySelector('[data-bs-dismiss="modal"]').click();
-        }
-
     </script>
 @endpush
