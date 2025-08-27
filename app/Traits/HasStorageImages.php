@@ -158,7 +158,7 @@
         /**
          * Get placeholder image for this model type
          */
-        protected function getPlaceholderImage(): string
+        public function getPlaceholderImage(): string
         {
             $modelName = strtolower(class_basename($this));
 
