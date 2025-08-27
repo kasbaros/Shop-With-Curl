@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class WishListToggle extends Component
 {
     public Product $product;
-    public $isInWishlist = false; // Remove 'bool' type hint for Livewire compatibility
+    public $isInWishlist = false;
 
     public function mount(Product $product)
     {

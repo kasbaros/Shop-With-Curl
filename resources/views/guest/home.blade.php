@@ -520,6 +520,43 @@
                             return;
                         }
                     });
+
+                    function addLookbookToCart(lookbookId) {
+                        const selectedItems = document.querySelectorAll('.lookbook-item-checkbox:checked');
+                        const productIds = Array.from(selectedItems).map(item => item.value).filter(id => id);
+
+                        if (productIds.length === 0) {
+                            if (window.Livewire?.dispatch) {
+                                window.Livewire.dispatch('notify', {message: 'Please select at least one item to add.', type: 'info'});
+                            } else {
+                                alert('Please select at least one item to add.');
+                            }
+                            return;
+                        }
+
+                        if (window.Livewire?.dispatch) {
+                            let addedCount = 0;
+                            productIds.forEach(productId => {
+                                // This will open the quick add modal for each product if it has variants,
+                                // or add it directly if it doesn't.
+                                window.Livewire.dispatch('product:quickAdd', { productId: productId });
+                                addedCount++;
+                            });
+
+                            // A generic notification, since QuickAdd might show its own.
+                            if (addedCount > 0) {
+                                setTimeout(() => {
+                                    window.Livewire.dispatch('notify', {
+                                        message: `Attempting to add ${addedCount} item(s).`,
+                                        type: 'info'
+                                    });
+                                }, 500); // Delay to avoid conflicting with other notifications
+                            }
+                        } else {
+                            console.error('Livewire not available. Cannot add lookbook to cart.');
+                            alert('Could not add items to cart.');
+                        }
+                    }
                 });
             </script>
         @endpush
@@ -822,16 +859,21 @@
                                                                     </a>
                                                                 </div>
                                                                 <div class="tf-product-bundle-infos">
-                                                                    <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}"
-                                                                       class="tf-product-bundle-title fs-16">{{ $p?->name ?? 'Product' }}</a>
-                                                                    <div class="tf-product-bundle-price">
-                                                                        <div class="price fs-16">
-                                                                            @if($onSale)
-                                                                                <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
-                                                                                <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
-                                                                            @elseif($p)
-                                                                                UGX {{ number_format($price, 0) }}
-                                                                            @endif
+                                                                    <div class="d-flex align-items-center">
+                                                                        <input class="form-check-input lookbook-item-checkbox me-2" type="checkbox" value="{{ $p->id ?? '' }}" id="lookbook-item-{{ $p->id ?? $loop->index }}" checked style="width: 1.5em; height: 1.5em; margin-top: 0;">
+                                                                        <div>
+                                                                            <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}"
+                                                                               class="tf-product-bundle-title fs-16">{{ $p?->name ?? 'Product' }}</a>
+                                                                            <div class="tf-product-bundle-price">
+                                                                                <div class="price fs-16">
+                                                                                    @if($onSale)
+                                                                                        <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
+                                                                                        <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
+                                                                                    @elseif($p)
+                                                                                        UGX {{ number_format($price, 0) }}
+                                                                                    @endif
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
