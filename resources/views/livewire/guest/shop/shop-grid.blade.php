@@ -91,11 +91,15 @@
                                 // Use the same robust image logic as the home page for consistency.
                                 $galleryPaths = is_array($product->gallery) ? $product->gallery : [];
                                 $primaryPath = $galleryPaths[0] ?? $product->featured_image;
-                                $img = $product->getStorageImageUrl($primaryPath);
+                                $imageUrl = $product->getStorageImageUrl($primaryPath);
 
                                 // The hover image is the featured_image, falling back to the primary image if it doesn't exist.
                                 $hoverPath = $product->featured_image ?? $primaryPath;
-                                $hover = $product->getStorageImageUrl($hoverPath);
+                                $hoverUrl = $product->getStorageImageUrl($hoverPath);
+
+                                $hasSale = !is_null($product->sale_price) && $product->sale_price < $product->price;
+                                $displayPrice = $hasSale ? $product->sale_price : $product->price;
+                                $format = fn($p) => number_format((float)$p, 2);
                             @endphp
 
                             <div class="col">
@@ -103,6 +107,7 @@
                                     <div class="card-product-wrapper">
                                         <a href="{{ route('products.show', $product->slug) }}" class="product-img">
                                             <img class="img-product" src="{{ $imageUrl }}" alt="{{ $product->name }}">
+                                            <img class="img-hover" src="{{ $hoverUrl }}" alt="{{ $product->name }}">
                                         </a>
                                         <div class="list-product-btn absolute-2">
                                             <a href="javascript:void(0);"
