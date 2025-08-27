@@ -73,15 +73,22 @@
                                            value="{{ $product->id }}" id="product_{{ $product->id }}"
                                         {{ in_array($product->id, old('product_ids', $selectedProductIds)) ? 'checked' : '' }}>
                                     <label class="form-check-label d-flex justify-content-between align-items-center w-100" for="product_{{ $product->id }}">
-                                        <div>
-                                            <strong>{{ $product->name }}</strong>
-                                            <div class="text-muted small">
-                                                @if($product->sale_price && $product->sale_price < $product->price)
-                                                    <span class="text-danger">UGX {{ number_format($product->sale_price, 0) }}</span>
-                                                    <span class="text-decoration-line-through">UGX {{ number_format($product->price, 0) }}</span>
-                                                @else
-                                                    UGX {{ number_format($product->price, 0) }}
-                                                @endif
+                                        <div class="d-flex align-items-center">
+                                            <div class="me-2">
+                                                <img src="{{ $product->thumbnail_url ?? asset('images/placeholder-product.jpg') }}"
+                                                     alt="{{ $product->name }}" class="rounded"
+                                                     style="width: 40px; height: 40px; object-fit: cover;">
+                                            </div>
+                                            <div>
+                                                <strong>{{ $product->name }}</strong>
+                                                <div class="text-muted small">
+                                                    @if($product->sale_price && $product->sale_price < $product->price)
+                                                        <span class="text-danger">UGX {{ number_format($product->sale_price, 0) }}</span>
+                                                        <span class="text-decoration-line-through">UGX {{ number_format($product->price, 0) }}</span>
+                                                    @else
+                                                        UGX {{ number_format($product->price, 0) }}
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </label>

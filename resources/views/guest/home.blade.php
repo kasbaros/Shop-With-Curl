@@ -803,8 +803,8 @@
                                                     @forelse(($lookbook?->items) ?? [] as $item)
                                                         @php
                                                             $p = $item->product;
-                                                            // Use the unified storage helper. It will return a placeholder if the product or image is missing.
-                                                            $img = $p ? $p->getStorageImageUrl($p->featured_image) : asset('images/placeholder-product.jpg');
+                                                            // Use the thumbnail_url accessor which handles image processing and placeholders
+                                                            $img = $p ? $p->thumbnail_url : asset('images/placeholder-product.jpg');
                                                             $price = (float) ($p->price ?? 0);
                                                             $sale = (float) ($p->sale_price ?? 0);
                                                             $onSale = $sale > 0 && $sale < $price;

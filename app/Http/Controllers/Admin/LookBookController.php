@@ -26,7 +26,7 @@
         public function create()
         {
             $products = Product::active()
-                ->select('id', 'name', 'slug', 'price', 'sale_price')
+                ->with('media')
                 ->orderBy('name')
                 ->get();
 
@@ -136,15 +136,15 @@
 
         public function show(Lookbook $lookbook)
         {
-            $lookbook->load('items.product');
+            $lookbook->load('items.product.media');
             return view('admin.lookbooks.show', compact('lookbook'));
         }
 
         public function edit(Lookbook $lookbook)
         {
-            $lookbook->load('items.product');
+            $lookbook->load('items.product.media');
             $products = Product::active()
-                ->select('id', 'name', 'slug', 'price', 'sale_price')
+                ->with('media')
                 ->orderBy('name')
                 ->get();
 
