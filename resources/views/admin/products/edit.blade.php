@@ -79,9 +79,11 @@
                                 @foreach($product->getMedia('images') as $media)
                                     <div class="col-md-3">
                                         <div class="position-relative">
-                                            <img src="{{ $media->getUrl() }}"
-                                                 class="img-fluid rounded"
-                                                 style="height: 120px; width: 100%; object-fit: cover;">
+                                            <img
+                                                src="{{ method_exists($product, 'getMediaStorageUrl') ? $product->getMediaStorageUrl('images', 'large', $loop->index) : $media->getUrl() }}"
+                                                class="img-fluid rounded"
+                                                alt="{{ $product->name }}"
+                                                style="height: 120px; width: 100%; object-fit: cover;">
                                             @if($loop->first)
                                                 <div class="badge bg-primary position-absolute top-0 start-0 m-1">Main</div>
                                             @endif

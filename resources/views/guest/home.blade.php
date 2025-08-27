@@ -345,9 +345,16 @@
                         <div class="swiper-wrapper" aria-live="polite">
                             @forelse($latestProducts as $product)
                                 @php
-                                    $primary = $product->getFirstMediaUrl('images', 'large') ?: $product->getFirstMediaUrl('images');
-                                    $hover = $product->getMedia('images')->get(1)?->getUrl('large') ?? $primary;
-                                    $img = $primary ?: asset('images/placeholder-product.jpg');
+                                    // Use storage-aware helpers for product media
+                                    $primary = method_exists($product, 'getMediaStorageUrl')
+                                        ? $product->getMediaStorageUrl('images', 'large', 0)
+                                        : '';
+
+                                    $hover = method_exists($product, 'getMediaStorageUrl')
+                                        ? $product->getMediaStorageUrl('images', 'large', 1)
+                                        : $primary;
+
+                                    $img = $primary ?: ($product->thumbnail_url ?? $product->image_url ?? asset('images/placeholder-product.jpg'));
                                     $price = (float) ($product->price ?? 0);
                                     $sale = (float) ($product->sale_price ?? 0);
                                     $isOnSale = $sale > 0 && $sale < $price;
@@ -379,9 +386,9 @@
                                             <a href="{{ route('products.show', $product->slug) }}" class="title link">{{ $product->name }}</a>
                                             @if($isOnSale)
                                                 <span class="price">
-                                            <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
-                                            <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
-                                        </span>
+                                                    <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
+                                                    <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
+                                                </span>
                                             @else
                                                 <span class="price">UGX {{ number_format($price, 0) }}</span>
                                             @endif
@@ -576,7 +583,7 @@
                              style="background-image: url('{{ $promoBanner->desktopImageUrl }}')"
                         @endif
                     ></div>
-                    
+
                     <div class="floating-elements">
                         <div class="floating-shape"></div>
                         <div class="floating-shape"></div>
@@ -653,10 +660,17 @@
                                     <div class="swiper-wrapper" aria-live="polite">
                                         @forelse($featuredProducts as $product)
                                             @php
-                                                $primary = $product->getFirstMediaUrl('images', 'large') ?: $product->getFirstMediaUrl('images');
-                                                $hover = $product->getMedia('images')->get(1)?->getUrl('large') ?? $primary;
+                                                // Use storage-aware helpers for product media
+                                                $primary = method_exists($product, 'getMediaStorageUrl')
+                                                    ? $product->getMediaStorageUrl('images', 'large', 0)
+                                                    : '';
+
+                                                $hover = method_exists($product, 'getMediaStorageUrl')
+                                                    ? $product->getMediaStorageUrl('images', 'large', 1)
+                                                    : $primary;
+
                                                 $isOnSale = $product->sale_price && $product->sale_price < $product->price;
-                                                $img = $primary ?: asset('images/placeholder-product.jpg');
+                                                $img = $primary ?: ($product->thumbnail_url ?? $product->image_url ?? asset('images/placeholder-product.jpg'));
                                             @endphp
                                             <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $featuredProducts->count() }}">
                                                 <div class="card-product">
@@ -712,9 +726,16 @@
                                     <div class="swiper-wrapper" aria-live="polite">
                                         @forelse($onSaleProducts as $product)
                                             @php
-                                                $primary = $product->getFirstMediaUrl('images', 'large') ?: $product->getFirstMediaUrl('images');
-                                                $hover = $product->getMedia('images')->get(1)?->getUrl('large') ?? $primary;
-                                                $img = $primary ?: asset('images/placeholder-product.jpg');
+                                                // Use storage-aware helpers for product media
+                                                $primary = method_exists($product, 'getMediaStorageUrl')
+                                                    ? $product->getMediaStorageUrl('images', 'large', 0)
+                                                    : '';
+
+                                                $hover = method_exists($product, 'getMediaStorageUrl')
+                                                    ? $product->getMediaStorageUrl('images', 'large', 1)
+                                                    : $primary;
+
+                                                $img = $primary ?: ($product->thumbnail_url ?? $product->image_url ?? asset('images/placeholder-product.jpg'));
                                             @endphp
                                             <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $onSaleProducts->count() }}">
                                                 <div class="card-product">
@@ -757,7 +778,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

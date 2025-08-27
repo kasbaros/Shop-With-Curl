@@ -118,10 +118,15 @@
                         @foreach($product->getMedia('images') as $media)
                             <div class="col-md-3">
                                 <div class="position-relative">
-                                    <img src="{{ $media->getUrl() }}"
+                                    @php
+                                        $imgUrl = method_exists($product, 'getMediaStorageUrl')
+                                            ? $product->getMediaStorageUrl('images', 'large', $loop->index)
+                                            : $media->getUrl();
+                                    @endphp
+                                    <img src="{{ $imgUrl }}"
                                          class="img-fluid rounded cursor-pointer"
                                          style="height: 150px; width: 100%; object-fit: cover;"
-                                         onclick="showImageModal('{{ $media->getUrl() }}', '{{ $product->name }}')">
+                                         onclick="showImageModal('{{ $imgUrl }}', '{{ $product->name }}')">
                                     @if($loop->first)
                                         <div class="badge bg-primary position-absolute top-0 start-0 m-2">Main</div>
                                     @endif

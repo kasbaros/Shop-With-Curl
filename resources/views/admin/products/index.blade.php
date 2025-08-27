@@ -125,17 +125,16 @@
                             <input type="checkbox" class="form-check-input product-checkbox" value="{{ $product->id }}">
                         </td>
                         <td>
-                            @if($product->featured_image)
-                                <img src="{{ $product->featured_image }}"
-                                     alt="{{ $product->name }}"
-                                     class="rounded"
-                                     style="width: 50px; height: 50px; object-fit: cover;">
-                            @else
-                                <div class="bg-light rounded d-flex align-items-center justify-content-center"
-                                     style="width: 50px; height: 50px;">
-                                    <i class="bi bi-image text-muted"></i>
-                                </div>
-                            @endif
+                            @php
+                                $thumb = method_exists($product, 'getMediaStorageUrl')
+                                    ? $product->getMediaStorageUrl('images', 'large', 0)
+                                    : '';
+                                $thumb = $thumb ?: ($product->thumbnail_url ?? $product->image_url ?? asset('images/placeholder-product.jpg'));
+                            @endphp
+                            <img src="{{ $thumb }}"
+                                 alt="{{ $product->name }}"
+                                 class="rounded"
+                                 style="width: 50px; height: 50px; object-fit: cover;">
                         </td>
                         <td>
                             <div>
