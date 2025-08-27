@@ -76,7 +76,7 @@
                     <button type="button" class="btn btn-sm btn-info" onclick="bulkAction('feature')">
                         <i class="bi bi-star"></i> Feature
                     </button>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="bulkAction('delete')">
+                    <button type="button" class="btn btn-sm btn-danger" onclick="showBulkDeleteModal()">
                         <i class="bi bi-trash"></i> Delete
                     </button>
                 </div>
@@ -209,13 +209,9 @@
                                         </button></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
-                                        <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to delete this product?')">
-                                                <i class="bi bi-trash me-2"></i>Delete
-                                            </button>
-                                        </form>
+                                        <button class="dropdown-item text-danger" onclick="showDeleteModal({{ $product->id }}, '{{ $product->name }}')">
+                                            <i class="bi bi-trash me-2"></i>Delete
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
@@ -244,6 +240,50 @@
                 {{ $products->links() }}
             </div>
         @endif
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Delete Product</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+                    <p class="mb-0"><strong id="deleteProductName"></strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteProductForm" action="" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Delete Confirmation Modal -->
+    <div class="modal fade" id="bulkDeleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Delete Multiple Products</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete the selected products? This action cannot be undone.</p>
+                    <p>Number of products to be deleted: <strong id="bulkDeleteCount">0</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmBulkDelete()">Delete Products</button>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -352,6 +392,31 @@
                         alert('Error performing bulk action');
                     }
                 });
+        }
+
+        // Setup delete modal
+        function showDeleteModal(productId, productName) {
+            document.getElementById('deleteProductName').textContent = productName;
+            document.getElementById('deleteProductForm').action = "{{ url('/admin/products') }}/" + productId;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+
+        // Show bulk delete modal
+        function showBulkDeleteModal() {
+            const selected = document.querySelectorAll('.product-checkbox:checked');
+            if (selected.length === 0) {
+                alert('Please select products first');
+                return;
+            }
+
+            document.getElementById('bulkDeleteCount').textContent = selected.length;
+            new bootstrap.Modal(document.getElementById('bulkDeleteModal')).show();
+        }
+
+        // Confirm bulk delete
+        function confirmBulkDelete() {
+            bulkAction('delete');
+            document.getElementById('bulkDeleteModal').querySelector('[data-bs-dismiss="modal"]').click();
         }
 
     </script>

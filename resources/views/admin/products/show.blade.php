@@ -36,13 +36,9 @@
                         </button></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
-                        <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to delete this product? This action cannot be undone.')">
-                                <i class="bi bi-trash me-2"></i>Delete
-                            </button>
-                        </form>
+                        <button class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="bi bi-trash me-2"></i>Delete
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -294,13 +290,9 @@
                         <i class="bi bi-{{ $product->is_active ? 'eye-slash' : 'eye' }} me-1"></i>
                         {{ $product->is_active ? 'Deactivate' : 'Activate' }}
                     </button>
-                    <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this product? This action cannot be undone.')">
-                            <i class="bi bi-trash me-1"></i> Delete Product
-                        </button>
-                    </form>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="bi bi-trash me-1"></i> Delete Product
+                    </button>
                 </div>
             </div>
         </div>
@@ -316,6 +308,30 @@
                 </div>
                 <div class="modal-body text-center">
                     <img id="modalImage" src="" class="img-fluid rounded" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Delete Product</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this product? This action cannot be undone.</p>
+                    <p class="mb-0"><strong>{{ $product->name }}</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form id="deleteProductForm" action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete Product</button>
+                    </form>
                 </div>
             </div>
         </div>
