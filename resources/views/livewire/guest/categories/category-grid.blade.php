@@ -225,14 +225,15 @@
                     <div class="tf-grid-layout wrapper-shop tf-col-{{ str_replace('grid-', '', $layout ?? '3') }}">
                         @if(isset($categories) && $categories->count() > 0)
                             @foreach($categories as $category)
-                            <div class="card-product" data-availability="active" data-brand="{{ $category->brands->pluck('name')->implode(',') ?? '' }}">
-                                <div class="card-product-wrapper">
-                                    <a href="{{ route('products.category', $category->slug) }}" class="product-img">
-                                        <img class="lazyload img-product"
-                                             data-src="{{ $category->image_url ?? asset('images/placeholder-category.jpg') }}"
-                                             src="{{ $category->image_url ?? asset('images/placeholder-category.jpg') }}"
-                                             alt="{{ $category->name }}">
-                                    </a>
+                                <div class="card-product" data-availability="active" data-brand="{{ $category->brands->pluck('name')->implode(',') ?? '' }}">
+                                    <div class="card-product-wrapper">
+                                        <a href="{{ route('products.category', $category->slug) }}" class="product-img">
+                                            <img class="lazyload img-product"
+                                                 data-src="{{ $category->thumbnail_url }}"
+                                                 src="{{ $category->thumbnail_url }}"
+                                                 alt="{{ $category->name }}"
+                                                 onerror="this.src='{{ asset('images/placeholder-category.jpg') }}'">
+                                        </a>
                                     <div class="list-product-btn absolute-2">
                                         <a href="{{ route('products.category', $category->slug) }}"
                                            class="box-icon bg_white quick-add tf-btn-loading">

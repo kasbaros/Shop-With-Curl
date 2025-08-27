@@ -162,9 +162,28 @@
         {
             $modelName = strtolower(class_basename($this));
 
+            // For categories, use a varied fallback image pool for a nicer look.
+            if ($modelName === 'category' && property_exists($this, 'id') && $this->id) {
+                $fallbackImages = [
+                    'images/products/shop_with_carl-1.jpg',
+                    'images/products/shop_with_carl-2.jpg',
+                    'images/products/shop_with_carl-3.jpg',
+                    'images/products/shop_with_carl-4.jpg',
+                    'images/products/shop_with_carl-5.jpg',
+                    'images/products/shop_with_carl-6.jpg',
+                    'images/products/shop_with_carl-7.jpg',
+                    'images/products/shop_with_carl-8.jpg',
+                    'images/products/shop_with_carl-9.jpg',
+                    'images/products/shop_with_carl-10.jpg',
+                ];
+                // Use the model's ID to deterministically pick a fallback image.
+                $fallbackIndex = ($this->id - 1) % count($fallbackImages);
+                return asset($fallbackImages[$fallbackIndex]);
+            }
+
+            // For other models, use a specific placeholder if defined.
             $placeholders = [
                 'product' => 'images/placeholder-product.jpg',
-                'category' => 'images/placeholder-category.jpg',
                 'gallery' => 'images/placeholder-gallery.jpg',
                 'galleryitem' => 'images/placeholder-gallery.jpg',
                 'user' => 'images/placeholder-user.jpg',

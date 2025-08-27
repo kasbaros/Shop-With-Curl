@@ -248,54 +248,21 @@
                         <div class="swiper-wrapper">
                             @forelse($categories as $category)
                                 @php
-                                    // 1) Prefer Spatie media (thumb -> original)
-                                    $imageUrl = method_exists($category, 'getFirstMediaUrl')
-                                        ? ($category->getFirstMediaUrl('images', 'thumb') ?: $category->getFirstMediaUrl('images'))
-                                        : null;
-
-                                    // 2) Then the model accessors
-                                    if (empty($imageUrl)) {
-                                        $imageUrl = $category->thumbnail_url ?? $category->image_url;
-                                    }
-
-                                    // 3) If relative storage path, normalize to absolute URL
-                                    if (!empty($imageUrl) && !preg_match('#^https?://#i', $imageUrl) && !str_starts_with($imageUrl, '/')) {
-                                        // Common storage prefix
-                                        if (str_starts_with($imageUrl, 'storage/')) {
-                                            $imageUrl = url($imageUrl); // -> http(s)://host/storage/...
-                                        } else {
-                                            $imageUrl = asset($imageUrl);
-                                        }
-                                    }
-
-                                    // Varied fallback pool
-                                    $fallbackImages = [
-                                        'images/products/shop_with_carl-1.jpg',
-                                        'images/products/shop_with_carl-2.jpg',
-                                        'images/products/shop_with_carl-3.jpg',
-                                        'images/products/shop_with_carl-4.jpg',
-                                        'images/products/shop_with_carl-5.jpg',
-                                        'images/products/shop_with_carl-6.jpg',
-                                        'images/products/shop_with_carl-7.jpg',
-                                        'images/products/shop_with_carl-8.jpg',
-                                        'images/products/shop_with_carl-9.jpg',
-                                        'images/products/shop_with_carl-10.jpg',
-                                    ];
-                                    $fallbackIndex = ($category->id - 1) % count($fallbackImages);
-                                    $fallbackImage = asset($fallbackImages[$fallbackIndex]);
-
-                                    // Final URL (don’t use file_exists on URLs)
-                                    $finalUrl = $imageUrl ?: $fallbackImage;
+                                    // The complex logic, including varied fallbacks, is now handled by the model's accessor.
+                                    // We can just call it directly for clean, consistent code.
+                                    $imageUrl = $category->thumbnail_url;
+                                    // This onerror fallback is now just a final safety net for the browser.
+                                    $browserFallbackImage = asset('images/products/shop_with_carl-1.jpg');
                                 @endphp
                                 <div class="swiper-slide" lazy="true">
                                     <div class="collection-item-circle hover-img">
                                         <a href="{{ route('categories.show', $category) }}" class="collection-image img-style">
                                             <img
-                                                src="{{ $finalUrl }}"
+                                                src="{{ $imageUrl }}"
                                                 alt="{{ $category->name }}"
                                                 style="width: 100%; height: 200px; object-fit: cover;"
                                                 onload="this.style.opacity=1"
-                                                onerror="this.src='{{ $fallbackImage }}'">
+                                                onerror="this.src='{{ $browserFallbackImage }}'">
                                         </a>
                                         <div class="collection-content text-center">
                                             <a href="{{ route('categories.show', $category) }}" class="link title fw-5">{{ $category->name }}</a>
