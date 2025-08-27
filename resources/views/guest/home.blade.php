@@ -345,16 +345,16 @@
                         <div class="swiper-wrapper" aria-live="polite">
                             @forelse($latestProducts as $product)
                                 @php
-                                    // Use storage-aware helpers for product media
-                                    $primary = method_exists($product, 'getMediaStorageUrl')
-                                        ? $product->getMediaStorageUrl('images', 'large', 0)
-                                        : '';
+                                    // Use the unified storage helper which correctly resolves paths.
+                                    // The main image comes from the `featured_image` attribute.
+                                    $img = $product->getStorageImageUrl($product->featured_image);
 
-                                    $hover = method_exists($product, 'getMediaStorageUrl')
-                                        ? $product->getMediaStorageUrl('images', 'large', 1)
-                                        : $primary;
+                                    // The hover image is the first from the gallery, falling back to the main image.
+                                    // The helper will provide a placeholder if both are missing.
+                                    $galleryPaths = is_array($product->gallery) ? $product->gallery : [];
+                                    $hoverPath = $galleryPaths[0] ?? $product->featured_image;
+                                    $hover = $product->getStorageImageUrl($hoverPath);
 
-                                    $img = $primary ?: ($product->thumbnail_url ?? $product->image_url ?? asset('images/placeholder-product.jpg'));
                                     $price = (float) ($product->price ?? 0);
                                     $sale = (float) ($product->sale_price ?? 0);
                                     $isOnSale = $sale > 0 && $sale < $price;
@@ -660,17 +660,15 @@
                                     <div class="swiper-wrapper" aria-live="polite">
                                         @forelse($featuredProducts as $product)
                                             @php
-                                                // Use storage-aware helpers for product media
-                                                $primary = method_exists($product, 'getMediaStorageUrl')
-                                                    ? $product->getMediaStorageUrl('images', 'large', 0)
-                                                    : '';
+                                                // Use the unified storage helper which correctly resolves paths.
+                                                $img = $product->getStorageImageUrl($product->featured_image);
 
-                                                $hover = method_exists($product, 'getMediaStorageUrl')
-                                                    ? $product->getMediaStorageUrl('images', 'large', 1)
-                                                    : $primary;
+                                                // The hover image is the first from the gallery, falling back to the main image.
+                                                $galleryPaths = is_array($product->gallery) ? $product->gallery : [];
+                                                $hoverPath = $galleryPaths[0] ?? $product->featured_image;
+                                                $hover = $product->getStorageImageUrl($hoverPath);
 
                                                 $isOnSale = $product->sale_price && $product->sale_price < $product->price;
-                                                $img = $primary ?: ($product->thumbnail_url ?? $product->image_url ?? asset('images/placeholder-product.jpg'));
                                             @endphp
                                             <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $featuredProducts->count() }}">
                                                 <div class="card-product">
@@ -726,16 +724,13 @@
                                     <div class="swiper-wrapper" aria-live="polite">
                                         @forelse($onSaleProducts as $product)
                                             @php
-                                                // Use storage-aware helpers for product media
-                                                $primary = method_exists($product, 'getMediaStorageUrl')
-                                                    ? $product->getMediaStorageUrl('images', 'large', 0)
-                                                    : '';
+                                                // Use the unified storage helper which correctly resolves paths.
+                                                $img = $product->getStorageImageUrl($product->featured_image);
 
-                                                $hover = method_exists($product, 'getMediaStorageUrl')
-                                                    ? $product->getMediaStorageUrl('images', 'large', 1)
-                                                    : $primary;
-
-                                                $img = $primary ?: ($product->thumbnail_url ?? $product->image_url ?? asset('images/placeholder-product.jpg'));
+                                                // The hover image is the first from the gallery, falling back to the main image.
+                                                $galleryPaths = is_array($product->gallery) ? $product->gallery : [];
+                                                $hoverPath = $galleryPaths[0] ?? $product->featured_image;
+                                                $hover = $product->getStorageImageUrl($hoverPath);
                                             @endphp
                                             <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $onSaleProducts->count() }}">
                                                 <div class="card-product">
@@ -804,9 +799,10 @@
                                                     @forelse(($lookbook?->items) ?? [] as $item)
                                                         @php
                                                             $p = $item->product;
-                                                            $img = $p?->thumbnail_url ?? $p?->image_url ?? asset('images/placeholder-product.jpg');
-                                                            $price = (float) ($p?->price ?? 0);
-                                                            $sale = (float) ($p?->sale_price ?? 0);
+                                                            // Use the unified storage helper. It will return a placeholder if the product or image is missing.
+                                                            $img = $p ? $p->getStorageImageUrl($p->featured_image) : asset('images/placeholder-product.jpg');
+                                                            $price = (float) ($p->price ?? 0);
+                                                            $sale = (float) ($p->sale_price ?? 0);
                                                             $onSale = $sale > 0 && $sale < $price;
                                                         @endphp
                                                         <div class="swiper-slide" lazy="true">
