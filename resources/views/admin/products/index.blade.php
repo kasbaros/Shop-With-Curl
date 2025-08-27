@@ -208,9 +208,15 @@
                                             <i class="bi bi-star me-2"></i>{{ $product->is_featured ? 'Unfeature' : 'Feature' }}
                                         </button></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><button class="dropdown-item text-danger" onclick="deleteProduct({{ $product->id }})">
-                                            <i class="bi bi-trash me-2"></i>Delete
-                                        </button></li>
+                                    <li>
+                                        <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to delete this product?\n\nWarning: This action cannot be undone and will permanently remove the product from the system.')">
+                                                <i class="bi bi-trash me-2"></i>Delete
+                                            </button>
+                                        </form>
+                                    </li>
                                 </ul>
                             </div>
                         </td>
@@ -348,21 +354,5 @@
                 });
         }
 
-        // Delete Product
-        function deleteProduct(productId) {
-            if (!confirm('Are you sure you want to delete this product?\n\nWarning: This action cannot be undone and will permanently remove the product from the system.')) {
-                return;
-            }
-
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '{{ url('/admin/products') }}/' + productId;
-            form.innerHTML = `
-        <input type="hidden" name="_token" value="${document.querySelector('meta[name="csrf-token"]').getAttribute('content')}">
-        <input type="hidden" name="_method" value="DELETE">
-    `;
-            document.body.appendChild(form);
-            form.submit();
-        }
     </script>
 @endpush
