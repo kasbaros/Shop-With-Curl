@@ -45,3 +45,4 @@ public/*migrate*.php
 public/generate_secure_token.php
 public/fix_migration_deployment.php
 public/deployment_*.php
+/public/test-delete-form.html

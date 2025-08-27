@@ -363,7 +363,7 @@
 
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = `{{ url('/admin/products') }}/${productId}`;
+            form.action = '{{ url('/admin/products') }}/' + productId;
             form.innerHTML = `
         <input type="hidden" name="_token" value="${document.querySelector('meta[name="csrf-token"]').getAttribute('content')}">
         <input type="hidden" name="_method" value="DELETE">
