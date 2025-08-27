@@ -21,7 +21,7 @@
             $storagePath = $file->storeAs($directory, $filename, 'public');
 
             // ALSO copy to public_html for direct web access
-            $publicPath = $_SERVER['DOCUMENT_ROOT'] . '/storage/' . $directory;
+            $publicPath = public_path('storage/' . $directory);
             $publicFilePath = $publicPath . '/' . $filename;
 
             // Create directory if it doesn't exist
@@ -66,7 +66,7 @@
             Storage::disk('public')->delete($path);
 
             // Also delete from public directory
-            $publicFilePath = $_SERVER['DOCUMENT_ROOT'] . '/storage/' . $path;
+            $publicFilePath = public_path('storage/' . $path);
             if (file_exists($publicFilePath)) {
                 unlink($publicFilePath);
             }
