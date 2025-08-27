@@ -37,9 +37,10 @@
             // Get the full directory path
             $fullDirectoryPath = self::getStorageBasePath() . '/' . $directory;
 
-            // Create directory if it doesn't exist
-            if (!File::exists($fullDirectoryPath)) {
-                File::makeDirectory($fullDirectoryPath, 0755, true);
+            // Create directory if it doesn't exist. This is non-destructive.
+            // The `true` for recursive ensures parent directories are also made if needed.
+            if (!File::isDirectory($fullDirectoryPath)) {
+                File::makeDirectory($fullDirectoryPath, 0755, true, true);
             }
 
             // Move the file to the directory
@@ -48,6 +49,7 @@
             // Return the relative path for database storage (without leading slash)
             return $directory . '/' . $filename;
         }
+
 
         /**
          * Get the full URL for an image
