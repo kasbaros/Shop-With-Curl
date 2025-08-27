@@ -143,17 +143,18 @@
                     @php
                         $images = $product->getImagesAttribute();
                         $imageCount = count($images);
+                        $placeholderImage = asset('images/placeholder-product.jpg');
                     @endphp
                     <h5 class="mb-3">Product Images ({{ $imageCount }})</h5>
                     <div class="row g-3">
                         @foreach($images as $index => $image)
                             <div class="col-md-3">
                                 <div class="position-relative">
-                                    <img src="{{ $image['large'] ?? $image['original'] ?? $product->getPlaceholderImage() }}"
+                                    <img src="{{ $image['large'] ?? $image['original'] ?? $placeholderImage }}"
                                          class="img-fluid rounded cursor-pointer"
                                          style="height: 150px; width: 100%; object-fit: cover;"
-                                         onclick="showImageModal('{{ $image['original'] ?? $product->getPlaceholderImage() }}', '{{ $product->name }}')"
-                                         onerror="this.src='{{ $product->getPlaceholderImage() }}'">
+                                         onclick="showImageModal('{{ $image['original'] ?? $placeholderImage }}', '{{ $product->name }}')"
+                                         onerror="this.src='{{ $placeholderImage }}'">
                                     @if($index === 0)
                                         <div class="badge bg-primary position-absolute top-0 start-0 m-2">Main</div>
                                     @endif
