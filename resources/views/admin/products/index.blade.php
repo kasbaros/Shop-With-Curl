@@ -397,7 +397,7 @@
         // Setup delete modal
         function showDeleteModal(productId, productName) {
             document.getElementById('deleteProductName').textContent = productName;
-            document.getElementById('deleteProductForm').action = "{{ route('admin.products.destroy', ':id') }}".replace(':id', productId);
+            document.getElementById('deleteProductForm').action = "{{ url('/admin/products') }}/" + productId;
             new bootstrap.Modal(document.getElementById('deleteModal')).show();
         }
 

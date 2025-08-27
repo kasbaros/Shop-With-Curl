@@ -327,7 +327,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form id="deleteProductForm" action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline">
+                    <form id="deleteProductForm" action="{{ url('/admin/products/'.$product->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete Product</button>
