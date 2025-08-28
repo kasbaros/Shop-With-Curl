@@ -245,10 +245,10 @@ class Product extends Model implements HasMedia
         return $this->reviews()->approved()->count();
     }
 
-    public function getFeaturedImageAttribute(): ?string
-    {
-        return $this->getFirstMediaUrl('images');
-    }
+//    public function getFeaturedImageAttribute(): ?string
+//    {
+//        return $this->getFirstMediaUrl('images');
+//    }
 
 //    public function getGalleryImagesAttribute(): array
 //    {

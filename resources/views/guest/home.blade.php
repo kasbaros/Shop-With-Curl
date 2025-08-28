@@ -60,11 +60,11 @@
                         </div>
                     </div>
                 @empty
-                    {{-- Fallback to original hardcoded slide if no banners exist --}}
+                     Fallback to original hardcoded slide if no banners exist
                     <div class="slide active" data-slide="0">
                         <div class="slide-bg"
                              style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&h=1080&fit=crop&crop=center')"></div>
-                        {{-- Include the original hardcoded slide content as fallback --}}
+                         Include the original hardcoded slide content as fallback
                         <div class="slide-particles">...</div>
                         <div class="floating-elements">...</div>
                         <div class="slide-number">01</div>
@@ -186,53 +186,6 @@
         <!-- /Iconbox -->
 
         <!-- Season Collection -->
-
-{{--        <section class="flat-spacing-12 bg_grey-3">--}}
-{{--            <div class="container">--}}
-{{--                <div class="flat-title flex-row justify-content-between align-items-center px-0 wow fadeInUp"--}}
-{{--                    data-wow-delay="0s">--}}
-{{--                    <h3 class="title">Season Collection</h3>--}}
-{{--                    <a href="{{ route('categories.index') }}" class="btn btn-line">View all categories<i--}}
-{{--                            class="icon icon-arrow1-top-left"></i></a>--}}
-{{--                </div>--}}
-{{--                <div class="hover-sw-nav hover-sw-2">--}}
-{{--                    <div dir="ltr" class="swiper tf-sw-collection" data-preview="6" data-tablet="3" data-mobile="2"--}}
-{{--                        data-space-lg="50" data-space-md="30" data-space="15" data-loop="false" data-auto-play="false">--}}
-{{--                        <div class="swiper-wrapper">--}}
-{{--                            @forelse($categories as $category)--}}
-{{--                                @php--}}
-{{--                                    $imageUrl = $category->image_url ?: 'https://source.unsplash.com/featured/300x300/?' . urlencode($category->name);--}}
-{{--                                @endphp--}}
-{{--                                <div class="swiper-slide" lazy="true">--}}
-{{--                                    <div class="collection-item-circle hover-img">--}}
-{{--                                        <a href="{{ route('categories.show', $category) }}" class="collection-image img-style">--}}
-{{--                                            <img class="lazyload" data-src="{{ $imageUrl }}" src="{{ $imageUrl }}" alt="{{ $category->name }}">--}}
-{{--                                        </a>--}}
-{{--                                        <div class="collection-content text-center">--}}
-{{--                                            <a href="{{ route('categories.show', $category) }}" class="link title fw-5">{{ $category->name }}</a>--}}
-{{--                                            <div class="count">{{ $category->products_count ?? 0 }} items</div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            @empty--}}
-{{--                                <div class="swiper-slide">--}}
-{{--                                    <div class="collection-item-circle hover-img">--}}
-{{--                                        <div class="collection-content text-center">--}}
-{{--                                            <div class="link title fw-5">No categories available</div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            @endforelse--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="sw-dots style-2 sw-pagination-collection justify-content-center"></div>--}}
-{{--                    <div class="nav-sw nav-next-slider nav-next-collection"><span class="icon icon-arrow-left"></span>--}}
-{{--                    </div>--}}
-{{--                    <div class="nav-sw nav-prev-slider nav-prev-collection"><span class="icon icon-arrow-right"></span>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </section>--}}
 
         <section class="flat-spacing-12 bg_grey-3">
             <div class="container">
@@ -528,7 +481,7 @@
             </script>
         @endpush
 
-        {{-- Mobile Menu (categories dynamic) --}}
+{{--         Mobile Menu (categories dynamic)--}}
         <div class="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
             <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
             <div class="mb-canvas-content">
@@ -1144,7 +1097,7 @@
                                     </div>
                                 </div>
                             @empty
-                                {{-- Fallback to original hardcoded gallery --}}
+                                 Fallback to original hardcoded gallery
                                 <div class="swiper-slide" role="group" aria-label="1 / 1">
                                     <div class="gallery-item hover-img wow fadeInUp" data-wow-delay="0s">
                                         <div class="img-style">
@@ -3072,3 +3025,4 @@
     </script>
 
 </x-app-layout>
+
