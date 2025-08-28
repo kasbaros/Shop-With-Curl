@@ -37,11 +37,6 @@
     */
 
 
-//// Storage route - MUST be first to avoid conflicts
-//    Route::get('storage/{path}', [StorageController::class, 'serve'])
-//        ->where('path', '.*')
-//        ->name('storage.serve');
-
 
 // ==================================================
 // GUEST ROUTES (Public Access) - HYBRID APPROACH
@@ -243,10 +238,11 @@
         Route::post('stop-impersonating', [UserController::class, 'stopImpersonating'])->name('stop-impersonating');
 
         // Coupons Management
-        Route::resource('coupons', CouponController::class);
-        Route::patch('coupons/{coupon}/toggle', [CouponController::class, 'toggle'])->name('coupons.toggle');
+        // Place custom coupon routes before resource to avoid route-model binding conflicts
         Route::get('coupons/generate-code', [CouponController::class, 'generateCode'])->name('coupons.generate-code');
         Route::post('coupons/bulk-action', [CouponController::class, 'bulkAction'])->name('coupons.bulk-action');
+        Route::patch('coupons/{coupon}/toggle', [CouponController::class, 'toggle'])->name('coupons.toggle');
+        Route::resource('coupons', CouponController::class);
 
         // Reviews Management
         Route::resource('reviews', ReviewController::class)->except(['create', 'store', 'edit', 'update']);

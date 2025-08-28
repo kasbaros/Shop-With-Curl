@@ -8,6 +8,7 @@
     use Illuminate\Http\Request;
     use Illuminate\Support\Str;
     use Illuminate\Validation\Rule;
+    use Log;
 
     class CouponController extends AdminController
     {
@@ -18,7 +19,7 @@
             // Search
             if ($request->filled('search')) {
                 $search = $request->search;
-                $query->where(function($q) use ($search) {
+                $query->where(function ($q) use ($search) {
                     $q->where('code', 'like', "%{$search}%")
                         ->orWhere('name', 'like', "%{$search}%")
                         ->orWhere('description', 'like', "%{$search}%");
@@ -103,7 +104,7 @@
 
         public function show(Coupon $coupon)
         {
-            $coupon->load(['orders' => function($query) {
+            $coupon->load(['orders' => function ($query) {
                 $query->latest()->take(10);
             }]);
 
@@ -179,11 +180,47 @@
 
         public function generateCode()
         {
+            // Generate a unique, uppercase coupon code without relying solely on Str::random
+            // Some environments can throw when random_bytes/openssl is unavailable. Use a safe fallback.
+            $attempts = 0;
             do {
-                $code = strtoupper(Str::random(8));
+                $attempts++;
+                try {
+                    // 8-char alphanumeric code (exclude ambiguous chars)
+                    $code = $this->generateSecureCode(8);
+                } catch (\Throwable $e) {
+                    $code = $this->generateFallbackCode(8);
+                }
+                // Safety break to avoid infinite loop in extreme cases
+                if ($attempts > 50) {
+                    return response()->json(['message' => 'Failed to generate unique code'], 500);
+                }
             } while (Coupon::where('code', $code)->exists());
 
             return response()->json(['code' => $code]);
+        }
+
+
+        private function generateSecureCode(int $length = 8): string
+        {
+            $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // exclude I, O, 0, 1
+            $bytes = random_bytes($length);
+            $result = '';
+            for ($i = 0; $i < $length; $i++) {
+                $idx = ord($bytes[$i]) % strlen($alphabet);
+                $result .= $alphabet[$idx];
+            }
+            return strtoupper($result);
+        }
+
+        private function generateFallbackCode(int $length = 8): string
+        {
+            $alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            $result = '';
+            for ($i = 0; $i < $length; $i++) {
+                $result .= $alphabet[mt_rand(0, strlen($alphabet) - 1)];
+            }
+            return strtoupper($result);
         }
 
         public function bulkAction(Request $request)

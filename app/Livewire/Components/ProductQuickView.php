@@ -83,9 +83,8 @@ class ProductQuickView extends Component
     {
         if (!$this->product) return asset('images/placeholder-product.jpg');
 
-        $media = $this->product->media->first();
-        $img = method_exists($media, 'getUrl') ? $media->getUrl() : ($media->url ?? null);
-        return $img ?: asset('images/placeholder-product.jpg');
+        // Use the product's built-in primary image accessor
+        return $this->product->primary_image_url;
     }
 
     public function getFormattedPriceProperty()

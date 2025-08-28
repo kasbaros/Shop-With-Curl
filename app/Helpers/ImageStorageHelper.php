@@ -15,6 +15,10 @@
         private static function getStorageBasePath(): string
         {
             // In your setup, this should point to public_html/storage
+            if (app()->isLocal()) {
+                return public_path('storage');
+            }
+
             return $_SERVER['DOCUMENT_ROOT'] . '/storage';
         }
 

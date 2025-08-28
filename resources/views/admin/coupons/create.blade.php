@@ -331,11 +331,33 @@
 
             // Generate coupon code
             document.getElementById('generateCodeBtn').addEventListener('click', function() {
+                const button = this;
+                const codeInput = document.getElementById('code');
+
+                // Disable button and show loading state
+                button.disabled = true;
+                button.innerHTML = '<i class="bi bi-arrow-clockwise spinner-border spinner-border-sm"></i> Generating...';
+
                 fetch('{{ route("admin.coupons.generate-code") }}')
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
-                        document.getElementById('code').value = data.code;
+                        codeInput.value = data.code;
                         updatePreview();
+                        // Reset button state
+                        button.disabled = false;
+                        button.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Generate';
+                    })
+                    .catch(error => {
+                        console.error('Error generating code:', error);
+                        alert('Failed to generate code. Please try again.');
+                        // Reset button state
+                        button.disabled = false;
+                        button.innerHTML = '<i class="bi bi-arrow-clockwise"></i> Generate';
                     });
             });
 

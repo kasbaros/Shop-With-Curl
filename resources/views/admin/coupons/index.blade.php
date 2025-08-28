@@ -321,6 +321,58 @@
                     this.appendChild(input);
                 });
             });
+
+
+            // Discount type change handler
+            const typeSelect = document.getElementById('type');
+            const valueInput = document.getElementById('value');
+            const valueLabel = document.getElementById('valueLabel');
+            const valuePrefix = document.getElementById('valuePrefix');
+            const valueSuffix = document.getElementById('valueSuffix');
+            const valueHelp = document.getElementById('valueHelp');
+            const maxDiscountGroup = document.getElementById('maxDiscountGroup');
+
+            typeSelect.addEventListener('change', function() {
+                const type = this.value;
+
+                switch(type) {
+                    case 'percentage':
+                        valueLabel.textContent = 'Percentage';
+                        valuePrefix.style.display = 'none';
+                        valueSuffix.style.display = 'block';
+                        valueInput.max = '100';
+                        valueInput.step = '0.1';
+                        valueHelp.textContent = 'Enter percentage (1-100)';
+                        maxDiscountGroup.style.display = 'block';
+                        break;
+                    case 'fixed_amount':
+                        valueLabel.textContent = 'Fixed Amount';
+                        valuePrefix.style.display = 'block';
+                        valueSuffix.style.display = 'none';
+                        valueInput.max = '';
+                        valueInput.step = '0.01';
+                        valueHelp.textContent = 'Enter discount amount in dollars';
+                        maxDiscountGroup.style.display = 'none';
+                        break;
+                    case 'free_shipping':
+                        valueLabel.textContent = 'Value (Not Used)';
+                        valuePrefix.style.display = 'none';
+                        valueSuffix.style.display = 'none';
+                        valueInput.value = '0';
+                        valueInput.readOnly = true;
+                        valueHelp.textContent = 'Free shipping - no value needed';
+                        maxDiscountGroup.style.display = 'none';
+                        break;
+                    default:
+                        valueLabel.textContent = 'Discount Value';
+                        valuePrefix.style.display = 'block';
+                        valueSuffix.style.display = 'none';
+                        valueInput.readOnly = false;
+                        valueInput.max = '';
+                        valueHelp.textContent = 'Enter the discount amount';
+                        maxDiscountGroup.style.display = 'block';
+                }
+            });
         });
     </script>
 @endpush
