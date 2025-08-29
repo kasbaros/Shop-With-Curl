@@ -85,73 +85,88 @@
         </div>
     @endif
 
-    <!-- Quantity Selection -->
-    <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
-        <div class="flex items-center space-x-3">
-            <button
-                type="button"
-                wire:click="$set('quantity', {{ max(1, $quantity - 1) }})"
-                class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:border-gray-400"
-                {{ $quantity <= 1 ? 'disabled' : '' }}
-            >
-                <x-heroicon-m-minus class="w-4 h-4" />
-            </button>
+    <!-- Quantity Selection (Redesigned) -->
+    <div class="tf-product-info-quantity">
+        <div class="quantity-title fw-6">Quantity</div>
+        <div class="wg-quantity">
+            <span class="btn-quantity btn-decrease {{ $quantity <= 1 ? 'disabled opacity-50 cursor-not-allowed' : '' }}"
+                  role="button"
+                  aria-label="Decrease quantity"
+                  aria-disabled="{{ $quantity <= 1 ? 'true' : 'false' }}"
+                  wire:click="$set('quantity', {{ max(1, $quantity - 1) }})">-</span>
 
-            <input
-                type="number"
-                wire:model.live="quantity"
-                min="1"
-                class="w-16 text-center border border-gray-300 rounded-md px-2 py-1"
+            <input type="text"
+                   class="quantity-product"
+                   name="number"
+                   inputmode="numeric"
+                   pattern="[0-9]*"
+                   wire:model.live="quantity"
+                   aria-label="Quantity"
             >
 
-            <button
-                type="button"
-                wire:click="$set('quantity', {{ $quantity + 1 }})"
-                class="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:border-gray-400"
-            >
-                <x-heroicon-m-plus class="w-4 h-4" />
-            </button>
+            <span class="btn-quantity btn-increase"
+                  role="button"
+                  aria-label="Increase quantity"
+                  wire:click="$set('quantity', {{ $quantity + 1 }})">+</span>
         </div>
         @error('quantity')
         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
         @enderror
     </div>
 
-    <!-- Add to Cart Button -->
-    <div class="space-y-3">
-        <button
-            type="button"
-            wire:click="addToCart"
-            class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors
-                   {{ (!$product->is_in_stock || ($showVariantSelection && !$selectedVariant)) ? 'opacity-50 cursor-not-allowed' : '' }}"
-            {{ (!$product->is_in_stock || ($showVariantSelection && !$selectedVariant)) ? 'disabled' : '' }}
-        >
-            @if(!$product->is_in_stock)
-                Out of Stock
-            @else
-                Add to Cart - ${{ number_format($this->currentVariant?->effective_price ?? $product->effective_price, 2) }}
-            @endif
-        </button>
+    <!-- Add to Cart Button (Redesigned) -->
+    <div class="tf-product-info-buy-button">
+        <form class="">
+            <a href="#"
+               wire:click.prevent="addToCart"
+               class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart {{ (!$product->is_in_stock || ($showVariantSelection && !$selectedVariant)) ? 'opacity-50 cursor-not-allowed' : '' }}"
+                {{ (!$product->is_in_stock || ($showVariantSelection && !$selectedVariant)) ? 'aria-disabled=true' : '' }}>
+                <span>
+                    @if(!$product->is_in_stock)
+                        Out of Stock -&nbsp;
+                    @else
+                        Add to cart -&nbsp;
+                    @endif
+                </span>
+                <span class="tf-qty-price total-price">
+                    ${{ number_format($this->currentVariant?->effective_price ?? $product->effective_price, 2) }}
+                </span>
+            </a>
+            <a href="#" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
+                <span class="icon icon-heart"></span>
+                <span class="tooltip">Add to Wishlist</span>
+                <span class="icon icon-delete"></span>
+            </a>
+            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+               class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action">
+                <span class="icon icon-compare"></span>
+                <span class="tooltip">Add to Compare</span>
+                <span class="icon icon-check"></span>
+            </a>
+            <div class="w-100">
+                <a href="#" class="btns-full">Buy with <img src="images/payments/paypal.png" alt=""></a>
+                <a href="#" class="payment-more-option">More payment options</a>
+            </div>
 
-        @error('variant')
-        <p class="text-sm text-red-600">{{ $message }}</p>
-        @enderror
+            @error('variant')
+            <p class="text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </form>
     </div>
 
     <!-- Stock Status -->
     @if($product->is_in_stock)
-        <div class="text-sm text-green-600 flex items-center">
-            <x-heroicon-s-check-circle class="w-4 h-4 mr-1" />
-            In Stock
+        <div class="text-sm text-green-600 d-flex align-items-center">
+            <x-heroicon-s-check-circle class="me-2 text-success" style="width: 18px; height: 18px; flex-shrink: 0;"/>
+            <span>In Stock
             @if($product->manage_stock)
-                ({{ $this->currentVariant?->stock_quantity ?? $product->stock_quantity }} available)
-            @endif
+                    ({{ $this->currentVariant?->stock_quantity ?? $product->stock_quantity }} available)
+                @endif</span>
         </div>
     @else
-        <div class="text-sm text-red-600 flex items-center">
-            <x-heroicon-s-x-circle class="w-4 h-4 mr-1" />
-            Out of Stock
+        <div class="text-sm text-red-600 d-flex align-items-center">
+            <x-heroicon-s-x-circle class="me-2 text-danger" style="width: 18px; height: 18px; flex-shrink: 0;"/>
+            <span>Out of Stock</span>
         </div>
     @endif
 </div>
