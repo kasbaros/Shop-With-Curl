@@ -210,6 +210,42 @@ class CategoryGrid extends Component
         $byOccasion = isset($types['By Occasion']) ? $filter($types['By Occasion']->children) : collect();
         $collections = isset($types['Collections']) ? $filter($types['Collections']->children) : collect();
 
+        // Prepare sidebar dynamic data
+        $saleProducts = \App\Models\Product::query()
+            ->where('is_active', true)
+            ->whereNotNull('sale_price')
+            ->whereColumn('sale_price', '<', 'price')
+            ->latest('updated_at')
+            ->take(3)
+            ->get(['id','name','slug','price','sale_price']);
+
+        // Build a simple gallery list from recent product media or fallback to category thumbnails
+        $galleryImages = [];
+        foreach (\App\Models\Product::query()->where('is_active', true)->latest('published_at')->take(12)->get() as $p) {
+            $url = $p->getFirstMediaUrl('gallery') ?: $p->getFirstMediaUrl('images');
+            if ($url) {
+                $galleryImages[] = [
+                    'url' => $url,
+                    'href' => route('products.show', $p->slug),
+                    'alt' => $p->name,
+                ];
+            }
+            if (count($galleryImages) >= 6) break;
+        }
+        if (empty($galleryImages)) {
+            foreach ($categories->items() as $cat) {
+                $url = $cat->thumbnail_url ?? null;
+                if ($url) {
+                    $galleryImages[] = [
+                        'url' => $url,
+                        'href' => route('products.category', $cat->slug),
+                        'alt' => $cat->name,
+                    ];
+                }
+                if (count($galleryImages) >= 6) break;
+            }
+        }
+
         return view('livewire.guest.categories.category-grid', [
             'categories' => $categories,
             'brands' => $brands,
@@ -220,6 +256,9 @@ class CategoryGrid extends Component
             'byStyle' => $byStyle,
             'byOccasion' => $byOccasion,
             'collections' => $collections,
+            // Sidebar dynamic data
+            'saleProducts' => $saleProducts,
+            'galleryImages' => $galleryImages,
         ]);
     }
 
