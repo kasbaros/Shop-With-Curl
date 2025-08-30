@@ -49,38 +49,76 @@
         {
             $today = Carbon::today();
 
+            // Compute real stats
+            $totalOrders = Order::count();
+            $todayOrders = Order::whereDate('created_at', $today)->count();
+            $totalRevenue = Order::whereNotIn('status', ['cancelled', 'refunded'])->sum('total_amount');
+            $todayRevenue = Order::whereDate('created_at', $today)
+                ->whereNotIn('status', ['cancelled', 'refunded'])
+                ->sum('total_amount');
+
+            $totalProducts = Product::count();
+            $activeProducts = Product::where('is_active', true)->count();
+            $outOfStock = Product::where('manage_stock', true)->where('stock_quantity', '<=', 0)->count();
+
+            $totalCustomers = User::where('role', 'customer')->count();
+            $newCustomersToday = User::where('role', 'customer')->whereDate('created_at', $today)->count();
+
+            $pendingReviews = ProductReview::where('is_approved', false)->count();
+
             return [
-                'total_orders' => 0, // Will be: Order::count(),
-                'today_orders' => 0, // Will be: Order::whereDate('created_at', $today)->count(),
-                'total_revenue' => 0, // Will be: Order::where('status', '!=', 'cancelled')->sum('total_amount'),
-                'today_revenue' => 0, // Will be: Order::whereDate('created_at', $today)->where('status', '!=', 'cancelled')->sum('total_amount'),
-                'total_products' => 0, // Will be: Product::count(),
-                'active_products' => 0, // Will be: Product::where('is_active', true)->count(),
-                'out_of_stock' => 0, // Will be: Product::where('manage_stock', true)->where('stock_quantity', '<=', 0)->count(),
-                'total_customers' => User::where('role', 'customer')->count(),
-                'new_customers_today' => User::where('role', 'customer')
-                    ->whereDate('created_at', $today)
-                    ->count(),
-                'pending_reviews' => 0, // Will be: ProductReview::where('is_approved', false)->count(),
+                'total_orders' => $totalOrders,
+                'today_orders' => $todayOrders,
+                'total_revenue' => (float) $totalRevenue,
+                'today_revenue' => (float) $todayRevenue,
+                'total_products' => $totalProducts,
+                'active_products' => $activeProducts,
+                'out_of_stock' => $outOfStock,
+                'total_customers' => $totalCustomers,
+                'new_customers_today' => $newCustomersToday,
+                'pending_reviews' => $pendingReviews,
             ];
         }
 
         private function getSalesData(): array
         {
-            $days = collect(range(29, 0))->map(function ($daysBack) {
-                $date = Carbon::now()->subDays($daysBack);
+            // Build a 30-day window with default zeros
+            $startDate = Carbon::now()->subDays(29)->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
 
-                return [
-                    'date' => $date->format('M j'),
-                    'orders' => 0, // Will be actual data
-                    'revenue' => 0, // Will be actual data
-                ];
-            });
+            $map = [];
+            $labels = [];
+            for ($d = 0; $d < 30; $d++) {
+                $date = (clone $startDate)->copy()->addDays($d);
+                $key = $date->format('Y-m-d');
+                $map[$key] = ['orders' => 0, 'revenue' => 0.0];
+                $labels[] = $date->format('M j');
+            }
+
+            // Aggregate orders per day from DB
+            $daily = Order::select([
+                DB::raw("DATE(created_at) as day"),
+                DB::raw("COUNT(*) as orders"),
+                DB::raw("SUM(total_amount) as revenue")
+            ])
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->whereNotIn('status', ['cancelled', 'refunded'])
+                ->groupBy(DB::raw('DATE(created_at)'))
+                ->orderBy('day')
+                ->get();
+
+            foreach ($daily as $row) {
+                $key = Carbon::parse($row->day)->format('Y-m-d');
+                if (isset($map[$key])) {
+                    $map[$key]['orders'] = (int) $row->orders;
+                    $map[$key]['revenue'] = (float) $row->revenue;
+                }
+            }
 
             return [
-                'labels' => $days->pluck('date')->toArray(),
-                'orders' => $days->pluck('orders')->toArray(),
-                'revenue' => $days->pluck('revenue')->toArray(),
+                'labels' => $labels,
+                'orders' => array_values(array_map(fn($v) => $v['orders'], $map)),
+                'revenue' => array_values(array_map(fn($v) => round($v['revenue'], 2), $map)),
             ];
         }
     }

@@ -65,9 +65,7 @@
         {
             $order->load([
                 'user',
-                'items.product.images',
-                'shippingAddress',
-                'billingAddress'
+                'items.product',
             ]);
 
             return view('admin.orders.show', array_merge(
@@ -78,7 +76,7 @@
 
         public function edit(Order $order)
         {
-            $order->load(['items.product', 'shippingAddress', 'billingAddress']);
+            $order->load(['items.product']);
 
             return view('admin.orders.edit', array_merge(
                 $this->getAdminViewData(),

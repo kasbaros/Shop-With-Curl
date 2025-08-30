@@ -11,6 +11,7 @@ use App\Models\UserAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CheckoutController extends Controller
 {
@@ -53,7 +54,7 @@ class CheckoutController extends Controller
         $request->validate([
             'shipping_address_id' => 'required|exists:user_addresses,id',
             'billing_address_id' => 'required|exists:user_addresses,id',
-            'payment_method' => 'required|string|in:credit_card,paypal,bank_transfer',
+            'payment_method' => 'required|string|in:cash_on_delivery,credit_card,paypal,bank_transfer',
             'notes' => 'nullable|string|max:500',
         ]);
 
@@ -83,10 +84,19 @@ class CheckoutController extends Controller
                 ->where('user_id', $user->id)
                 ->firstOrFail();
 
+            // Determine order status and payment status based on payment method
+            $status = 'pending';
+            $paymentStatus = 'pending';
+            if ($request->payment_method === 'cash_on_delivery') {
+                // For COD, keep order in pending status and mark payment to be collected on delivery
+                $status = 'pending';
+                $paymentStatus = 'awaiting_cod';
+            }
+
             // Create order
             $order = Order::create([
                 'user_id' => $user->id,
-                'status' => 'pending',
+                'status' => $status,
                 'subtotal' => $subtotal,
                 'tax_amount' => $tax,
                 'shipping_amount' => $shipping,
@@ -97,7 +107,7 @@ class CheckoutController extends Controller
                 'billing_address' => $billingAddress->full_address,
                 'notes' => $request->notes,
                 'payment_method' => $request->payment_method,
-                'payment_status' => 'pending',
+                'payment_status' => $paymentStatus,
             ]);
 
             // Create order items
@@ -131,8 +141,13 @@ class CheckoutController extends Controller
 
             return redirect()->route('checkout.success', $order)->with('success', 'Order placed successfully!');
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
+            Log::error('Checkout failed', [
+                'user_id' => $user->id ?? null,
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
             return back()->with('error', 'There was an error processing your order. Please try again.');
         }
     }
@@ -155,8 +170,9 @@ class CheckoutController extends Controller
         $cartWithDetails = [];
 
         foreach ($cart as $key => $item) {
-            $product = Product::find($item['product_id']);
-            $variant = $item['product_variant_id'] ? ProductVariant::find($item['product_variant_id']) : null;
+            $product = Product::find($item['product_id'] ?? null);
+            $variantId = $item['product_variant_id'] ?? null;
+            $variant = $variantId ? ProductVariant::find($variantId) : null;
 
             if ($product) {
                 $cartWithDetails[$key] = [

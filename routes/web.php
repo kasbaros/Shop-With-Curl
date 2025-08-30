@@ -47,11 +47,13 @@
     Route::get('/', [\App\Http\Controllers\Guest\HomeController::class, 'index'])->name('home');
 
 // Categories (Direct Livewire - Interactive listings)
-    Route::get('/categories', CategoryGrid::class)->name('categories.index');
-    Route::get('/category/{category:slug}', CategoryDetail::class)->name('categories.show');
+    Route::middleware('block.privileged')->group(function () {
+        Route::get('/categories', CategoryGrid::class)->name('categories.index');
+        Route::get('/category/{category:slug}', CategoryDetail::class)->name('categories.show');
+    });
 
 // Shop & Products (Hybrid Approach)
-    Route::prefix('shop')->name('shop.')->group(function () {
+    Route::prefix('shop')->name('shop.')->middleware('block.privileged')->group(function () {
         // Direct Livewire - Interactive grid
         Route::get('/', ShopGrid::class)->name('index');
 
@@ -62,7 +64,7 @@
         Route::get('/category/{category:slug}', [\App\Http\Controllers\Guest\ShopController::class, 'category'])->name('category');
     });
 
-    Route::prefix('products')->name('products.')->group(function () {
+    Route::prefix('products')->name('products.')->middleware('block.privileged')->group(function () {
         // Direct Livewire - Interactive product grid
         Route::get('/', ProductGrid::class)->name('index');
 
@@ -101,7 +103,7 @@
 // CLIENT ROUTES (Authenticated) - HYBRID APPROACH
 // ==================================================
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'client'])->group(function () {
         // Add general dashboard route for all authenticated users
         Route::get('/dashboard', function () {
             $user = auth()->user();
@@ -158,7 +160,7 @@
         Route::prefix('checkout')->name('checkout.')->group(function () {
             Route::get('/', [\App\Http\Controllers\Client\CheckoutController::class, 'index'])->name('index');
             Route::post('/', [\App\Http\Controllers\Client\CheckoutController::class, 'store'])->name('store');
-            Route::get('/checkout/success/{order}', [CheckoutController::class, 'orderSuccess'])->name('checkout.order-success');
+            Route::get('/success/{order}', [CheckoutController::class, 'orderSuccess'])->name('success');
         });
 
         // Payment (Keep Controllers - Financial processing, security)
@@ -188,6 +190,14 @@
             Route::post('/add', [\App\Http\Controllers\Client\CompareController::class, 'add'])->name('add');
             Route::delete('/{product}', [\App\Http\Controllers\Client\CompareController::class, 'remove'])->name('remove');
         });
+        // Addresses (Legacy support for modal-based add/edit forms)
+        Route::prefix('user')->name('user.')->group(function () {
+            Route::get('/addresses', [\App\Http\Controllers\Client\ProfileController::class, 'addresses'])->name('addresses');
+            Route::post('/addresses', [\App\Http\Controllers\Client\ProfileController::class, 'storeAddress'])->name('addresses.store');
+            Route::patch('/addresses/{address}', [\App\Http\Controllers\Client\ProfileController::class, 'updateAddress'])->name('addresses.update');
+            Route::delete('/addresses/{address}', [\App\Http\Controllers\Client\ProfileController::class, 'deleteAddress'])->name('addresses.delete');
+        });
+
     });
 
 // ==================================================
@@ -243,19 +253,17 @@
         Route::post('categories/reorder', [AdminCategoryController::class, 'reorder'])->name('categories.reorder');
 
         // Orders Management
-//        Route::resource('orders', AdminOrderController::class)->except(['create', 'store']);
-//        Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
+        // Minimal explicit routes to match admin.orders.* used in views
+        Route::get('orders', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::get('orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::get('orders/{order}/edit', [AdminOrderController::class, 'edit'])->name('orders.edit');
+        Route::match(['put','patch'],'orders/{order}', [AdminOrderController::class, 'update'])->name('orders.update');
+        Route::delete('orders/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
+        Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
 
+        // Backward-compatible alias group for previous /admin/my-orders URLs
         Route::prefix('my-orders')->name('orders.')->group(function () {
-            // Change this line from controller to Livewire component
-            Route::get('/', \App\Livewire\Client\Profile\OrderHistory::class)->name('index');
-
-            // Keep these as controllers if they handle complex logic
-            Route::get('/{order}', [\App\Http\Controllers\Client\OrderController::class, 'show'])->name('show')
-                ->where('order', '[0-9]+');
-            Route::post('/{order}/cancel', [\App\Http\Controllers\Client\OrderController::class, 'cancel'])->name('cancel');
-            Route::get('/{order}/invoice', [\App\Http\Controllers\Client\OrderController::class, 'invoice'])->name('invoice');
-            Route::post('/{order}/review', [\App\Http\Controllers\Client\OrderController::class, 'review'])->name('review');
+            Route::get('/', [AdminOrderController::class, 'index'])->name('index');
         });
 
 

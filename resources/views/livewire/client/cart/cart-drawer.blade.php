@@ -32,28 +32,31 @@
                     <div class="space-y-4">
                         @foreach($cart as $item)
                             <div class="flex items-center space-x-4 p-3 border rounded-lg">
+                                @php
+                                    $imgSrc = $item['image'] ?? \App\Helpers\ImageStorageHelper::url(($item['product']['featured_image'] ?? null) ?? ($item['product']->featured_image ?? null)) ?? asset('images/placeholder-product.jpg');
+                                @endphp
                                 <img
-                                    src="{{ $item['image'] }}"
-                                    alt="{{ $item['name'] }}"
+                                    src="{{ $imgSrc }}"
+                                    alt="{{ $item['name'] ?? 'Item' }}"
                                     class="w-16 h-16 object-cover rounded-md"
                                 >
                                 <div class="flex-1 min-w-0">
                                     <h3 class="text-sm font-medium text-gray-900 truncate">
-                                        {{ $item['name'] }}
+                                        {{ $item['name'] ?? ($item['product']['name'] ?? ($item['product']->name ?? 'Item')) }}
                                     </h3>
                                     <p class="text-sm text-gray-500">
-                                        ${{ number_format($item['price'], 2) }}
+                                        {{ money_format_ugx((float)($item['price'] ?? 0)) }}
                                     </p>
                                     <div class="flex items-center space-x-2 mt-2">
                                         <button
-                                            wire:click="updateQuantity('{{ $item['key'] }}', {{ $item['quantity'] - 1 }})"
+                                            wire:click="updateQuantity('{{ $item['key'] ?? $item['id'] ?? '' }}', {{ max(1, (int)($item['quantity'] ?? 1) - 1) }})"
                                             class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded text-xs hover:border-gray-400"
                                         >
                                             <x-heroicon-m-minus class="w-3 h-3"/>
                                         </button>
-                                        <span class="text-sm font-medium">{{ $item['quantity'] }}</span>
+                                        <span class="text-sm font-medium">{{ (int)($item['quantity'] ?? 1) }}</span>
                                         <button
-                                            wire:click="updateQuantity('{{ $item['key'] }}', {{ $item['quantity'] + 1 }})"
+                                            wire:click="updateQuantity('{{ $item['key'] ?? $item['id'] ?? '' }}', {{ (int)($item['quantity'] ?? 1) + 1 }})"
                                             class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded text-xs hover:border-gray-400"
                                         >
                                             <x-heroicon-m-plus class="w-3 h-3"/>
@@ -61,7 +64,7 @@
                                     </div>
                                 </div>
                                 <button
-                                    wire:click="removeItem('{{ $item['key'] }}')"
+                                    wire:click="removeItem('{{ $item['key'] ?? $item['id'] ?? '' }}')"
                                     class="p-1 text-red-600 hover:text-red-700"
                                 >
                                     <x-heroicon-m-trash class="w-4 h-4"/>
@@ -77,7 +80,7 @@
                 <div class="border-t p-4 space-y-4">
                     <div class="flex justify-between items-center">
                         <span class="text-lg font-medium">Subtotal:</span>
-                        <span class="text-lg font-bold">${{ number_format($total, 2) }}</span>
+                        <span class="text-lg font-bold">{{ money_format_ugx((float)($total ?? 0)) }}</span>
                     </div>
                     <div class="space-y-2">
                         <a

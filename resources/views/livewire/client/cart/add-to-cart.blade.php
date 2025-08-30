@@ -116,29 +116,50 @@
 
     <!-- Add to Cart Button (Redesigned) -->
     <div class="tf-product-info-buy-button">
+        @php($privileged = (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isDeveloper())))
         <form class="">
-            <a href="#"
-               wire:click.prevent="addToCart"
-               class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart {{ (!$product->is_in_stock || ($showVariantSelection && !$selectedVariant)) ? 'opacity-50 cursor-not-allowed' : '' }}"
-                {{ (!$product->is_in_stock || ($showVariantSelection && !$selectedVariant)) ? 'aria-disabled=true' : '' }}>
-                <span>
-                    @if(!$product->is_in_stock)
-                        Out of Stock -&nbsp;
-                    @else
-                        Add to cart -&nbsp;
-                    @endif
-                </span>
-                <span class="tf-qty-price total-price">
-                    ${{ number_format($this->currentVariant?->effective_price ?? $product->effective_price, 2) }}
-                </span>
-            </a>
-            <a href="#" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
-                <span class="icon icon-heart"></span>
-                <span class="tooltip">Add to Wishlist</span>
-                <span class="icon icon-delete"></span>
-            </a>
+            @if($privileged)
+                <a href="{{ route('admin.dashboard') }}"
+                   class="tf-btn btn-outline-secondary justify-content-center fw-6 fs-16 flex-grow-1 btn-add-to-cart opacity-50 cursor-not-allowed"
+                   aria-disabled="true"
+                   title="Admins and developers cannot add items to cart">
+                    <span>Cart disabled for admin/developer</span>
+                </a>
+            @else
+                <a href="#"
+                   wire:click.prevent="addToCart"
+                   class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart {{ (!$product->is_in_stock || ($showVariantSelection && !$selectedVariant)) ? 'opacity-50 cursor-not-allowed' : '' }}"
+                    {{ (!$product->is_in_stock || ($showVariantSelection && !$selectedVariant)) ? 'aria-disabled=true' : '' }}>
+                    <span>
+                        @if(!$product->is_in_stock)
+                            Out of Stock -&nbsp;
+                        @else
+                            Add to cart -&nbsp;
+                        @endif
+                    </span>
+                    <span class="tf-qty-price total-price">
+                        {{ money_format_ugx((float)($this->currentVariant?->effective_price ?? $product->effective_price)) }}
+                    </span>
+                </a>
+            @endif
+
+            @if($privileged)
+                <a href="{{ route('admin.dashboard') }}" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action opacity-50 cursor-not-allowed" aria-disabled="true" title="Wishlist disabled for admin/developer">
+                    <span class="icon icon-heart"></span>
+                    <span class="tooltip">Wishlist disabled</span>
+                    <span class="icon icon-delete"></span>
+                </a>
+            @else
+                <a href="#" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
+                    <span class="icon icon-heart"></span>
+                    <span class="tooltip">Add to Wishlist</span>
+                    <span class="icon icon-delete"></span>
+                </a>
+            @endif
+
             <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
-               class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action">
+               class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action {{ $privileged ? 'opacity-50 cursor-not-allowed' : '' }}"
+               @if($privileged) aria-disabled="true" title="Compare disabled for admin/developer" onclick="return false;" @endif>
                 <span class="icon icon-compare"></span>
                 <span class="tooltip">Add to Compare</span>
                 <span class="icon icon-check"></span>

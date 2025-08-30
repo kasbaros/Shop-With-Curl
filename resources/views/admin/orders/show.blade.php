@@ -120,8 +120,9 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        @if($item->product && $item->product->images->first())
-                                            <img src="{{ Storage::url($item->product->images->first()->image_path) }}"
+                                        @php($imgUrl = $item->product?->featured_image_url)
+                                        @if($item->product && $imgUrl)
+                                            <img src="{{ $imgUrl }}"
                                                  alt="{{ $item->product_name }}"
                                                  class="rounded me-3"
                                                  style="width: 50px; height: 50px; object-fit: cover;">
@@ -150,38 +151,38 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>${{ number_format($item->price, 2) }}</td>
+                                <td>{{ function_exists('money_format_ugx') ? money_format_ugx((float)$item->price) : ('UGX ' . number_format((float)$item->price)) }}</td>
                                 <td>{{ $item->quantity }}</td>
-                                <td><strong>${{ number_format($item->price * $item->quantity, 2) }}</strong></td>
+                                <td><strong>{{ function_exists('money_format_ugx') ? money_format_ugx((float)($item->price * $item->quantity)) : ('UGX ' . number_format((float)($item->price * $item->quantity))) }}</strong></td>
                             </tr>
                         @endforeach
                         </tbody>
                         <tfoot class="table-light">
                         <tr>
                             <th colspan="3">Subtotal</th>
-                            <th>${{ number_format($order->subtotal, 2) }}</th>
+                            <th>{{ function_exists('money_format_ugx') ? money_format_ugx((float)$order->subtotal) : ('UGX ' . number_format((float)$order->subtotal)) }}</th>
                         </tr>
                         @if($order->tax_amount > 0)
                             <tr>
                                 <th colspan="3">Tax</th>
-                                <th>${{ number_format($order->tax_amount, 2) }}</th>
+                                <th>{{ function_exists('money_format_ugx') ? money_format_ugx((float)$order->tax_amount) : ('UGX ' . number_format((float)$order->tax_amount)) }}</th>
                             </tr>
                         @endif
                         @if($order->shipping_cost > 0)
                             <tr>
                                 <th colspan="3">Shipping</th>
-                                <th>${{ number_format($order->shipping_cost, 2) }}</th>
+                                <th>{{ function_exists('money_format_ugx') ? money_format_ugx((float)$order->shipping_cost) : ('UGX ' . number_format((float)$order->shipping_cost)) }}</th>
                             </tr>
                         @endif
                         @if($order->discount_amount > 0)
                             <tr>
                                 <th colspan="3">Discount</th>
-                                <th class="text-success">-${{ number_format($order->discount_amount, 2) }}</th>
+                                <th class="text-success">-{{ function_exists('money_format_ugx') ? money_format_ugx((float)$order->discount_amount) : ('UGX ' . number_format((float)$order->discount_amount)) }}</th>
                             </tr>
                         @endif
                         <tr class="table-dark">
                             <th colspan="3">Total</th>
-                            <th>${{ number_format($order->total_amount, 2) }}</th>
+                            <th>{{ function_exists('money_format_ugx') ? money_format_ugx((float)$order->total_amount) : ('UGX ' . number_format((float)$order->total_amount)) }}</th>
                         </tr>
                         </tfoot>
                     </table>
@@ -253,7 +254,7 @@
 
                 <div class="d-flex justify-content-between mb-2">
                     <span>Total Amount:</span>
-                    <strong class="text-success">${{ number_format($order->total_amount, 2) }}</strong>
+                    <strong class="text-success">{{ function_exists('money_format_ugx') ? money_format_ugx((float)$order->total_amount) : ('UGX ' . number_format((float)$order->total_amount)) }}</strong>
                 </div>
 
                 <div class="d-flex justify-content-between mb-2">

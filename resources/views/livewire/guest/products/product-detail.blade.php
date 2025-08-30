@@ -268,7 +268,7 @@
                                             <a href="javascript:void(0);"
                                                class="tf-btn btn-fill radius-3 justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn btn-add-to-cart"
                                                onclick="document.getElementById('atc-root')?.scrollIntoView({behavior:'smooth', block:'center'});">
-                                                <span>Add to cart</span>
+                                                <span>Add to cart - UGX</span>
                                             </a>
                                         </div>
                                     </form>

@@ -1,16 +1,20 @@
 <?php
 namespace App\Livewire\Client\Profile;
 
+use AllowDynamicProperties;
 use App\Models\UserAddress;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-#[Layout('components.app-layout')]
+//#[Layout('components.app-layout')]
+#[AllowDynamicProperties]
 class Addresses extends Component
 {
     public $addresses = [];
+    public $showForm = false;
+    public $successMessage = null;
 
     // Form fields
     public $type = 'shipping';
@@ -52,6 +56,12 @@ class Addresses extends Component
         $this->addresses = Auth::user()->addresses()->get();
     }
 
+    public function showNewAddressForm()
+    {
+        $this->resetForm();
+        $this->showForm = true;
+    }
+
     public function edit($id)
     {
         $address = Auth::user()->addresses()->findOrFail($id);
@@ -66,6 +76,8 @@ class Addresses extends Component
         $this->postal_code = $address->postal_code;
         $this->country = $address->country;
         $this->is_default = (bool) $address->is_default;
+        $this->resetErrorBag();
+        $this->showForm = true;
     }
 
     public function resetForm()
@@ -74,6 +86,8 @@ class Addresses extends Component
         $this->type = 'shipping';
         $this->name = $this->company = $this->address_line_1 = $this->address_line_2 = $this->city = $this->state = $this->postal_code = $this->country = '';
         $this->is_default = false;
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
 
     public function save()
@@ -114,21 +128,22 @@ class Addresses extends Component
             }
 
             $address->update($data);
-            session()->flash('success', 'Address updated successfully!');
+            $this->successMessage = 'Address updated successfully!';
         } else {
             $user->addresses()->create($data);
-            session()->flash('success', 'Address added successfully!');
+            $this->successMessage = 'Address added successfully!';
         }
 
         $this->resetForm();
         $this->loadAddresses();
+        $this->showForm = false;
     }
 
     public function delete($id)
     {
         $address = Auth::user()->addresses()->findOrFail($id);
         $address->delete();
-        session()->flash('success', 'Address deleted successfully!');
+        $this->successMessage = 'Address deleted successfully!';
         $this->loadAddresses();
     }
 

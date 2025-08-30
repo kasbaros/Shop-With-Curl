@@ -32,9 +32,9 @@
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
                         <h6 class="text-muted mb-1">Total Revenue</h6>
-                        <h3 class="mb-0">${{ number_format($stats['total_revenue'], 2) }}</h3>
+                        <h3 class="mb-0">{{ function_exists('money_format_ugx') ? money_format_ugx((float)$stats['total_revenue']) : ('UGX ' . number_format((float)$stats['total_revenue'])) }}</h3>
                         <small class="text-success">
-                            +${{ number_format($stats['today_revenue'], 2) }} today
+                            +{{ function_exists('money_format_ugx') ? money_format_ugx((float)$stats['today_revenue']) : ('UGX ' . number_format((float)$stats['today_revenue'])) }} today
                         </small>
                     </div>
                     <div class="text-success">
@@ -177,7 +177,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="fw-bold">${{ number_format($order->total_amount, 2) }}</span>
+                                    <span class="fw-bold">{{ function_exists('money_format_ugx') ? money_format_ugx((float)$order->total_amount) : ('UGX ' . number_format((float)$order->total_amount)) }}</span>
                                 </td>
                                 <td>
                                 <span class="badge bg-{{ $order->status === 'completed' ? 'success' : ($order->status === 'pending' ? 'warning' : 'secondary') }}">
@@ -219,7 +219,7 @@
                                 <small class="text-muted">{{ $product->total_sold }} sold</small>
                             </div>
                             <div class="text-end">
-                                <small class="text-success fw-bold">${{ number_format($product->price, 2) }}</small>
+                                <small class="text-success fw-bold">{{ function_exists('money_format_ugx') ? money_format_ugx((float)$product->price) : ('UGX ' . number_format((float)$product->price)) }}</small>
                             </div>
                         </div>
                     @empty
@@ -278,7 +278,7 @@
                         tension: 0.4,
                         yAxisID: 'y'
                     }, {
-                        label: 'Revenue ($)',
+                        label: 'Revenue (UGX)',
                         data: salesData.revenue,
                         borderColor: '#10b981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',

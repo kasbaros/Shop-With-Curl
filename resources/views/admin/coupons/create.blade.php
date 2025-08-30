@@ -419,7 +419,7 @@
                             discountText = value + '% OFF';
                             break;
                         case 'fixed_amount':
-                            discountText = '$' + parseFloat(value).toFixed(2) + ' OFF';
+                            discountText = 'UGX ' + parseFloat(value).toFixed(0) + ' OFF';
                             break;
                         case 'free_shipping':
                             discountText = 'FREE SHIPPING';

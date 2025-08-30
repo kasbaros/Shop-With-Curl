@@ -24,6 +24,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'developer' => \App\Http\Middleware\DeveloperMiddleware::class,
+            'client' => \App\Http\Middleware\ClientOnlyMiddleware::class,
+            'block.privileged' => \App\Http\Middleware\PrivilegedBlockMiddleware::class,
             'session.debug' => \App\Http\Middleware\SessionDebugMiddleware::class,
         ]);
 

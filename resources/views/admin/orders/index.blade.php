@@ -63,7 +63,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="text-muted mb-1">Today's Revenue</h6>
-                        <h4 class="mb-0 text-success">${{ number_format($stats['today_revenue'], 2) }}</h4>
+                        <h4 class="mb-0 text-success">{{ function_exists('money_format_ugx') ? money_format_ugx((float)$stats['today_revenue']) : ('UGX ' . number_format((float)$stats['today_revenue'])) }}</h4>
                     </div>
                     <div class="stat-icon bg-success">
                         <i class="bi bi-currency-dollar"></i>
@@ -76,7 +76,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="text-muted mb-1">Total Revenue</h6>
-                        <h4 class="mb-0 text-info">${{ number_format($stats['total_revenue'], 2) }}</h4>
+                        <h4 class="mb-0 text-info">{{ function_exists('money_format_ugx') ? money_format_ugx((float)$stats['total_revenue']) : ('UGX ' . number_format((float)$stats['total_revenue'])) }}</h4>
                     </div>
                     <div class="stat-icon bg-info">
                         <i class="bi bi-graph-up"></i>
@@ -115,12 +115,12 @@
                 <input type="date" class="form-control" id="date_to" name="date_to" value="{{ request('date_to') }}">
             </div>
             <div class="col-md-1">
-                <label for="min_amount" class="form-label">Min $</label>
+                <label for="min_amount" class="form-label">Min UGX</label>
                 <input type="number" class="form-control" id="min_amount" name="min_amount"
                        step="0.01" placeholder="0.00" value="{{ request('min_amount') }}">
             </div>
             <div class="col-md-1">
-                <label for="max_amount" class="form-label">Max $</label>
+                <label for="max_amount" class="form-label">Max UGX</label>
                 <input type="number" class="form-control" id="max_amount" name="max_amount"
                        step="0.01" placeholder="1000" value="{{ request('max_amount') }}">
             </div>
@@ -203,10 +203,10 @@
                             @endif
                         </td>
                         <td>
-                            <strong class="text-success">${{ number_format($order->total_amount, 2) }}</strong>
+                            <strong class="text-success">{{ function_exists('money_format_ugx') ? money_format_ugx((float)$order->total_amount) : ('UGX ' . number_format((float)$order->total_amount)) }}</strong>
                             @if($order->subtotal != $order->total_amount)
                                 <div class="small text-muted">
-                                    Subtotal: ${{ number_format($order->subtotal, 2) }}
+                                    Subtotal: {{ function_exists('money_format_ugx') ? money_format_ugx((float)$order->subtotal) : ('UGX ' . number_format((float)$order->subtotal)) }}
                                 </div>
                             @endif
                         </td>
