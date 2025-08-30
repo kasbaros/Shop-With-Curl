@@ -61,11 +61,11 @@
         <div class="flex items-center justify-between mb-3">
             <div class="flex items-center space-x-2">
                 <span class="text-lg font-bold text-gray-900">
-                    ${{ number_format($product->effective_price, 2) }}
+                    {{ money_format_ugx($product->effective_price) }}
                 </span>
                 @if($product->sale_price)
                     <span class="text-sm text-gray-500 line-through">
-                        ${{ number_format($product->price, 2) }}
+                        {{ money_format_ugx($product->price) }}
                     </span>
                 @endif
             </div>

@@ -199,8 +199,8 @@
             $symbol = $currencySymbols[$currency] ?? $currency . ' ';
 
             // Handle different currencies formatting
-            if (in_array($currency, ['JPY', 'KRW', 'VND'])) {
-                // No decimals for these currencies
+            if (in_array($currency, ['JPY', 'KRW', 'VND', 'UGX'])) {
+                // No decimals for these currencies (UGX typically has no minor units)
                 return $symbol . number_format($amount, 0);
             }
 

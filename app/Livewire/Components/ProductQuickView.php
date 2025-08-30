@@ -92,12 +92,12 @@ class ProductQuickView extends Component
         if (!$this->product) return '';
 
         $price = $this->product->sale_price ?: $this->product->price;
-        // Handle both cents and decimal storage
-        $formatted = (is_int($price) || ctype_digit((string)$price))
-            ? number_format($price / 100, 2)
-            : number_format((float)$price, 2);
+        // Normalize to float amount
+        $amount = (is_int($price) || ctype_digit((string)$price))
+            ? (float)$price / 100
+            : (float)$price;
 
-        return config('app.currency_symbol', '$') . $formatted;
+        return money_format_ugx($amount);
     }
 
     public function getOriginalPriceProperty()
@@ -105,11 +105,11 @@ class ProductQuickView extends Component
         if (!$this->product || !$this->product->sale_price) return '';
 
         $price = $this->product->price;
-        $formatted = (is_int($price) || ctype_digit((string)$price))
-            ? number_format($price / 100, 2)
-            : number_format((float)$price, 2);
+        $amount = (is_int($price) || ctype_digit((string)$price))
+            ? (float)$price / 100
+            : (float)$price;
 
-        return config('app.currency_symbol', '$') . $formatted;
+        return money_format_ugx($amount);
     }
 
     public function render()

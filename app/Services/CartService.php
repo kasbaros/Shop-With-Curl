@@ -141,6 +141,6 @@ class CartService
 
     public function formatPrice(float $price): string
     {
-        return config('app.currency_symbol', '$') . number_format($price, 2);
+        return money_format_ugx($price);
     }
 }

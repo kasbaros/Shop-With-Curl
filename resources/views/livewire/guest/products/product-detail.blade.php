@@ -133,11 +133,11 @@
                                             @endphp
 
                                             @if($onSale)
-                                                <div class="price-on-sale">${{ number_format($effective, 2) }}</div>
-                                                <div class="compare-at-price">${{ number_format($price, 2) }}</div>
-                                                <div class="badges-on-sale"><span>{{ $discountPct }}</span>% OFF</div>
-                                            @else
-                                                <div class="price">${{ number_format($effective, 2) }}</div>
+                                            <div class="price-on-sale">{{ money_format_ugx($effective) }}</div>
+                                            <div class="compare-at-price">{{ money_format_ugx($price) }}</div>
+                                            <div class="badges-on-sale"><span>{{ $discountPct }}</span>% OFF</div>
+                                        @else
+                                            <div class="price">{{ money_format_ugx($effective) }}</div>
                                             @endif
                                     </div>
 
@@ -248,10 +248,10 @@
                                         <div class="tf-sticky-atc-variant-price text-center">
                                             <span class="fw-6">
                                                 @if($onSale)
-                                                    <span class="price-on-sale">${{ number_format($effective, 2) }}</span>
-                                                    <span class="compare-at-price ms-1">${{ number_format($price, 2) }}</span>
-                                                @else
-                                                    <span class="price">${{ number_format($effective, 2) }}</span>
+                                <span class="price-on-sale">{{ money_format_ugx($effective) }}</span>
+                                <span class="compare-at-price ms-1">{{ money_format_ugx($price) }}</span>
+                            @else
+                                <span class="price">{{ money_format_ugx($effective) }}</span>
                                                 @endif
                                             </span>
                                         </div>

@@ -1,5 +1,4 @@
 @php
-    $currency = config('app.currency_symbol', '$');
     $subtotal = $subtotal ?? collect($cart ?? [])->sum('total');
 @endphp
 
@@ -52,8 +51,8 @@
                                     <button type="submit" class="btn btn-sm btn-outline-secondary">Update</button>
                                 </form>
                             </td>
-                            <td class="text-end">{{ $currency . number_format($price, 2) }}</td>
-                            <td class="text-end">{{ $currency . number_format($total, 2) }}</td>
+                            <td class="text-end">{{ money_format_ugx($price) }}</td>
+                            <td class="text-end">{{ money_format_ugx($total) }}</td>
                             <td class="text-end">
                                 <form action="{{ route('cart.remove', $key) }}" method="post">
                                     @csrf
@@ -84,7 +83,7 @@
 
                     <div class="d-flex justify-content-between mb-2">
                         <span>Subtotal</span>
-                        <span class="fw-6">{{ $currency . number_format((float)$subtotal, 2) }}</span>
+                        <span class="fw-6">{{ money_format_ugx((float)$subtotal) }}</span>
                     </div>
 
                     <div class="text-muted small mb-3">Taxes and shipping calculated at checkout.</div>

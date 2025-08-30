@@ -278,8 +278,6 @@
                         <label for="default_currency" class="form-label">Default Currency</label>
                         <select class="form-select" id="default_currency" name="default_currency">
                             <option value="UGX" {{ setting('default_currency', 'UGX') === 'UGX' ? 'selected' : '' }}>Ugandan Shilling (UGX)</option>
-                            <option value="USD" {{ setting('default_currency') === 'USD' ? 'selected' : '' }}>US Dollar (USD)</option>
-                            <option value="EUR" {{ setting('default_currency') === 'EUR' ? 'selected' : '' }}>Euro (EUR)</option>
                         </select>
                     </div>
 

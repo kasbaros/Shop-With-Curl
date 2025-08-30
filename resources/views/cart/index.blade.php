@@ -135,7 +135,6 @@
             {{--            @endif--}}
 
             @php
-                $currency = config('app.currency_symbol', '$');
                 $subtotal = $subtotal ?? collect($cart ?? [])->sum('total');
             @endphp
 
@@ -227,11 +226,11 @@
                                                 </form>
                                             </td>
                                             <td class="text-end py-4">
-                                                <span class="fw-5">{{ $currency . number_format($price, 2) }}</span>
+                                                <span class="fw-5">{{ money_format_ugx($price) }}</span>
                                             </td>
                                             <td class="text-end py-4">
                                                 <span
-                                                    class="fw-6 fs-5">{{ $currency . number_format($total, 2) }}</span>
+                                                    class="fw-6 fs-5">{{ money_format_ugx($total) }}</span>
                                             </td>
                                             <td class="text-end py-4 pe-4">
                                                 <form action="{{ route('cart.remove', $key) }}" method="post">
@@ -279,7 +278,7 @@
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <span class="text-muted">Items ({{ count($cart) }})</span>
                                             <span
-                                                class="fw-5">{{ $currency . number_format((float)$subtotal, 2) }}</span>
+                                                class="fw-5">{{ money_format_ugx((float)$subtotal) }}</span>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <span class="text-muted">Shipping</span>
@@ -293,7 +292,7 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="fw-6 fs-5">Subtotal</span>
                                             <span
-                                                class="fw-6 fs-4 text-primary">{{ $currency . number_format((float)$subtotal, 2) }}</span>
+                                                class="fw-6 fs-4 text-primary">{{ money_format_ugx((float)$subtotal) }}</span>
                                         </div>
                                     </div>
 

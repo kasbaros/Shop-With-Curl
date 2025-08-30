@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Price ({{ config('app.currency_symbol', '$') }})</label>
+                            <label class="form-label">Price (UGX)</label>
                             <div class="d-flex gap-2">
                                 <input type="number" class="form-control" placeholder="Min" min="0" wire:model.lazy="minPrice">
                                 <input type="number" class="form-control" placeholder="Max" min="0" wire:model.lazy="maxPrice">
@@ -136,10 +136,10 @@
 
                                         <div class="tf-product-info-price">
                                             @if($hasSale)
-                                                <div class="compare-at-price">{{ config('app.currency_symbol', '$') }}{{ $format($product->price) }}</div>
-                                                <div class="price-on-sale fw-6">{{ config('app.currency_symbol', '$') }}{{ $format($displayPrice) }}</div>
+                                                <div class="compare-at-price">{{ money_format_ugx($product->price) }}</div>
+                                                <div class="price-on-sale fw-6">{{ money_format_ugx($displayPrice) }}</div>
                                             @else
-                                                <div class="price fw-6">{{ config('app.currency_symbol', '$') }}{{ $format($displayPrice) }}</div>
+                                                <div class="price fw-6">{{ money_format_ugx($displayPrice) }}</div>
                                             @endif
                                         </div>
                                     </div>

@@ -411,16 +411,7 @@
         private function getCurrencies()
         {
             return [
-                'USD' => 'US Dollar (USD)',
-                'EUR' => 'Euro (EUR)',
-                'GBP' => 'British Pound (GBP)',
-                'CAD' => 'Canadian Dollar (CAD)',
-                'AUD' => 'Australian Dollar (AUD)',
-                'JPY' => 'Japanese Yen (JPY)',
-                'UGX' => 'Ugandan Shilling (UGX)',
-                'NGN' => 'Nigerian Naira (NGN)',
-                'GHS' => 'Ghanaian Cedi (GHS)',
-                'ZAR' => 'South African Rand (ZAR)',
+                'UGX' => 'Ugandan Shilling (UGX)'
             ];
         }
 

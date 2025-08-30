@@ -39,7 +39,7 @@
                                                                 $price = is_int($item['price']) || ctype_digit((string)$item['price'])
                                                                     ? $item['price'] / 100
                                                                     : (float)$item['price'];
-                                                                $formatted = config('app.currency_symbol', '$') . number_format($price, 2);
+                                                                $formatted = money_format_ugx($price);
                                                             @endphp
                                                             {{ $formatted }}
                                                         </div>
