@@ -18,7 +18,7 @@
                                                 <div class="tf-mini-cart-item" wire:key="cart-item-{{ $key }}">
                                                     <div class="tf-mini-cart-image">
                                                         <a href="{{ route('products.show', $item['product_slug']) }}">
-                                                            <img src="{{ $item['product_image'] ?: asset('images/placeholder-product.jpg') }}" alt="{{ $item['product_name'] }}">
+                                                            <img src="{{ \App\Helpers\ImageStorageHelper::url($item['product_image'] ?? null) }}" alt="{{ $item['product_name'] }}">
                                                         </a>
                                                     </div>
                                                     <div class="tf-mini-cart-info">

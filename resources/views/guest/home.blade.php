@@ -509,7 +509,7 @@
 
                     <div class="mb-other-content">
                         <div class="d-flex group-icon">
-                            <a href="{{ route('wishlist.index') }}" class="site-nav-icon">
+                            <a href="{{ route('account.page', ['section' => 'wishlist']) }}" class="site-nav-icon">
                                 <i class="icon icon-heart"></i>Wishlist
                             </a>
                             <a href="#" class="site-nav-icon" data-bs-toggle="offcanvas" data-bs-target="#canvasSearch">
@@ -1178,7 +1178,7 @@
             @endguest
         </div>
         <div class="toolbar-item">
-            <a href="{{ route('wishlist.index') }}">
+            <a href="{{ route('account.page', ['section' => 'wishlist']) }}">
                 <div class="toolbar-icon">
                     <i class="icon-heart"></i>
                     <div class="toolbar-count">{{ $layoutData['wishlistCount'] ?? 0 }}</div>
@@ -1187,7 +1187,7 @@
             </a>
         </div>
         <div class="toolbar-item">
-            <a href="{{ route('cart.index') }}">
+            <a href="{{ route('account.page', ['section' => 'cart']) }}">
                 <div class="toolbar-icon">
                     <i class="icon-bag"></i>
                     <div class="toolbar-count">{{ $layoutData['cartCount'] ?? 0 }}</div>
@@ -1218,7 +1218,7 @@
 
                 <div class="mb-other-content">
                     <div class="d-flex group-icon">
-                        <a href="{{ route('wishlist.index') }}" class="site-nav-icon"><i class="icon icon-heart"></i>Wishlist</a>
+                        <a href="{{ route('account.page', ['section' => 'wishlist']) }}" class="site-nav-icon"><i class="icon icon-heart"></i>Wishlist</a>
                         <a href="#" class="site-nav-icon" data-bs-toggle="offcanvas" data-bs-target="#canvasSearch"><i class="icon icon-search"></i>Search</a>
                     </div>
                     <div class="mb-notice">

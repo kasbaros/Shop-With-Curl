@@ -2,11 +2,13 @@
 
 namespace App\Livewire\User;
 
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+#[Layout('components.app-layout')]
 class WishList extends Component
 {
     use WithPagination;

@@ -1,3 +1,4 @@
+{{-- Deprecated/Legacy standalone wishlist view. The active wishlist is resources/views/livewire/user/wish-list.blade.php used by App\\Livewire\\User\\WishList and embedded in Account Page. --}}
 <div class="space-y-6">
     <!-- Header -->
     <div class="tf-page-title">
@@ -17,7 +18,7 @@
                     <!-- Product Image -->
                     <div class="aspect-square bg-gray-100 relative">
                         <img
-                            src="{{ $item->product->featured_image ?: '/images/placeholder.png' }}"
+                            src="{{ \App\Helpers\ImageStorageHelper::url($item->product->featured_image) }}"
                             alt="{{ $item->product->name }}"
                             class="w-full h-full object-cover"
                         >

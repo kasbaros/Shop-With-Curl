@@ -4,6 +4,7 @@
     use App\Helpers\ImageStorageHelper;
     use App\Http\Controllers\Client\CheckoutController;
     use App\Http\Controllers\Guest\StorageController;
+    use App\Livewire\Client\Profile\AccountPage;
     use App\Livewire\Guest\CategoryDetail;
     use App\Livewire\Guest\CategoryGrid;
     use App\Livewire\Guest\ProductGrid;
@@ -112,18 +113,29 @@
             return redirect()->route('account.dashboard');
         })->name('dashboard');
 
-        // Profile & Account (Keep Controllers - Complex validation, security)
-        Route::prefix('account')->name('account.')->group(function () {
-            Route::get('/', [\App\Http\Controllers\Client\ProfileController::class, 'dashboard'])->name('dashboard');
-            Route::get('/profile', [\App\Http\Controllers\Client\ProfileController::class, 'show'])->name('profile');
-            Route::get('/profile/edit', [\App\Http\Controllers\Client\ProfileController::class, 'edit'])->name('profile.edit');
-            Route::patch('/profile', [\App\Http\Controllers\Client\ProfileController::class, 'update'])->name('profile.update');
-            Route::delete('/profile', [\App\Http\Controllers\Client\ProfileController::class, 'destroy'])->name('profile.destroy');
-        });
+        // Profile & Account (Refactored to a single Livewire component)
+        Route::get('/account/{section?}', AccountPage::class)
+            ->name('account.page')
+            ->whereIn('section', ['dashboard', 'orders', 'address', 'details', 'wishlist', 'cart']);
+
+        // Backward-compatible alias for legacy references like route('account.dashboard')
+        Route::get('/account', function () {
+            return redirect()->route('account.page', ['section' => 'dashboard']);
+        })->name('account.dashboard');
+
+        // Backward-compatible alias for legacy profile edit route name
+        Route::get('/account/profile/edit', function () {
+            return redirect()->route('account.page', ['section' => 'details']);
+        })->name('account.profile.edit');
+
 
         // Orders (Keep Controllers - Complex business logic, financial data)
         Route::prefix('my-orders')->name('orders.')->group(function () {
-            Route::get('/', [\App\Http\Controllers\Client\OrderController::class, 'index'])->name('index');
+            Route::get('/', function() {
+                return redirect()->route('account.page', ['section' => 'orders']);
+            })->name('index');
+
+            // Keep these detail and action routes
             Route::get('/{order}', [\App\Http\Controllers\Client\OrderController::class, 'show'])->name('show')
                 ->where('order', '[0-9]+');
             Route::post('/{order}/cancel', [\App\Http\Controllers\Client\OrderController::class, 'cancel'])->name('cancel');
@@ -160,10 +172,15 @@
         });
 
         // Wishlist & Compare (Could be Livewire components for better UX)
+        // Wishlist actions only (standalone wishlist view removed)
         Route::prefix('wishlist')->name('wishlist.')->group(function () {
-            Route::get('/', [\App\Http\Controllers\Client\CompareController::class, 'wishlist'])->name('index');
             Route::post('/add', [\App\Http\Controllers\Client\CompareController::class, 'addToWishlist'])->name('add');
             Route::delete('/{product}', [\App\Http\Controllers\Client\CompareController::class, 'removeFromWishlist'])->name('remove');
+        });
+
+        // Backward compatibility: redirect legacy /wishlist page to account wishlist section
+        Route::get('/wishlist', function() {
+            return redirect()->route('account.page', ['section' => 'wishlist']);
         });
 
         Route::prefix('compare')->name('compare.')->group(function () {
@@ -216,7 +233,7 @@
         Route::resource('promo-banners', App\Http\Controllers\Admin\PromoBannerController::class);
         Route::post('promo-banners/{promoBanner}/toggle-status', [App\Http\Controllers\Admin\PromoBannerController::class, 'toggleStatus'])->name('promo-banners.toggle-status');
 
-// Lookbooks Management
+        // Lookbooks Management
         Route::resource('lookbooks', App\Http\Controllers\Admin\LookBookController::class);
         Route::post('lookbooks/{lookbook}/toggle-status', [App\Http\Controllers\Admin\LookBookController::class, 'toggleStatus'])->name('lookbooks.toggle-status');
 
@@ -226,8 +243,21 @@
         Route::post('categories/reorder', [AdminCategoryController::class, 'reorder'])->name('categories.reorder');
 
         // Orders Management
-        Route::resource('orders', AdminOrderController::class)->except(['create', 'store']);
-        Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
+//        Route::resource('orders', AdminOrderController::class)->except(['create', 'store']);
+//        Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
+
+        Route::prefix('my-orders')->name('orders.')->group(function () {
+            // Change this line from controller to Livewire component
+            Route::get('/', \App\Livewire\Client\Profile\OrderHistory::class)->name('index');
+
+            // Keep these as controllers if they handle complex logic
+            Route::get('/{order}', [\App\Http\Controllers\Client\OrderController::class, 'show'])->name('show')
+                ->where('order', '[0-9]+');
+            Route::post('/{order}/cancel', [\App\Http\Controllers\Client\OrderController::class, 'cancel'])->name('cancel');
+            Route::get('/{order}/invoice', [\App\Http\Controllers\Client\OrderController::class, 'invoice'])->name('invoice');
+            Route::post('/{order}/review', [\App\Http\Controllers\Client\OrderController::class, 'review'])->name('review');
+        });
+
 
         // Users/Customers Management
         Route::resource('users', UserController::class);

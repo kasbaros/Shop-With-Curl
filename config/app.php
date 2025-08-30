@@ -158,6 +158,9 @@
         'admin_password' => env('ADMIN_DEFAULT_PASSWORD', 'SecureAdmin123!'),
         'developer_email' => env('DEVELOPER_DEFAULT_EMAIL'),
         'developer_password' => env('DEVELOPER_DEFAULT_PASSWORD', 'SecureDev123!'),
+        'test_email' => env('TEST_USER_DEFAULT_EMAIL'),
+        'test_password' => env('TEST_USER_DEFAULT_PASSWORD', 'SecureTest123!'),
+
 
 
     ];

@@ -15,6 +15,18 @@
             $this->middleware('auth');
         }
 
+        public function dashboard()
+        {
+            $user = Auth::user();
+
+            // Get some basic dashboard data
+            $recentOrders = $user->orders()->latest()->limit(5)->get();
+            $wishlistCount = $user->wishlist()->count();
+            $addressCount = $user->addresses()->count();
+
+            return view('profile.dashboard', compact('user', 'recentOrders', 'wishlistCount', 'addressCount'));
+        }
+
         public function show()
         {
             $user = Auth::user();

@@ -32,7 +32,7 @@
                                                         @php
                                                             $media = $product->media->first();
                                                             $img = method_exists($media, 'getUrl') ? $media->getUrl() : ($media->url ?? null);
-                                                            $imageUrl = $img ?: asset('images/placeholder-product.jpg');
+                                                            $imageUrl = \App\Helpers\ImageStorageHelper::url($img);
                                                         @endphp
                                                         <img class="radius-3"
                                                              src="{{ $imageUrl }}"

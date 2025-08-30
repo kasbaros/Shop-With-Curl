@@ -170,7 +170,7 @@
                                     <!-- Wishlist / Compare -->
                                     <div class="d-flex align-items-center gap-10 mt_12">
                                         @auth
-                                            <livewire:client.wishlist-toggle :product="$product"/>
+                                            <livewire:client.wish-list-toggle :product="$product"/>
                                         @else
                                             <a href="{{ route('login') }}"
                                                class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">

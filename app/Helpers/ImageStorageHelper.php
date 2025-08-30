@@ -55,15 +55,31 @@
          */
         public static function url(?string $path): string
         {
+            // If path empty, return placeholder
             if (!$path) {
-                return asset('images/placeholder.jpg');
+                return asset('images/placeholder-product.jpg');
             }
 
             // Clean the path
-            $path = ltrim($path, '/');
+            $clean = ltrim($path, '/');
 
-            // Return the URL that points to public_html/storage/...
-            return asset('storage/' . $path);
+            // If it's already a full URL (http/https), return as-is
+            if (preg_match('/^https?:\/\//i', $clean)) {
+                return $clean;
+            }
+
+            // If file exists in storage, return storage URL; otherwise placeholder
+            if (self::exists($clean)) {
+                return asset('storage/' . $clean);
+            }
+
+            // Also attempt to detect if given value is under public/ directly
+            $publicPath = public_path($clean);
+            if (file_exists($publicPath)) {
+                return asset($clean);
+            }
+
+            return asset('images/placeholder-product.jpg');
         }
 
         /**

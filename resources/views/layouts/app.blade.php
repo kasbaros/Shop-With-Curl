@@ -219,7 +219,9 @@
                             </li>
                         @endauth
                         <li class="nav-cart">
-                            <livewire:shared.header/>
+                            <a href="{{ route('account.page', ['section' => 'cart']) }}" class="nav-icon-item" wire:navigate>
+                                <livewire:shared.header/>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -323,8 +325,8 @@
                                    :current="request()->routeIs('account.*')" wire:navigate>
                     {{ __('My Account') }}
                 </flux:navlist.item>
-                <flux:navlist.item icon="heart" :href="route('wishlist.index')"
-                                   :current="request()->routeIs('wishlist.*')" wire:navigate>
+                <flux:navlist.item icon="heart" :href="route('account.page', ['section' => 'wishlist'])"
+                                   :current="request()->routeIs('account.page') && request('section') === 'wishlist'" wire:navigate>
                     {{ __('Wishlist') }}
                 </flux:navlist.item>
                 <flux:navlist.item icon="shopping-cart" :href="route('cart.index')"

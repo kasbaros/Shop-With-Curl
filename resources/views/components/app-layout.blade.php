@@ -1030,7 +1030,7 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item d-flex align-items-center gap-2"
-                                       href="{{ route('account.profile.edit') }}" wire:navigate>
+                                       href="{{ route('account.page', ['section' => 'details']) }}" wire:navigate>
                                         <i class="bi bi-person" style="width: 16px;"></i>
                                         Profile
                                     </a>
@@ -1061,7 +1061,7 @@
 
                 @if (!isset($isAuthPage) || !$isAuthPage)
                     <!-- Wishlist -->
-                    <a href="{{ route('wishlist.index') }}"
+                    <a href="{{ route('account.page', ['section' => 'wishlist']) }}"
                        class="nav-icon {{ (($wishlistCount ?? (auth()->check() ? auth()->user()->wishlist()->count() : 0)) > 0) ? 'active' : '' }}" title="Wishlist" wire:navigate>
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1073,9 +1073,9 @@
                     </a>
 
                     <!-- Shopping Cart -->
-                    <div class="nav-icon" title="Shopping Cart">
+                    <a href="{{ route('account.page', ['section' => 'cart']) }}" class="nav-icon" title="Shopping Cart" wire:navigate>
                         <livewire:shared.header/>
-                    </div>
+                    </a>
                 @endif
             </div>
         </div>

@@ -52,5 +52,26 @@
                     $this->command->info('ℹ️ Developer user already exists: ' . $developer->email);
                 }
             }
+
+            // Create test user if configured
+            if (config('app.test_email')) {
+                $developer = User::firstOrCreate(
+                    ['email' => config('app.test_email')],
+                    [
+                        'name' => 'Teste User',
+                        'email' => config('app.test_email'),
+                        'password' => Hash::make(config('app.test_password', 'SecureTest123!')),
+                        'role' => 'customer',
+                        'is_admin' => false,
+                        'email_verified_at' => now(),
+                    ]
+                );
+
+                if ($developer->wasRecentlyCreated) {
+                    $this->command->info('✅ Test user created: ' . $developer->email);
+                } else {
+                    $this->command->info('ℹ️ Test user already exists: ' . $developer->email);
+                }
+            }
         }
     }

@@ -76,11 +76,6 @@ class CompareController extends Controller
      *
      * @return \Illuminate\Contracts\View\View
      */
-    public function wishlist()
-    {
-        // Render the wishlist Blade which bootstraps the Livewire component
-        return view('client.wishlist');
-    }
 
     /**
      * Add or toggle a product in the user's wishlist.
@@ -134,7 +129,7 @@ class CompareController extends Controller
             return response()->json(['success' => true, 'message' => 'Removed from wishlist.']);
         }
 
-        return redirect()->route('wishlist.index')
+        return redirect()->route('account.page', ['section' => 'wishlist'])
             ->with('success', 'Removed from wishlist.');
     }
 }
