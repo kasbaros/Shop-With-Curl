@@ -62,7 +62,7 @@
                                                        class="d-block border rounded overflow-hidden"
                                                        style="width: 80px; height: 80px;">
                                                         <img
-                                                            src="{{ \App\Helpers\ImageStorageHelper::url($item['product']->featured_image ?? null) }}"
+                                                            src="{{ $item['image'] }}"
                                                             alt="{{ $item['name'] }}"
                                                             class="img-fluid object-fit-cover w-100 h-100">
                                                     </a>

@@ -138,7 +138,7 @@ class CartController extends Controller
 
         foreach ($cart as $key => $item) {
             $product = Product::find($item['product_id']);
-            $variant = $item['product_variant_id'] ? ProductVariant::find($item['product_variant_id']) : null;
+            $variant = isset($item['product_variant_id']) && $item['product_variant_id'] ? ProductVariant::find($item['product_variant_id']) : null;
 
             if ($product) {
                 $cartWithDetails[$key] = [
@@ -148,7 +148,7 @@ class CartController extends Controller
                     'quantity' => $item['quantity'],
                     'price' => $item['price'],
                     'total' => $item['price'] * $item['quantity'],
-                    'image' => $product->featured_image ?? '/images/placeholder.png',
+                    'image' => $product->primary_image_url,
                     'name' => $product->name . ($variant ? ' - ' . $variant->display_name : ''),
                 ];
             }

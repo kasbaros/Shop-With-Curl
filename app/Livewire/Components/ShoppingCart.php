@@ -193,7 +193,7 @@
                     'product_id' => $item['product_id'],
                     'product_name' => $product->name,
                     'product_slug' => $product->slug,
-                    'product_image' => $product->featured_image,
+                    'product_image' => $product->primary_image_url,
                     'quantity' => $item['quantity'],
                     'price' => $item['price'],
                     'variants' => $variant ? [$variant->display_name] : [],

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Session;
 
 class CartService
 {
-    private const CART_SESSION_KEY = 'shopping_cart';
+    private const CART_SESSION_KEY = 'cart';
 
     public function add(int $productId, int $quantity = 1, array $variants = []): bool
     {
@@ -177,10 +177,8 @@ class CartService
 
     private function getProductImage(Product $product): ?string
     {
-        $media = $product->media->first();
-        if (!$media) return null;
-
-        return method_exists($media, 'getUrl') ? $media->getUrl() : ($media->url ?? null);
+        // Use the product's built-in primary image URL which handles both new storage system and legacy media
+        return $product->primary_image_url;
     }
 
     public function formatPrice(float $price): string

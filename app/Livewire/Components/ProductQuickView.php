@@ -160,16 +160,27 @@ class ProductQuickView extends Component
             return;
         }
 
-        // Emit event for cart addition (use positional args for compatibility)
-        $this->dispatch('cart:add', $this->product->id, $this->quantity, $this->selectedVariants);
+        // Actually add item to cart using CartService
+        $cartService = app(\App\Services\CartService::class);
+        $success = $cartService->add($this->product->id, $this->quantity, $this->selectedVariants);
 
-        // Show success message
-        $this->dispatch('notify', [
-            'message' => $this->product->name . ' added to cart!',
-            'type' => 'success'
-        ]);
+        if ($success) {
+            // Emit event for cart addition (use positional args for compatibility)
+            $this->dispatch('cart:add', $this->product->id, $this->quantity, $this->selectedVariants);
 
-        $this->closeModal();
+            // Show success message
+            $this->dispatch('notify', [
+                'message' => $this->product->name . ' added to cart!',
+                'type' => 'success'
+            ]);
+
+            $this->closeModal();
+        } else {
+            $this->dispatch('notify', [
+                'message' => 'Failed to add item to cart.',
+                'type' => 'error'
+            ]);
+        }
     }
 
     public function toggleWishlist()

@@ -14,13 +14,12 @@ class Header extends Component
     public $itemCount = 0;
     public $total = 0;
 
-    protected $listeners = ['cart:updated' => 'refreshCart'];
+    protected $listeners = ['cart:updated' => 'updateCartCount'];
 
     public function mount(): void
     {
         $this->refreshCart();
     }
-
 
     public $cartCount = 0;
 
@@ -41,9 +40,17 @@ class Header extends Component
     }
 
     #[On('cart:updated')]
-    public function updateCartCount(): void
+    public function updateCartCount($data = null): void
     {
-        $this->cartCount = collect(session()->get('cart', []))->sum('quantity');
+        // Accept count from event data if provided, otherwise calculate from session
+        if (is_array($data) && isset($data['count'])) {
+            $this->cartCount = $data['count'];
+            $this->itemCount = $data['count'];
+        } else {
+            $cart = session()->get('cart', []);
+            $this->cartCount = collect($cart)->sum('quantity');
+            $this->itemCount = $this->cartCount;
+        }
     }
 
     public function toggleCartDrawer(): void
