@@ -1,109 +1,137 @@
-<div>
-    <!-- Overlay -->
-    <div
-        class="fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity {{ $this->isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none' }}"
-        wire:click="toggleDrawer"
-    ></div>
-
-    <!-- Drawer -->
-    <div
-        class="fixed right-0 top-0 h-full w-96 bg-white shadow-xl transform transition-transform z-50 {{ $this->isOpen ? 'translate-x-0' : 'translate-x-full' }}"
-    >
-        <div class="flex flex-col h-full">
-            <!-- Header -->
-            <div class="flex items-center justify-between p-4 border-b">
-                <h2 class="text-lg font-semibold">Shopping Cart</h2>
-                <button
-                    wire:click="toggleDrawer"
-                    class="p-2 hover:bg-gray-100 rounded-md"
-                >
-                    <x-heroicon-m-x-mark class="w-5 h-5"/>
-                </button>
+<div
+    class="modal fullRight fade modal-shopping-cart"
+    id="shoppingCart"
+    tabindex="-1"
+    aria-labelledby="shoppingCartLabel"
+    aria-hidden="true"
+    wire:ignore.self
+>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="header">
+                <div class="title fw-5">Shopping cart</div>
+                <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
             </div>
-
-            <!-- Cart Items -->
-            <div class="flex-1 overflow-y-auto p-4">
-                @if(empty($cart))
-                    <div class="text-center py-8">
-                        <x-heroicon-o-shopping-bag class="w-16 h-16 mx-auto text-gray-400 mb-4"/>
-                        <p class="text-gray-500">Your cart is empty</p>
-                    </div>
-                @else
-                    <div class="space-y-4">
-                        @foreach($cart as $item)
-                            <div class="flex items-center space-x-4 p-3 border rounded-lg">
-                                @php
-                                    $imgSrc = $item['image'] ?? \App\Helpers\ImageStorageHelper::url(($item['product']['featured_image'] ?? null) ?? ($item['product']->featured_image ?? null)) ?? asset('images/placeholder-product.jpg');
-                                @endphp
-                                <img
-                                    src="{{ $imgSrc }}"
-                                    alt="{{ $item['name'] ?? 'Item' }}"
-                                    class="w-16 h-16 object-cover rounded-md"
-                                >
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="text-sm font-medium text-gray-900 truncate">
-                                        {{ $item['name'] ?? ($item['product']['name'] ?? ($item['product']->name ?? 'Item')) }}
-                                    </h3>
-                                    <p class="text-sm text-gray-500">
-                                        {{ money_format_ugx((float)($item['price'] ?? 0)) }}
-                                    </p>
-                                    <div class="flex items-center space-x-2 mt-2">
-                                        <button
-                                            wire:click="updateQuantity('{{ $item['key'] ?? $item['id'] ?? '' }}', {{ max(1, (int)($item['quantity'] ?? 1) - 1) }})"
-                                            class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded text-xs hover:border-gray-400"
-                                        >
-                                            <x-heroicon-m-minus class="w-3 h-3"/>
-                                        </button>
-                                        <span class="text-sm font-medium">{{ (int)($item['quantity'] ?? 1) }}</span>
-                                        <button
-                                            wire:click="updateQuantity('{{ $item['key'] ?? $item['id'] ?? '' }}', {{ (int)($item['quantity'] ?? 1) + 1 }})"
-                                            class="w-6 h-6 flex items-center justify-center border border-gray-300 rounded text-xs hover:border-gray-400"
-                                        >
-                                            <x-heroicon-m-plus class="w-3 h-3"/>
-                                        </button>
-                                    </div>
-                                </div>
-                                <button
-                                    wire:click="removeItem('{{ $item['key'] ?? $item['id'] ?? '' }}')"
-                                    class="p-1 text-red-600 hover:text-red-700"
-                                >
-                                    <x-heroicon-m-trash class="w-4 h-4"/>
-                                </button>
-                            </div>
-                        @endforeach
+            <div class="wrap">
+                @if(count($cart) > 0)
+                    <div class="tf-mini-cart-threshold">
+                        <div class="tf-progress-bar">
+                            <span style="width: {{ $this->freeShippingProgress }}%;">
+                                <div class="progress-car"></div>
+                            </span>
+                        </div>
+                        <div class="tf-progress-msg">
+                            @if ($this->qualifiesForFreeShipping)
+                                🎉 You qualify for <span class="fw-6">Free Shipping</span>
+                            @else
+                                Buy <span class="price fw-6">${{ number_format($this->freeShippingRemaining, 2) }}</span> more to enjoy <span class="fw-6">Free Shipping</span>
+                            @endif
+                        </div>
                     </div>
                 @endif
-            </div>
+                <div class="tf-mini-cart-wrap">
+                    <div class="tf-mini-cart-main">
+                        <div class="tf-mini-cart-sroll">
+                            <div class="tf-mini-cart-items">
+                                @forelse($cart as $key => $item)
+                                    <div class="tf-mini-cart-item">
+                                        <div class="tf-mini-cart-image">
+                                            <a href="{{ route('products.show', $item['product_slug'] ?? '#') }}">
+                                                <img src="{{ $item['image'] ?? asset('images/placeholder-product.jpg') }}" alt="{{ $item['name'] ?? 'Item' }}">
+                                            </a>
+                                        </div>
+                                        <div class="tf-mini-cart-info">
+                                            <a class="title link" href="{{ route('products.show', $item['product_slug'] ?? '#') }}">{{ $item['name'] ?? 'T-shirt' }}</a>
+                                            @if(isset($item['variant_name']) && $item['variant_name'])
+                                                <div class="meta-variant">{{ $item['variant_name'] }}</div>
+                                            @endif
+                                            <div class="price fw-6">{{ money_format_ugx($item['price'] ?? 0) }}</div>
+                                            <div class="tf-mini-cart-btns">
+                                                <div class="wg-quantity small">
+                                                    <span class="btn-quantity minus-btn" wire:click="updateQuantity('{{ $key }}', {{ $item['quantity'] - 1 }})">-</span>
+                                                    <input type="text" name="number" value="{{ $item['quantity'] }}" readonly>
+                                                    <span class="btn-quantity plus-btn" wire:click="updateQuantity('{{ $key }}', {{ $item['quantity'] + 1 }})">+</span>
+                                                </div>
+                                                <div class="tf-mini-cart-remove" wire:click="removeItem('{{ $key }}')">Remove</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="text-center py-8">
+                                        <p class="text-gray-500">Your cart is empty</p>
+                                    </div>
+                                @endforelse
+                            </div>
 
-            <!-- Footer -->
-            @if(!empty($cart))
-                <div class="border-t p-4 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-lg font-medium">Subtotal:</span>
-                        <span class="text-lg font-bold">{{ money_format_ugx((float)($total ?? 0)) }}</span>
+                            @if(count($recommendations) > 0)
+                                <div class="tf-minicart-recommendations">
+                                    <div class="tf-minicart-recommendations-heading">
+                                        <div class="tf-minicart-recommendations-title">You may also like</div>
+                                    </div>
+                                    <div class="swiper tf-cart-slide">
+                                        <div class="swiper-wrapper">
+                                            @foreach($recommendations as $product)
+                                                <div class="swiper-slide">
+                                                    <div class="tf-minicart-recommendations-item">
+                                                        <div class="tf-minicart-recommendations-item-image">
+                                                            <a href="{{ route('products.show', $product['slug']) }}">
+                                                                <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}">
+                                                            </a>
+                                                        </div>
+                                                        <div class="tf-minicart-recommendations-item-infos flex-grow-1">
+                                                            <a class="title" href="{{ route('products.show', $product['slug']) }}">{{ $product['name'] }}</a>
+                                                            <div class="price">{{ money_format_ugx($product['price']) }}</div>
+                                                        </div>
+                                                        <div class="tf-minicart-recommendations-item-quickview">
+                                                            <button class="btn-show-quickview quickview hover-tooltip" wire:click="$dispatch('product:quickAdd', { productId: {{ $product['id'] }} })">
+                                                                <span class="icon icon-bag"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                    <div class="space-y-2">
-                        <a
-                            href="{{ route('cart.index') }}"
-                            class="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-lg font-medium text-center block hover:bg-gray-300 transition-colors"
-                        >
-                            View Cart
-                        </a>
-                        <a
-                            href="{{ route('checkout.index') }}"
-                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium text-center block hover:bg-blue-700 transition-colors"
-                        >
-                            Checkout
-                        </a>
-                    </div>
-                    <button
-                        wire:click="clearCart"
-                        class="w-full text-red-600 py-2 text-sm hover:text-red-700 transition-colors"
-                    >
-                        Clear Cart
-                    </button>
+                    @if(count($cart) > 0)
+                        <div class="tf-mini-cart-bottom">
+                            <div class="tf-mini-cart-tool">
+                                <div class="tf-mini-cart-tool-btn btn-add-note" wire:click="toggleAddNote"></div>
+                                <div class="tf-mini-cart-tool-btn btn-add-gift" wire:click="toggleAddGift"></div>
+                                <div class="tf-mini-cart-tool-btn btn-estimate-shipping" wire:click="toggleEstimateShipping"></div>
+                            </div>
+                            <div class="tf-mini-cart-bottom-wrap">
+                                <div class="tf-cart-totals-discounts">
+                                    <div class="tf-cart-total">Subtotal</div>
+                                    <div class="tf-totals-total-value fw-6">{{ $this->formattedTotal }}</div>
+                                </div>
+                                <div class="tf-cart-tax">Taxes and <a href="#">shipping</a> calculated at checkout</div>
+                                <div class="tf-mini-cart-line"></div>
+                                <div class="tf-cart-checkbox">
+                                    <div class="tf-checkbox-wrapp">
+                                        <input type="checkbox" id="CartDrawer-Form_agree" wire:model.live="agreeToTerms">
+                                        <div><i class="icon-check"></i></div>
+                                    </div>
+                                    <label for="CartDrawer-Form_agree">I agree with the <a href="#" title="Terms of Service">terms and conditions</a></label>
+                                </div>
+                                <div class="tf-mini-cart-view-checkout">
+                                    <a href="{{ route('cart.index') }}" class="tf-btn btn-outline radius-3 link w-100 justify-content-center">View cart</a>
+                                    <a href="{{ route('checkout.index') }}" class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center @if(!$agreeToTerms) disabled @endif">
+                                        <span>Check out</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    @include('livewire.components.shopping-cart.modals.add-note')
+                    @include('livewire.components.shopping-cart.modals.add-gift')
+                    @include('livewire.components.shopping-cart.modals.estimate-shipping')
                 </div>
-            @endif
+            </div>
         </div>
     </div>
 </div>

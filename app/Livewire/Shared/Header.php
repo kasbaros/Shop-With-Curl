@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Shared;
 
+use AllowDynamicProperties;
 use App\Traits\SharedLayoutData;
 use Livewire\Component;
 
+#[AllowDynamicProperties]
 class Header extends Component
 {
     use SharedLayoutData;
@@ -12,7 +14,7 @@ class Header extends Component
     public $itemCount = 0;
     public $total = 0;
 
-    protected $listeners = ['cart-updated' => 'refreshCart'];
+    protected $listeners = ['cart:updated' => 'refreshCart'];
 
     public function mount(): void
     {
@@ -30,6 +32,18 @@ class Header extends Component
         $this->total = collect($cart)->sum(function ($item) {
             return $item['price'] * $item['quantity'];
         });
+    }
+
+    public function refreshWishlist(): void
+    {
+        $wishlist = session()->get('wishlist', []);
+        $this->wishlistCount = collect($wishlist)->count();
+    }
+
+    #[On('cart:updated')]
+    public function updateCartCount(): void
+    {
+        $this->cartCount = collect(session()->get('cart', []))->sum('quantity');
     }
 
     public function toggleCartDrawer(): void

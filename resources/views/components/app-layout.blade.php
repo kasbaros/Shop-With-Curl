@@ -290,6 +290,7 @@
             width: 100%;
             max-width: 550px;
         }
+
         .search-suggestions {
             position: absolute;
             top: calc(100% + 8px);
@@ -304,6 +305,7 @@
             z-index: 1100;
             animation: fadeInUp 0.25s ease;
         }
+
         .search-suggestion-item {
             display: flex;
             align-items: center;
@@ -314,11 +316,13 @@
             color: var(--text-primary);
             transition: var(--transition);
         }
+
         .search-suggestion-item:hover {
             background: rgba(240, 147, 251, 0.08);
             color: var(--pink-primary);
             transform: translateX(4px);
         }
+
         .search-suggestion-empty {
             padding: 12px 14px;
             color: var(--text-secondary);
@@ -917,86 +921,30 @@
 
             <!-- Ultra Modern Search -->
             <div class="search-section" role="search">
-                <form class="search-container" action="{{ route('shop.search') }}" method="GET" onsubmit="return submitHeaderSearch(event)">
+                <form class="search-container" action="{{ route('shop.search') }}" method="GET"
+                      onsubmit="return submitHeaderSearch(event)">
                     <input type="text" class="search-input" name="q" id="headerSearchInput"
                            placeholder="Discover luxury lingerie, shapewear & activewear..."
                            autocomplete="off"
                            aria-label="Search products"
                            onkeyup="showSearchSuggestions(this.value)">
                     <button type="submit" class="search-btn" aria-label="Search">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                             aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                         Search
                     </button>
                 </form>
-                <div id="headerSearchSuggestions" class="search-suggestions" role="listbox" aria-label="Search suggestions" style="display:none;"></div>
+                <div id="headerSearchSuggestions" class="search-suggestions" role="listbox"
+                     aria-label="Search suggestions" style="display:none;"></div>
             </div>
 
             <!-- Ultra Modern Navigation Icons -->
             <div class="nav-icons">
                 <!-- User Account -->
                 <div class="user-dropdown">
-{{--                    @auth--}}
-{{--                        <div class="dropdown">--}}
-{{--                            <button class="user-button dropdown-toggle" type="button"--}}
-{{--                                    data-bs-toggle="dropdown" aria-expanded="false">--}}
-{{--                                <div class="user-avatar">--}}
-{{--                                    {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}--}}
-{{--                                </div>--}}
-{{--                                <span>{{ auth()->user()->name }}</span>--}}
-{{--                            </button>--}}
-{{--                            <ul class="dropdown-menu">--}}
-{{--                                @if(auth()->user()->isAdmin() || auth()->user()->isDeveloper())--}}
-{{--                                    <li>--}}
-{{--                                        <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('admin.dashboard') }}">--}}
-{{--                                            <i class="bi bi-speedometer2" style="width: 16px;"></i>--}}
-{{--                                            Admin Dashboard--}}
-{{--                                        </a>--}}
-{{--                                    </li>--}}
-{{--                                @endif--}}
-{{--                                <li>--}}
-{{--                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('account.dashboard') }}" wire:navigate>--}}
-{{--                                        <i class="bi bi-house" style="width: 16px;"></i>--}}
-{{--                                        My Account--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                                <li>--}}
-{{--                                    <a class="dropdown-item d-flex align-items-center gap-2"--}}
-{{--                                       href="{{ route('orders.index') }}" wire:navigate>--}}
-{{--                                        <i class="bi bi-bag" style="width: 16px;"></i>--}}
-{{--                                        My Orders--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                                <li>--}}
-{{--                                    <a class="dropdown-item d-flex align-items-center gap-2"--}}
-{{--                                       href="{{ route('account.profile.edit') }}" wire:navigate>--}}
-{{--                                        <i class="bi bi-person" style="width: 16px;"></i>--}}
-{{--                                        Profile--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-{{--                                <li>--}}
-{{--                                    <hr class="dropdown-divider">--}}
-{{--                                </li>--}}
-{{--                                <li>--}}
-{{--                                    <form method="POST" action="{{ route('logout') }}" class="m-0">--}}
-{{--                                        @csrf--}}
-{{--                                        <button type="submit"--}}
-{{--                                                class="dropdown-item d-flex align-items-center gap-2 text-danger border-0 bg-transparent w-100 text-start">--}}
-{{--                                            <i class="bi bi-box-arrow-right" style="width: 16px;"></i>--}}
-{{--                                            Logout--}}
-{{--                                        </button>--}}
-{{--                                    </form>--}}
-{{--                                </li>--}}
-{{--                            </ul>--}}
-{{--                        </div>--}}
-{{--                    @else--}}
-{{--                        <a href="{{ route('login') }}" class="user-button" wire:navigate>--}}
-{{--                            <div class="user-avatar">AC</div>--}}
-{{--                            <span>Account</span>--}}
-{{--                        </a>--}}
-{{--                    @endauth--}}
                     @auth
                         <div class="dropdown">
                             <button class="user-button dropdown-toggle" type="button"
@@ -1009,14 +957,16 @@
                             <ul class="dropdown-menu">
                                 @if(auth()->user()->isAdmin() || auth()->user()->isDeveloper())
                                     <li>
-                                        <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('admin.dashboard') }}">
+                                        <a class="dropdown-item d-flex align-items-center gap-2"
+                                           href="{{ route('admin.dashboard') }}">
                                             <i class="bi bi-speedometer2" style="width: 16px;"></i>
                                             Admin Dashboard
                                         </a>
                                     </li>
                                 @endif
                                 <li>
-                                    <a class="dropdown-item d-flex align-items-center gap-2" href="{{ route('account.dashboard') }}" wire:navigate>
+                                    <a class="dropdown-item d-flex align-items-center gap-2"
+                                       href="{{ route('account.dashboard') }}" wire:navigate>
                                         <i class="bi bi-house" style="width: 16px;"></i>
                                         My Account
                                     </a>
@@ -1062,7 +1012,8 @@
                 @if (!isset($isAuthPage) || !$isAuthPage)
                     <!-- Wishlist -->
                     <a href="{{ route('account.page', ['section' => 'wishlist']) }}"
-                       class="nav-icon {{ (($wishlistCount ?? (auth()->check() ? auth()->user()->wishlist()->count() : 0)) > 0) ? 'active' : '' }}" title="Wishlist" wire:navigate>
+                       class="nav-icon {{ (($wishlistCount ?? (auth()->check() ? auth()->user()->wishlist()->count() : 0)) > 0) ? 'active' : '' }}"
+                       title="Wishlist" wire:navigate>
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
@@ -1073,9 +1024,12 @@
                     </a>
 
                     <!-- Shopping Cart -->
-                    <a href="{{ route('account.page', ['section' => 'cart']) }}" class="nav-icon" title="Shopping Cart" wire:navigate>
-                        <livewire:shared.header/>
-                    </a>
+                    {{--                    <a href="{{ route('account.page', ['section' => 'cart']) }}" class="nav-icon" title="Shopping Cart" wire:navigate>--}}
+                    {{--                        <livewire:shared.header/>--}}
+                    {{--                    </a>--}}
+{{--                    @livewire('shared.header')--}}
+                    @livewire('components.cart-icon')
+
                 @endif
             </div>
         </div>
@@ -1095,35 +1049,6 @@
                     </div>
                     <div class="nav-item">
                         <a href="#" class="nav-link">Categories</a>
-{{--                        <div class="mega-menu">--}}
-{{--                            <div class="mega-menu-grid">--}}
-{{--                                <div class="mega-menu-section">--}}
-{{--                                    <h4>By Style</h4>--}}
-{{--                                    @php--}}
-{{--                                        $categories = \App\Models\Category::active()->parent()->orderBy('sort_order')->take(8)->get();--}}
-{{--                                    @endphp--}}
-{{--                                    @foreach($categories as $category)--}}
-{{--                                        <a href="{{ route('categories.show', $category->slug) }}" class="mega-menu-item"--}}
-{{--                                           wire:navigate>{{ $category->name }}</a>--}}
-{{--                                    @endforeach--}}
-{{--                                </div>--}}
-{{--                                <div class="mega-menu-section">--}}
-{{--                                    <h4>By Occasion</h4>--}}
-{{--                                    <a href="#" class="mega-menu-item">Everyday Comfort</a>--}}
-{{--                                    <a href="#" class="mega-menu-item">Special Occasion</a>--}}
-{{--                                    <a href="#" class="mega-menu-item">Sports & Active</a>--}}
-{{--                                    <a href="#" class="mega-menu-item">Sleep & Lounge</a>--}}
-{{--                                </div>--}}
-{{--                                <div class="mega-menu-section">--}}
-{{--                                    <h4>Collections</h4>--}}
-{{--                                    <a href="#" class="mega-menu-item">Luxury Lace</a>--}}
-{{--                                    <a href="#" class="mega-menu-item">Seamless Collection</a>--}}
-{{--                                    <a href="#" class="mega-menu-item">Designer Series</a>--}}
-{{--                                    <a href="{{ route('categories.index') }}" class="mega-menu-item" wire:navigate>View--}}
-{{--                                        All Categories</a>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
                         @include('components.nav.mega-menu')
 
                     </div>
@@ -1172,34 +1097,6 @@
                            style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
                            wire:navigate>Blog</a>
                     </li>
-{{--                    @auth--}}
-{{--                        <li>--}}
-{{--                            <a href="{{ route('home') }}" class="menu-link-text"--}}
-{{--                               style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"--}}
-{{--                               wire:navigate>Dashboard</a>--}}
-{{--                        </li>--}}
-{{--                        <li>--}}
-{{--                            <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST">--}}
-{{--                                @csrf--}}
-{{--                                <a href="{{ route('logout') }}" class="menu-link-text"--}}
-{{--                                   style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"--}}
-{{--                                   wire:navigate--}}
-{{--                                   onclick="event.preventDefault(); this.closest('form').submit();">Log Out</a>--}}
-{{--                            </form>--}}
-{{--                        </li>--}}
-{{--                    @else--}}
-{{--                        <li>--}}
-{{--                            <a href="{{ route('login') }}" class="menu-link-text"--}}
-{{--                               style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"--}}
-{{--                               wire:navigate>Login</a>--}}
-{{--                        </li>--}}
-{{--                        <li>--}}
-{{--                            <a href="{{ route('register') }}" class="menu-link-text"--}}
-{{--                               style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"--}}
-{{--                               wire:navigate>Register</a>--}}
-{{--                        </li>--}}
-{{--                    @endauth--}}
-
                     @auth
                         <li>
                             <a href="{{ route('home') }}" class="menu-link-text"
@@ -1253,6 +1150,9 @@
     <main>
         {!! $slot !!}
     </main>
+
+    <!-- Global Cart Drawer -->
+    <livewire:client.cart.cart-drawer/>
 
     <!-- Ultra Modern Footer with Working Flux Icons -->
     @if (!isset($isAuthPage) || !$isAuthPage)
@@ -1389,22 +1289,22 @@
                             By subscribing, you agree to receive marketing emails. Unsubscribe anytime.
                         </p>
 
-{{--                        <div style="margin-top: 32px;">--}}
-{{--                            <h4 style="font-size: 16px; margin-bottom: 16px; color: rgba(255, 255, 255, 0.9);">Download--}}
-{{--                                Our App</h4>--}}
-{{--                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">--}}
-{{--                                <a href="#" style="display: inline-block;">--}}
-{{--                                    <img--}}
-{{--                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='40' viewBox='0 0 135 40'%3E%3Crect width='135' height='40' rx='5' fill='%23000'/%3E%3Ctext x='67.5' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EApp Store%3C/text%3E%3C/svg%3E"--}}
-{{--                                        alt="Download on the App Store" style="height: 40px;">--}}
-{{--                                </a>--}}
-{{--                                <a href="#" style="display: inline-block;">--}}
-{{--                                    <img--}}
-{{--                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='40' viewBox='0 0 135 40'%3E%3Crect width='135' height='40' rx='5' fill='%23000'/%3E%3Ctext x='67.5' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EGoogle Play%3C/text%3E%3C/svg%3E"--}}
-{{--                                        alt="Get it on Google Play" style="height: 40px;">--}}
-{{--                                </a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        {{--                        <div style="margin-top: 32px;">--}}
+                        {{--                            <h4 style="font-size: 16px; margin-bottom: 16px; color: rgba(255, 255, 255, 0.9);">Download--}}
+                        {{--                                Our App</h4>--}}
+                        {{--                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">--}}
+                        {{--                                <a href="#" style="display: inline-block;">--}}
+                        {{--                                    <img--}}
+                        {{--                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='40' viewBox='0 0 135 40'%3E%3Crect width='135' height='40' rx='5' fill='%23000'/%3E%3Ctext x='67.5' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EApp Store%3C/text%3E%3C/svg%3E"--}}
+                        {{--                                        alt="Download on the App Store" style="height: 40px;">--}}
+                        {{--                                </a>--}}
+                        {{--                                <a href="#" style="display: inline-block;">--}}
+                        {{--                                    <img--}}
+                        {{--                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='40' viewBox='0 0 135 40'%3E%3Crect width='135' height='40' rx='5' fill='%23000'/%3E%3Ctext x='67.5' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EGoogle Play%3C/text%3E%3C/svg%3E"--}}
+                        {{--                                        alt="Get it on Google Play" style="height: 40px;">--}}
+                        {{--                                </a>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                     </div>
                 </div>
 
@@ -1431,7 +1331,8 @@
                              style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition); position: relative;">
                             <!-- Custom Flutterwave Icon -->
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#FF6B35"/>
+                                <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z"
+                                      fill="#FF6B35"/>
                                 <circle cx="12" cy="12" r="3" fill="#1B365C"/>
                             </svg>
                         </div>
@@ -1448,7 +1349,8 @@
                         <div class="payment-method" title="Bank Transfer"
                              style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition);">
                             <!-- Better Bank Transfer Icon -->
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2">
                                 <path d="M3 21h18"/>
                                 <path d="M5 21V7l8-4v18"/>
                                 <path d="M19 21V11l-6-4"/>
@@ -1584,19 +1486,42 @@
         });
     });
 </script>
-    <!-- Global Notification Toast -->
-    <livewire:components.notification-toast />
+<!-- Global Notification Toast -->
+<livewire:components.notification-toast/>
 
 <!-- Shopping Cart Component -->
-<livewire:components.shopping-cart />
+<livewire:components.shopping-cart/>
 
 <!-- Product Compare Component -->
-<livewire:components.product-compare />
+<livewire:components.product-compare/>
 
 <!-- Quick View Modal (Global) -->
-<livewire:components.product-quick-view />
+<livewire:components.product-quick-view/>
 
 <!-- Compare Modal (Quick feedback) -->
-<livewire:components.compare-modal />
+<livewire:components.compare-modal/>
+
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        // Listener for opening a Bootstrap modal
+        Livewire.on('open-bs-modal', ({ id }) => {
+            $(id).modal('show');
+        });
+
+        // Listener for closing a Bootstrap modal
+        Livewire.on('close-bs-modal', ({ id }) => {
+            $(id).modal('hide');
+        });
+
+        // When the cart modal is hidden by any means (ESC, backdrop click, etc.),
+        // notify the Livewire component so it can update its state.
+        $('#shoppingCart').on('hidden.bs.modal', function () {
+            if (Livewire.getByName('client.cart.cart-drawer').length > 0) {
+                Livewire.dispatch('cart-drawer-was-closed');
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

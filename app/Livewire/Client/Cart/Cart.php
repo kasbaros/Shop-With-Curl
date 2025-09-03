@@ -119,7 +119,12 @@ class Cart extends Component
 
         session()->put('cart', $cart);
 
-        $this->dispatch('cart-updated');
+        // Calculate new cart count
+        $newCartCount = collect($cart)->sum('quantity');
+
+        // Dispatch the correct event name that CartIcon is listening for
+        $this->dispatch('cart:updated', ['count' => $newCartCount]);
+
         $this->dispatch('show-notification',
             type: 'success',
             message: 'Product added to cart!'

@@ -41,16 +41,29 @@
                                     Wishlist
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" wire:click.prevent="showSection('cart')"
-                                   class="my-account-nav-item {{ $activeSection === 'cart' ? 'active' : '' }}">
+{{--                            <li>--}}
+{{--                                <a href="#" wire:click.prevent="showSection('cart')"--}}
+{{--                                   class="my-account-nav-item {{ $activeSection === 'cart' ? 'active' : '' }}">--}}
+{{--                                    Cart--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+                            <li>`<li>
+                                <a href="#"
+                                   class="my-account-nav-item"
+                                   onclick="window.dispatchEvent(new CustomEvent('toggle-cart-drawer'))">
+                                    Cart
+                                </a>
+                            </li>
+                                <a href="#"
+                                   class="my-account-nav-item"
+                                   onclick="window.dispatchEvent(new CustomEvent('toggle-cart-drawer'))">
                                     Cart
                                 </a>
                             </li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="my-account-nav-item"
+                                    <button type="submit" class="my-account-nav-item btn btn-outline-primary text-center"
                                             style="background:none;border:none;padding:0;">Logout
                                     </button>
                                 </form>
@@ -71,14 +84,15 @@
                             <livewire:client.profile.account-details />
                         @elseif ($activeSection === 'wishlist')
                             <livewire:user.wish-list />
-                        @elseif ($activeSection === 'cart')
-                            @php
-                                $cart = app(\App\Http\Controllers\Client\CartController::class)->index()->getData()['cart'] ?? [];
-                            @endphp
-                            {{-- Reuse the full cart page via an iframe-like include for minimal duplication --}}
-                            <livewire:client.cart.cart-drawer />
-                            @include('livewire.client.profile.partials.cart-section', ['cart' => $cart, 'subtotal' => collect($cart)->sum('total')])
                         @endif
+{{--                        @elseif ($activeSection === 'cart')--}}
+{{--                            @php--}}
+{{--                                $cart = app(\App\Http\Controllers\Client\CartController::class)->index()->getData()['cart'] ?? [];--}}
+{{--                            @endphp--}}
+{{--                            --}}{{-- Reuse the full cart page via an iframe-like include for minimal duplication --}}
+{{--                            <livewire:client.cart.cart-drawer />--}}
+{{--                            @include('livewire.client.profile.partials.cart-section', ['cart' => $cart, 'subtotal' => collect($cart)->sum('total')])--}}
+{{--                        @endif--}}
                     </div>
                 </div>
             </div>
