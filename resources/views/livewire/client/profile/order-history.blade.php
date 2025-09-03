@@ -75,7 +75,7 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-2 flex-wrap">
-                                    <a href="{{ route('user.order.show', $order) }}"
+                                    <a href="{{ route('orders.show', $order) }}"
                                        class="tf-btn btn-fill animate-hover-btn rounded-0 justify-content-center btn-sm">
                                         <span>View</span>
                                     </a>

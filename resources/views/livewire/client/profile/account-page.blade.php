@@ -42,32 +42,13 @@
                                 </a>
                             </li>
 {{--                            <li>--}}
-{{--                                <a href="#" wire:click.prevent="showSection('cart')"--}}
-{{--                                   class="my-account-nav-item {{ $activeSection === 'cart' ? 'active' : '' }}">--}}
-{{--                                    Cart--}}
-{{--                                </a>--}}
+{{--                                <form method="POST" action="{{ route('logout') }}">--}}
+{{--                                    @csrf--}}
+{{--                                    <button type="submit" class="my-account-nav-item btn btn-outline-primary text-center"--}}
+{{--                                            style="background:none;border:none;padding:0;">Logout--}}
+{{--                                    </button>--}}
+{{--                                </form>--}}
 {{--                            </li>--}}
-                            <li>`<li>
-                                <a href="#"
-                                   class="my-account-nav-item"
-                                   onclick="window.dispatchEvent(new CustomEvent('toggle-cart-drawer'))">
-                                    Cart
-                                </a>
-                            </li>
-                                <a href="#"
-                                   class="my-account-nav-item"
-                                   onclick="window.dispatchEvent(new CustomEvent('toggle-cart-drawer'))">
-                                    Cart
-                                </a>
-                            </li>
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="my-account-nav-item btn btn-outline-primary text-center"
-                                            style="background:none;border:none;padding:0;">Logout
-                                    </button>
-                                </form>
-                            </li>
                         </ul>
                     </div>
                 </div>
