@@ -170,6 +170,15 @@
                 'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
                 'images' => 'nullable|array',
                 'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+                // Variant validation
+                'has_variants' => 'boolean',
+                'variants' => 'nullable|array',
+                'variants.*.size' => 'required_with:variants|string|max:50',
+                'variants.*.color' => 'required_with:variants|string|max:50',
+                'variants.*.sku_suffix' => 'required_with:variants|string|max:50',
+                'variants.*.price' => 'required_with:variants|numeric|min:0',
+                'variants.*.stock_quantity' => 'required_with:variants|integer|min:0',
+                'variants.*.is_active' => 'boolean',
             ]);
 
             // Generate slug if not provided
@@ -205,19 +214,57 @@
 
             // Persist product with gallery array
             $validated['gallery'] = $gallery;
-            $product = Product::create($validated);
+
+            // Remove variant-specific fields from product data
+            $productData = collect($validated)->except(['has_variants', 'variants'])->toArray();
+            $product = Product::create($productData);
 
             // Attach categories
             $product->categories()->attach($categories);
 
+            // Create variants if enabled
+            if ($request->has_variants && $request->variants) {
+                foreach ($request->variants as $variantData) {
+                    if (isset($variantData['is_active'])) {
+                        $variantData['is_active'] = true;
+                    } else {
+                        $variantData['is_active'] = false;
+                    }
+
+                    // Generate full SKU for variant
+                    $variantSku = $product->sku . '-' . $variantData['sku_suffix'];
+
+                    // Check if variant SKU already exists
+                    $counter = 1;
+                    $originalSku = $variantSku;
+                    while (\App\Models\ProductVariant::where('sku', $variantSku)->exists()) {
+                        $variantSku = $originalSku . '-' . $counter++;
+                    }
+
+                    \App\Models\ProductVariant::create([
+                        'product_id' => $product->id,
+                        'size' => $variantData['size'],
+                        'color' => $variantData['color'],
+                        'sku' => $variantSku,
+                        'price' => $variantData['price'],
+                        'stock_quantity' => $variantData['stock_quantity'],
+                        'is_active' => $variantData['is_active'],
+                    ]);
+                }
+
+                $successMessage = 'Product created successfully with ' . count($request->variants) . ' variants!';
+            } else {
+                $successMessage = 'Product created successfully!';
+            }
+
             return redirect()
                 ->route('admin.products.show', $product)
-                ->with('success', 'Product created successfully!');
+                ->with('success', $successMessage);
         }
 
         public function show(Product $product)
         {
-            $product->load(['categories', 'reviews.user']);
+            $product->load(['categories', 'reviews.user', 'variants']);
 
             return view('admin.products.show', array_merge(
                 $this->getAdminViewData(),

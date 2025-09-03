@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 
@@ -14,30 +15,59 @@ class CartService
     {
         $product = Product::find($productId);
 
-        if (!$product || !$product->is_active || $product->status !== 'published') {
+        if (!$product || !$product->is_active) {
             return false;
         }
 
-        // Check stock
-        if ($product->stock_quantity !== null && $product->stock_quantity < $quantity) {
-            return false;
+        // Handle variant-based products
+        $variant = null;
+        $variantId = $variants['variant_id'] ?? null;
+
+        if ($variantId) {
+            $variant = ProductVariant::find($variantId);
+            if (!$variant || !$variant->is_active || $variant->product_id !== $productId) {
+                return false;
+            }
+
+            // Check variant stock
+            if ($variant->stock_quantity < $quantity) {
+                return false;
+            }
+        } else {
+            // Check product stock for non-variant products
+            if ($product->manage_stock && $product->stock_quantity < $quantity) {
+                return false;
+            }
         }
 
         $cart = $this->getCart();
         $itemKey = $this->generateItemKey($productId, $variants);
 
+        // Determine price - use variant price if available, otherwise product price
+        $price = $variant ? $variant->effective_price : ($product->sale_price ?: $product->price);
+        $originalPrice = $variant ? $variant->price : $product->price;
+
         if (isset($cart[$itemKey])) {
-            // Update existing item
-            $cart[$itemKey]['quantity'] += $quantity;
+            // Update existing item - check stock for new total quantity
+            $newQuantity = $cart[$itemKey]['quantity'] + $quantity;
+
+            if ($variant && $variant->stock_quantity < $newQuantity) {
+                return false;
+            } elseif (!$variant && $product->manage_stock && $product->stock_quantity < $newQuantity) {
+                return false;
+            }
+
+            $cart[$itemKey]['quantity'] = $newQuantity;
         } else {
             // Add new item
             $cart[$itemKey] = [
                 'product_id' => $productId,
+                'variant_id' => $variantId,
                 'product_name' => $product->name,
                 'product_slug' => $product->slug,
                 'product_image' => $this->getProductImage($product),
-                'price' => $product->sale_price ?: $product->price,
-                'original_price' => $product->price,
+                'price' => $price,
+                'original_price' => $originalPrice,
                 'quantity' => $quantity,
                 'variants' => $variants,
                 'added_at' => now()->toISOString(),
@@ -60,10 +90,24 @@ class CartService
             return $this->remove($itemKey);
         }
 
-        // Verify stock
-        $product = Product::find($cart[$itemKey]['product_id']);
-        if ($product && $product->stock_quantity !== null && $product->stock_quantity < $quantity) {
+        $cartItem = $cart[$itemKey];
+        $product = Product::find($cartItem['product_id']);
+
+        if (!$product) {
             return false;
+        }
+
+        // Verify stock based on whether it's a variant or regular product
+        if (isset($cartItem['variant_id']) && $cartItem['variant_id']) {
+            $variant = ProductVariant::find($cartItem['variant_id']);
+            if (!$variant || $variant->stock_quantity < $quantity) {
+                return false;
+            }
+        } else {
+            // Check product stock for non-variant products
+            if ($product->manage_stock && $product->stock_quantity < $quantity) {
+                return false;
+            }
         }
 
         $cart[$itemKey]['quantity'] = $quantity;

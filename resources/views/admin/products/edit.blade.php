@@ -72,27 +72,83 @@
                     <h5 class="mb-3">Product Images</h5>
 
                     <!-- Existing Images -->
-                    @if($product->getMedia('images')->count() > 0)
+                    @php
+                        $existingImages = $product->images ?? [];
+                        $featuredImageUrl = $product->featured_image ? $product->getStorageImageUrl($product->featured_image) : null;
+                        $hasExistingImages = count($existingImages) > 0 || $featuredImageUrl;
+                    @endphp
+
+                    @if($hasExistingImages)
                         <div class="mb-4">
                             <h6>Current Images</h6>
+                            <div class="row g-3">
+                                @if($featuredImageUrl && !in_array($featuredImageUrl, array_column($existingImages, 'original')))
+                                    <div class="col-md-3">
+                                        <div class="position-relative">
+                                            <img src="{{ $featuredImageUrl }}"
+                                                 class="img-fluid rounded"
+                                                 alt="{{ $product->name }}"
+                                                 style="height: 120px; width: 100%; object-fit: cover;">
+                                            <div class="badge bg-primary position-absolute top-0 start-0 m-1">Featured</div>
+                                        </div>
+                                        <div class="form-check mt-2">
+                                            <input class="form-check-input" type="checkbox"
+                                                   name="remove_featured_image" value="1"
+                                                   id="remove_featured">
+                                            <label class="form-check-label text-danger" for="remove_featured">
+                                                <small>Remove featured image</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @foreach($existingImages as $index => $image)
+                                    <div class="col-md-3">
+                                        <div class="position-relative">
+                                            <img src="{{ $image['thumb'] ?? $image['original'] }}"
+                                                 class="img-fluid rounded"
+                                                 alt="{{ $product->name }}"
+                                                 style="height: 120px; width: 100%; object-fit: cover;">
+                                            @if($index === 0 && !$featuredImageUrl)
+                                                <div class="badge bg-primary position-absolute top-0 start-0 m-1">Main</div>
+                                            @endif
+                                            <div class="badge bg-info position-absolute top-0 end-0 m-1">{{ $index + 1 }}</div>
+                                        </div>
+                                        <div class="form-check mt-2">
+                                            <input class="form-check-input" type="checkbox"
+                                                   name="remove_gallery_images[]" value="{{ $index }}"
+                                                   id="remove_gallery_{{ $index }}">
+                                            <label class="form-check-label text-danger" for="remove_gallery_{{ $index }}">
+                                                <small>Remove this image</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Also check Spatie Media Library images as fallback -->
+                    @if($product->getMedia('images')->count() > 0 && !$hasExistingImages)
+                        <div class="mb-4">
+                            <h6>Current Images (Legacy)</h6>
                             <div class="row g-3">
                                 @foreach($product->getMedia('images') as $media)
                                     <div class="col-md-3">
                                         <div class="position-relative">
-                                            <img
-                                                src="{{ method_exists($product, 'getMediaStorageUrl') ? $product->getMediaStorageUrl('images', 'large', $loop->index) : $media->getUrl() }}"
-                                                class="img-fluid rounded"
-                                                alt="{{ $product->name }}"
-                                                style="height: 120px; width: 100%; object-fit: cover;">
+                                            <img src="{{ $media->getUrl() }}"
+                                                 class="img-fluid rounded"
+                                                 alt="{{ $product->name }}"
+                                                 style="height: 120px; width: 100%; object-fit: cover;">
                                             @if($loop->first)
                                                 <div class="badge bg-primary position-absolute top-0 start-0 m-1">Main</div>
                                             @endif
                                         </div>
                                         <div class="form-check mt-2">
                                             <input class="form-check-input" type="checkbox"
-                                                   name="remove_images[]" value="{{ $media->id }}"
-                                                   id="remove_check_{{ $media->id }}">
-                                            <label class="form-check-label text-danger" for="remove_check_{{ $media->id }}">
+                                                   name="remove_media_images[]" value="{{ $media->id }}"
+                                                   id="remove_media_{{ $media->id }}">
+                                            <label class="form-check-label text-danger" for="remove_media_{{ $media->id }}">
                                                 <small>Remove this image</small>
                                             </label>
                                         </div>

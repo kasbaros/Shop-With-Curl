@@ -109,8 +109,32 @@
                 </div>
                 <div class="wrap">
                     <div class="tf-product-info-item">
-                        <div class="image">
-                            <img src="{{ $this->imageUrl }}" alt="{{ $product->name }}">
+                        <div class="image" style="position: relative;">
+                            @if($product->images && count($product->images) > 1)
+                                <div class="image-gallery" style="position: relative; overflow: hidden;">
+                                    <div class="image-slides" style="display: flex; transition: transform 0.3s ease;">
+                                        @foreach($product->images as $index => $image)
+                                            <img src="{{ $image['thumb'] ?? $image['original'] }}"
+                                                 alt="{{ $product->name }}"
+                                                 style="flex-shrink: 0; width: 100%; {{ $index > 0 ? 'display: none;' : '' }}"
+                                                 data-slide="{{ $index }}">
+                                        @endforeach
+                                    </div>
+                                    @if(count($product->images) > 1)
+                                        <div class="image-nav" style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px;">
+                                            @foreach($product->images as $index => $image)
+                                                <button type="button"
+                                                        class="image-dot"
+                                                        data-slide="{{ $index }}"
+                                                        style="width: 8px; height: 8px; border: none; border-radius: 50%; background: {{ $index === 0 ? '#000' : 'rgba(0,0,0,0.3)' }}; cursor: pointer;"
+                                                        onclick="showSlide({{ $index }})"></button>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                            @else
+                                <img src="{{ $this->imageUrl }}" alt="{{ $product->name }}">
+                            @endif
                         </div>
                         <div class="content">
                             <a href="{{ route('products.show', $product->slug) }}">{{ $product->name }}</a>
@@ -119,17 +143,20 @@
                             </div>
                         </div>
                     </div>
+                    @if($product->variants()->exists())
                     <div class="tf-product-info-variant-picker mb_15">
+                        <!-- Color Selection -->
+                        @if($this->availableColors->isNotEmpty())
                         <div class="variant-picker-item">
                             <div class="variant-picker-label">
-                                Color: <span class="fw-6 variant-picker-label-value" x-text="color"></span>
+                                Color: <span class="fw-6 variant-picker-label-value">{{ $selectedColor ?? 'Please select' }}</span>
                             </div>
                             <div class="variant-picker-values">
-                                @foreach (['Orange', 'Black', 'White'] as $color)
-                                    <input id="values-{{ strtolower($color) }}" type="radio" name="color"
-                                           value="{{ $color }}" wire:model="selectedColor" x-model="color"
-                                           @if($selectedColor === $color || (empty($selectedColor) && $color === 'Orange')) checked @endif>
-                                    <label class="hover-tooltip radius-60" for="values-{{ strtolower($color) }}"
+                                @foreach ($this->availableColors as $color)
+                                    <input id="values-{{ strtolower(str_replace(' ', '-', $color)) }}" type="radio" name="color"
+                                           value="{{ $color }}" wire:model.live="selectedColor"
+                                           @if($selectedColor === $color) checked @endif>
+                                    <label class="hover-tooltip radius-60" for="values-{{ strtolower(str_replace(' ', '-', $color)) }}"
                                            data-value="{{ $color }}">
                                         <span class="btn-checkbox bg-color-{{ strtolower($color) }}"></span>
                                         <span class="tooltip">{{ $color }}</span>
@@ -137,23 +164,59 @@
                                 @endforeach
                             </div>
                         </div>
+                        @endif
+
+                        <!-- Size Selection -->
+                        @if($this->availableSizes->isNotEmpty())
                         <div class="variant-picker-item">
                             <div class="variant-picker-label">
-                                Size: <span class="fw-6 variant-picker-label-value" x-text="size"></span>
+                                Size: <span class="fw-6 variant-picker-label-value">{{ $selectedSize ?? 'Please select' }}</span>
                             </div>
                             <div class="variant-picker-values">
-                                @foreach (['S', 'M', 'L', 'XL'] as $size)
-                                    <input type="radio" name="size" id="values-{{ strtolower($size) }}"
-                                           value="{{ $size }}" wire:model="selectedSize" x-model="size"
-                                           @if($selectedSize === $size || (empty($selectedSize) && $size === 'S')) checked @endif>
-                                    <label class="style-text" for="values-{{ strtolower($size) }}"
+                                @foreach ($this->availableSizes as $size)
+                                    <input type="radio" name="size" id="size-{{ strtolower(str_replace(' ', '-', $size)) }}"
+                                           value="{{ $size }}" wire:model.live="selectedSize"
+                                           @if($selectedSize === $size) checked @endif>
+                                    <label class="style-text" for="size-{{ strtolower(str_replace(' ', '-', $size)) }}"
                                            data-value="{{ $size }}">
                                         <p>{{ $size }}</p>
                                     </label>
                                 @endforeach
                             </div>
                         </div>
+                        @endif
+
+                        <!-- Material Selection -->
+                        @if($this->availableMaterials->isNotEmpty())
+                        <div class="variant-picker-item">
+                            <div class="variant-picker-label">
+                                Material: <span class="fw-6 variant-picker-label-value">{{ $selectedMaterial ?? 'Please select' }}</span>
+                            </div>
+                            <div class="variant-picker-values">
+                                @foreach ($this->availableMaterials as $material)
+                                    <input type="radio" name="material" id="material-{{ strtolower(str_replace(' ', '-', $material)) }}"
+                                           value="{{ $material }}" wire:model.live="selectedMaterial"
+                                           @if($selectedMaterial === $material) checked @endif>
+                                    <label class="style-text" for="material-{{ strtolower(str_replace(' ', '-', $material)) }}"
+                                           data-value="{{ $material }}">
+                                        <p>{{ $material }}</p>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+
+                        <!-- Variant Info -->
+                        @if($this->currentVariant)
+                        <div class="bg-light p-3 rounded mt-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">Selected: {{ $this->currentVariant->display_name }}</small>
+                                <small class="fw-bold">Stock: {{ $this->currentVariant->stock_quantity }}</small>
+                            </div>
+                        </div>
+                        @endif
                     </div>
+                    @endif
                     <div class="tf-product-info-quantity mb_15">
                         <div class="quantity-title fw-6">Quantity</div>
                         <div class="wg-quantity">
@@ -195,5 +258,49 @@
         </div>
     </div>
 @endif
+
+<script>
+function showSlide(slideIndex) {
+    const slides = document.querySelectorAll('[data-slide]');
+    const dots = document.querySelectorAll('.image-dot');
+
+    // Hide all slides and show selected one
+    slides.forEach((slide, index) => {
+        if (slide.tagName === 'IMG') {
+            slide.style.display = index === slideIndex ? 'block' : 'none';
+        }
+    });
+
+    // Update dots
+    dots.forEach((dot, index) => {
+        dot.style.background = index === slideIndex ? '#000' : 'rgba(0,0,0,0.3)';
+    });
+}
+
+// Auto-rotate images every 3 seconds if multiple images exist
+document.addEventListener('DOMContentLoaded', function() {
+    let currentSlide = 0;
+    const autoRotateImages = () => {
+        const slides = document.querySelectorAll('[data-slide]');
+        const imageSlides = Array.from(slides).filter(slide => slide.tagName === 'IMG');
+
+        if (imageSlides.length > 1) {
+            currentSlide = (currentSlide + 1) % imageSlides.length;
+            showSlide(currentSlide);
+        }
+    };
+
+    // Start auto-rotation if modal is visible and has multiple images
+    setInterval(() => {
+        if (document.getElementById('quick_add') && document.getElementById('quick_add').style.display !== 'none') {
+            const imageSlides = document.querySelectorAll('[data-slide]');
+            const imgSlides = Array.from(imageSlides).filter(slide => slide.tagName === 'IMG');
+            if (imgSlides.length > 1) {
+                autoRotateImages();
+            }
+        }
+    }, 3000);
+});
+</script>
 
 </div>

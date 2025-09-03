@@ -180,41 +180,85 @@
                     </div>
                 </div>
 
-                <!-- Inventory -->
+                <!-- Inventory & Variants -->
                 <div class="stat-card p-4 mb-4">
-                    <h5 class="mb-3">Inventory</h5>
+                    <h5 class="mb-3">Inventory & Variants</h5>
 
                     <div class="mb-3">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="manage_stock"
-                                   name="manage_stock" value="1" {{ old('manage_stock') ? 'checked' : '' }}>
-                            <label class="form-check-label" for="manage_stock">
-                                Manage Stock
+                            <input class="form-check-input" type="checkbox" id="has_variants"
+                                   name="has_variants" value="1" {{ old('has_variants') ? 'checked' : '' }}>
+                            <label class="form-check-label" for="has_variants">
+                                Product has variants (sizes, colors)
                             </label>
                         </div>
-                        <div class="form-text">Enable stock quantity tracking</div>
+                        <div class="form-text">Enable if product comes in different sizes, colors, etc.</div>
                     </div>
 
-                    <div id="stockFields" class="stock-fields" style="{{ old('manage_stock') ? '' : 'display: none;' }}">
+                    <div id="simpleInventoryFields" class="simple-inventory" style="{{ old('has_variants') ? 'display: none;' : '' }}">
                         <div class="mb-3">
-                            <label for="stock_quantity" class="form-label">Stock Quantity</label>
-                            <input type="number" class="form-control @error('stock_quantity') is-invalid @enderror"
-                                   id="stock_quantity" name="stock_quantity" value="{{ old('stock_quantity', 0) }}"
-                                   min="0">
-                            @error('stock_quantity')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="manage_stock"
+                                       name="manage_stock" value="1" {{ old('manage_stock') ? 'checked' : '' }}>
+                                <label class="form-check-label" for="manage_stock">
+                                    Manage Stock
+                                </label>
+                            </div>
+                            <div class="form-text">Enable stock quantity tracking</div>
+                        </div>
+
+                        <div id="stockFields" class="stock-fields" style="{{ old('manage_stock') ? '' : 'display: none;' }}">
+                            <div class="mb-3">
+                                <label for="stock_quantity" class="form-label">Stock Quantity</label>
+                                <input type="number" class="form-control @error('stock_quantity') is-invalid @enderror"
+                                       id="stock_quantity" name="stock_quantity" value="{{ old('stock_quantity', 0) }}"
+                                       min="0">
+                                @error('stock_quantity')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="min_stock_level" class="form-label">Low Stock Alert Level</label>
+                                <input type="number" class="form-control @error('min_stock_level') is-invalid @enderror"
+                                       id="min_stock_level" name="min_stock_level" value="{{ old('min_stock_level', 5) }}"
+                                       min="0">
+                                <div class="form-text">Alert when stock falls below this level</div>
+                                @error('min_stock_level')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Variants Section -->
+                    <div id="variantsSection" class="variants-section" style="{{ old('has_variants') ? '' : 'display: none;' }}">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="available_sizes" class="form-label">Available Sizes</label>
+                                <input type="text" class="form-control" id="available_sizes" name="available_sizes"
+                                       value="{{ old('available_sizes', 'XS,S,M,L,XL,XXL') }}"
+                                       placeholder="XS,S,M,L,XL,XXL">
+                                <div class="form-text">Comma-separated list of sizes</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="available_colors" class="form-label">Available Colors</label>
+                                <input type="text" class="form-control" id="available_colors" name="available_colors"
+                                       value="{{ old('available_colors', 'Black,White,Blue,Red,Green') }}"
+                                       placeholder="Black,White,Blue,Red,Green">
+                                <div class="form-text">Comma-separated list of colors</div>
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="min_stock_level" class="form-label">Low Stock Alert Level</label>
-                            <input type="number" class="form-control @error('min_stock_level') is-invalid @enderror"
-                                   id="min_stock_level" name="min_stock_level" value="{{ old('min_stock_level', 5) }}"
-                                   min="0">
-                            <div class="form-text">Alert when stock falls below this level</div>
-                            @error('min_stock_level')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <button type="button" class="btn btn-primary" id="generateVariants">
+                                <i class="bi bi-plus-circle me-1"></i> Generate Variant Combinations
+                            </button>
+                            <div class="form-text">Click to generate all size/color combinations</div>
+                        </div>
+
+                        <div id="variantsContainer" class="variants-container">
+                            <!-- Variants will be generated here -->
                         </div>
                     </div>
                 </div>
@@ -361,6 +405,97 @@
                 } else {
                     this.setCustomValidity('');
                 }
+            });
+
+            // Variant management
+            const hasVariantsCheckbox = document.getElementById('has_variants');
+            const simpleInventoryFields = document.getElementById('simpleInventoryFields');
+            const variantsSection = document.getElementById('variantsSection');
+            const generateVariantsBtn = document.getElementById('generateVariants');
+            const variantsContainer = document.getElementById('variantsContainer');
+
+            // Toggle between simple inventory and variants
+            hasVariantsCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    simpleInventoryFields.style.display = 'none';
+                    variantsSection.style.display = 'block';
+                } else {
+                    simpleInventoryFields.style.display = 'block';
+                    variantsSection.style.display = 'none';
+                    variantsContainer.innerHTML = '';
+                }
+            });
+
+            // Generate variant combinations
+            generateVariantsBtn.addEventListener('click', function() {
+                const sizesInput = document.getElementById('available_sizes').value.trim();
+                const colorsInput = document.getElementById('available_colors').value.trim();
+                const basePrice = parseFloat(priceInput.value) || 0;
+
+                if (!sizesInput || !colorsInput) {
+                    alert('Please enter both sizes and colors');
+                    return;
+                }
+
+                const sizes = sizesInput.split(',').map(s => s.trim()).filter(s => s);
+                const colors = colorsInput.split(',').map(c => c.trim()).filter(c => c);
+
+                if (sizes.length === 0 || colors.length === 0) {
+                    alert('Please enter valid sizes and colors');
+                    return;
+                }
+
+                let variantsHtml = '<h6 class="mb-3">Variant Combinations</h6>';
+                variantsHtml += '<div class="table-responsive">';
+                variantsHtml += '<table class="table table-sm">';
+                variantsHtml += '<thead><tr><th>Size</th><th>Color</th><th>SKU Suffix</th><th>Price (UGX)</th><th>Stock Quantity</th><th>Active</th></tr></thead>';
+                variantsHtml += '<tbody>';
+
+                let variantIndex = 0;
+                sizes.forEach(size => {
+                    colors.forEach(color => {
+                        const skuSuffix = `${size}-${color.toUpperCase()}`;
+                        variantsHtml += `
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="variants[${variantIndex}][size]" value="${size}">
+                                    <span class="badge bg-secondary">${size}</span>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="variants[${variantIndex}][color]" value="${color}">
+                                    <span class="badge bg-info">${color}</span>
+                                </td>
+                                <td>
+                                    <input type="text" name="variants[${variantIndex}][sku_suffix]"
+                                           value="${skuSuffix}" class="form-control form-control-sm"
+                                           style="width: 120px;" readonly>
+                                </td>
+                                <td>
+                                    <input type="number" name="variants[${variantIndex}][price]"
+                                           value="${basePrice}" class="form-control form-control-sm"
+                                           step="0.01" min="0" style="width: 100px;">
+                                </td>
+                                <td>
+                                    <input type="number" name="variants[${variantIndex}][stock_quantity]"
+                                           value="0" class="form-control form-control-sm"
+                                           min="0" style="width: 80px;">
+                                </td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input type="checkbox" name="variants[${variantIndex}][is_active]"
+                                               value="1" checked class="form-check-input">
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                        variantIndex++;
+                    });
+                });
+
+                variantsHtml += '</tbody></table></div>';
+                variantsHtml += '<div class="mt-3"><small class="text-muted">Tip: Adjust prices and stock quantities for each variant as needed. SKU will be automatically generated as: BASE_SKU-SIZE-COLOR</small></div>';
+
+                variantsContainer.innerHTML = variantsHtml;
             });
         });
     </script>

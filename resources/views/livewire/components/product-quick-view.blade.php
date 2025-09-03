@@ -153,26 +153,28 @@
                 </div>
                 <div class="wrap">
                     <div class="tf-product-media-wrap">
-                        <div dir="ltr" class="swiper tf-single-slide swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden">
-                            <div class="swiper-wrapper" style="transition-duration: 0ms; transform: translate3d(0px, 0px, 0px);">
-                                <div class="swiper-slide swiper-slide-active" style="width: 565px;" role="group" aria-label="1 / 1">
-                                    <div class="item">
-                                        <img src="{{ $this->imageUrl }}" alt="{{ $product->name }}">
-                                    </div>
-                                </div>
-                                @if($product->additional_images)
-                                    @foreach($product->additional_images as $index => $image)
-                                        <div class="swiper-slide" style="width: 565px;" role="group" aria-label="{{ $index + 2 }} / {{ count($product->additional_images) + 1 }}">
+                        <div dir="ltr" class="swiper tf-single-slide" id="productQuickViewSwiper">
+                            <div class="swiper-wrapper">
+                                @if($product->images && count($product->images) > 0)
+                                    @foreach($product->images as $index => $image)
+                                        <div class="swiper-slide" role="group" aria-label="{{ $index + 1 }} / {{ count($product->images) }}">
                                             <div class="item">
-                                                <img src="{{ $image }}" alt="{{ $product->name }}">
+                                                <img src="{{ $image['large'] ?? $image['original'] }}" alt="{{ $product->name }}">
                                             </div>
                                         </div>
                                     @endforeach
+                                @else
+                                    <div class="swiper-slide" role="group" aria-label="1 / 1">
+                                        <div class="item">
+                                            <img src="{{ $this->imageUrl }}" alt="{{ $product->name }}">
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
-                            <div class="swiper-button-next button-style-arrow single-slide-prev" tabindex="0" role="button" aria-label="Next slide"></div>
-                            <div class="swiper-button-prev button-style-arrow single-slide-next" tabindex="-1" role="button" aria-label="Previous slide"></div>
-                            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                            @if($product->images && count($product->images) > 1)
+                                <div class="swiper-button-next button-style-arrow single-slide-next" tabindex="0" role="button" aria-label="Next slide"></div>
+                                <div class="swiper-button-prev button-style-arrow single-slide-prev" tabindex="-1" role="button" aria-label="Previous slide"></div>
+                            @endif
                         </div>
                     </div>
                     <div class="tf-product-info-wrap position-relative">
@@ -210,18 +212,20 @@
                                 </div>
                             @endif
 
+                            @if($product->variants()->exists())
                             <div class="tf-product-info-variant-picker">
-                                @if($product->colors && count($product->colors) > 0)
+                                <!-- Color Selection -->
+                                @if($this->availableColors->isNotEmpty())
                                     <div class="variant-picker-item">
                                         <div class="variant-picker-label">
-                                            Color: <span class="fw-6 variant-picker-label-value">{{ $selectedColor ?? $product->colors[0] }}</span>
+                                            Color: <span class="fw-6 variant-picker-label-value">{{ $selectedColor ?? 'Please select' }}</span>
                                         </div>
                                         <div class="variant-picker-values">
-                                            @foreach($product->colors as $color)
-                                                <input id="values-{{ strtolower($color) }}-1" type="radio" name="color-1"
-                                                       value="{{ $color }}" wire:model="selectedColor"
-                                                       @if($selectedColor === $color || (empty($selectedColor) && $loop->first)) checked @endif>
-                                                <label class="hover-tooltip radius-60" for="values-{{ strtolower($color) }}-1" data-value="{{ $color }}">
+                                            @foreach($this->availableColors as $color)
+                                                <input id="values-{{ strtolower(str_replace(' ', '-', $color)) }}-qv" type="radio" name="color-qv"
+                                                       value="{{ $color }}" wire:model.live="selectedColor"
+                                                       @if($selectedColor === $color) checked @endif>
+                                                <label class="hover-tooltip radius-60" for="values-{{ strtolower(str_replace(' ', '-', $color)) }}-qv" data-value="{{ $color }}">
                                                     <span class="btn-checkbox bg-color-{{ strtolower($color) }}"></span>
                                                     <span class="tooltip">{{ $color }}</span>
                                                 </label>
@@ -230,27 +234,58 @@
                                     </div>
                                 @endif
 
-                                @if($product->sizes && count($product->sizes) > 0)
+                                <!-- Size Selection -->
+                                @if($this->availableSizes->isNotEmpty())
                                     <div class="variant-picker-item">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="variant-picker-label">
-                                                Size: <span class="fw-6 variant-picker-label-value">{{ $selectedSize ?? $product->sizes[0] }}</span>
+                                                Size: <span class="fw-6 variant-picker-label-value">{{ $selectedSize ?? 'Please select' }}</span>
                                             </div>
                                             <div class="find-size btn-choose-size fw-6">Find your size</div>
                                         </div>
                                         <div class="variant-picker-values">
-                                            @foreach($product->sizes as $size)
-                                                <input type="radio" name="size-1" id="values-{{ strtolower($size) }}-1"
-                                                       value="{{ $size }}" wire:model="selectedSize"
-                                                       @if($selectedSize === $size || (empty($selectedSize) && $loop->first)) checked @endif>
-                                                <label class="style-text" for="values-{{ strtolower($size) }}-1" data-value="{{ $size }}">
+                                            @foreach($this->availableSizes as $size)
+                                                <input type="radio" name="size-qv" id="size-{{ strtolower(str_replace(' ', '-', $size)) }}-qv"
+                                                       value="{{ $size }}" wire:model.live="selectedSize"
+                                                       @if($selectedSize === $size) checked @endif>
+                                                <label class="style-text" for="size-{{ strtolower(str_replace(' ', '-', $size)) }}-qv" data-value="{{ $size }}">
                                                     <p>{{ $size }}</p>
                                                 </label>
                                             @endforeach
                                         </div>
                                     </div>
                                 @endif
+
+                                <!-- Material Selection -->
+                                @if($this->availableMaterials->isNotEmpty())
+                                    <div class="variant-picker-item">
+                                        <div class="variant-picker-label">
+                                            Material: <span class="fw-6 variant-picker-label-value">{{ $selectedMaterial ?? 'Please select' }}</span>
+                                        </div>
+                                        <div class="variant-picker-values">
+                                            @foreach($this->availableMaterials as $material)
+                                                <input type="radio" name="material-qv" id="material-{{ strtolower(str_replace(' ', '-', $material)) }}-qv"
+                                                       value="{{ $material }}" wire:model.live="selectedMaterial"
+                                                       @if($selectedMaterial === $material) checked @endif>
+                                                <label class="style-text" for="material-{{ strtolower(str_replace(' ', '-', $material)) }}-qv" data-value="{{ $material }}">
+                                                    <p>{{ $material }}</p>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <!-- Variant Info -->
+                                @if($this->currentVariant)
+                                <div class="bg-light p-3 rounded mt-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">Selected: {{ $this->currentVariant->display_name }}</small>
+                                        <small class="fw-bold">Stock: {{ $this->currentVariant->stock_quantity }}</small>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
+                            @endif
 
                             <div class="tf-product-info-quantity">
                                 <div class="quantity-title fw-6">Quantity</div>
@@ -301,5 +336,34 @@
         </div>
     </div>
 @endif
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Swiper when modal is shown
+    document.addEventListener('livewire:initialized', function() {
+        Livewire.on('product:quickView', function() {
+            setTimeout(function() {
+                const swiperEl = document.getElementById('productQuickViewSwiper');
+                if (swiperEl && !swiperEl.swiper) {
+                    new Swiper('#productQuickViewSwiper', {
+                        loop: true,
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                        },
+                        autoplay: false,
+                        speed: 300,
+                        effect: 'slide',
+                    });
+                }
+            }, 100);
+        });
+    });
+});
+</script>
 
 </div>
