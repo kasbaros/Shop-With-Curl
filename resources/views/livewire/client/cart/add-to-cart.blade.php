@@ -3,20 +3,21 @@
         <div class="space-y-4">
             <!-- Size Selection -->
             @if($this->availableSizes->isNotEmpty())
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Size</label>
-                    <div class="flex flex-wrap gap-2">
+                <div class="variant-picker-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="variant-picker-label">
+                            Size: <span class="fw-6 variant-picker-label-value">{{ $selectedSize ?? 'N/A' }}</span>
+                        </div>
+                        <a href="#find_size" data-bs-toggle="modal" class="find-size fw-6">Find your size</a>
+                    </div>
+                    <div class="variant-picker-values">
                         @foreach($this->availableSizes as $size)
-                            <button
-                                type="button"
-                                wire:click="$set('selectedSize', '{{ $size }}')"
-                                class="px-3 py-2 border rounded-md text-sm font-medium transition-colors
-                                       {{ $selectedSize === $size
-                                          ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                          : 'border-gray-300 text-gray-700 hover:border-gray-400' }}"
-                            >
-                                {{ $size }}
-                            </button>
+                            <input type="radio" name="size" id="size-{{ $size }}" wire:model="selectedSize"
+                                   value="{{ $size }}" @if($selectedSize === $size) checked @endif>
+                            <label class="style-text size-btn" for="size-{{ $size }}"
+                                   wire:click="$set('selectedSize', '{{ $size }}')">
+                                <p>{{ $size }}</p>
+                            </label>
                         @endforeach
                     </div>
                 </div>
@@ -24,20 +25,21 @@
 
             <!-- Color Selection -->
             @if($this->availableColors->isNotEmpty())
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Color</label>
-                    <div class="flex flex-wrap gap-2">
+                <div class="variant-picker-item">
+                    <div class="variant-picker-label">
+                        Color: <span
+                            class="fw-6 variant-picker-label-value value-currentColor">{{ $selectedColor ?? 'N/A' }}</span>
+                    </div>
+                    <div class="variant-picker-values">
                         @foreach($this->availableColors as $color)
-                            <button
-                                type="button"
-                                wire:click="$set('selectedColor', '{{ $color }}')"
-                                class="px-3 py-2 border rounded-md text-sm font-medium transition-colors
-                                       {{ $selectedColor === $color
-                                          ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                          : 'border-gray-300 text-gray-700 hover:border-gray-400' }}"
-                            >
-                                {{ $color }}
-                            </button>
+                            <input id="color-{{ $color }}" type="radio" name="color" value="{{ $color }}"
+                                   wire:model="selectedColor" @if($selectedColor === $color) checked @endif>
+                            <label
+                                class="hover-tooltip radius-60 color-btn @if($selectedColor === $color) active @endif"
+                                for="color-{{ $color }}" data-value="{{ $color }}">
+                                <span class="btn-checkbox bg-color-{{ strtolower($color) }}"></span>
+                                <span class="tooltip">{{ $color }}</span>
+                            </label>
                         @endforeach
                     </div>
                 </div>
@@ -144,7 +146,9 @@
             @endif
 
             @if($privileged)
-                <a href="{{ route('admin.dashboard') }}" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action opacity-50 cursor-not-allowed" aria-disabled="true" title="Wishlist disabled for admin/developer">
+                <a href="{{ route('admin.dashboard') }}"
+                   class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action opacity-50 cursor-not-allowed"
+                   aria-disabled="true" title="Wishlist disabled for admin/developer">
                     <span class="icon icon-heart"></span>
                     <span class="tooltip">Wishlist disabled</span>
                     <span class="icon icon-delete"></span>
@@ -159,7 +163,8 @@
 
             <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
                class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action {{ $privileged ? 'opacity-50 cursor-not-allowed' : '' }}"
-               @if($privileged) aria-disabled="true" title="Compare disabled for admin/developer" onclick="return false;" @endif>
+               @if($privileged) aria-disabled="true" title="Compare disabled for admin/developer"
+               onclick="return false;" @endif>
                 <span class="icon icon-compare"></span>
                 <span class="tooltip">Add to Compare</span>
                 <span class="icon icon-check"></span>
