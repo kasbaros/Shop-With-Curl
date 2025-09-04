@@ -1023,11 +1023,6 @@
                         </span>
                     </a>
 
-                    <!-- Shopping Cart -->
-                    {{--                    <a href="{{ route('account.page', ['section' => 'cart']) }}" class="nav-icon" title="Shopping Cart" wire:navigate>--}}
-                    {{--                        <livewire:shared.header/>--}}
-                    {{--                    </a>--}}
-{{--                    @livewire('shared.header')--}}
                     @livewire('components.cart-icon')
 
                 @endif
@@ -1044,19 +1039,15 @@
                     <div class="nav-item">
                         <a href="{{ route('shop.index') }}" class="nav-link" wire:navigate>Shop</a>
                     </div>
-                    <div class="nav-item">
-                        <a href="{{ route('products.index') }}" class="nav-link" wire:navigate>Products</a>
-                    </div>
+{{--                    <div class="nav-item">--}}
+{{--                        <a href="{{ route('products.index') }}" class="nav-link" wire:navigate>Products</a>--}}
+{{--                    </div>--}}
                     <div class="nav-item">
                         <a href="#" class="nav-link">Categories</a>
                         @include('components.nav.mega-menu')
-
                     </div>
                     <div class="nav-item">
-                        <a href="#" class="nav-link">Pages</a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="{{ route('blog.index') }}" class="nav-link" wire:navigate>Blog</a>
+                        <a href="{{ route('pages.contact') }}" class="nav-link" wire:navigate>Contact Us</a>
                     </div>
                 </nav>
             </div>
@@ -1289,22 +1280,6 @@
                             By subscribing, you agree to receive marketing emails. Unsubscribe anytime.
                         </p>
 
-                        {{--                        <div style="margin-top: 32px;">--}}
-                        {{--                            <h4 style="font-size: 16px; margin-bottom: 16px; color: rgba(255, 255, 255, 0.9);">Download--}}
-                        {{--                                Our App</h4>--}}
-                        {{--                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">--}}
-                        {{--                                <a href="#" style="display: inline-block;">--}}
-                        {{--                                    <img--}}
-                        {{--                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='40' viewBox='0 0 135 40'%3E%3Crect width='135' height='40' rx='5' fill='%23000'/%3E%3Ctext x='67.5' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EApp Store%3C/text%3E%3C/svg%3E"--}}
-                        {{--                                        alt="Download on the App Store" style="height: 40px;">--}}
-                        {{--                                </a>--}}
-                        {{--                                <a href="#" style="display: inline-block;">--}}
-                        {{--                                    <img--}}
-                        {{--                                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='40' viewBox='0 0 135 40'%3E%3Crect width='135' height='40' rx='5' fill='%23000'/%3E%3Ctext x='67.5' y='25' text-anchor='middle' fill='white' font-family='Arial' font-size='14'%3EGoogle Play%3C/text%3E%3C/svg%3E"--}}
-                        {{--                                        alt="Get it on Google Play" style="height: 40px;">--}}
-                        {{--                                </a>--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
                     </div>
                 </div>
 

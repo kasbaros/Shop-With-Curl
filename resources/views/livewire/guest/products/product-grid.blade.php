@@ -398,12 +398,24 @@
                                    wire:click="$set('selectedCategory','')"><span>All</span></a>
                             </li>
                             @foreach($categories as $category)
+                                <!-- Parent Category -->
                                 <li class="cate-item {{ (string)$selectedCategory === (string)$category->id ? 'current' : '' }}">
                                     <a href="javascript:void(0)"
                                        wire:click="$set('selectedCategory','{{ $category->id }}')">
-                                        <span>{{ $category->name }}</span>&nbsp;<span>({{ $category->products_count ?? $category->products_count }})</span>
+                                        <span>{{ $category->name }}</span>&nbsp;<span>({{ $category->products_count ?? 0 }})</span>
                                     </a>
                                 </li>
+                                <!-- Subcategories -->
+                                @if($category->children && $category->children->count() > 0)
+                                    @foreach($category->children as $subcategory)
+                                        <li class="cate-item subcategory {{ (string)$selectedCategory === (string)$subcategory->id ? 'current' : '' }}" style="padding-left: 20px;">
+                                            <a href="javascript:void(0)"
+                                               wire:click="$set('selectedCategory','{{ $subcategory->id }}')">
+                                                <span>{{ $subcategory->name }}</span>&nbsp;<span>({{ $subcategory->products_count ?? 0 }})</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @endif
                             @endforeach
                         </ul>
                     </div>

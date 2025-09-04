@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactFormMail;
 
 class PagesController extends Controller
 {
@@ -28,16 +31,6 @@ class PagesController extends Controller
     }
 
     /**
-     * Display the brands v2 page.
-     *
-     * @return View
-     */
-    public function brandsV2()
-    {
-        return view('pages.brands-v2');
-    }
-
-    /**
      * Display the contact page.
      *
      * @return View
@@ -46,117 +39,6 @@ class PagesController extends Controller
     {
         return view('pages.contact');
     }
-
-    /**
-     * Display the contact page version 2.
-     *
-     * @return View
-     */
-    public function contactTwo()
-    {
-        return view('pages.contact-2');
-    }
-
-    /**
-     * Display the FAQ page.
-     *
-     * @return View
-     */
-    public function faq()
-    {
-        return view('pages.faq');
-    }
-
-    /**
-     * Display the FAQ page version 2.
-     *
-     * @return View
-     */
-    public function faqTwo()
-    {
-        return view('pages.faq-2');
-    }
-
-    /**
-     * Display the our store page.
-     *
-     * @return View
-     */
-    public function ourStore()
-    {
-        return view('pages.our-store');
-    }
-
-    /**
-     * Display the store locator page.
-     *
-     * @return View
-     */
-    public function storeLocator()
-    {
-        return view('pages.store-locator');
-    }
-
-    /**
-     * Display the timeline page.
-     *
-     * @return View
-     */
-    public function timeline()
-    {
-        return view('pages.timeline');
-    }
-
-    /**
-     * Display the view cart page.
-     *
-     * @return View
-     */
-    public function viewCart()
-    {
-        return view('pages.view-cart');
-    }
-
-    /**
-     * Display the checkout page.
-     *
-     * @return View
-     */
-    public function checkout()
-    {
-        return view('pages.checkout');
-    }
-
-    /**
-     * Display the payment confirmation page.
-     *
-     * @return View
-     */
-    public function paymentConfirmation()
-    {
-        return view('pages.payment-confirmation');
-    }
-
-    /**
-     * Display the payment failure page.
-     *
-     * @return View
-     */
-    public function paymentFailure()
-    {
-        return view('pages.payment-failure');
-    }
-
-    /**
-     * Display the invoice page.
-     *
-     * @return View
-     */
-    public function invoice()
-    {
-        return view('pages.invoice');
-    }
-
 
     /**
      * Display the privacy policy page.
@@ -168,15 +50,6 @@ class PagesController extends Controller
         return view('pages.privacy-policy');
     }
 
-    /**
-     * Display the returns and exchanges page.
-     *
-     * @return View
-     */
-    public function returnsExchanges()
-    {
-        return view('pages.returns-exchanges');
-    }
 
     /**
      * Display the shipping page.
@@ -196,5 +69,39 @@ class PagesController extends Controller
     public function termsConditions()
     {
         return view('pages.terms-conditions');
+    }
+
+    /**
+     * Handle contact form submission.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function contactSubmit(Request $request)
+    {
+        // Validate the form data
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'message' => 'required|string|max:5000',
+        ]);
+
+        try {
+            // Send email notification
+            Mail::to(config('mail.admin_email', 'admin@example.com'))
+                ->send(new ContactFormMail($validated));
+
+            // Log the contact form submission
+            \Log::info('Contact form submitted:', $validated);
+
+            return redirect()->route('pages.contact')
+                ->with('success', 'Thank you for your message! We will get back to you soon.');
+        } catch (\Exception $e) {
+            \Log::error('Contact form submission failed:', ['error' => $e->getMessage()]);
+
+            return redirect()->route('pages.contact')
+                ->with('error', 'Sorry, there was an error sending your message. Please try again.')
+                ->withInput();
+        }
     }
 }

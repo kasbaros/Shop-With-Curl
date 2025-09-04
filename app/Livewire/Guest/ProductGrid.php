@@ -230,8 +230,12 @@
             $products = $query->paginate($this->perPage);
 
             $categories = Category::active()
+                ->whereNull('parent_id') // Only get parent categories
+                ->with(['children' => function($query) {
+                    $query->active()->withCount('products')->orderBy('sort_order');
+                }])
                 ->withCount('products')
-                ->orderBy('name')
+                ->orderBy('sort_order')
                 ->get();
 
             // Debug the $categories variable

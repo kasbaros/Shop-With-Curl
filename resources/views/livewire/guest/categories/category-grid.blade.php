@@ -88,17 +88,14 @@
                                 <li class="cate-item {{ empty($selectedType) ? 'current' : '' }}">
                                     <a href="#" wire:click.prevent="setType('')"><span>All Categories</span></a>
                                 </li>
-                                <li class="cate-item {{ $selectedType === 'style' ? 'current' : '' }}">
-                                    <a href="#" wire:click.prevent="setType('style')"><span>By Style</span></a>
-                                </li>
-                                <li class="cate-item {{ $selectedType === 'occasion' ? 'current' : '' }}">
-                                    <a href="#"
-                                       wire:click.prevent="setType('occasion')"><span>By Occasion</span></a>
-                                </li>
-                                <li class="cate-item {{ $selectedType === 'collection' ? 'current' : '' }}">
-                                    <a href="#"
-                                       wire:click.prevent="setType('collection')"><span>Collections</span></a>
-                                </li>
+                                @foreach($parentCategories as $parentCategory)
+                                    <li class="cate-item {{ $selectedType === $parentCategory->slug ? 'current' : '' }}">
+                                        <a href="#" wire:click.prevent="setType('{{ $parentCategory->slug }}')">
+                                            <span>{{ $parentCategory->name }}</span>
+                                            <span>({{ $parentCategory->products_count ?? 0 }})</span>
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>

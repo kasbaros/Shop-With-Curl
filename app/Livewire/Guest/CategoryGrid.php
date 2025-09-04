@@ -110,23 +110,9 @@ class CategoryGrid extends Component
 
         // Apply type filter (based on parent category)
         if ($this->selectedType) {
-            switch ($this->selectedType) {
-                case 'style':
-                    $categoriesQuery->whereHas('parent', function($q) {
-                        $q->where('name', 'By Style');
-                    });
-                    break;
-                case 'occasion':
-                    $categoriesQuery->whereHas('parent', function($q) {
-                        $q->where('name', 'By Occasion');
-                    });
-                    break;
-                case 'collection':
-                    $categoriesQuery->whereHas('parent', function($q) {
-                        $q->where('name', 'Collections');
-                    });
-                    break;
-            }
+            $categoriesQuery->whereHas('parent', function($q) {
+                $q->where('slug', $this->selectedType);
+            });
         }
 
         // Apply availability filter
@@ -246,8 +232,16 @@ class CategoryGrid extends Component
             }
         }
 
+        // Get parent categories for filter
+        $parentCategories = Category::active()
+            ->whereNull('parent_id')
+            ->withCount('products')
+            ->orderBy('sort_order')
+            ->get();
+
         return view('livewire.guest.categories.category-grid', [
             'categories' => $categories,
+            'parentCategories' => $parentCategories,
             'brands' => $brands,
             'colors' => $colors,
             'sizes' => $sizes,

@@ -11,54 +11,81 @@
         public function run(): void
         {
             $types = [
-                'By Occasion' => [
-                    'Everyday Comfort',
-                    'Special Occasion',
-                    'Sports & Active',
-                    'Sleep & Lounge',
+                'Bras' => [
+                    'subcategories' => [
+                        'Wireless non-padded',
+                        'Pushup',
+                        'Strapless',
+                        'Seamless',
+                        'Lace',
+                        'Sports bra',
+                        'Mastectomy bras'
+                    ],
+                    'image' => 'images/categories/bras.jpg'
                 ],
-                'Collections' => [
-                    'Luxury Lace',
-                    'Seamless Collection',
-                    'Designer Series',
+                'Shape wears' => [
+                    'subcategories' => [
+                        'Post surgical',
+                        'Casual',
+                        'Medical',
+                        'Waist trainers',
+                        'Body suits',
+                        'Seamless',
+                        'Padded'
+                    ],
+                    'image' => 'images/categories/shapewear.jpg'
                 ],
-                'By Style' => [
-                    'Minimalist Essentials',
-                    'Streetwear Core',
-                    'Athleisure',
-                    'Classic Tailored',
-                    'Bold & Graphic',
-                    'Oversized Fits',
-                    'Seamless Basics',
-                    'Ribbed Knit',
-                    'Compression Fit',
-                    'Breathable Mesh',
+                'Active wears' => [
+                    'subcategories' => [
+                        'Jumpsuits & Romper',
+                        '2pc set',
+                        '3pc set',
+                        'Travel suits',
+                        'Shorts',
+                        'Leggings'
+                    ],
+                    'image' => 'images/categories/activewear.jpg'
+                ],
+                'Lounge wears' => [
+                    'subcategories' => [
+                        'Wool blend',
+                        'Luxury'
+                    ],
+                    'image' => 'images/categories/loungewear.jpg'
+                ],
+                'Panties' => [
+                    'subcategories' => [
+                        'Seamless',
+                        'Cotton',
+                        'Lace'
+                    ],
+                    'image' => 'images/categories/panties.jpg'
                 ],
             ];
 
             $order = 1;
-            foreach ($types as $typeName => $children) {
-                $type = Category::firstOrCreate(
+            foreach ($types as $typeName => $typeData) {
+                $type = Category::updateOrCreate(
                     ['slug' => Str::slug($typeName)],
                     [
                         'name' => $typeName,
                         'parent_id' => null,
                         'sort_order' => $order++,
                         'is_active' => true,
-                        // Optional: 'image_url' => asset('images/placeholder-category.jpg'),
+                        'image' => $typeData['image'],
                     ]
                 );
 
                 $childOrder = 1;
-                foreach ($children as $child) {
-                    Category::firstOrCreate(
+                foreach ($typeData['subcategories'] as $child) {
+                    Category::updateOrCreate(
                         ['slug' => Str::slug($child)],
                         [
                             'name' => $child,
                             'parent_id' => $type->id,
                             'sort_order' => $childOrder++,
                             'is_active' => true,
-                            // Optional: 'image_url' => asset('images/placeholder-category.jpg'),
+                            'image' => 'images/placeholder-category.svg',
                         ]
                     );
                 }
