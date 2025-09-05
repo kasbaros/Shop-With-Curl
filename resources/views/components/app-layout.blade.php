@@ -1113,12 +1113,6 @@
                                             {{ $subcategory->name }}
                                         </a>
                                     @endforeach
-                                    <div class="dropdown-divider"></div>
-                                    <a href="{{ route('products.category', $category->slug) }}"
-                                       class="dropdown-item fw-bold"
-                                       wire:navigate>
-                                        View All {{ $category->name }}
-                                    </a>
                                 </div>
                             @else
                                 <a href="{{ route('products.category', $category->slug) }}"
