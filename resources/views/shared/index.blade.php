@@ -125,7 +125,7 @@
 
                                 @if($order->tax_amount > 0)
                                     <div class="d-flex justify-content-between mb-2">
-                                        <span>Tax ({{ setting('tax_rate', 18) }}%):</span>
+                                        <span>Delivery ({{ setting('tax_rate', 18) }}%):</span>
                                         <span>{{ format_currency($order->tax_amount) }}</span>
                                     </div>
                                 @endif

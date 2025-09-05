@@ -181,7 +181,7 @@
                                             <div class="tf-totals-total-value fw-6">{{ $this->cartSubtotal }}</div>
                                         </div>
 
-                                        <div class="tf-cart-tax">Taxes and <a href="#">shipping</a> calculated at checkout</div>
+                                        <div class="tf-cart-tax">Delivery and <a href="#">shipping</a> calculated at checkout</div>
                                         <div class="tf-mini-cart-line"></div>
 
                                         <!-- Redesigned checkout buttons section -->

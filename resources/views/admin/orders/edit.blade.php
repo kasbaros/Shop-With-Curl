@@ -172,7 +172,7 @@
                             </tr>
                             @if($order->tax_amount > 0)
                                 <tr>
-                                    <th colspan="3">Tax</th>
+                                    <th colspan="3">Delivery</th>
                                     <th>{{ function_exists('money_format_ugx') ? money_format_ugx((float)$order->tax_amount) : ('UGX ' . number_format((float)$order->tax_amount)) }}</th>
                                 </tr>
                             @endif

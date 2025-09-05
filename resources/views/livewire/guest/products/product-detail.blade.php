@@ -212,21 +212,24 @@
                                     </div>
 
                                     <!-- Delivery / Return -->
-                                    <div class="tf-product-info-delivery-return mt_18">
+                                    <div class="tf-product-info-delivery-return">
                                         <div class="row">
                                             <div class="col-xl-6 col-12">
                                                 <div class="tf-product-delivery">
-                                                    <div class="icon"><i class="icon-delivery-time"></i></div>
-                                                    <p>Estimate delivery times:
-                                                        <span class="fw-7">2-5 days</span> (Domestic),
-                                                        <span class="fw-7">7-14 days</span> (International).
-                                                    </p>
+                                                    <div class="icon">
+                                                        <i class="icon-delivery-time"></i>
+                                                    </div>
+                                                    <p>Estimate delivery times: <span class="fw-7">Same day</span>
+                                                        (CBD), <span class="fw-7">3-6 days</span> (Up country).</p>
                                                 </div>
                                             </div>
                                             <div class="col-xl-6 col-12">
                                                 <div class="tf-product-delivery mb-0">
-                                                    <div class="icon"><i class="icon-return-order"></i></div>
-                                                    <p>Return within <span class="fw-7">30 days</span> of purchase.</p>
+                                                    <div class="icon">
+                                                        <i class="icon-return-order"></i>
+                                                    </div>
+                                                    <p>Return within <span class="fw-7">1 day</span> of purchase.
+                                                        Duties &amp; fees are non-refundable.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -302,6 +305,231 @@
         </section>
         <!-- /default -->
 
+        <!-- Product Details Tabs -->
+        <section class="flat-spacing-17 pt_0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="widget-tabs style-has-border">
+                            <ul class="widget-menu-tab">
+                                <li class="item-title active">
+                                    <span class="inner">Description</span>
+                                </li>
+                                <li class="item-title">
+                                    <span class="inner">Additional Information</span>
+                                </li>
+                                <li class="item-title">
+                                    <span class="inner">Review</span>
+                                </li>
+                                <li class="item-title">
+                                    <span class="inner">Delivery</span>
+                                </li>
+                                <li class="item-title">
+                                    <span class="inner">Return Policies</span>
+                                </li>
+                            </ul>
+                            <div class="widget-content-tab">
+                                <!-- Description Tab -->
+                                <div class="widget-content-inner active">
+                                    <div class="">
+                                        @if($product->description)
+                                            <p class="mb_30">{{ $product->description }}</p>
+                                        @else
+                                            <p class="mb_30">
+                                                This product features high-quality materials and excellent craftsmanship.
+                                                It's designed to meet your needs with style and functionality.
+                                            </p>
+                                        @endif
+
+                                        <div class="tf-product-des-demo">
+                                            <div class="right">
+                                                <h3 class="fs-16 fw-5">Features</h3>
+                                                <ul>
+                                                    <li>Premium quality materials</li>
+                                                    <li>Expert craftsmanship</li>
+                                                    <li>Modern design</li>
+                                                    <li>Long-lasting durability</li>
+                                                </ul>
+                                                <h3 class="fs-16 fw-5">Product Care</h3>
+                                                <ul class="mb-0">
+                                                    <li>Follow care instructions</li>
+                                                    <li>Store in appropriate conditions</li>
+                                                    <li>Handle with care</li>
+                                                </ul>
+                                            </div>
+                                            <div class="left">
+                                                <h3 class="fs-16 fw-5">Care Instructions</h3>
+                                                <div class="d-flex gap-10 mb_15 align-items-center">
+                                                    <div class="icon">
+                                                        <i class="icon-machine"></i>
+                                                    </div>
+                                                    <span>Follow manufacturer guidelines.</span>
+                                                </div>
+                                                <div class="d-flex gap-10 mb_15 align-items-center">
+                                                    <div class="icon">
+                                                        <i class="icon-iron"></i>
+                                                    </div>
+                                                    <span>Handle with appropriate care.</span>
+                                                </div>
+                                                <div class="d-flex gap-10 mb_15 align-items-center">
+                                                    <div class="icon">
+                                                        <i class="icon-bleach"></i>
+                                                    </div>
+                                                    <span>Avoid harsh chemicals.</span>
+                                                </div>
+                                                <div class="d-flex gap-10 mb_15 align-items-center">
+                                                    <div class="icon">
+                                                        <i class="icon-dry-clean"></i>
+                                                    </div>
+                                                    <span>Professional cleaning when needed.</span>
+                                                </div>
+                                                <div class="d-flex gap-10 align-items-center">
+                                                    <div class="icon">
+                                                        <i class="icon-tumble-dry"></i>
+                                                    </div>
+                                                    <span>Proper storage recommended.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Additional Information Tab -->
+                                <div class="widget-content-inner">
+                                    <table class="tf-pr-attrs">
+                                        <tbody>
+                                            @if($product->brand)
+                                            <tr class="tf-attr-pa-brand">
+                                                <th class="tf-attr-label">Brand</th>
+                                                <td class="tf-attr-value">
+                                                    <p>{{ $product->brand->name }}</p>
+                                                </td>
+                                            </tr>
+                                            @endif
+                                            @if($product->sku)
+                                            <tr class="tf-attr-pa-sku">
+                                                <th class="tf-attr-label">SKU</th>
+                                                <td class="tf-attr-value">
+                                                    <p>{{ $product->sku }}</p>
+                                                </td>
+                                            </tr>
+                                            @endif
+                                            @if($product->weight)
+                                            <tr class="tf-attr-pa-weight">
+                                                <th class="tf-attr-label">Weight</th>
+                                                <td class="tf-attr-value">
+                                                    <p>{{ $product->weight }} kg</p>
+                                                </td>
+                                            </tr>
+                                            @endif
+                                            @if($product->dimensions)
+                                            <tr class="tf-attr-pa-dimensions">
+                                                <th class="tf-attr-label">Dimensions</th>
+                                                <td class="tf-attr-value">
+                                                    <p>{{ $product->dimensions }}</p>
+                                                </td>
+                                            </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Reviews Tab -->
+                                <div class="widget-content-inner">
+                                    <div class="tab-reviews write-cancel-review-wrap">
+                                        @if($product->reviews_count > 0)
+                                            <div class="tab-reviews-heading">
+                                                <div class="top">
+                                                    <div class="text-center">
+                                                        <h1 class="number fw-6">{{ number_format($product->average_rating, 1) }}</h1>
+                                                        <div class="list-star">
+                                                            @for($i=1; $i<=5; $i++)
+                                                                <i class="icon icon-star{{ $i <= round($product->average_rating) ? '' : '-o' }}"></i>
+                                                            @endfor
+                                                        </div>
+                                                        <p>({{ $product->reviews_count }} Reviews)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="reply-comment cancel-review-wrap">
+                                                <div class="d-flex mb_24 gap-20 align-items-center justify-content-between flex-wrap">
+                                                    <h5 class="">{{ $product->reviews_count }} Reviews</h5>
+                                                </div>
+                                                <div class="reply-comment-wrap">
+                                                    <p class="text-center text-muted">Reviews will be displayed here when available.</p>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <div class="text-center py-5">
+                                                <h5>No Reviews Yet</h5>
+                                                <p class="text-muted">Be the first to review this product!</p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Shipping Tab -->
+                                <div class="widget-content-inner">
+                                    <div class="tf-page-privacy-policy">
+                                        <div class="title">Shipping Information</div>
+                                        <p>We offer reliable shipping options to ensure your order reaches you safely and on time.</p>
+
+                                        <h4 class="mt-4 mb-2">Delivery Times</h4>
+                                        <ul>
+                                            <li><strong>Domestic Shipping:</strong> 2-5 business days</li>
+                                            <li><strong>International Shipping:</strong> 7-14 business days</li>
+                                            <li><strong>Express Shipping:</strong> 1-2 business days (additional charges apply)</li>
+                                        </ul>
+
+                                        <h4 class="mt-4 mb-2">Shipping Costs</h4>
+                                        <p>Shipping costs are calculated based on the weight and destination of your order.
+                                        Free shipping is available for orders over a certain amount.</p>
+
+                                        <h4 class="mt-4 mb-2">Order Processing</h4>
+                                        <p>Orders are processed within 1-2 business days. You will receive a tracking number
+                                        once your order has been shipped.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Return Policies Tab -->
+                                <div class="widget-content-inner">
+                                    <div class="tf-page-privacy-policy">
+                                        <div class="title">Return & Exchange Policy</div>
+                                        <p>We want you to be completely satisfied with your purchase. If you're not happy with your order,
+                                        we're here to help.</p>
+
+                                        <h4 class="mt-4 mb-2">Return Window</h4>
+                                        <p>You have <strong>30 days</strong> from the date of delivery to return your item for a full refund
+                                        or exchange.</p>
+
+                                        <h4 class="mt-4 mb-2">Return Conditions</h4>
+                                        <ul>
+                                            <li>Items must be in original condition</li>
+                                            <li>Items must be unused and with tags attached</li>
+                                            <li>Original packaging must be included</li>
+                                            <li>Proof of purchase required</li>
+                                        </ul>
+
+                                        <h4 class="mt-4 mb-2">How to Return</h4>
+                                        <ol>
+                                            <li>Contact our customer service team</li>
+                                            <li>Receive return authorization and shipping label</li>
+                                            <li>Package your item securely</li>
+                                            <li>Ship using provided label</li>
+                                        </ol>
+
+                                        <h4 class="mt-4 mb-2">Refund Processing</h4>
+                                        <p>Once we receive and inspect your return, we'll process your refund within 5-7 business days.
+                                        Refunds will be credited to your original payment method.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /Product Details Tabs -->
 
             <!-- Related Products -->
             @if(isset($relatedProducts) && $relatedProducts->isNotEmpty())

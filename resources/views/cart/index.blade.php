@@ -160,7 +160,7 @@
                                             <span class="fw-5">Calculated at checkout</span>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <span class="text-muted">Tax</span>
+                                            <span class="text-muted">Delivery</span>
                                             <span class="fw-5">Calculated at checkout</span>
                                         </div>
                                         <hr class="my-3">

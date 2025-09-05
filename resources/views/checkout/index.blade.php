@@ -123,7 +123,7 @@
                                     <span>{{ money_format_ugx((float)$shipping) }}</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Tax</span>
+                                    <span class="text-muted">Delivery</span>
                                     <span>{{ money_format_ugx((float)$tax) }}</span>
                                 </div>
                                 <hr>

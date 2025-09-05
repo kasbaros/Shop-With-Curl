@@ -8,7 +8,7 @@
                         <div class="variant-picker-label">
                             Size: <span class="fw-6 variant-picker-label-value">{{ $selectedSize ?? 'N/A' }}</span>
                         </div>
-                        <a href="#find_size" data-bs-toggle="modal" class="find-size fw-6">Find your size</a>
+{{--                        <a href="#find_size" data-bs-toggle="modal" class="find-size fw-6">Find your size</a>--}}
                     </div>
                     <div class="variant-picker-values">
                         @foreach($this->availableSizes as $size)
@@ -25,7 +25,7 @@
 
             <!-- Color Selection -->
             @if($this->availableColors->isNotEmpty())
-                <div class="variant-picker-item">
+                <div class="variant-picker-item mt-3">
                     <div class="variant-picker-label">
                         Color: <span
                             class="fw-6 variant-picker-label-value value-currentColor">{{ $selectedColor ?? 'N/A' }}</span>
@@ -88,7 +88,7 @@
     @endif
 
     <!-- Quantity Selection (Redesigned) -->
-    <div class="tf-product-info-quantity">
+    <div class="tf-product-info-quantity mt-2">
         <div class="quantity-title fw-6">Quantity</div>
         <div class="wg-quantity">
             <span class="btn-quantity btn-decrease {{ $quantity <= 1 ? 'disabled opacity-50 cursor-not-allowed' : '' }}"
@@ -145,34 +145,34 @@
                 </a>
             @endif
 
-            @if($privileged)
-                <a href="{{ route('admin.dashboard') }}"
-                   class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action opacity-50 cursor-not-allowed"
-                   aria-disabled="true" title="Wishlist disabled for admin/developer">
-                    <span class="icon icon-heart"></span>
-                    <span class="tooltip">Wishlist disabled</span>
-                    <span class="icon icon-delete"></span>
-                </a>
-            @else
-                <a href="#" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
-                    <span class="icon icon-heart"></span>
-                    <span class="tooltip">Add to Wishlist</span>
-                    <span class="icon icon-delete"></span>
-                </a>
-            @endif
+{{--            @if($privileged)--}}
+{{--                <a href="{{ route('admin.dashboard') }}"--}}
+{{--                   class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action opacity-50 cursor-not-allowed"--}}
+{{--                   aria-disabled="true" title="Wishlist disabled for admin/developer">--}}
+{{--                    <span class="icon icon-heart"></span>--}}
+{{--                    <span class="tooltip">Wishlist disabled</span>--}}
+{{--                    <span class="icon icon-delete"></span>--}}
+{{--                </a>--}}
+{{--            @else--}}
+{{--                <a href="#" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">--}}
+{{--                    <span class="icon icon-heart"></span>--}}
+{{--                    <span class="tooltip">Add to Wishlist</span>--}}
+{{--                    <span class="icon icon-delete"></span>--}}
+{{--                </a>--}}
+{{--            @endif--}}
 
-            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
-               class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action {{ $privileged ? 'opacity-50 cursor-not-allowed' : '' }}"
-               @if($privileged) aria-disabled="true" title="Compare disabled for admin/developer"
-               onclick="return false;" @endif>
-                <span class="icon icon-compare"></span>
-                <span class="tooltip">Add to Compare</span>
-                <span class="icon icon-check"></span>
-            </a>
-            <div class="w-100">
-                <a href="#" class="btns-full">Buy with <img src="images/payments/paypal.png" alt=""></a>
-                <a href="#" class="payment-more-option">More payment options</a>
-            </div>
+{{--            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"--}}
+{{--               class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action {{ $privileged ? 'opacity-50 cursor-not-allowed' : '' }}"--}}
+{{--               @if($privileged) aria-disabled="true" title="Compare disabled for admin/developer"--}}
+{{--               onclick="return false;" @endif>--}}
+{{--                <span class="icon icon-compare"></span>--}}
+{{--                <span class="tooltip">Add to Compare</span>--}}
+{{--                <span class="icon icon-check"></span>--}}
+{{--            </a>--}}
+{{--            <div class="w-100">--}}
+{{--                <a href="#" class="btns-full">Buy with <img src="images/payments/paypal.png" alt=""></a>--}}
+{{--                <a href="#" class="payment-more-option">More payment options</a>--}}
+{{--            </div>--}}
 
             @error('variant')
             <p class="text-sm text-red-600">{{ $message }}</p>

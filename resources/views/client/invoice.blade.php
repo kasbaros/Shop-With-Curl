@@ -72,7 +72,7 @@
                         </div>
 
                         <div class="flex justify-between">
-                            <span class="text-gray-600">Tax</span>
+                            <span class="text-gray-600">Delivery</span>
                             <span class="font-medium">${{ number_format($order->tax_amount, 2) }}</span>
                         </div>
 

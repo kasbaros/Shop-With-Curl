@@ -514,6 +514,54 @@
             position: relative;
         }
 
+        .nav-item .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            min-width: 200px;
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(91, 58, 121, 0.1);
+            color: var(--brand-primary);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: rgba(0,0,0,0.1);
+            margin: 0.5rem 0;
+        }
+
+        .dropdown-toggle::after {
+            content: '▼';
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .nav-item:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
+
         .nav-link {
             font-weight: 600;
             color: var(--text-luxury);
@@ -1040,12 +1088,46 @@
                         <a href="{{ route('shop.index') }}" class="nav-link" wire:navigate>Shop</a>
                     </div>
 {{--                    <div class="nav-item">--}}
-{{--                        <a href="{{ route('products.index') }}" class="nav-link" wire:navigate>Products</a>--}}
+{{--                        <a href="#" class="nav-link">Categories</a>--}}
+{{--                        @include('components.nav.mega-menu')--}}
 {{--                    </div>--}}
-                    <div class="nav-item">
-                        <a href="#" class="nav-link">Categories</a>
-                        @include('components.nav.mega-menu')
-                    </div>
+
+                    @php
+                        use App\Models\Category;
+                        $mainCategories = Category::whereNull('parent_id')->active()->orderBy('sort_order')->get();
+                    @endphp
+
+                    @foreach($mainCategories as $category)
+                        @php
+                            $subcategories = $category->children()->active()->orderBy('sort_order')->get();
+                        @endphp
+
+                        <div class="nav-item">
+                            @if($subcategories->count() > 0)
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ $category->name }}</a>
+                                <div class="dropdown-menu">
+                                    @foreach($subcategories as $subcategory)
+                                        <a href="{{ route('products.category', $subcategory->slug) }}"
+                                           class="dropdown-item"
+                                           wire:navigate>
+                                            {{ $subcategory->name }}
+                                        </a>
+                                    @endforeach
+                                    <div class="dropdown-divider"></div>
+                                    <a href="{{ route('products.category', $category->slug) }}"
+                                       class="dropdown-item fw-bold"
+                                       wire:navigate>
+                                        View All {{ $category->name }}
+                                    </a>
+                                </div>
+                            @else
+                                <a href="{{ route('products.category', $category->slug) }}"
+                                   class="nav-link"
+                                   wire:navigate>{{ $category->name }}</a>
+                            @endif
+                        </div>
+                    @endforeach
+
                     <div class="nav-item">
                         <a href="{{ route('pages.contact') }}" class="nav-link" wire:navigate>Contact Us</a>
                     </div>
@@ -1074,19 +1156,9 @@
                            wire:navigate>Shop</a>
                     </li>
                     <li>
-                        <a href="{{ route('products.index') }}" class="menu-link-text"
+                        <a href="{{ route('pages.contact') }}" class="menu-link-text"
                            style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
-                           wire:navigate>Products</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('pages.about') }}" class="menu-link-text"
-                           style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
-                           wire:navigate>About us</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('blog.index') }}" class="menu-link-text"
-                           style="display: block; padding: 16px 0; color: var(--text-primary); text-decoration: none; font-weight: 500; border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: var(--transition);"
-                           wire:navigate>Blog</a>
+                           wire:navigate>Contact Us</a>
                     </li>
                     @auth
                         <li>
