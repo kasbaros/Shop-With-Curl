@@ -93,7 +93,7 @@
                     </div>
                     <div class="col-md-6">
                         <h6>Regular Price</h6>
-                        <p class="fs-5 fw-bold">${{ number_format($product->price, 2) }}</p>
+                        <p class="fs-5 fw-bold">UGX {{ number_format($product->price, 2) }}</p>
 
                         @if($product->sale_price)
                             <h6>Sale Price</h6>
@@ -217,7 +217,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="text-muted">Revenue</span>
-                    <span class="fw-bold">${{ number_format($product->total_revenue ?? 0, 2) }}</span>
+                    <span class="fw-bold">UGX {{ number_format($product->total_revenue ?? 0, 2) }}</span>
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center">

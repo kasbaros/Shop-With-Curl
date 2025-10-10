@@ -19,7 +19,14 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data">
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    <form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data" id="productForm">
         @csrf
         @method('PUT')
 
@@ -42,6 +49,7 @@
                         <label for="slug" class="form-label">Slug</label>
                         <input type="text" class="form-control @error('slug') is-invalid @enderror"
                                id="slug" name="slug" value="{{ old('slug', $product->slug) }}">
+                        <div class="form-text">Leave empty to auto-generate from product name</div>
                         @error('slug')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -71,47 +79,81 @@
                 <div class="stat-card p-4 mb-4">
                     <h5 class="mb-3">Product Images</h5>
 
-                    <!-- Existing Images -->
+                    <!-- Featured Image -->
                     @php
-                        $existingImages = $product->images ?? [];
                         $featuredImageUrl = $product->featured_image ? $product->getStorageImageUrl($product->featured_image) : null;
-                        $hasExistingImages = count($existingImages) > 0 || $featuredImageUrl;
                     @endphp
 
-                    @if($hasExistingImages)
-                        <div class="mb-4">
-                            <h6>Current Images</h6>
-                            <div class="row g-3">
-                                @if($featuredImageUrl && !in_array($featuredImageUrl, array_column($existingImages, 'original')))
-                                    <div class="col-md-3">
-                                        <div class="position-relative">
-                                            <img src="{{ $featuredImageUrl }}"
-                                                 class="img-fluid rounded"
-                                                 alt="{{ $product->name }}"
-                                                 style="height: 120px; width: 100%; object-fit: cover;">
-                                            <div class="badge bg-primary position-absolute top-0 start-0 m-1">Featured</div>
-                                        </div>
-                                        <div class="form-check mt-2">
-                                            <input class="form-check-input" type="checkbox"
-                                                   name="remove_featured_image" value="1"
-                                                   id="remove_featured">
-                                            <label class="form-check-label text-danger" for="remove_featured">
-                                                <small>Remove featured image</small>
-                                            </label>
-                                        </div>
+                    <div class="mb-4">
+                        <h6>Featured Image</h6>
+                        @if($featuredImageUrl)
+                            <div class="row g-3 mb-3" id="currentFeaturedImage">
+                                <div class="col-md-4">
+                                    <div class="position-relative">
+                                        <img src="{{ $featuredImageUrl }}"
+                                             class="img-fluid rounded"
+                                             alt="{{ $product->name }}"
+                                             style="height: 200px; width: 100%; object-fit: cover;">
+                                        <div class="badge bg-primary position-absolute top-0 start-0 m-2">Featured</div>
                                     </div>
-                                @endif
+                                    <div class="form-check mt-2">
+                                        <input class="form-check-input" type="checkbox"
+                                               name="remove_featured_image" value="1"
+                                               id="remove_featured">
+                                        <label class="form-check-label text-danger" for="remove_featured">
+                                            <small>Remove featured image</small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <p class="text-muted" id="noFeaturedImageText">No featured image set</p>
+                        @endif
 
-                                @foreach($existingImages as $index => $image)
+                        <div class="mb-3">
+                            <label for="featured_image" class="form-label">
+                                {{ $featuredImageUrl ? 'Replace' : 'Upload' }} Featured Image
+                            </label>
+                            <input type="file" class="form-control @error('featured_image') is-invalid @enderror"
+                                   id="featured_image" name="featured_image" accept="image/*">
+                            <div class="form-text">Recommended: 800x800px. Max 4MB</div>
+                            @error('featured_image')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- New featured image preview -->
+                        <div id="featuredImagePreview" class="row g-3 mb-3" style="display: none;">
+                            <div class="col-md-4">
+                                <div class="position-relative">
+                                    <img src="" id="featuredPreviewImg" class="img-fluid rounded"
+                                         style="height: 200px; width: 100%; object-fit: cover;">
+                                    <div class="badge bg-success position-absolute top-0 start-0 m-2">New</div>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <small class="text-muted" id="featuredFileName"></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Images -->
+                    @php
+                        $galleryImages = $product->gallery ?? [];
+                        $hasGalleryImages = count($galleryImages) > 0;
+                    @endphp
+
+                    <div class="mb-4">
+                        <h6>Gallery Images</h6>
+                        @if($hasGalleryImages)
+                            <div class="row g-3 mb-3">
+                                @foreach($galleryImages as $index => $imagePath)
                                     <div class="col-md-3">
                                         <div class="position-relative">
-                                            <img src="{{ $image['thumb'] ?? $image['original'] }}"
+                                            <img src="{{ $product->getStorageImageUrl($imagePath) }}"
                                                  class="img-fluid rounded"
                                                  alt="{{ $product->name }}"
                                                  style="height: 120px; width: 100%; object-fit: cover;">
-                                            @if($index === 0 && !$featuredImageUrl)
-                                                <div class="badge bg-primary position-absolute top-0 start-0 m-1">Main</div>
-                                            @endif
                                             <div class="badge bg-info position-absolute top-0 end-0 m-1">{{ $index + 1 }}</div>
                                         </div>
                                         <div class="form-check mt-2">
@@ -119,20 +161,20 @@
                                                    name="remove_gallery_images[]" value="{{ $index }}"
                                                    id="remove_gallery_{{ $index }}">
                                             <label class="form-check-label text-danger" for="remove_gallery_{{ $index }}">
-                                                <small>Remove this image</small>
+                                                <small>Remove</small>
                                             </label>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
-                        </div>
-                    @endif
+                        @endif
 
-                    <!-- Also check Spatie Media Library images as fallback -->
-                    @if($product->getMedia('images')->count() > 0 && !$hasExistingImages)
-                        <div class="mb-4">
-                            <h6>Current Images (Legacy)</h6>
-                            <div class="row g-3">
+                        <!-- Check for legacy Spatie media -->
+                        @if($product->getMedia('images')->count() > 0)
+                            <div class="alert alert-info mb-3">
+                                <small><i class="bi bi-info-circle me-1"></i> Legacy images detected</small>
+                            </div>
+                            <div class="row g-3 mb-3">
                                 @foreach($product->getMedia('images') as $media)
                                     <div class="col-md-3">
                                         <div class="position-relative">
@@ -140,37 +182,130 @@
                                                  class="img-fluid rounded"
                                                  alt="{{ $product->name }}"
                                                  style="height: 120px; width: 100%; object-fit: cover;">
-                                            @if($loop->first)
-                                                <div class="badge bg-primary position-absolute top-0 start-0 m-1">Main</div>
-                                            @endif
+                                            <div class="badge bg-warning position-absolute top-0 start-0 m-1">Legacy</div>
                                         </div>
                                         <div class="form-check mt-2">
                                             <input class="form-check-input" type="checkbox"
                                                    name="remove_media_images[]" value="{{ $media->id }}"
                                                    id="remove_media_{{ $media->id }}">
                                             <label class="form-check-label text-danger" for="remove_media_{{ $media->id }}">
-                                                <small>Remove this image</small>
+                                                <small>Remove</small>
                                             </label>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
-                        </div>
-                    @endif
+                        @endif
 
-                    <!-- Upload New Images -->
-                    <div class="mb-3">
-                        <label for="images" class="form-label">Upload Additional Images</label>
-                        <input type="file" class="form-control @error('images.*') is-invalid @enderror"
-                               id="images" name="images[]" multiple accept="image/*">
-                        <div class="form-text">Upload multiple images (JPEG, PNG, JPG, GIF, WebP). Max 2MB per image.</div>
-                        @error('images.*')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        <div class="mb-3">
+                            <label for="images" class="form-label">Add More Gallery Images</label>
+                            <input type="file" class="form-control @error('images.*') is-invalid @enderror"
+                                   id="images" name="images[]" multiple accept="image/*">
+                            <div class="form-text">Upload multiple images. Max 4MB each</div>
+                            @error('images.*')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div id="imagePreview" class="row g-3" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Product Variants -->
+                <div class="stat-card p-4 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">Product Variants</h5>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="has_variants" name="has_variants"
+                                   value="1" {{ old('has_variants', $product->variants->count() > 0) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="has_variants">
+                                Enable Variants
+                            </label>
+                        </div>
                     </div>
 
-                    <div id="imagePreview" class="row g-3" style="display: none;">
-                        <!-- New image previews will be shown here -->
+                    <div id="variantsSection" style="{{ old('has_variants', $product->variants->count() > 0) ? '' : 'display: none;' }}">
+                        <div class="alert alert-info">
+                            <small><i class="bi bi-info-circle me-1"></i>
+                                Variants allow you to sell different versions of the same product (e.g., different sizes or colors).
+                                Each variant will have its own SKU created by combining the base product SKU (<strong>{{ $product->sku }}</strong>) with the suffix you provide.
+                            </small>
+                        </div>
+
+                        <div id="variantsContainer">
+                            @forelse(old('variants', $product->variants->toArray()) as $index => $variant)
+                                <div class="variant-item border rounded p-3 mb-3" data-variant-index="{{ $index }}">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="mb-0">Variant #{{ $index + 1 }}</h6>
+                                        <button type="button" class="btn btn-sm btn-danger remove-variant">
+                                            <i class="bi bi-trash"></i> Remove
+                                        </button>
+                                    </div>
+
+                                    <input type="hidden" name="variants[{{ $index }}][id]" value="{{ $variant['id'] ?? '' }}">
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Size *</label>
+                                            <input type="text" class="form-control" name="variants[{{ $index }}][size]"
+                                                   value="{{ $variant['size'] ?? '' }}" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Color *</label>
+                                            <input type="text" class="form-control" name="variants[{{ $index }}][color]"
+                                                   value="{{ $variant['color'] ?? '' }}" required>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">
+                                                SKU Suffix *
+                                                <i class="bi bi-info-circle" data-bs-toggle="tooltip"
+                                                   title="E.g., 'S-RED' will create SKU: {{ $product->sku }}-S-RED"></i>
+                                            </label>
+                                            @php
+                                                // Extract suffix from full SKU by removing base product SKU
+                                                $existingSku = $variant['sku'] ?? '';
+                                                $baseSku = $product->sku . '-';
+                                                $skuSuffix = str_starts_with($existingSku, $baseSku)
+                                                    ? substr($existingSku, strlen($baseSku))
+                                                    : ($variant['sku_suffix'] ?? '');
+                                            @endphp
+                                            <input type="text" class="form-control sku-suffix-input" name="variants[{{ $index }}][sku_suffix]"
+                                                   value="{{ old('variants.'.$index.'.sku_suffix', $skuSuffix) }}" required
+                                                   placeholder="e.g., S-RED"
+                                                   data-base-sku="{{ $product->sku }}"
+                                                   data-preview-target="sku-preview-{{ $index }}">
+                                            <small class="text-muted">Full SKU: <span class="text-primary fw-bold" id="sku-preview-{{ $index }}">{{ $product->sku }}-{{ old('variants.'.$index.'.sku_suffix', $skuSuffix) ?: '[suffix]' }}</span></small>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Price (UGX) *</label>
+                                            <input type="number" class="form-control" name="variants[{{ $index }}][price]"
+                                                   value="{{ $variant['price'] ?? '' }}" step="0.01" min="0" required>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Stock Quantity *</label>
+                                            <input type="number" class="form-control" name="variants[{{ $index }}][stock_quantity]"
+                                                   value="{{ $variant['stock_quantity'] ?? 0 }}" min="0" required>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                       name="variants[{{ $index }}][is_active]" value="1"
+                                                       id="variant_active_{{ $index }}"
+                                                    {{ ($variant['is_active'] ?? true) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="variant_active_{{ $index }}">
+                                                    Active
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                            @endforelse
+                        </div>
+
+                        <button type="button" class="btn btn-outline-primary" id="addVariant">
+                            <i class="bi bi-plus-circle me-1"></i> Add Variant
+                        </button>
                     </div>
                 </div>
 
@@ -182,6 +317,7 @@
                         <label for="meta_title" class="form-label">Meta Title</label>
                         <input type="text" class="form-control @error('meta_title') is-invalid @enderror"
                                id="meta_title" name="meta_title" value="{{ old('meta_title', $product->meta_title) }}" maxlength="255">
+                        <div class="form-text">Leave empty to use product name</div>
                         @error('meta_title')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -225,7 +361,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        <div class="form-text">Hold Ctrl/Cmd to select multiple categories</div>
+                        <div class="form-text">Hold Ctrl/Cmd to select multiple</div>
                         @error('categories')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -234,7 +370,7 @@
                     <div class="mb-3">
                         <label for="price" class="form-label">Regular Price *</label>
                         <div class="input-group">
-                            <span class="input-group-text">$</span>
+                            <span class="input-group-text">UGX</span>
                             <input type="number" class="form-control @error('price') is-invalid @enderror"
                                    id="price" name="price" value="{{ old('price', $product->price) }}"
                                    step="0.01" min="0" required>
@@ -247,11 +383,12 @@
                     <div class="mb-3">
                         <label for="sale_price" class="form-label">Sale Price</label>
                         <div class="input-group">
-                            <span class="input-group-text">$</span>
+                            <span class="input-group-text">UGX</span>
                             <input type="number" class="form-control @error('sale_price') is-invalid @enderror"
                                    id="sale_price" name="sale_price" value="{{ old('sale_price', $product->sale_price) }}"
                                    step="0.01" min="0">
                         </div>
+                        <div class="form-text">Must be less than regular price</div>
                         @error('sale_price')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -271,6 +408,7 @@
                                 Track stock quantity
                             </label>
                         </div>
+                        <small class="text-muted">Disable if variants are managing stock</small>
                     </div>
 
                     <div id="stockFields" style="{{ old('manage_stock', $product->manage_stock) ? '' : 'display: none;' }}">
@@ -336,7 +474,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="weight" class="form-label">Weight (lbs)</label>
+                        <label for="weight" class="form-label">Weight (Kg)</label>
                         <input type="number" class="form-control @error('weight') is-invalid @enderror"
                                id="weight" name="weight" value="{{ old('weight', $product->weight) }}"
                                step="0.01" min="0">
@@ -349,7 +487,7 @@
                         <label for="dimensions" class="form-label">Dimensions (L x W x H)</label>
                         <input type="text" class="form-control @error('dimensions') is-invalid @enderror"
                                id="dimensions" name="dimensions" value="{{ old('dimensions', $product->dimensions) }}"
-                               placeholder="e.g., 10 x 5 x 3 inches">
+                               placeholder="e.g., 10 x 5 x 3 cm">
                         @error('dimensions')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -373,19 +511,145 @@
             </div>
         </div>
     </form>
+
+    <!-- Hidden input to track deleted variants -->
+    <input type="hidden" name="delete_variants[]" id="deleteVariantsInput">
 @endsection
 
 @push('scripts')
     <script>
+        let variantIndex = {{ count(old('variants', $product->variants->toArray())) }};
+        const deletedVariants = [];
+
         // Stock management toggle
         document.getElementById('manage_stock').addEventListener('change', function() {
             const stockFields = document.getElementById('stockFields');
-            if (this.checked) {
-                stockFields.style.display = 'block';
-            } else {
-                stockFields.style.display = 'none';
+            stockFields.style.display = this.checked ? 'block' : 'none';
+        });
+
+        // Variants toggle
+        document.getElementById('has_variants').addEventListener('change', function() {
+            const variantsSection = document.getElementById('variantsSection');
+            variantsSection.style.display = this.checked ? 'block' : 'none';
+
+            if (this.checked && document.querySelectorAll('.variant-item').length === 0) {
+                addVariant();
             }
         });
+
+        // Add variant
+        document.getElementById('addVariant').addEventListener('click', function() {
+            addVariant();
+        });
+
+        function addVariant() {
+            const container = document.getElementById('variantsContainer');
+            const variantHtml = `
+                <div class="variant-item border rounded p-3 mb-3" data-variant-index="${variantIndex}">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="mb-0">Variant #${variantIndex + 1}</h6>
+                        <button type="button" class="btn btn-sm btn-danger remove-variant">
+                            <i class="bi bi-trash"></i> Remove
+                        </button>
+                    </div>
+
+                    <input type="hidden" name="variants[${variantIndex}][id]" value="">
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Size *</label>
+                            <input type="text" class="form-control" name="variants[${variantIndex}][size]" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Color *</label>
+                            <input type="text" class="form-control" name="variants[${variantIndex}][color]" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">
+                                SKU Suffix *
+                                <i class="bi bi-info-circle" data-bs-toggle="tooltip" title="E.g., 'S-RED' will create SKU: {{ $product->sku }}-S-RED"></i>
+                            </label>
+                            <input type="text" class="form-control sku-suffix-input" name="variants[${variantIndex}][sku_suffix]" required placeholder="e.g., S-RED" data-base-sku="{{ $product->sku }}" data-preview-target="sku-preview-${variantIndex}">
+                            <small class="text-muted">Full SKU: <span class="text-primary fw-bold" id="sku-preview-${variantIndex}">{{ $product->sku }}-[suffix]</span></small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Price (UGX) *</label>
+                            <input type="number" class="form-control" name="variants[${variantIndex}][price]"
+                                   step="0.01" min="0" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Stock Quantity *</label>
+                            <input type="number" class="form-control" name="variants[${variantIndex}][stock_quantity]"
+                                   value="0" min="0" required>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       name="variants[${variantIndex}][is_active]" value="1"
+                                       id="variant_active_${variantIndex}" checked>
+                                <label class="form-check-label" for="variant_active_${variantIndex}">
+                                    Active
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', variantHtml);
+            variantIndex++;
+
+            // Reattach remove listeners
+            attachRemoveListeners();
+        }
+
+        // Remove variant
+        function attachRemoveListeners() {
+            document.querySelectorAll('.remove-variant').forEach(button => {
+                button.removeEventListener('click', handleRemoveVariant);
+                button.addEventListener('click', handleRemoveVariant);
+            });
+        }
+
+        function handleRemoveVariant(e) {
+            const variantItem = e.target.closest('.variant-item');
+            const variantId = variantItem.querySelector('input[name*="[id]"]').value;
+
+            if (variantId) {
+                // Track for deletion if it's an existing variant
+                deletedVariants.push(variantId);
+                updateDeletedVariantsInput();
+            }
+
+            variantItem.remove();
+
+            // Renumber remaining variants
+            document.querySelectorAll('.variant-item').forEach((item, index) => {
+                item.querySelector('h6').textContent = `Variant #${index + 1}`;
+            });
+        }
+
+        function updateDeletedVariantsInput() {
+            // Remove existing delete inputs
+            document.querySelectorAll('input[name="delete_variants[]"]').forEach(input => {
+                if (input.id !== 'deleteVariantsInput') {
+                    input.remove();
+                }
+            });
+
+            // Add hidden inputs for each deleted variant
+            const form = document.getElementById('productForm');
+            deletedVariants.forEach(id => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'delete_variants[]';
+                input.value = id;
+                form.appendChild(input);
+            });
+        }
+
+        // Initialize remove listeners on page load
+        attachRemoveListeners();
 
         // Image preview functionality
         document.getElementById('images').addEventListener('change', function(e) {
@@ -393,7 +657,7 @@
             preview.innerHTML = '';
 
             if (e.target.files.length > 0) {
-                preview.style.display = 'block';
+                preview.style.display = 'flex';
 
                 Array.from(e.target.files).forEach((file, index) => {
                     if (file.type.startsWith('image/')) {
@@ -405,7 +669,10 @@
                                 <div class="position-relative">
                                     <img src="${e.target.result}" class="img-fluid rounded"
                                          style="height: 120px; width: 100%; object-fit: cover;">
-                                    ${index === 0 ? '<div class="badge bg-success position-absolute top-0 start-0 m-1">New Main</div>' : ''}
+                                    <div class="badge bg-success position-absolute top-0 start-0 m-1">New</div>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <small class="text-muted">${file.name}</small>
                                 </div>
                             `;
                             preview.appendChild(col);
@@ -418,14 +685,131 @@
             }
         });
 
-        // Auto-generate slug from name
-        document.getElementById('name').addEventListener('input', function() {
-            const slug = this.value.toLowerCase()
-                .replace(/[^a-z0-9 -]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-')
-                .trim('-');
-            document.getElementById('slug').value = slug;
+        // Featured image preview
+        document.getElementById('featured_image').addEventListener('change', function(e) {
+            const preview = document.getElementById('featuredImagePreview');
+            const previewImg = document.getElementById('featuredPreviewImg');
+            const fileName = document.getElementById('featuredFileName');
+
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        previewImg.src = event.target.result;
+                        fileName.textContent = file.name;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.style.display = 'none';
+                }
+            } else {
+                preview.style.display = 'none';
+            }
         });
+
+        // Auto-generate slug from name (only if slug is empty)
+        const slugInput = document.getElementById('slug');
+        const nameInput = document.getElementById('name');
+
+        nameInput.addEventListener('input', function() {
+            if (slugInput.value === '') {
+                const slug = this.value.toLowerCase()
+                    .replace(/[^a-z0-9 -]/g, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/-+/g, '-')
+                    .trim();
+                slugInput.value = slug;
+            }
+        });
+
+        // Form validation
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            const hasVariants = document.getElementById('has_variants').checked;
+            const variantItems = document.querySelectorAll('.variant-item');
+
+            if (hasVariants && variantItems.length === 0) {
+                e.preventDefault();
+                alert('Please add at least one variant or disable variants.');
+                return false;
+            }
+
+            // Validate sale price is less than regular price
+            const price = parseFloat(document.getElementById('price').value);
+            const salePrice = parseFloat(document.getElementById('sale_price').value);
+
+            if (salePrice && salePrice >= price) {
+                e.preventDefault();
+                alert('Sale price must be less than regular price.');
+                document.getElementById('sale_price').focus();
+                return false;
+            }
+
+            return true;
+        });
+
+        // Warn about unsaved changes
+        let formChanged = false;
+        const form = document.getElementById('productForm');
+
+        form.addEventListener('change', function() {
+            formChanged = true;
+        });
+
+        window.addEventListener('beforeunload', function(e) {
+            if (formChanged) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
+        form.addEventListener('submit', function() {
+            formChanged = false;
+        });
+
+        // Initialize Bootstrap tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+
+        // Re-initialize tooltips when new variants are added
+        const originalAddVariant = addVariant;
+        function addVariant() {
+            originalAddVariant();
+            // Re-initialize tooltips for new elements
+            const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltips.forEach(el => {
+                if (!el._tooltip) {
+                    new bootstrap.Tooltip(el);
+                }
+            });
+            // Attach SKU preview listeners to new inputs
+            attachSkuPreviewListeners();
+        }
+
+        // SKU suffix live preview
+        function attachSkuPreviewListeners() {
+            document.querySelectorAll('.sku-suffix-input').forEach(input => {
+                if (!input.dataset.listenerAttached) {
+                    input.addEventListener('input', function() {
+                        const baseSku = this.dataset.baseSku;
+                        const previewId = this.dataset.previewTarget;
+                        const preview = document.getElementById(previewId);
+                        if (preview) {
+                            const suffix = this.value.trim();
+                            preview.textContent = suffix ? `${baseSku}-${suffix}` : `${baseSku}-[suffix]`;
+                        }
+                    });
+                    input.dataset.listenerAttached = 'true';
+                }
+            });
+        }
+
+        // Initialize on page load
+        attachSkuPreviewListeners();
     </script>
 @endpush

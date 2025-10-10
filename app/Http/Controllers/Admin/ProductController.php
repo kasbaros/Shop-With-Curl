@@ -3,7 +3,8 @@
     namespace App\Http\Controllers\Admin;
 
     use App\Helpers\ImageStorageHelper;
-    use App\Models\{Product, Category};
+    use Illuminate\Support\Facades\DB;
+    use App\Models\{Product, Category, ProductVariant};
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Storage;
     use Illuminate\Support\Str;
@@ -89,63 +90,6 @@
                 compact('categoryGroups')
             ));
         }
-
-//        public function store(Request $request)
-//        {
-//            $validated = $request->validate([
-//                'name' => 'required|string|max:255',
-//                'slug' => 'nullable|string|max:255|unique:products,slug',
-//                'description' => 'required|string',
-//                'short_description' => 'nullable|string|max:500',
-//                'sku' => 'required|string|max:100|unique:products,sku',
-//                'category_id' => 'required|exists:categories,id',
-//                'price' => 'required|numeric|min:0',
-//                'sale_price' => 'nullable|numeric|min:0|lt:price',
-//                'manage_stock' => 'boolean',
-//                'stock_quantity' => 'nullable|integer|min:0',
-//                'min_stock_level' => 'nullable|integer|min:0',
-//                'weight' => 'nullable|numeric|min:0',
-//                'dimensions' => 'nullable|string|max:100',
-//                'is_active' => 'boolean',
-//                'is_featured' => 'boolean',
-//                'meta_title' => 'nullable|string|max:255',
-//                'meta_description' => 'nullable|string|max:500',
-//                'images' => 'nullable|array',
-//                'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-//            ]);
-//
-//            // Generate slug if not provided
-//            if (empty($validated['slug'])) {
-//                $validated['slug'] = Str::slug($validated['name']);
-//
-//                // Ensure unique slug
-//                $originalSlug = $validated['slug'];
-//                $counter = 1;
-//                while (Product::where('slug', $validated['slug'])->exists()) {
-//                    $validated['slug'] = $originalSlug . '-' . $counter++;
-//                }
-//            }
-//
-//            // Transform single category_id into array for attaching
-//            $categories = [$validated['category_id']];
-//            unset($validated['category_id']);
-//
-//            $product = Product::create($validated);
-//
-//            // Attach categories
-//            $product->categories()->attach($categories);
-//
-//            // Handle image uploads
-//            if ($request->hasFile('images')) {
-//                foreach ($request->file('images') as $image) {
-//                    $product->addMedia($image)->toMediaCollection('images');
-//                }
-//            }
-//
-//            return redirect()
-//                ->route('admin.products.show', $product)
-//                ->with('success', 'Product created successfully!');
-//        }
 
         public function store(Request $request)
         {
@@ -272,17 +216,17 @@
             ));
         }
 
-        public function edit(Product $product)
-        {
-            $categories = Category::where('is_active', true)->get();
-            $product->load(['categories']);
-
-            return view('admin.products.edit', array_merge(
-                $this->getAdminViewData(),
-                compact('product', 'categories')
-            ));
-        }
-
+//        public function edit(Product $product)
+//        {
+//            $categories = Category::where('is_active', true)->get();
+//            $product->load(['categories']);
+//
+//            return view('admin.products.edit', array_merge(
+//                $this->getAdminViewData(),
+//                compact('product', 'categories')
+//            ));
+//        }
+//
 //        public function update(Request $request, Product $product)
 //        {
 //            $validated = $request->validate([
@@ -305,49 +249,66 @@
 //                'status' => 'required|in:draft,published,inactive',
 //                'meta_title' => 'nullable|string|max:255',
 //                'meta_description' => 'nullable|string|max:500',
+//                'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
 //                'images' => 'nullable|array',
-//                'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+//                'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+//                'remove_images' => 'nullable|array',
+//                'remove_images.*' => 'integer|min:0',
 //            ]);
 //
-//            // Generate slug if not provided
 //            if (empty($validated['slug'])) {
 //                $validated['slug'] = Str::slug($validated['name']);
-//
-//                // Ensure unique slug
-//                $originalSlug = $validated['slug'];
-//                $counter = 1;
+//                $base = $validated['slug'];
+//                $i = 1;
 //                while (Product::where('slug', $validated['slug'])
-//                    ->where('id', '!=', $product->id)
-//                    ->exists()) {
-//                    $validated['slug'] = $originalSlug . '-' . $counter++;
+//                    ->where('id', '!=', $product->id)->exists()) {
+//                    $validated['slug'] = $base . '-' . $i++;
 //                }
 //            }
 //
-//            // Remove categories from validated data as it's handled separately
+//            // Handle featured image replacement
+//            if ($request->hasFile('featured_image')) {
+//                if (!empty($product->featured_image)) {
+//                    \App\Helpers\ImageStorageHelper::delete($product->featured_image);
+//                }
+//                $validated['featured_image'] = ImageStorageHelper::store(
+//                    $request->file('featured_image'),
+//                    'products'
+//                );
+//            }
+//
+//            // Pull current gallery as array
+//            $gallery = is_array($product->gallery) ? $product->gallery : [];
+//
+//            // Remove images by index if requested
+//            if ($request->filled('remove_images')) {
+//                foreach ($request->input('remove_images') as $idx) {
+//                    if (isset($gallery[$idx])) {
+//                        \App\Helpers\ImageStorageHelper::delete($gallery[$idx]);
+//                        unset($gallery[$idx]);
+//                    }
+//                }
+//                // Reindex array
+//                $gallery = array_values($gallery);
+//            }
+//
+//            // Add new gallery images
+//            if ($request->hasFile('images')) {
+//                foreach ($request->file('images') as $img) {
+//                    $gallery[] = ImageStorageHelper::store($img, 'products');
+//                }
+//            }
+//
+//            // Move categories out of validated data to update separately
 //            $categories = $validated['categories'];
 //            unset($validated['categories']);
 //
+//            // Save updated fields + gallery
+//            $validated['gallery'] = $gallery;
 //            $product->update($validated);
 //
 //            // Sync categories
 //            $product->categories()->sync($categories);
-//
-//            // Remove selected existing images
-//            if ($request->filled('remove_images')) {
-//                foreach ($request->input('remove_images') as $mediaId) {
-//                    $media = $product->media()->where('id', $mediaId)->first();
-//                    if ($media) {
-//                        $media->delete();
-//                    }
-//                }
-//            }
-//
-//            // Handle new image uploads
-//            if ($request->hasFile('images')) {
-//                foreach ($request->file('images') as $image) {
-//                    $product->addMedia($image)->toMediaCollection('images');
-//                }
-//            }
 //
 //            return redirect()
 //                ->route('admin.products.show', $product)
@@ -355,19 +316,16 @@
 //        }
 
 
+        public function edit(Product $product)
+        {
+            $categories = Category::where('is_active', true)->get();
+            $product->load(['categories', 'variants']);
 
-//        public function destroy(Product $product)
-//        {
-//            // Remove all media files
-//            $product->clearMediaCollection('images');
-//            $product->clearMediaCollection('gallery');
-//
-//            $product->delete();
-//
-//            return redirect()
-//                ->route('admin.products.index')
-//                ->with('success', 'Product deleted successfully!');
-//        }
+            return view('admin.products.edit', array_merge(
+                $this->getAdminViewData(),
+                compact('product', 'categories')
+            ));
+        }
 
         public function update(Request $request, Product $product)
         {
@@ -391,71 +349,209 @@
                 'status' => 'required|in:draft,published,inactive',
                 'meta_title' => 'nullable|string|max:255',
                 'meta_description' => 'nullable|string|max:500',
+
+                // Image handling
                 'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+                'remove_featured_image' => 'nullable|boolean',
                 'images' => 'nullable|array',
-                'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:4096',
-                'remove_images' => 'nullable|array',
-                'remove_images.*' => 'integer|min:0',
+                'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+                'remove_gallery_images' => 'nullable|array',
+                'remove_gallery_images.*' => 'integer|min:0',
+                'remove_media_images' => 'nullable|array',
+                'remove_media_images.*' => 'integer',
+
+                // Variant handling
+                'has_variants' => 'boolean',
+                'variants' => 'nullable|array',
+                'variants.*.id' => 'nullable|exists:product_variants,id',
+                'variants.*.size' => 'required_with:variants|string|max:50',
+                'variants.*.color' => 'required_with:variants|string|max:50',
+                'variants.*.sku_suffix' => 'required_with:variants|string|max:50',
+                'variants.*.price' => 'required_with:variants|numeric|min:0',
+                'variants.*.stock_quantity' => 'required_with:variants|integer|min:0',
+                'variants.*.is_active' => 'boolean',
+                'delete_variants' => 'nullable|array',
+                'delete_variants.*' => 'exists:product_variants,id',
             ]);
 
-            if (empty($validated['slug'])) {
-                $validated['slug'] = Str::slug($validated['name']);
-                $base = $validated['slug'];
-                $i = 1;
-                while (Product::where('slug', $validated['slug'])
-                    ->where('id', '!=', $product->id)->exists()) {
-                    $validated['slug'] = $base . '-' . $i++;
-                }
-            }
+            DB::beginTransaction();
 
-            // Handle featured image replacement
-            if ($request->hasFile('featured_image')) {
-                if (!empty($product->featured_image)) {
-                    \App\Helpers\ImageStorageHelper::delete($product->featured_image);
-                }
-                $validated['featured_image'] = ImageStorageHelper::store(
-                    $request->file('featured_image'),
-                    'products'
-                );
-            }
-
-            // Pull current gallery as array
-            $gallery = is_array($product->gallery) ? $product->gallery : [];
-
-            // Remove images by index if requested
-            if ($request->filled('remove_images')) {
-                foreach ($request->input('remove_images') as $idx) {
-                    if (isset($gallery[$idx])) {
-                        \App\Helpers\ImageStorageHelper::delete($gallery[$idx]);
-                        unset($gallery[$idx]);
+            try {
+                // Generate slug if empty
+                if (empty($validated['slug'])) {
+                    $validated['slug'] = Str::slug($validated['name']);
+                    $base = $validated['slug'];
+                    $i = 1;
+                    while (Product::where('slug', $validated['slug'])
+                        ->where('id', '!=', $product->id)->exists()) {
+                        $validated['slug'] = $base . '-' . $i++;
                     }
                 }
-                // Reindex array
-                $gallery = array_values($gallery);
-            }
 
-            // Add new gallery images
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $img) {
-                    $gallery[] = ImageStorageHelper::store($img, 'products');
+                // Handle featured image
+                if ($request->has('remove_featured_image') && $request->remove_featured_image) {
+                    if (!empty($product->featured_image)) {
+                        ImageStorageHelper::delete($product->featured_image);
+                    }
+                    $validated['featured_image'] = null;
+                } elseif ($request->hasFile('featured_image')) {
+                    if (!empty($product->featured_image)) {
+                        ImageStorageHelper::delete($product->featured_image);
+                    }
+                    $validated['featured_image'] = ImageStorageHelper::store(
+                        $request->file('featured_image'),
+                        'products'
+                    );
+                } else {
+                    // Keep existing featured image
+                    unset($validated['featured_image']);
                 }
+
+                // Handle gallery images
+                $gallery = is_array($product->gallery) ? $product->gallery : [];
+
+                // Remove selected gallery images by index
+                if ($request->filled('remove_gallery_images')) {
+                    $indicesToRemove = array_map('intval', $request->input('remove_gallery_images'));
+                    rsort($indicesToRemove); // Remove from end to maintain indices
+
+                    foreach ($indicesToRemove as $idx) {
+                        if (isset($gallery[$idx])) {
+                            ImageStorageHelper::delete($gallery[$idx]);
+                            unset($gallery[$idx]);
+                        }
+                    }
+                    $gallery = array_values($gallery); // Reindex
+                }
+
+                // Remove legacy media library images if they exist
+                if ($request->filled('remove_media_images')) {
+                    foreach ($request->input('remove_media_images') as $mediaId) {
+                        $media = $product->media()->where('id', $mediaId)->first();
+                        if ($media) {
+                            $media->delete();
+                        }
+                    }
+                }
+
+                // Add new gallery images
+                if ($request->hasFile('images')) {
+                    foreach ($request->file('images') as $img) {
+                        // Only process valid file uploads
+                        if ($img && $img->isValid()) {
+                            $gallery[] = ImageStorageHelper::store($img, 'products');
+                        }
+                    }
+                }
+
+                $validated['gallery'] = $gallery;
+
+                // Extract categories for separate handling
+                $categories = $validated['categories'];
+                unset($validated['categories']);
+
+                // Handle variants
+                $hasVariants = $validated['has_variants'] ?? false;
+                unset($validated['has_variants'], $validated['variants'], $validated['delete_variants']);
+
+                // Update product
+                $product->update($validated);
+
+                // Sync categories
+                $product->categories()->sync($categories);
+
+                // Handle variants
+                if ($hasVariants && $request->variants) {
+                    $existingVariantIds = [];
+
+                    foreach ($request->variants as $variantData) {
+                        $variantData['is_active'] = isset($variantData['is_active']) && $variantData['is_active'];
+
+                        // Update existing variant
+                        if (!empty($variantData['id'])) {
+                            $variant = ProductVariant::where('id', $variantData['id'])
+                                ->where('product_id', $product->id)
+                                ->first();
+
+                            if ($variant) {
+                                // Check if SKU changed and ensure uniqueness
+                                $newSku = $product->sku . '-' . $variantData['sku_suffix'];
+                                if ($variant->sku !== $newSku) {
+                                    $counter = 1;
+                                    $originalSku = $newSku;
+                                    while (ProductVariant::where('sku', $newSku)
+                                        ->where('id', '!=', $variant->id)
+                                        ->exists()) {
+                                        $newSku = $originalSku . '-' . $counter++;
+                                    }
+                                }
+
+                                $variant->update([
+                                    'size' => $variantData['size'],
+                                    'color' => $variantData['color'],
+                                    'sku' => $newSku,
+                                    'price' => $variantData['price'],
+                                    'stock_quantity' => $variantData['stock_quantity'],
+                                    'is_active' => $variantData['is_active'],
+                                ]);
+
+                                $existingVariantIds[] = $variant->id;
+                            }
+                        } else {
+                            // Create new variant
+                            $variantSku = $product->sku . '-' . $variantData['sku_suffix'];
+                            $counter = 1;
+                            $originalSku = $variantSku;
+                            while (ProductVariant::where('sku', $variantSku)->exists()) {
+                                $variantSku = $originalSku . '-' . $counter++;
+                            }
+
+                            $newVariant = ProductVariant::create([
+                                'product_id' => $product->id,
+                                'size' => $variantData['size'],
+                                'color' => $variantData['color'],
+                                'sku' => $variantSku,
+                                'price' => $variantData['price'],
+                                'stock_quantity' => $variantData['stock_quantity'],
+                                'is_active' => $variantData['is_active'],
+                            ]);
+
+                            $existingVariantIds[] = $newVariant->id;
+                        }
+                    }
+
+                    // Delete variants marked for deletion
+                    if ($request->filled('delete_variants')) {
+                        ProductVariant::whereIn('id', $request->delete_variants)
+                            ->where('product_id', $product->id)
+                            ->delete();
+                    }
+
+                    // Delete variants that were removed from the form
+                    ProductVariant::where('product_id', $product->id)
+                        ->whereNotIn('id', $existingVariantIds)
+                        ->delete();
+                } elseif (!$hasVariants) {
+                    // If variants disabled, delete all variants
+                    $product->variants()->delete();
+                }
+
+                DB::commit();
+
+                return redirect()
+                    ->route('admin.products.show', $product)
+                    ->with('success', 'Product updated successfully!');
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('error', 'Failed to update product: ' . $e->getMessage());
             }
-
-            // Move categories out of validated data to update separately
-            $categories = $validated['categories'];
-            unset($validated['categories']);
-
-            // Save updated fields + gallery
-            $validated['gallery'] = $gallery;
-            $product->update($validated);
-
-            // Sync categories
-            $product->categories()->sync($categories);
-
-            return redirect()
-                ->route('admin.products.show', $product)
-                ->with('success', 'Product updated successfully!');
         }
+
 
         public function destroy(Product $product)
         {

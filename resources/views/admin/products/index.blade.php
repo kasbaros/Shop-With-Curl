@@ -86,7 +86,7 @@
 
     <!-- Products Table -->
     <div class="table-admin">
-        <div class="table-responsive">
+        <div class="table-responsive" style="min-height: 500px;">
             <table class="table table-hover mb-0">
                 <thead class="table-light">
                 <tr>
@@ -164,10 +164,10 @@
                         <td>
                             <div>
                                 @if($product->sale_price)
-                                    <span class="text-danger fw-bold">${{ number_format($product->sale_price, 2) }}</span>
+                                    <span class="text-danger fw-bold">UGX {{ number_format($product->sale_price, 2) }}</span>
                                     <small class="text-muted text-decoration-line-through">${{ number_format($product->price, 2) }}</small>
                                 @else
-                                    <span class="fw-bold">${{ number_format($product->price, 2) }}</span>
+                                    <span class="fw-bold">UGX {{ number_format($product->price, 2) }}</span>
                                 @endif
                             </div>
                         </td>

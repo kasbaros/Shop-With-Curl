@@ -155,7 +155,7 @@
                     <div class="mb-3">
                         <label for="price" class="form-label">Regular Price *</label>
                         <div class="input-group">
-                            <span class="input-group-text">$</span>
+                            <span class="input-group-text">UGX</span>
                             <input type="number" class="form-control @error('price') is-invalid @enderror"
                                    id="price" name="price" value="{{ old('price') }}"
                                    step="0.01" min="0" required>
@@ -168,7 +168,7 @@
                     <div class="mb-3">
                         <label for="sale_price" class="form-label">Sale Price</label>
                         <div class="input-group">
-                            <span class="input-group-text">$</span>
+                            <span class="input-group-text">UGX</span>
                             <input type="number" class="form-control @error('sale_price') is-invalid @enderror"
                                    id="sale_price" name="sale_price" value="{{ old('sale_price') }}"
                                    step="0.01" min="0">
