@@ -327,6 +327,7 @@
     <!-- /default -->
 
     <!-- Product Details Tabs -->
+
     <section class="flat-spacing-17 pt_0">
         <div class="container">
             <div class="row">
@@ -417,74 +418,80 @@
 
                             <!-- Additional Information Tab -->
                             <div class="widget-content-inner">
-                                <table class="tf-pr-attrs">
-                                    <tbody>
-                                    @if($product->brand)
-                                        <tr class="tf-attr-pa-brand">
-                                            <th class="tf-attr-label">Brand</th>
-                                            <td class="tf-attr-value">
-                                                <p>{{ $product->brand->name }}</p>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    @if($product->sku)
-                                        <tr class="tf-attr-pa-sku">
-                                            <th class="tf-attr-label">SKU</th>
-                                            <td class="tf-attr-value">
-                                                <p>{{ $product->sku }}</p>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    @if($product->weight)
-                                        <tr class="tf-attr-pa-weight">
-                                            <th class="tf-attr-label">Weight</th>
-                                            <td class="tf-attr-value">
-                                                <p>{{ $product->weight }} kg</p>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    @if($product->dimensions)
-                                        <tr class="tf-attr-pa-dimensions">
-                                            <th class="tf-attr-label">Dimensions</th>
-                                            <td class="tf-attr-value">
-                                                <p>{{ $product->dimensions }}</p>
-                                            </td>
-                                        </tr>
-                                    @endif
-                                    </tbody>
-                                </table>
+                                <div class="table-responsive">
+                                    <table class="tf-pr-attrs table table-striped table-hover">
+                                        <tbody>
+                                        @if($product->brand)
+                                            <tr class="tf-attr-pa-brand">
+                                                <th class="tf-attr-label w-25 fw-semibold">Brand</th>
+                                                <td class="tf-attr-value">
+                                                    <p class="mb-0">{{ $product->brand->name }}</p>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        @if($product->sku)
+                                            <tr class="tf-attr-pa-sku">
+                                                <th class="tf-attr-label w-25 fw-semibold">SKU</th>
+                                                <td class="tf-attr-value">
+                                                    <p class="mb-0 font-monospace">{{ $product->sku }}</p>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        @if($product->weight)
+                                            <tr class="tf-attr-pa-weight">
+                                                <th class="tf-attr-label w-25 fw-semibold">Weight</th>
+                                                <td class="tf-attr-value">
+                                                    <p class="mb-0">{{ $product->weight }} kg</p>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        @if($product->dimensions)
+                                            <tr class="tf-attr-pa-dimensions">
+                                                <th class="tf-attr-label w-25 fw-semibold">Dimensions</th>
+                                                <td class="tf-attr-value">
+                                                    <p class="mb-0">{{ $product->dimensions }}</p>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
 
                             <!-- Reviews Tab -->
                             <div class="widget-content-inner">
                                 <div class="tab-reviews write-cancel-review-wrap">
                                     @if($product->reviews_count > 0)
-                                        <div class="tab-reviews-heading">
+                                        <div class="tab-reviews-heading mb-4">
                                             <div class="top">
-                                                <div class="text-center">
-                                                    <h1 class="number fw-6">{{ number_format($product->average_rating, 1) }}</h1>
-                                                    <div class="list-star">
+                                                <div class="text-center p-4 bg-light rounded">
+                                                    <h1 class="number fw-6 display-3 mb-3">{{ number_format($product->average_rating, 1) }}</h1>
+                                                    <div class="list-star mb-3">
                                                         @for($i=1; $i<=5; $i++)
-                                                            <i class="icon icon-star{{ $i <= round($product->average_rating) ? '' : '-o' }}"></i>
+                                                            <i class="icon icon-star{{ $i <= round($product->average_rating) ? '' : '-o' }} text-warning fs-4"></i>
                                                         @endfor
                                                     </div>
-                                                    <p>({{ $product->reviews_count }} Reviews)</p>
+                                                    <p class="text-muted mb-0">({{ $product->reviews_count }} Reviews)</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="reply-comment cancel-review-wrap">
-                                            <div
-                                                class="d-flex mb_24 gap-20 align-items-center justify-content-between flex-wrap">
-                                                <h5 class="">{{ $product->reviews_count }} Reviews</h5>
+                                            <div class="d-flex mb_24 gap-20 align-items-center justify-content-between flex-wrap mb-4 pb-3 border-bottom">
+                                                <h5 class="mb-0">{{ $product->reviews_count }} Reviews</h5>
                                             </div>
                                             <div class="reply-comment-wrap">
-                                                <p class="text-center text-muted">Reviews will be displayed here when
-                                                    available.</p>
+                                                <div class="alert alert-info text-center" role="alert">
+                                                    <i class="bi bi-info-circle me-2"></i>
+                                                    Reviews will be displayed here when available.
+                                                </div>
                                             </div>
                                         </div>
                                     @else
                                         <div class="text-center py-5">
-                                            <h5>No Reviews Yet</h5>
+                                            <div class="mb-4">
+                                                <i class="bi bi-chat-left-text display-1 text-muted"></i>
+                                            </div>
+                                            <h5 class="mb-3">No Reviews Yet</h5>
                                             <p class="text-muted">Be the first to review this product!</p>
                                         </div>
                                     @endif
@@ -494,62 +501,88 @@
                             <!-- Shipping Tab -->
                             <div class="widget-content-inner">
                                 <div class="tf-page-privacy-policy">
-                                    <div class="title">Shipping Information</div>
-                                    <p>We offer reliable shipping options to ensure your order reaches you safely and on
-                                        time.</p>
+                                    <div class="title mb-4 pb-3 border-bottom">
+                                        <h5 class="mb-0">Shipping Information</h5>
+                                    </div>
+                                    <p class="lead mb-4">We offer reliable shipping options to ensure your order reaches you safely and on time.</p>
 
-                                    <h4 class="mt-4 mb-2">Delivery Times</h4>
-                                    <ul>
-                                        <li><strong>Domestic Shipping:</strong> 2-5 business days</li>
-                                        <li><strong>International Shipping:</strong> 7-14 business days</li>
-                                        <li><strong>Express Shipping:</strong> 1-2 business days (additional charges
-                                            apply)
-                                        </li>
-                                    </ul>
+                                    <div class="row g-4">
+                                        <div class="col-md-4">
+                                            <div class="card h-100 border-0 shadow-sm">
+                                                <div class="card-body">
+                                                    <h4 class="mt-4 mb-2 h5 card-title"><i class="icon-delivery-time me-2"></i>Delivery Times</h4>
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li class="mb-2"><strong>Within CBD:</strong> Same day of purchase</li>
+                                                        <li class="mb-2"><strong>Upcountry:</strong> 2-5 business days</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <h4 class="mt-4 mb-2">Shipping Costs</h4>
-                                    <p>Shipping costs are calculated based on the weight and destination of your order.
-                                        Free shipping is available for orders over a certain amount.</p>
+                                        <div class="col-md-4">
+                                            <div class="card h-100 border-0 shadow-sm">
+                                                <div class="card-body">
+                                                    <h4 class="mt-4 mb-2 h5 card-title"><i class="icon-fast-shipping me-2"></i>Shipping Costs</h4>
+                                                    <p class="mb-0">Shipping costs are calculated based on the weight and destination of your order. Free shipping is available for orders over a certain amount.</p>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <h4 class="mt-4 mb-2">Order Processing</h4>
-                                    <p>Orders are processed within 1-2 business days. You will receive a tracking number
-                                        once your order has been shipped.</p>
+                                        <div class="col-md-4">
+                                            <div class="card h-100 border-0 shadow-sm">
+                                                <div class="card-body">
+                                                    <h4 class="mt-4 mb-2 h5 card-title"><i class="icon-car-order me-2"></i>Order Processing</h4>
+                                                    <p class="mb-0">Orders are processed within 1-2 business days. You will receive a tracking number once your order has been shipped.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Return Policies Tab -->
                             <div class="widget-content-inner">
                                 <div class="tf-page-privacy-policy">
-                                    <div class="title">Return & Exchange Policy</div>
-                                    <p>We want you to be completely satisfied with your purchase. If you're not happy
-                                        with your order,
-                                        we're here to help.</p>
+                                    <div class="title mb-4 pb-3 border-bottom">
+                                        <h5 class="mb-0">Return & Exchange Policy</h5>
+                                    </div>
+                                    <p class="lead mb-4">We want you to be completely satisfied with your purchase. If you're not happy with your order, we're here to help.</p>
 
-                                    <h4 class="mt-4 mb-2">Return Window</h4>
-                                    <p>You have <strong>30 days</strong> from the date of delivery to return your item
-                                        for a full refund
-                                        or exchange.</p>
+                                    <div class="row g-4">
+                                        <div class="col-lg-6">
+                                            <div class="card border-0 shadow-sm h-100">
+                                                <div class="card-body">
+                                                    <h5 class="mt-4 mb-2 h5 card-title"><i class="icon-calendar me-2"></i>Return Window</h5>
+                                                    <p class="mb-4">You have <strong class="text-primary">1 day</strong> from the date of delivery to return your item for a full refund or exchange.</p>
 
-                                    <h4 class="mt-4 mb-2">Return Conditions</h4>
-                                    <ul>
-                                        <li>Items must be in original condition</li>
-                                        <li>Items must be unused and with tags attached</li>
-                                        <li>Original packaging must be included</li>
-                                        <li>Proof of purchase required</li>
-                                    </ul>
+                                                    <h5 class="mt-4 mb-2 h5 card-title"><i class="icon-return-order me-2"></i>Return Conditions</h5>
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li class="mb-2"><i class="icon-check text-success me-2"></i>Items must be in original condition</li>
+                                                        <li class="mb-2"><i class="icon-check text-success me-2"></i>Items must be unused and with tags attached</li>
+                                                        <li class="mb-2"><i class="icon-check text-success me-2"></i>Original packaging must be included</li>
+                                                        <li class="mb-0"><i class="icon-check text-success me-2"></i>Proof of purchase required</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <h4 class="mt-4 mb-2">How to Return</h4>
-                                    <ol>
-                                        <li>Contact our customer service team</li>
-                                        <li>Receive return authorization and shipping label</li>
-                                        <li>Package your item securely</li>
-                                        <li>Ship using provided label</li>
-                                    </ol>
+                                        <div class="col-lg-6">
+                                            <div class="card border-0 shadow-sm h-100">
+                                                <div class="card-body">
+                                                    <h4 class="mt-4 mb-2 h5 card-title"><i class="icon-return me-2"></i>How to Return</h4>
+                                                    <ol class="mb-4">
+                                                        <li class="mb-2"><i class="icon-check text-success me-2"></i>Contact our customer service team</li>
+                                                        <li class="mb-2"><i class="icon-check text-success me-2"></i>Receive return authorization and shipping label</li>
+                                                        <li class="mb-2"><i class="icon-check text-success me-2"></i>Package your item securely</li>
+                                                        <li class="mb-0"><i class="icon-check text-success me-2"></i>Ship using provided label</li>
+                                                    </ol>
 
-                                    <h4 class="mt-4 mb-2">Refund Processing</h4>
-                                    <p>Once we receive and inspect your return, we'll process your refund within 5-7
-                                        business days.
-                                        Refunds will be credited to your original payment method.</p>
+                                                    <h4 class="mt-4 mb-2 h5 card-title"><i class="icon-card me-2"></i>Refund Processing</h4>
+                                                    <p class="mb-0">Once we receive and inspect your return, we'll process your refund within 5-7 business days. Refunds will be credited to your original payment method.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -558,6 +591,7 @@
             </div>
         </div>
     </section>
+
     <!-- /Product Details Tabs -->
 
     <!-- Related Products -->
@@ -803,8 +837,28 @@
                 }
             }
 
+            // Tab switching functionality
+            function initProductTabs() {
+                const tabItems = document.querySelectorAll('.widget-menu-tab .item-title');
+                const contentItems = document.querySelectorAll('.widget-content-tab .widget-content-inner');
+
+                tabItems.forEach((tab, index) => {
+                    tab.addEventListener('click', function() {
+                        // Remove active class from all tabs and content
+                        tabItems.forEach(t => t.classList.remove('active'));
+                        contentItems.forEach(c => c.classList.remove('active'));
+
+                        // Add active class to clicked tab and corresponding content
+                        tab.classList.add('active');
+                        contentItems[index].classList.add('active');
+                    });
+                });
+            }
+
             document.addEventListener('DOMContentLoaded', function () {
                 try {
+                    // Initialize tabs
+                    initProductTabs();
                     // Initialize gallery after DOM is ready and dependencies are loaded
                     setTimeout(initGallerySwiper, 200);
                     // Initialize related products carousel
