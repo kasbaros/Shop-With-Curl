@@ -589,62 +589,150 @@
 {{--    @endif--}}
 
 
-    <!-- Enhanced Related Products -->
+    <!-- Related Products -->
     @if(isset($relatedProducts) && $relatedProducts->isNotEmpty())
-        @php
-            $primaryCategory = $product->categories->first();
-            $viewAllUrl = $primaryCategory
-                ? route('shop.index', ['category' => $primaryCategory->slug])
-                : route('shop.index');
-            $relatedCount = $relatedProducts->count();
-        @endphp
-
-        <section class="flat-spacing-1 pt_0 tf-related-products">
+        <section class="flat-spacing-1 pt_0">
             <div class="container">
-                <!-- Enhanced Header -->
-                <div class="d-flex justify-content-between align-items-end mb-4 pb-2 border-bottom">
-                    <div>
-                        <h3 class="fs-24 fw-6 mb-2">People Also Bought</h3>
-                        <p class="text-muted fs-14 mb-0">Discover similar products you might love</p>
-                    </div>
-
-                    @if($relatedCount > 3)
-                        <a href="{{ $viewAllUrl }}"
-                           class="tf-btn btn-outline radius-3 fs-14 d-flex align-items-center">
-                            View All {{ $relatedCount }}+ Products
-                            <i class="icon icon-arrow-right ms-2 fs-12"></i>
-                        </a>
-                    @endif
+                <div class="flat-title">
+                    <span class="title">People Also Bought</span>
                 </div>
-
-                <!-- Carousel - Show 3 items -->
-                <div class="hover-sw-nav hover-sw-2 position-relative">
-                    <div dir="ltr" class="swiper tf-sw-related-products"
+                <div class="hover-sw-nav hover-sw-2">
+                    <div dir="ltr" class="swiper tf-sw-product-sell wrap-sw-over"
                          data-preview="3" data-tablet="2" data-mobile="1"
-                         data-space-lg="24" data-space-md="16">
+                         data-space-lg="30" data-space-md="15">
                         <div class="swiper-wrapper">
                             @foreach($relatedProducts->take(6) as $relatedProduct)
-                                <div class="swiper-slide">
-                                    <div class="product-card-wrapper">
-                                        <x-product-card :product="$relatedProduct"/>
+                                <div class="swiper-slide" lazy="true">
+                                    <div class="card-product">
+                                        <div class="card-product-wrapper">
+                                            <a href="{{ route('products.show', $relatedProduct->slug) }}" class="product-img">
+                                                @php
+                                                    $mainImage = $relatedProduct->images[0]['large'] ?? asset('images/placeholder-product.jpg');
+                                                    $hoverImage = $relatedProduct->images[1]['large'] ?? $mainImage;
+                                                @endphp
+                                                <img class="img-product lazyload" data-src="{{ $mainImage }}" src="{{ $mainImage }}" alt="{{ $relatedProduct->name }}">
+                                                <img class="img-hover lazyload" data-src="{{ $hoverImage }}" src="{{ $hoverImage }}" alt="{{ $relatedProduct->name }}">
+                                            </a>
+                                            <div class="list-product-btn">
+                                                <a href="#quick_add" data-bs-toggle="modal" class="box-icon bg_white quick-add tf-btn-loading">
+                                                    <span class="icon icon-bag"></span>
+                                                    <span class="tooltip">Quick Add</span>
+                                                </a>
+                                                @auth
+                                                    <livewire:client.wish-list-toggle :product="$relatedProduct" :cardView="true" />
+                                                @else
+                                                    <a href="{{ route('login') }}" class="box-icon bg_white wishlist btn-icon-action">
+                                                        <span class="icon icon-heart"></span>
+                                                        <span class="tooltip">Add to Wishlist</span>
+                                                        <span class="icon icon-delete"></span>
+                                                    </a>
+                                                @endauth
+                                                <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
+                                                   class="box-icon bg_white compare btn-icon-action"
+                                                   onclick="if(window.Livewire?.dispatch){window.Livewire.dispatch('compare:toggle',{id: {{ (int)$relatedProduct->id }} });}">
+                                                    <span class="icon icon-compare"></span>
+                                                    <span class="tooltip">Add to Compare</span>
+                                                    <span class="icon icon-check"></span>
+                                                </a>
+                                                <a href="#quick_view" data-bs-toggle="modal" class="box-icon bg_white quickview tf-btn-loading">
+                                                    <span class="icon icon-view"></span>
+                                                    <span class="tooltip">Quick View</span>
+                                                </a>
+                                            </div>
+
+                                            <!-- Size List (if product has variants) -->
+                                            @if($relatedProduct->variants && $relatedProduct->variants->isNotEmpty())
+                                                <div class="size-list">
+                                                    @foreach($relatedProduct->variants->take(4) as $variant)
+                                                        <span>{{ $variant->size ?? $variant->name }}</span>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+
+                                            <!-- Sale Badge -->
+                                            @php
+                                                $price = (float) ($relatedProduct->price ?? 0);
+                                                $sale  = (float) ($relatedProduct->sale_price ?? 0);
+                                                $onSale = $sale > 0 && $sale < $price;
+                                                $discountPct = $onSale ? round((($price - $sale) / max($price, 1)) * 100) : 0;
+                                            @endphp
+
+                                            @if($onSale && $discountPct > 0)
+                                                <div class="on-sale-wrap">
+                                                    <div class="on-sale-item">-{{ $discountPct }}%</div>
+                                                </div>
+                                            @endif
+
+                                            <!-- Countdown (if product has sale end date) -->
+                                            @if($relatedProduct->sale_price && $relatedProduct->sale_end_date)
+                                                <div class="countdown-box">
+                                                    <div class="js-countdown" data-timer="{{ \Carbon\Carbon::parse($relatedProduct->sale_end_date)->timestamp * 1000 }}" data-labels="d :,h :,m :,s">
+                                                        <!-- Countdown will be initialized by JavaScript -->
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="card-product-info">
+                                            <a href="{{ route('products.show', $relatedProduct->slug) }}" class="title link">{{ $relatedProduct->name }}</a>
+
+                                            <!-- Price -->
+                                            @if($onSale)
+                                                <span class="price">{{ money_format_ugx($sale) }}</span>
+                                                @if($price > $sale)
+                                                    <span class="compare-price" style="text-decoration: line-through; color: #999; font-size: 0.9em; margin-left: 5px;">
+                                                {{ money_format_ugx($price) }}
+                                            </span>
+                                                @endif
+                                            @else
+                                                <span class="price">{{ money_format_ugx($price) }}</span>
+                                            @endif
+
+                                            <!-- Color Swatches -->
+                                            @if($relatedProduct->colors && $relatedProduct->colors->isNotEmpty())
+                                                <ul class="list-color-product">
+                                                    @foreach($relatedProduct->colors as $index => $color)
+                                                        <li class="list-color-item color-swatch {{ $index === 0 ? 'active' : '' }}">
+                                                            <span class="tooltip">{{ $color->name }}</span>
+                                                            <span class="swatch-value" style="background-color: {{ $color->hex_code }}"></span>
+                                                            <img class="lazyload" data-src="{{ $color->image_url ?? $mainImage }}" src="{{ $color->image_url ?? $mainImage }}" alt="{{ $relatedProduct->name }}">
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
 
-                    <!-- Enhanced Navigation -->
-                    @if($relatedProducts->count() > 3)
-                        <div class="tf-carousel-controls">
-                            <div class="nav-sw nav-prev-related box-icon w_40 round bg-white shadow-sm">
-                                <span class="icon icon-arrow-left"></span>
-                            </div>
-                            <div class="nav-sw nav-next-related box-icon w_40 round bg-white shadow-sm">
-                                <span class="icon icon-arrow-right"></span>
-                            </div>
-                        </div>
-                    @endif
+                    <!-- Navigation Arrows -->
+                    <div class="nav-sw nav-next-slider nav-next-product box-icon w_46 round">
+                        <span class="icon icon-arrow-left"></span>
+                    </div>
+                    <div class="nav-sw nav-prev-slider nav-prev-product box-icon w_46 round">
+                        <span class="icon icon-arrow-right"></span>
+                    </div>
+
+                    <!-- Pagination Dots -->
+                    <div class="sw-dots style-2 sw-pagination-product justify-content-center"></div>
                 </div>
+
+                <!-- View All Button -->
+                @if($relatedProducts->count() > 3)
+                    <div class="text-center mt-4">
+                        @php
+                            $primaryCategory = $product->categories->first();
+                            $viewAllUrl = $primaryCategory
+                                ? route('shop.index', ['category' => $primaryCategory->slug])
+                                : route('shop.index');
+                        @endphp
+                        <a href="{{ $viewAllUrl }}" class="tf-btn btn-outline radius-3 fs-14">
+                            View All Related Products
+                            <i class="icon icon-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                @endif
             </div>
         </section>
     @endif
