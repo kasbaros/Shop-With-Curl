@@ -144,7 +144,7 @@
             return redirect()->back()->with('success', ucfirst($group) . ' settings updated successfully!');
         }
 
-        public function testEmail(Request $request)
+        public function testEmail(Request $request): ?\Illuminate\Http\JsonResponse
         {
             $request->validate([
                 'test_email' => 'required|email',
@@ -162,7 +162,7 @@
             }
         }
 
-        public function generateApiKey(Request $request)
+        public function generateApiKey(Request $request): \Illuminate\Http\JsonResponse
         {
             $request->validate([
                 'name' => 'required|string|max:255',

@@ -9,6 +9,9 @@
     <link
         href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700|poppins:300,400,500,600,700|playfair-display:400,500,600,700&display=swap"
         rel="stylesheet"/>
+
+    <!-- Add this before your main script -->
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @fluxAppearance
@@ -520,9 +523,9 @@
             top: 100%;
             left: 0;
             background: white;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             min-width: 200px;
             z-index: 1000;
             padding: 0.5rem 0;
@@ -547,7 +550,7 @@
 
         .dropdown-divider {
             height: 1px;
-            background-color: rgba(0,0,0,0.1);
+            background-color: rgba(0, 0, 0, 0.1);
             margin: 0.5rem 0;
         }
 
@@ -1087,10 +1090,6 @@
                     <div class="nav-item">
                         <a href="{{ route('shop.index') }}" class="nav-link" wire:navigate>Shop</a>
                     </div>
-{{--                    <div class="nav-item">--}}
-{{--                        <a href="#" class="nav-link">Categories</a>--}}
-{{--                        @include('components.nav.mega-menu')--}}
-{{--                    </div>--}}
 
                     @php
                         use App\Models\Category;
@@ -1104,7 +1103,8 @@
 
                         <div class="nav-item">
                             @if($subcategories->count() > 0)
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ $category->name }}</a>
+                                <a href="#" class="nav-link dropdown-toggle"
+                                   data-bs-toggle="dropdown">{{ $category->name }}</a>
                                 <div class="dropdown-menu">
                                     @foreach($subcategories as $subcategory)
                                         <a href="{{ route('products.category', $subcategory->slug) }}"
@@ -1408,6 +1408,11 @@
     @endif
 </div>
 
+<!-- Core Dependencies - Load First -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
 @livewireScripts
 @fluxScripts
 @stack('scripts')
@@ -1545,12 +1550,12 @@
 <script>
     document.addEventListener('livewire:initialized', () => {
         // Listener for opening a Bootstrap modal
-        Livewire.on('open-bs-modal', ({ id }) => {
+        Livewire.on('open-bs-modal', ({id}) => {
             $(id).modal('show');
         });
 
         // Listener for closing a Bootstrap modal
-        Livewire.on('close-bs-modal', ({ id }) => {
+        Livewire.on('close-bs-modal', ({id}) => {
             $(id).modal('hide');
         });
 

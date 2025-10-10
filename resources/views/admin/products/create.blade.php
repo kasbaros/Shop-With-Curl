@@ -273,7 +273,7 @@
                             <input type="number" class="form-control @error('weight') is-invalid @enderror"
                                    id="weight" name="weight" value="{{ old('weight') }}"
                                    step="0.01" min="0">
-                            <span class="input-group-text">lbs</span>
+                            <span class="input-group-text">Kg</span>
                         </div>
                         @error('weight')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -284,7 +284,7 @@
                         <label for="dimensions" class="form-label">Dimensions</label>
                         <input type="text" class="form-control @error('dimensions') is-invalid @enderror"
                                id="dimensions" name="dimensions" value="{{ old('dimensions') }}"
-                               placeholder="L x W x H (inches)">
+                               placeholder="L x W x H (cm)">
                         @error('dimensions')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

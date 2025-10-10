@@ -222,7 +222,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize Swiper when modal is shown
             document.addEventListener('livewire:initialized', function () {
-                Livewire.on('product:quickView', function () {
+                Livewire.on('product:quickViewReady', function () {
                     setTimeout(function () {
                         const swiperEl = document.getElementById('productQuickViewSwiper');
                         if (swiperEl && !swiperEl.swiper) {

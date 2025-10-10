@@ -78,7 +78,7 @@
                     @if($this->currentVariant->price)
                         <div class="mt-2">
                             <span class="text-lg font-bold text-gray-900">
-                                ${{ number_format($this->currentVariant->effective_price, 2) }}
+                                UGX {{ number_format($this->currentVariant->effective_price, 2) }}
                             </span>
                         </div>
                     @endif

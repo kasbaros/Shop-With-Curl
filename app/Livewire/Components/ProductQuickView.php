@@ -34,6 +34,9 @@ class ProductQuickView extends Component
         $this->quantity = 1;
         $this->resetVariantSelections();
         $this->initializeVariantSelections();
+
+        // Dispatch event to initialize Swiper after modal is shown
+        $this->dispatch('product:quickViewReady');
     }
 
     public function closeModal(): void
