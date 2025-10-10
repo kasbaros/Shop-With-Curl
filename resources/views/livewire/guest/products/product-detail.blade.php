@@ -568,13 +568,13 @@
                 <div class="flat-title">
                     <span class="title">People Also Bought</span>
                 </div>
-                <div class="hover-sw-nav hover-sw-2">
-                    <div dir="ltr" class="swiper tf-sw-product-sell wrap-sw-over"
-                         data-preview="3" data-tablet="2" data-mobile="1"
+                <div class="hover-sw-nav hover-sw-3">
+                    <div dir="ltr" class="swiper tf-sw-product-sell rounded-0 border-0 wrap-sw-over"
+                         data-loop="false" data-play="false" data-preview="3" data-tablet="2" data-mobile="1"
                          data-space-lg="30" data-space-md="15">
-                        <div class="swiper-wrapper">
+                        <div class="swiper-wrapper" aria-live="polite">
                             @foreach($relatedProducts->take(6) as $relatedProduct)
-                                <div class="swiper-slide" lazy="true">
+                                <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $relatedProducts->take(6)->count() }}">
                                     <div class="card-product">
                                         <div class="card-product-wrapper">
                                             <a href="{{ route('products.show', $relatedProduct->slug) }}" class="product-img">
@@ -676,8 +676,6 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
                     </div>
 
                     <!-- Navigation Arrows -->
@@ -687,9 +685,6 @@
                     <div class="nav-sw nav-prev-slider nav-prev-product box-icon w_46 round">
                         <span class="icon icon-arrow-right"></span>
                     </div>
-
-                    <!-- Pagination Dots -->
-                    <div class="sw-dots style-2 sw-pagination-product justify-content-center"></div>
                 </div>
 
                 <!-- View All Button -->
@@ -772,10 +767,48 @@
                 }
             }
 
+            async function initRelatedProductsSwiper() {
+                const relatedEl = document.querySelector('.tf-sw-product-sell');
+                if (!relatedEl || relatedEl.swiper) return;
+
+                try {
+                    new Swiper('.tf-sw-product-sell', {
+                        slidesPerView: 1,
+                        spaceBetween: 15,
+                        loop: false,
+                        autoplay: false,
+                        watchOverflow: true,
+                        navigation: {
+                            nextEl: '.nav-next-product',
+                            prevEl: '.nav-prev-product',
+                        },
+                        breakpoints: {
+                            768: {
+                                slidesPerView: 2,
+                                spaceBetween: 15,
+                            },
+                            1024: {
+                                slidesPerView: 3,
+                                spaceBetween: 30,
+                            }
+                        },
+                        on: {
+                            init: function() {
+                                console.log('Related products swiper initialized');
+                            }
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error initializing related products swiper:', error);
+                }
+            }
+
             document.addEventListener('DOMContentLoaded', function () {
                 try {
                     // Initialize gallery after DOM is ready and dependencies are loaded
                     setTimeout(initGallerySwiper, 200);
+                    // Initialize related products carousel
+                    setTimeout(initRelatedProductsSwiper, 300);
                     window.__pdQty = function (delta) {
                         const input = document.getElementById('stickyQty');
                         if (!input) return;
