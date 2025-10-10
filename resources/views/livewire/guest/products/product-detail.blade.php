@@ -561,35 +561,7 @@
     <!-- /Product Details Tabs -->
 
     <!-- Related Products -->
-{{--    @if(isset($relatedProducts) && $relatedProducts->isNotEmpty())--}}
-{{--        <section class="flat-spacing-1 pt_0">--}}
-{{--            <div class="container">--}}
-{{--                <div class="flat-title">--}}
-{{--                    <span class="title">People Also Bought</span>--}}
-{{--                </div>--}}
-{{--                <div class="hover-sw-nav hover-sw-2">--}}
-{{--                    <div dir="ltr" class="swiper tf-sw-product-sell wrap-sw-over" data-preview="4" data-tablet="3"--}}
-{{--                         data-mobile="2" data-space-lg="30" data-space-md="15">--}}
-{{--                        <div class="swiper-wrapper">--}}
-{{--                            @foreach($relatedProducts as $relatedProduct)--}}
-{{--                                <div class="swiper-slide" lazy="true">--}}
-{{--                                    <x-product-card :product="$relatedProduct"/>--}}
-{{--                                </div>--}}
-{{--                            @endforeach--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="nav-sw nav-next-slider nav-next-product box-icon w_46 round"><span--}}
-{{--                            class="icon icon-arrow-left"></span></div>--}}
-{{--                    <div class="nav-sw nav-prev-slider nav-prev-product box-icon w_46 round"><span--}}
-{{--                            class="icon icon-arrow-right"></span></div>--}}
-{{--                    <div class="sw-dots style-2 sw-pagination-product justify-content-center"></div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </section>--}}
-{{--    @endif--}}
 
-
-    <!-- Related Products -->
     @if(isset($relatedProducts) && $relatedProducts->isNotEmpty())
         <section class="flat-spacing-1 pt_0">
             <div class="container">
@@ -704,6 +676,8 @@
                                 </div>
                             @endforeach
                         </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
                     </div>
 
                     <!-- Navigation Arrows -->
