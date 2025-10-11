@@ -254,16 +254,6 @@
                                                 </div>
                                                 <p class="fw-6">Guaranteed Safe <br> Checkout</p>
                                             </div>
-                                            <div class="tf-payment">
-                                                <div class="payment-method" title="MTN Mobile Money"
-                                                     style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition); font-size: 10px; font-weight: bold; color: #FFD700;">
-                                                    MTN
-                                                </div>
-                                                <div class="payment-method" title="Airtel Money"
-                                                     style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); transition: var(--transition); font-size: 10px; font-weight: bold; color: #FF0000;">
-                                                    AIRTEL
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
