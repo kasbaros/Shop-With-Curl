@@ -1333,6 +1333,24 @@
 
     @push('styles')
         <style>
+
+            .tab-pane {
+                display: none;
+            }
+
+            .tab-pane.active {
+                display: block;
+            }
+
+            /* Ensure swiper containers have proper height */
+            .tf-sw-brand {
+                min-height: 600px;
+            }
+
+            .swiper-wrapper {
+                display: flex;
+            }
+
             /* Trust Indicators Styles */
             .trust-stat {
                 padding: 2rem 1rem;
@@ -1968,6 +1986,153 @@
                 const img = new Image();
                 img.src = src;
             });
+        });
+
+        // Add this script to your page - place it AFTER the existing Swiper initialization
+
+        (function fixTrendingTabs() {
+            // Store Swiper instances
+            let featuredSwiper = null;
+            let onSaleSwiper = null;
+
+            function initFeaturedSwiper() {
+                const featuredEl = document.querySelector('#featured-tab .tf-sw-brand');
+                if (featuredEl && !featuredSwiper) {
+                    try {
+                        featuredSwiper = new Swiper('#featured-tab .tf-sw-brand', {
+                            slidesPerView: 2,
+                            spaceBetween: 15,
+                            loop: false,
+                            autoplay: false,
+                            watchOverflow: true,
+                            observer: true,
+                            observeParents: true,
+                            navigation: {
+                                nextEl: '.nav-next-brand',
+                                prevEl: '.nav-prev-brand',
+                            },
+                            breakpoints: {
+                                768: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 15,
+                                },
+                                1024: {
+                                    slidesPerView: 4,
+                                    spaceBetween: 30,
+                                }
+                            },
+                            on: {
+                                init: function() {
+                                    console.log('Featured swiper initialized');
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error initializing featured swiper:', error);
+                    }
+                }
+            }
+
+            function initOnSaleSwiper() {
+                const onSaleEl = document.querySelector('#onsale-tab .tf-sw-brand');
+                if (onSaleEl && !onSaleSwiper) {
+                    try {
+                        onSaleSwiper = new Swiper('#onsale-tab .tf-sw-brand', {
+                            slidesPerView: 2,
+                            spaceBetween: 15,
+                            loop: false,
+                            autoplay: false,
+                            watchOverflow: true,
+                            observer: true,
+                            observeParents: true,
+                            navigation: {
+                                nextEl: '.nav-next-brand',
+                                prevEl: '.nav-prev-brand',
+                            },
+                            breakpoints: {
+                                768: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 15,
+                                },
+                                1024: {
+                                    slidesPerView: 4,
+                                    spaceBetween: 30,
+                                }
+                            },
+                            on: {
+                                init: function() {
+                                    console.log('On Sale swiper initialized');
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error initializing on sale swiper:', error);
+                    }
+                }
+            }
+
+            function handleTabChange() {
+                // Listen for Bootstrap tab shown event
+                document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(function(tabEl) {
+                    tabEl.addEventListener('shown.bs.tab', function (event) {
+                        const targetId = event.target.getAttribute('href');
+
+                        // Small delay to ensure tab content is visible
+                        setTimeout(() => {
+                            if (targetId === '#featured-tab') {
+                                if (featuredSwiper) {
+                                    featuredSwiper.update();
+                                    featuredSwiper.updateSlides();
+                                } else {
+                                    initFeaturedSwiper();
+                                }
+                            } else if (targetId === '#onsale-tab') {
+                                if (onSaleSwiper) {
+                                    onSaleSwiper.update();
+                                    onSaleSwiper.updateSlides();
+                                } else {
+                                    initOnSaleSwiper();
+                                }
+                            }
+                        }, 100);
+                    });
+                });
+            }
+
+            function initialize() {
+                if (!window.Swiper) {
+                    console.warn('Swiper not loaded yet, retrying...');
+                    setTimeout(initialize, 200);
+                    return;
+                }
+
+                // Initialize featured tab (visible by default)
+                initFeaturedSwiper();
+
+                // Set up tab change handler
+                handleTabChange();
+
+                // Initialize on sale swiper after a short delay to ensure DOM is ready
+                setTimeout(initOnSaleSwiper, 300);
+            }
+
+            // Start initialization when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initialize);
+            } else {
+                initialize();
+            }
+        })();
+
+        // Alternative quick fix: Force update all swipers on window resize
+        window.addEventListener('resize', function() {
+            if (window.Swiper) {
+                document.querySelectorAll('.swiper').forEach(function(swiperEl) {
+                    if (swiperEl.swiper) {
+                        swiperEl.swiper.update();
+                    }
+                });
+            }
         });
     </script>
 
