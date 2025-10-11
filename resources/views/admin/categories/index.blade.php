@@ -135,9 +135,12 @@
                         </td>
                         <td>
                             <div class="form-check form-switch">
+{{--                                <input class="form-check-input" type="checkbox"--}}
+{{--                                       {{ $category->is_active ? 'checked' : '' }}--}}
+{{--                                       onchange="toggleStatus({{ $category->id }}, this)">--}}
                                 <input class="form-check-input" type="checkbox"
                                        {{ $category->is_active ? 'checked' : '' }}
-                                       onchange="toggleStatus({{ $category->id }}, this)">
+                                       onchange="toggleStatus('{{ $category->slug }}', this)">
                             </div>
                         </td>
                         <td>
@@ -156,9 +159,16 @@
                                             <i class="bi bi-pencil me-2"></i>Edit
                                         </a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><button class="dropdown-item text-danger" onclick="deleteCategory({{ $category->id }}, '{{ $category->name }}', {{ $category->products_count }})">
+{{--                                    <li>--}}
+{{--                                        <button class="dropdown-item text-danger" onclick="deleteCategory({{ $category->id }}, '{{ addslashes($category->name) }}', {{ $category->products_count }})">--}}
+{{--                                            <i class="bi bi-trash me-2"></i>Delete--}}
+{{--                                        </button>--}}
+{{--                                    </li>--}}
+                                    <li>
+                                        <button class="dropdown-item text-danger" onclick="deleteCategory('{{ $category->slug }}', '{{ $category->name }}', {{ $category->products_count }})">
                                             <i class="bi bi-trash me-2"></i>Delete
-                                        </button></li>
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </td>
@@ -192,8 +202,32 @@
 @push('scripts')
     <script>
         // Toggle Status
-        function toggleStatus(categoryId, checkbox) {
-            fetch(`/admin/categories/${categoryId}/toggle-status`, {
+        // function toggleStatus(categoryId, checkbox) {
+        //     fetch(`/admin/categories/${categoryId}/toggle-status`, {
+        //         method: 'PATCH',
+        //         headers: {
+        //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        //             'Accept': 'application/json',
+        //         }
+        //     })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             if (data.success) {
+        //                 // Status updated successfully
+        //             } else {
+        //                 // Revert checkbox on error
+        //                 checkbox.checked = !checkbox.checked;
+        //                 alert('Error updating category status');
+        //             }
+        //         })
+        //         .catch(error => {
+        //             checkbox.checked = !checkbox.checked;
+        //             alert('Error updating category status');
+        //         });
+        // }
+
+        function toggleStatus(categorySlug, checkbox) {
+            fetch(`/admin/categories/${categorySlug}/toggle-status`, {
                 method: 'PATCH',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),

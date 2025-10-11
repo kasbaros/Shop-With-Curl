@@ -47,43 +47,6 @@
             return view('admin.categories.create', $this->getAdminViewData());
         }
 
-//        public function store(Request $request)
-//        {
-//            $validated = $request->validate([
-//                'name' => 'required|string|max:255',
-//                'slug' => 'nullable|string|max:255|unique:categories,slug',
-//                'description' => 'nullable|string',
-//                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-//                'is_active' => 'boolean',
-//                'meta_title' => 'nullable|string|max:255',
-//                'meta_description' => 'nullable|string|max:500',
-//                'sort_order' => 'nullable|integer|min:0',
-//            ]);
-//
-//            // Generate slug if not provided
-//            if (empty($validated['slug'])) {
-//                $validated['slug'] = Str::slug($validated['name']);
-//
-//                // Ensure unique slug
-//                $originalSlug = $validated['slug'];
-//                $counter = 1;
-//                while (Category::where('slug', $validated['slug'])->exists()) {
-//                    $validated['slug'] = $originalSlug . '-' . $counter++;
-//                }
-//            }
-//
-//            // Create category without handling legacy image_path
-//            $category = Category::create($validated);
-//
-//            // Handle image upload via Spatie Media Library
-//            if ($request->hasFile('image')) {
-//                $category->addMediaFromRequest('image')->toMediaCollection('images');
-//            }
-//
-//            return redirect()
-//                ->route('admin.categories.show', $category)
-//                ->with('success', 'Category created successfully!');
-//        }
 
         public function store(Request $request)
         {
