@@ -227,6 +227,116 @@
             </div>
 
             <!-- Inventory & Variants -->
+{{--            <div class="stat-card p-4 mb-4">--}}
+{{--                @if($product->variants->count() > 0)--}}
+{{--                    <div class="d-flex justify-content-between align-items-center mb-3">--}}
+{{--                        <h5 class="mb-0">Product Variants</h5>--}}
+{{--                        <span class="badge bg-primary">{{ $product->variants->count() }} variants</span>--}}
+{{--                    </div>--}}
+
+{{--                    <div class="table-responsive">--}}
+{{--                        <table class="table table-sm">--}}
+{{--                            <thead class="table-light">--}}
+{{--                                <tr>--}}
+{{--                                    <th>Size</th>--}}
+{{--                                    <th>Color</th>--}}
+{{--                                    <th>SKU</th>--}}
+{{--                                    <th>Price</th>--}}
+{{--                                    <th>Stock</th>--}}
+{{--                                    <th>Status</th>--}}
+{{--                                </tr>--}}
+{{--                            </thead>--}}
+{{--                            <tbody>--}}
+{{--                                @foreach($product->variants as $variant)--}}
+{{--                                    <tr>--}}
+{{--                                        <td><span class="badge bg-secondary">{{ $variant->size }}</span></td>--}}
+{{--                                        <td><span class="badge bg-info">{{ $variant->color }}</span></td>--}}
+{{--                                        <td><code>{{ $variant->sku }}</code></td>--}}
+{{--                                        <td><strong>UGX {{ number_format($variant->price, 2) }}</strong></td>--}}
+{{--                                        <td>--}}
+{{--                                            <span class="fw-bold {{ $variant->stock_quantity <= 0 ? 'text-danger' : ($variant->stock_quantity <= 5 ? 'text-warning' : 'text-success') }}">--}}
+{{--                                                {{ $variant->stock_quantity }}--}}
+{{--                                            </span>--}}
+{{--                                        </td>--}}
+{{--                                        <td>--}}
+{{--                                            @if(!$variant->is_active)--}}
+{{--                                                <span class="badge bg-secondary">Inactive</span>--}}
+{{--                                            @elseif($variant->stock_quantity <= 0)--}}
+{{--                                                <span class="badge bg-danger">Out of Stock</span>--}}
+{{--                                            @elseif($variant->stock_quantity <= 5)--}}
+{{--                                                <span class="badge bg-warning">Low Stock</span>--}}
+{{--                                            @else--}}
+{{--                                                <span class="badge bg-success">In Stock</span>--}}
+{{--                                            @endif--}}
+{{--                                        </td>--}}
+{{--                                    </tr>--}}
+{{--                                @endforeach--}}
+{{--                            </tbody>--}}
+{{--                        </table>--}}
+{{--                    </div>--}}
+
+{{--                    <!-- Variant Summary -->--}}
+{{--                    <div class="row mt-3">--}}
+{{--                        <div class="col-md-4">--}}
+{{--                            <div class="text-center">--}}
+{{--                                <small class="text-muted">Total Stock</small>--}}
+{{--                                <div class="fw-bold text-primary">{{ $product->variants->sum('stock_quantity') }}</div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-4">--}}
+{{--                            <div class="text-center">--}}
+{{--                                <small class="text-muted">Active Variants</small>--}}
+{{--                                <div class="fw-bold text-success">{{ $product->variants->where('is_active', true)->count() }}</div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-4">--}}
+{{--                            <div class="text-center">--}}
+{{--                                <small class="text-muted">Price Range</small>--}}
+{{--                                <div class="fw-bold">--}}
+{{--                                    @php--}}
+{{--                                        $minPrice = $product->variants->min('price');--}}
+{{--                                        $maxPrice = $product->variants->max('price');--}}
+{{--                                    @endphp--}}
+{{--                                    @if($minPrice == $maxPrice)--}}
+{{--                                        UGX {{ number_format($minPrice, 2) }}--}}
+{{--                                    @else--}}
+{{--                                        UGX {{ number_format($minPrice, 2) }} - {{ number_format($maxPrice, 2) }}--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @else--}}
+{{--                    <h5 class="mb-3">Inventory</h5>--}}
+{{--                    @if($product->manage_stock)--}}
+{{--                        <div class="d-flex justify-content-between align-items-center mb-2">--}}
+{{--                            <span class="text-muted">Stock Quantity</span>--}}
+{{--                            <span class="fw-bold {{ $product->stock_quantity <= 0 ? 'text-danger' : ($product->stock_quantity <= ($product->min_stock_level ?? 5) ? 'text-warning' : 'text-success') }}">--}}
+{{--                            {{ $product->stock_quantity }}--}}
+{{--                        </span>--}}
+{{--                        </div>--}}
+
+{{--                        <div class="d-flex justify-content-between align-items-center mb-2">--}}
+{{--                            <span class="text-muted">Low Stock Level</span>--}}
+{{--                            <span>{{ $product->min_stock_level ?? 5 }}</span>--}}
+{{--                        </div>--}}
+
+{{--                        <div class="d-flex justify-content-between align-items-center">--}}
+{{--                            <span class="text-muted">Status</span>--}}
+{{--                            @if($product->stock_quantity <= 0)--}}
+{{--                                <span class="badge bg-danger">Out of Stock</span>--}}
+{{--                            @elseif($product->stock_quantity <= ($product->min_stock_level ?? 5))--}}
+{{--                                <span class="badge bg-warning">Low Stock</span>--}}
+{{--                            @else--}}
+{{--                                <span class="badge bg-success">In Stock</span>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
+{{--                    @else--}}
+{{--                        <p class="text-muted">Stock management disabled</p>--}}
+{{--                    @endif--}}
+{{--                @endif--}}
+{{--            </div>--}}
+
             <div class="stat-card p-4 mb-4">
                 @if($product->variants->count() > 0)
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -237,40 +347,53 @@
                     <div class="table-responsive">
                         <table class="table table-sm">
                             <thead class="table-light">
-                                <tr>
-                                    <th>Size</th>
-                                    <th>Color</th>
-                                    <th>SKU</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
-                                    <th>Status</th>
-                                </tr>
+                            <tr>
+                                <th>Image</th>
+                                <th>Size</th>
+                                <th>Color</th>
+                                <th>SKU</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                @foreach($product->variants as $variant)
-                                    <tr>
-                                        <td><span class="badge bg-secondary">{{ $variant->size }}</span></td>
-                                        <td><span class="badge bg-info">{{ $variant->color }}</span></td>
-                                        <td><code>{{ $variant->sku }}</code></td>
-                                        <td><strong>UGX {{ number_format($variant->price, 2) }}</strong></td>
-                                        <td>
-                                            <span class="fw-bold {{ $variant->stock_quantity <= 0 ? 'text-danger' : ($variant->stock_quantity <= 5 ? 'text-warning' : 'text-success') }}">
-                                                {{ $variant->stock_quantity }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            @if(!$variant->is_active)
-                                                <span class="badge bg-secondary">Inactive</span>
-                                            @elseif($variant->stock_quantity <= 0)
-                                                <span class="badge bg-danger">Out of Stock</span>
-                                            @elseif($variant->stock_quantity <= 5)
-                                                <span class="badge bg-warning">Low Stock</span>
-                                            @else
-                                                <span class="badge bg-success">In Stock</span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
+                            @foreach($product->variants as $variant)
+                                <tr>
+                                    <td>
+                                        @if(!empty($variant->images) && is_array($variant->images))
+                                            <img src="{{ $variant->primary_image_url }}"
+                                                 class="img-fluid rounded"
+                                                 style="height: 50px; width: auto;"
+                                                 alt="{{ $variant->color }}"
+                                                 onclick="showImageModal('{{ $variant->primary_image_url }}', '{{ $product->name }} - {{ $variant->color }}')"
+                                                 onerror="this.onerror=null; this.src='{{ asset('images/placeholder-product.jpg') }}'">
+                                        @else
+                                            <span class="text-muted">No image</span>
+                                        @endif
+                                    </td>
+                                    <td><span class="badge bg-secondary">{{ $variant->size }}</span></td>
+                                    <td><span class="badge bg-info">{{ $variant->color }}</span></td>
+                                    <td><code>{{ $variant->sku }}</code></td>
+                                    <td><strong>UGX {{ number_format($variant->price, 2) }}</strong></td>
+                                    <td>
+                                <span class="fw-bold {{ $variant->stock_quantity <= 0 ? 'text-danger' : ($variant->stock_quantity <= 5 ? 'text-warning' : 'text-success') }}">
+                                    {{ $variant->stock_quantity }}
+                                </span>
+                                    </td>
+                                    <td>
+                                        @if(!$variant->is_active)
+                                            <span class="badge bg-secondary">Inactive</span>
+                                        @elseif($variant->stock_quantity <= 0)
+                                            <span class="badge bg-danger">Out of Stock</span>
+                                        @elseif($variant->stock_quantity <= 5)
+                                            <span class="badge bg-warning">Low Stock</span>
+                                        @else
+                                            <span class="badge bg-success">In Stock</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -312,15 +435,13 @@
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted">Stock Quantity</span>
                             <span class="fw-bold {{ $product->stock_quantity <= 0 ? 'text-danger' : ($product->stock_quantity <= ($product->min_stock_level ?? 5) ? 'text-warning' : 'text-success') }}">
-                            {{ $product->stock_quantity }}
-                        </span>
+                    {{ $product->stock_quantity }}
+                </span>
                         </div>
-
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted">Low Stock Level</span>
                             <span>{{ $product->min_stock_level ?? 5 }}</span>
                         </div>
-
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="text-muted">Status</span>
                             @if($product->stock_quantity <= 0)

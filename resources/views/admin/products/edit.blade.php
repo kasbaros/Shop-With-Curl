@@ -26,7 +26,8 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data" id="productForm">
+    <form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data"
+          id="productForm">
         @csrf
         @method('PUT')
 
@@ -68,7 +69,8 @@
                     <div class="mb-3">
                         <label for="description" class="form-label">Full Description *</label>
                         <textarea class="form-control @error('description') is-invalid @enderror"
-                                  id="description" name="description" rows="8" required>{{ old('description', $product->description) }}</textarea>
+                                  id="description" name="description" rows="8"
+                                  required>{{ old('description', $product->description) }}</textarea>
                         @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -154,13 +156,15 @@
                                                  class="img-fluid rounded"
                                                  alt="{{ $product->name }}"
                                                  style="height: 120px; width: 100%; object-fit: cover;">
-                                            <div class="badge bg-info position-absolute top-0 end-0 m-1">{{ $index + 1 }}</div>
+                                            <div
+                                                class="badge bg-info position-absolute top-0 end-0 m-1">{{ $index + 1 }}</div>
                                         </div>
                                         <div class="form-check mt-2">
                                             <input class="form-check-input" type="checkbox"
                                                    name="remove_gallery_images[]" value="{{ $index }}"
                                                    id="remove_gallery_{{ $index }}">
-                                            <label class="form-check-label text-danger" for="remove_gallery_{{ $index }}">
+                                            <label class="form-check-label text-danger"
+                                                   for="remove_gallery_{{ $index }}">
                                                 <small>Remove</small>
                                             </label>
                                         </div>
@@ -182,13 +186,15 @@
                                                  class="img-fluid rounded"
                                                  alt="{{ $product->name }}"
                                                  style="height: 120px; width: 100%; object-fit: cover;">
-                                            <div class="badge bg-warning position-absolute top-0 start-0 m-1">Legacy</div>
+                                            <div class="badge bg-warning position-absolute top-0 start-0 m-1">Legacy
+                                            </div>
                                         </div>
                                         <div class="form-check mt-2">
                                             <input class="form-check-input" type="checkbox"
                                                    name="remove_media_images[]" value="{{ $media->id }}"
                                                    id="remove_media_{{ $media->id }}">
-                                            <label class="form-check-label text-danger" for="remove_media_{{ $media->id }}">
+                                            <label class="form-check-label text-danger"
+                                                   for="remove_media_{{ $media->id }}">
                                                 <small>Remove</small>
                                             </label>
                                         </div>
@@ -224,11 +230,99 @@
                         </div>
                     </div>
 
-                    <div id="variantsSection" style="{{ old('has_variants', $product->variants->count() > 0) ? '' : 'display: none;' }}">
+                    {{--                    <div id="variantsSection" style="{{ old('has_variants', $product->variants->count() > 0) ? '' : 'display: none;' }}">--}}
+                    {{--                        <div class="alert alert-info">--}}
+                    {{--                            <small><i class="bi bi-info-circle me-1"></i>--}}
+                    {{--                                Variants allow you to sell different versions of the same product (e.g., different sizes or colors).--}}
+                    {{--                                Each variant will have its own SKU created by combining the base product SKU (<strong>{{ $product->sku }}</strong>) with the suffix you provide.--}}
+                    {{--                            </small>--}}
+                    {{--                        </div>--}}
+
+                    {{--                        <div id="variantsContainer">--}}
+                    {{--                            @forelse(old('variants', $product->variants->toArray()) as $index => $variant)--}}
+                    {{--                                <div class="variant-item border rounded p-3 mb-3" data-variant-index="{{ $index }}">--}}
+                    {{--                                    <div class="d-flex justify-content-between align-items-center mb-3">--}}
+                    {{--                                        <h6 class="mb-0">Variant #{{ $index + 1 }}</h6>--}}
+                    {{--                                        <button type="button" class="btn btn-sm btn-danger remove-variant">--}}
+                    {{--                                            <i class="bi bi-trash"></i> Remove--}}
+                    {{--                                        </button>--}}
+                    {{--                                    </div>--}}
+
+                    {{--                                    <input type="hidden" name="variants[{{ $index }}][id]" value="{{ $variant['id'] ?? '' }}">--}}
+
+                    {{--                                    <div class="row">--}}
+                    {{--                                        <div class="col-md-6 mb-3">--}}
+                    {{--                                            <label class="form-label">Size *</label>--}}
+                    {{--                                            <input type="text" class="form-control" name="variants[{{ $index }}][size]"--}}
+                    {{--                                                   value="{{ $variant['size'] ?? '' }}" required>--}}
+                    {{--                                        </div>--}}
+                    {{--                                        <div class="col-md-6 mb-3">--}}
+                    {{--                                            <label class="form-label">Color *</label>--}}
+                    {{--                                            <input type="text" class="form-control" name="variants[{{ $index }}][color]"--}}
+                    {{--                                                   value="{{ $variant['color'] ?? '' }}" required>--}}
+                    {{--                                        </div>--}}
+                    {{--                                        <div class="col-md-4 mb-3">--}}
+                    {{--                                            <label class="form-label">--}}
+                    {{--                                                SKU Suffix *--}}
+                    {{--                                                <i class="bi bi-info-circle" data-bs-toggle="tooltip"--}}
+                    {{--                                                   title="E.g., 'S-RED' will create SKU: {{ $product->sku }}-S-RED"></i>--}}
+                    {{--                                            </label>--}}
+                    {{--                                            @php--}}
+                    {{--                                                // Extract suffix from full SKU by removing base product SKU--}}
+                    {{--                                                $existingSku = $variant['sku'] ?? '';--}}
+                    {{--                                                $baseSku = $product->sku . '-';--}}
+                    {{--                                                $skuSuffix = str_starts_with($existingSku, $baseSku)--}}
+                    {{--                                                    ? substr($existingSku, strlen($baseSku))--}}
+                    {{--                                                    : ($variant['sku_suffix'] ?? '');--}}
+                    {{--                                            @endphp--}}
+                    {{--                                            <input type="text" class="form-control sku-suffix-input" name="variants[{{ $index }}][sku_suffix]"--}}
+                    {{--                                                   value="{{ old('variants.'.$index.'.sku_suffix', $skuSuffix) }}" required--}}
+                    {{--                                                   placeholder="e.g., S-RED"--}}
+                    {{--                                                   data-base-sku="{{ $product->sku }}"--}}
+                    {{--                                                   data-preview-target="sku-preview-{{ $index }}">--}}
+                    {{--                                            <small class="text-muted">Full SKU: <span class="text-primary fw-bold" id="sku-preview-{{ $index }}">{{ $product->sku }}-{{ old('variants.'.$index.'.sku_suffix', $skuSuffix) ?: '[suffix]' }}</span></small>--}}
+                    {{--                                        </div>--}}
+                    {{--                                        <div class="col-md-4 mb-3">--}}
+                    {{--                                            <label class="form-label">Price (UGX) *</label>--}}
+                    {{--                                            <input type="number" class="form-control" name="variants[{{ $index }}][price]"--}}
+                    {{--                                                   value="{{ $variant['price'] ?? '' }}" step="0.01" min="0" required>--}}
+                    {{--                                        </div>--}}
+                    {{--                                        <div class="col-md-4 mb-3">--}}
+                    {{--                                            <label class="form-label">Stock Quantity *</label>--}}
+                    {{--                                            <input type="number" class="form-control" name="variants[{{ $index }}][stock_quantity]"--}}
+                    {{--                                                   value="{{ $variant['stock_quantity'] ?? 0 }}" min="0" required>--}}
+                    {{--                                        </div>--}}
+                    {{--                                        <div class="col-12">--}}
+                    {{--                                            <div class="form-check">--}}
+                    {{--                                                <input class="form-check-input" type="checkbox"--}}
+                    {{--                                                       name="variants[{{ $index }}][is_active]" value="1"--}}
+                    {{--                                                       id="variant_active_{{ $index }}"--}}
+                    {{--                                                    {{ ($variant['is_active'] ?? true) ? 'checked' : '' }}>--}}
+                    {{--                                                <label class="form-check-label" for="variant_active_{{ $index }}">--}}
+                    {{--                                                    Active--}}
+                    {{--                                                </label>--}}
+                    {{--                                            </div>--}}
+                    {{--                                        </div>--}}
+                    {{--                                    </div>--}}
+                    {{--                                </div>--}}
+                    {{--                            @empty--}}
+                    {{--                            @endforelse--}}
+                    {{--                        </div>--}}
+
+                    {{--                        <button type="button" class="btn btn-outline-primary" id="addVariant">--}}
+                    {{--                            <i class="bi bi-plus-circle me-1"></i> Add Variant--}}
+                    {{--                        </button>--}}
+                    {{--                    </div>--}}
+
+                    <div id="variantsSection"
+                         style="{{ old('has_variants', $product->variants->count() > 0) ? '' : 'display: none;' }}">
                         <div class="alert alert-info">
                             <small><i class="bi bi-info-circle me-1"></i>
-                                Variants allow you to sell different versions of the same product (e.g., different sizes or colors).
-                                Each variant will have its own SKU created by combining the base product SKU (<strong>{{ $product->sku }}</strong>) with the suffix you provide.
+                                Variants allow you to sell different versions of the same product (e.g., different sizes
+                                or colors).
+                                Each variant will have its own SKU created by combining the base product SKU
+                                (<strong>{{ $product->sku }}</strong>) with the suffix you provide.
+                                Upload an image for each variant to display on the frontend.
                             </small>
                         </div>
 
@@ -242,18 +336,31 @@
                                         </button>
                                     </div>
 
-                                    <input type="hidden" name="variants[{{ $index }}][id]" value="{{ $variant['id'] ?? '' }}">
+                                    <input type="hidden" name="variants[{{ $index }}][id]"
+                                           value="{{ $variant['id'] ?? '' }}">
 
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label">Size *</label>
-                                            <input type="text" class="form-control" name="variants[{{ $index }}][size]"
-                                                   value="{{ $variant['size'] ?? '' }}" required>
+                                            <input type="text"
+                                                   class="form-control @error('variants.' . $index . '.size') is-invalid @enderror"
+                                                   name="variants[{{ $index }}][size]"
+                                                   value="{{ old('variants.' . $index . '.size', $variant['size'] ?? '') }}"
+                                                   required>
+                                            @error('variants.' . $index . '.size')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label class="form-label">Color *</label>
-                                            <input type="text" class="form-control" name="variants[{{ $index }}][color]"
-                                                   value="{{ $variant['color'] ?? '' }}" required>
+                                            <input type="text"
+                                                   class="form-control @error('variants.' . $index . '.color') is-invalid @enderror"
+                                                   name="variants[{{ $index }}][color]"
+                                                   value="{{ old('variants.' . $index . '.color', $variant['color'] ?? '') }}"
+                                                   required>
+                                            @error('variants.' . $index . '.color')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label class="form-label">
@@ -262,36 +369,88 @@
                                                    title="E.g., 'S-RED' will create SKU: {{ $product->sku }}-S-RED"></i>
                                             </label>
                                             @php
-                                                // Extract suffix from full SKU by removing base product SKU
                                                 $existingSku = $variant['sku'] ?? '';
                                                 $baseSku = $product->sku . '-';
                                                 $skuSuffix = str_starts_with($existingSku, $baseSku)
                                                     ? substr($existingSku, strlen($baseSku))
-                                                    : ($variant['sku_suffix'] ?? '');
+                                                    : (old('variants.' . $index . '.sku_suffix', $variant['sku_suffix'] ?? ''));
                                             @endphp
-                                            <input type="text" class="form-control sku-suffix-input" name="variants[{{ $index }}][sku_suffix]"
-                                                   value="{{ old('variants.'.$index.'.sku_suffix', $skuSuffix) }}" required
-                                                   placeholder="e.g., S-RED"
+                                            <input type="text"
+                                                   class="form-control sku-suffix-input @error('variants.' . $index . '.sku_suffix') is-invalid @enderror"
+                                                   name="variants[{{ $index }}][sku_suffix]"
+                                                   value="{{ $skuSuffix }}"
+                                                   required placeholder="e.g., S-RED"
                                                    data-base-sku="{{ $product->sku }}"
                                                    data-preview-target="sku-preview-{{ $index }}">
-                                            <small class="text-muted">Full SKU: <span class="text-primary fw-bold" id="sku-preview-{{ $index }}">{{ $product->sku }}-{{ old('variants.'.$index.'.sku_suffix', $skuSuffix) ?: '[suffix]' }}</span></small>
+                                            <small class="text-muted">Full SKU: <span class="text-primary fw-bold"
+                                                                                      id="sku-preview-{{ $index }}">{{ $product->sku }}-{{ $skuSuffix ?: '[suffix]' }}</span></small>
+                                            @error('variants.' . $index . '.sku_suffix')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label class="form-label">Price (UGX) *</label>
-                                            <input type="number" class="form-control" name="variants[{{ $index }}][price]"
-                                                   value="{{ $variant['price'] ?? '' }}" step="0.01" min="0" required>
+                                            <input type="number"
+                                                   class="form-control @error('variants.' . $index . '.price') is-invalid @enderror"
+                                                   name="variants[{{ $index }}][price]"
+                                                   value="{{ old('variants.' . $index . '.price', $variant['price'] ?? '') }}"
+                                                   step="0.01" min="0" required>
+                                            @error('variants.' . $index . '.price')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label class="form-label">Stock Quantity *</label>
-                                            <input type="number" class="form-control" name="variants[{{ $index }}][stock_quantity]"
-                                                   value="{{ $variant['stock_quantity'] ?? 0 }}" min="0" required>
+                                            <input type="number"
+                                                   class="form-control @error('variants.' . $index . '.stock_quantity') is-invalid @enderror"
+                                                   name="variants[{{ $index }}][stock_quantity]"
+                                                   value="{{ old('variants.' . $index . '.stock_quantity', $variant['stock_quantity'] ?? 0) }}"
+                                                   min="0" required>
+                                            @error('variants.' . $index . '.stock_quantity')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Variant Image *</label>
+                                            @if(isset($variant['images']) && is_array($variant['images']) && !empty($variant['images']))
+                                                <div class="mb-2">
+                                                    <img
+                                                        src="{{ \App\Helpers\ImageStorageHelper::url($variant['images'][0]) }}"
+                                                        class="img-fluid rounded"
+                                                        style="height: 100px; width: auto;"
+                                                        alt="Variant Image">
+                                                    <div class="form-check mt-2">
+                                                        <input class="form-check-input" type="checkbox"
+                                                               name="variants[{{ $index }}][remove_image]" value="1"
+                                                               id="remove_variant_image_{{ $index }}">
+                                                        <label class="form-check-label text-danger"
+                                                               for="remove_variant_image_{{ $index }}">
+                                                            <small>Remove Image</small>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <p class="text-muted">No image set</p>
+                                            @endif
+                                            <input type="file"
+                                                   class="form-control @error('variants.' . $index . '.image') is-invalid @enderror"
+                                                   name="variants[{{ $index }}][image]" accept="image/*">
+                                            <div class="form-text">Recommended: 800x800px. Max 4MB</div>
+                                            @error('variants.' . $index . '.image')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                            <div class="image-preview mt-2" id="image-preview-{{ $index }}"
+                                                 style="display: none;">
+                                                <img src="" class="img-fluid rounded"
+                                                     style="height: 100px; width: auto;">
+                                            </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox"
                                                        name="variants[{{ $index }}][is_active]" value="1"
                                                        id="variant_active_{{ $index }}"
-                                                    {{ ($variant['is_active'] ?? true) ? 'checked' : '' }}>
+                                                    {{ old('variants.' . $index . '.is_active', $variant['is_active'] ?? true) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="variant_active_{{ $index }}">
                                                     Active
                                                 </label>
@@ -307,6 +466,7 @@
                             <i class="bi bi-plus-circle me-1"></i> Add Variant
                         </button>
                     </div>
+
                 </div>
 
                 <!-- SEO Settings -->
@@ -316,7 +476,8 @@
                     <div class="mb-3">
                         <label for="meta_title" class="form-label">Meta Title</label>
                         <input type="text" class="form-control @error('meta_title') is-invalid @enderror"
-                               id="meta_title" name="meta_title" value="{{ old('meta_title', $product->meta_title) }}" maxlength="255">
+                               id="meta_title" name="meta_title" value="{{ old('meta_title', $product->meta_title) }}"
+                               maxlength="255">
                         <div class="form-text">Leave empty to use product name</div>
                         @error('meta_title')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -385,7 +546,8 @@
                         <div class="input-group">
                             <span class="input-group-text">UGX</span>
                             <input type="number" class="form-control @error('sale_price') is-invalid @enderror"
-                                   id="sale_price" name="sale_price" value="{{ old('sale_price', $product->sale_price) }}"
+                                   id="sale_price" name="sale_price"
+                                   value="{{ old('sale_price', $product->sale_price) }}"
                                    step="0.01" min="0">
                         </div>
                         <div class="form-text">Must be less than regular price</div>
@@ -411,7 +573,8 @@
                         <small class="text-muted">Disable if variants are managing stock</small>
                     </div>
 
-                    <div id="stockFields" style="{{ old('manage_stock', $product->manage_stock) ? '' : 'display: none;' }}">
+                    <div id="stockFields"
+                         style="{{ old('manage_stock', $product->manage_stock) ? '' : 'display: none;' }}">
                         <div class="mb-3">
                             <label for="stock_quantity" class="form-label">Stock Quantity</label>
                             <input type="number" class="form-control @error('stock_quantity') is-invalid @enderror"
@@ -440,11 +603,14 @@
 
                     <div class="mb-3">
                         <label for="status" class="form-label">Status *</label>
-                        <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
+                        <select class="form-select @error('status') is-invalid @enderror" id="status" name="status"
+                                required>
                             @php $currentStatus = old('status', $product->status); @endphp
                             <option value="draft" {{ $currentStatus === 'draft' ? 'selected' : '' }}>Draft</option>
-                            <option value="published" {{ $currentStatus === 'published' ? 'selected' : '' }}>Published</option>
-                            <option value="inactive" {{ $currentStatus === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                            <option value="published" {{ $currentStatus === 'published' ? 'selected' : '' }}>Published
+                            </option>
+                            <option value="inactive" {{ $currentStatus === 'inactive' ? 'selected' : '' }}>Inactive
+                            </option>
                         </select>
                         @error('status')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -516,19 +682,318 @@
     <input type="hidden" name="delete_variants[]" id="deleteVariantsInput">
 @endsection
 
+{{--@push('scripts')--}}
+{{--    <script>--}}
+{{--        let variantIndex = {{ count(old('variants', $product->variants->toArray())) }};--}}
+{{--        const deletedVariants = [];--}}
+
+{{--        // Stock management toggle--}}
+{{--        document.getElementById('manage_stock').addEventListener('change', function() {--}}
+{{--            const stockFields = document.getElementById('stockFields');--}}
+{{--            stockFields.style.display = this.checked ? 'block' : 'none';--}}
+{{--        });--}}
+
+{{--        // Variants toggle--}}
+{{--        document.getElementById('has_variants').addEventListener('change', function() {--}}
+{{--            const variantsSection = document.getElementById('variantsSection');--}}
+{{--            variantsSection.style.display = this.checked ? 'block' : 'none';--}}
+
+{{--            if (this.checked && document.querySelectorAll('.variant-item').length === 0) {--}}
+{{--                addVariant();--}}
+{{--            }--}}
+{{--        });--}}
+
+{{--        // Add variant--}}
+{{--        document.getElementById('addVariant').addEventListener('click', function() {--}}
+{{--            addVariant();--}}
+{{--        });--}}
+
+{{--        function addVariant() {--}}
+{{--            const container = document.getElementById('variantsContainer');--}}
+{{--            const variantHtml = `--}}
+{{--                <div class="variant-item border rounded p-3 mb-3" data-variant-index="${variantIndex}">--}}
+{{--                    <div class="d-flex justify-content-between align-items-center mb-3">--}}
+{{--                        <h6 class="mb-0">Variant #${variantIndex + 1}</h6>--}}
+{{--                        <button type="button" class="btn btn-sm btn-danger remove-variant">--}}
+{{--                            <i class="bi bi-trash"></i> Remove--}}
+{{--                        </button>--}}
+{{--                    </div>--}}
+
+{{--                    <input type="hidden" name="variants[${variantIndex}][id]" value="">--}}
+
+{{--                    <div class="row">--}}
+{{--                        <div class="col-md-6 mb-3">--}}
+{{--                            <label class="form-label">Size *</label>--}}
+{{--                            <input type="text" class="form-control" name="variants[${variantIndex}][size]" required>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-6 mb-3">--}}
+{{--                            <label class="form-label">Color *</label>--}}
+{{--                            <input type="text" class="form-control" name="variants[${variantIndex}][color]" required>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-4 mb-3">--}}
+{{--                            <label class="form-label">--}}
+{{--                                SKU Suffix *--}}
+{{--                                <i class="bi bi-info-circle" data-bs-toggle="tooltip" title="E.g., 'S-RED' will create SKU: {{ $product->sku }}-S-RED"></i>--}}
+{{--                            </label>--}}
+{{--                            <input type="text" class="form-control sku-suffix-input" name="variants[${variantIndex}][sku_suffix]" required placeholder="e.g., S-RED" data-base-sku="{{ $product->sku }}" data-preview-target="sku-preview-${variantIndex}">--}}
+{{--                            <small class="text-muted">Full SKU: <span class="text-primary fw-bold" id="sku-preview-${variantIndex}">{{ $product->sku }}-[suffix]</span></small>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-4 mb-3">--}}
+{{--                            <label class="form-label">Price (UGX) *</label>--}}
+{{--                            <input type="number" class="form-control" name="variants[${variantIndex}][price]"--}}
+{{--                                   step="0.01" min="0" required>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-4 mb-3">--}}
+{{--                            <label class="form-label">Stock Quantity *</label>--}}
+{{--                            <input type="number" class="form-control" name="variants[${variantIndex}][stock_quantity]"--}}
+{{--                                   value="0" min="0" required>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-12">--}}
+{{--                            <div class="form-check">--}}
+{{--                                <input class="form-check-input" type="checkbox"--}}
+{{--                                       name="variants[${variantIndex}][is_active]" value="1"--}}
+{{--                                       id="variant_active_${variantIndex}" checked>--}}
+{{--                                <label class="form-check-label" for="variant_active_${variantIndex}">--}}
+{{--                                    Active--}}
+{{--                                </label>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            `;--}}
+
+{{--            container.insertAdjacentHTML('beforeend', variantHtml);--}}
+{{--            variantIndex++;--}}
+
+{{--            // Reattach remove listeners--}}
+{{--            attachRemoveListeners();--}}
+{{--        }--}}
+
+{{--        // Remove variant--}}
+{{--        function attachRemoveListeners() {--}}
+{{--            document.querySelectorAll('.remove-variant').forEach(button => {--}}
+{{--                button.removeEventListener('click', handleRemoveVariant);--}}
+{{--                button.addEventListener('click', handleRemoveVariant);--}}
+{{--            });--}}
+{{--        }--}}
+
+{{--        function handleRemoveVariant(e) {--}}
+{{--            const variantItem = e.target.closest('.variant-item');--}}
+{{--            const variantId = variantItem.querySelector('input[name*="[id]"]').value;--}}
+
+{{--            if (variantId) {--}}
+{{--                // Track for deletion if it's an existing variant--}}
+{{--                deletedVariants.push(variantId);--}}
+{{--                updateDeletedVariantsInput();--}}
+{{--            }--}}
+
+{{--            variantItem.remove();--}}
+
+{{--            // Renumber remaining variants--}}
+{{--            document.querySelectorAll('.variant-item').forEach((item, index) => {--}}
+{{--                item.querySelector('h6').textContent = `Variant #${index + 1}`;--}}
+{{--            });--}}
+{{--        }--}}
+
+{{--        function updateDeletedVariantsInput() {--}}
+{{--            // Remove existing delete inputs--}}
+{{--            document.querySelectorAll('input[name="delete_variants[]"]').forEach(input => {--}}
+{{--                if (input.id !== 'deleteVariantsInput') {--}}
+{{--                    input.remove();--}}
+{{--                }--}}
+{{--            });--}}
+
+{{--            // Add hidden inputs for each deleted variant--}}
+{{--            const form = document.getElementById('productForm');--}}
+{{--            deletedVariants.forEach(id => {--}}
+{{--                const input = document.createElement('input');--}}
+{{--                input.type = 'hidden';--}}
+{{--                input.name = 'delete_variants[]';--}}
+{{--                input.value = id;--}}
+{{--                form.appendChild(input);--}}
+{{--            });--}}
+{{--        }--}}
+
+{{--        // Initialize remove listeners on page load--}}
+{{--        attachRemoveListeners();--}}
+
+{{--        // Image preview functionality--}}
+{{--        document.getElementById('images').addEventListener('change', function(e) {--}}
+{{--            const preview = document.getElementById('imagePreview');--}}
+{{--            preview.innerHTML = '';--}}
+
+{{--            if (e.target.files.length > 0) {--}}
+{{--                preview.style.display = 'flex';--}}
+
+{{--                Array.from(e.target.files).forEach((file, index) => {--}}
+{{--                    if (file.type.startsWith('image/')) {--}}
+{{--                        const reader = new FileReader();--}}
+{{--                        reader.onload = function(e) {--}}
+{{--                            const col = document.createElement('div');--}}
+{{--                            col.className = 'col-md-3';--}}
+{{--                            col.innerHTML = `--}}
+{{--                                <div class="position-relative">--}}
+{{--                                    <img src="${e.target.result}" class="img-fluid rounded"--}}
+{{--                                         style="height: 120px; width: 100%; object-fit: cover;">--}}
+{{--                                    <div class="badge bg-success position-absolute top-0 start-0 m-1">New</div>--}}
+{{--                                </div>--}}
+{{--                                <div class="text-center mt-2">--}}
+{{--                                    <small class="text-muted">${file.name}</small>--}}
+{{--                                </div>--}}
+{{--                            `;--}}
+{{--                            preview.appendChild(col);--}}
+{{--                        };--}}
+{{--                        reader.readAsDataURL(file);--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            } else {--}}
+{{--                preview.style.display = 'none';--}}
+{{--            }--}}
+{{--        });--}}
+
+{{--        // Featured image preview--}}
+{{--        document.getElementById('featured_image').addEventListener('change', function(e) {--}}
+{{--            const preview = document.getElementById('featuredImagePreview');--}}
+{{--            const previewImg = document.getElementById('featuredPreviewImg');--}}
+{{--            const fileName = document.getElementById('featuredFileName');--}}
+
+{{--            if (e.target.files.length > 0) {--}}
+{{--                const file = e.target.files[0];--}}
+{{--                if (file.type.startsWith('image/')) {--}}
+{{--                    const reader = new FileReader();--}}
+{{--                    reader.onload = function(event) {--}}
+{{--                        previewImg.src = event.target.result;--}}
+{{--                        fileName.textContent = file.name;--}}
+{{--                        preview.style.display = 'block';--}}
+{{--                    };--}}
+{{--                    reader.readAsDataURL(file);--}}
+{{--                } else {--}}
+{{--                    preview.style.display = 'none';--}}
+{{--                }--}}
+{{--            } else {--}}
+{{--                preview.style.display = 'none';--}}
+{{--            }--}}
+{{--        });--}}
+
+{{--        // Auto-generate slug from name (only if slug is empty)--}}
+{{--        const slugInput = document.getElementById('slug');--}}
+{{--        const nameInput = document.getElementById('name');--}}
+
+{{--        nameInput.addEventListener('input', function() {--}}
+{{--            if (slugInput.value === '') {--}}
+{{--                const slug = this.value.toLowerCase()--}}
+{{--                    .replace(/[^a-z0-9 -]/g, '')--}}
+{{--                    .replace(/\s+/g, '-')--}}
+{{--                    .replace(/-+/g, '-')--}}
+{{--                    .trim();--}}
+{{--                slugInput.value = slug;--}}
+{{--            }--}}
+{{--        });--}}
+
+{{--        // Form validation--}}
+{{--        document.getElementById('productForm').addEventListener('submit', function(e) {--}}
+{{--            const hasVariants = document.getElementById('has_variants').checked;--}}
+{{--            const variantItems = document.querySelectorAll('.variant-item');--}}
+
+{{--            if (hasVariants && variantItems.length === 0) {--}}
+{{--                e.preventDefault();--}}
+{{--                alert('Please add at least one variant or disable variants.');--}}
+{{--                return false;--}}
+{{--            }--}}
+
+{{--            // Validate sale price is less than regular price--}}
+{{--            const price = parseFloat(document.getElementById('price').value);--}}
+{{--            const salePrice = parseFloat(document.getElementById('sale_price').value);--}}
+
+{{--            if (salePrice && salePrice >= price) {--}}
+{{--                e.preventDefault();--}}
+{{--                alert('Sale price must be less than regular price.');--}}
+{{--                document.getElementById('sale_price').focus();--}}
+{{--                return false;--}}
+{{--            }--}}
+
+{{--            return true;--}}
+{{--        });--}}
+
+{{--        // Warn about unsaved changes--}}
+{{--        let formChanged = false;--}}
+{{--        const form = document.getElementById('productForm');--}}
+
+{{--        form.addEventListener('change', function() {--}}
+{{--            formChanged = true;--}}
+{{--        });--}}
+
+{{--        window.addEventListener('beforeunload', function(e) {--}}
+{{--            if (formChanged) {--}}
+{{--                e.preventDefault();--}}
+{{--                e.returnValue = '';--}}
+{{--            }--}}
+{{--        });--}}
+
+{{--        form.addEventListener('submit', function() {--}}
+{{--            formChanged = false;--}}
+{{--        });--}}
+
+{{--        // Initialize Bootstrap tooltips--}}
+{{--        document.addEventListener('DOMContentLoaded', function() {--}}
+{{--            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));--}}
+{{--            tooltipTriggerList.map(function (tooltipTriggerEl) {--}}
+{{--                return new bootstrap.Tooltip(tooltipTriggerEl);--}}
+{{--            });--}}
+{{--        });--}}
+
+{{--        // Re-initialize tooltips when new variants are added--}}
+{{--        const originalAddVariant = addVariant;--}}
+{{--        function addVariant() {--}}
+{{--            originalAddVariant();--}}
+{{--            // Re-initialize tooltips for new elements--}}
+{{--            const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');--}}
+{{--            tooltips.forEach(el => {--}}
+{{--                if (!el._tooltip) {--}}
+{{--                    new bootstrap.Tooltip(el);--}}
+{{--                }--}}
+{{--            });--}}
+{{--            // Attach SKU preview listeners to new inputs--}}
+{{--            attachSkuPreviewListeners();--}}
+{{--        }--}}
+
+{{--        // SKU suffix live preview--}}
+{{--        function attachSkuPreviewListeners() {--}}
+{{--            document.querySelectorAll('.sku-suffix-input').forEach(input => {--}}
+{{--                if (!input.dataset.listenerAttached) {--}}
+{{--                    input.addEventListener('input', function() {--}}
+{{--                        const baseSku = this.dataset.baseSku;--}}
+{{--                        const previewId = this.dataset.previewTarget;--}}
+{{--                        const preview = document.getElementById(previewId);--}}
+{{--                        if (preview) {--}}
+{{--                            const suffix = this.value.trim();--}}
+{{--                            preview.textContent = suffix ? `${baseSku}-${suffix}` : `${baseSku}-[suffix]`;--}}
+{{--                        }--}}
+{{--                    });--}}
+{{--                    input.dataset.listenerAttached = 'true';--}}
+{{--                }--}}
+{{--            });--}}
+{{--        }--}}
+
+{{--        // Initialize on page load--}}
+{{--        attachSkuPreviewListeners();--}}
+{{--    </script>--}}
+{{--@endpush--}}
+
+
 @push('scripts')
     <script>
         let variantIndex = {{ count(old('variants', $product->variants->toArray())) }};
         const deletedVariants = [];
 
         // Stock management toggle
-        document.getElementById('manage_stock').addEventListener('change', function() {
+        document.getElementById('manage_stock').addEventListener('change', function () {
             const stockFields = document.getElementById('stockFields');
             stockFields.style.display = this.checked ? 'block' : 'none';
         });
 
         // Variants toggle
-        document.getElementById('has_variants').addEventListener('change', function() {
+        document.getElementById('has_variants').addEventListener('change', function () {
             const variantsSection = document.getElementById('variantsSection');
             variantsSection.style.display = this.checked ? 'block' : 'none';
 
@@ -538,69 +1003,87 @@
         });
 
         // Add variant
-        document.getElementById('addVariant').addEventListener('click', function() {
+        document.getElementById('addVariant').addEventListener('click', function () {
             addVariant();
         });
 
         function addVariant() {
             const container = document.getElementById('variantsContainer');
             const variantHtml = `
-                <div class="variant-item border rounded p-3 mb-3" data-variant-index="${variantIndex}">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="mb-0">Variant #${variantIndex + 1}</h6>
-                        <button type="button" class="btn btn-sm btn-danger remove-variant">
-                            <i class="bi bi-trash"></i> Remove
-                        </button>
-                    </div>
+        <div class="variant-item border rounded p-3 mb-3" data-variant-index="${variantIndex}">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="mb-0">Variant #${variantIndex + 1}</h6>
+                <button type="button" class="btn btn-sm btn-danger remove-variant">
+                    <i class="bi bi-trash"></i> Remove
+                </button>
+            </div>
 
-                    <input type="hidden" name="variants[${variantIndex}][id]" value="">
+            <input type="hidden" name="variants[${variantIndex}][id]" value="">
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Size *</label>
-                            <input type="text" class="form-control" name="variants[${variantIndex}][size]" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Color *</label>
-                            <input type="text" class="form-control" name="variants[${variantIndex}][color]" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">
-                                SKU Suffix *
-                                <i class="bi bi-info-circle" data-bs-toggle="tooltip" title="E.g., 'S-RED' will create SKU: {{ $product->sku }}-S-RED"></i>
-                            </label>
-                            <input type="text" class="form-control sku-suffix-input" name="variants[${variantIndex}][sku_suffix]" required placeholder="e.g., S-RED" data-base-sku="{{ $product->sku }}" data-preview-target="sku-preview-${variantIndex}">
-                            <small class="text-muted">Full SKU: <span class="text-primary fw-bold" id="sku-preview-${variantIndex}">{{ $product->sku }}-[suffix]</span></small>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Price (UGX) *</label>
-                            <input type="number" class="form-control" name="variants[${variantIndex}][price]"
-                                   step="0.01" min="0" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Stock Quantity *</label>
-                            <input type="number" class="form-control" name="variants[${variantIndex}][stock_quantity]"
-                                   value="0" min="0" required>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox"
-                                       name="variants[${variantIndex}][is_active]" value="1"
-                                       id="variant_active_${variantIndex}" checked>
-                                <label class="form-check-label" for="variant_active_${variantIndex}">
-                                    Active
-                                </label>
-                            </div>
-                        </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Size *</label>
+                    <input type="text" class="form-control" name="variants[${variantIndex}][size]" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Color *</label>
+                    <input type="text" class="form-control" name="variants[${variantIndex}][color]" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">
+                        SKU Suffix *
+                        <i class="bi bi-info-circle" data-bs-toggle="tooltip" title="E.g., 'S-RED' will create SKU: {{ $product->sku }}-S-RED"></i>
+                    </label>
+                    <input type="text" class="form-control sku-suffix-input" name="variants[${variantIndex}][sku_suffix]" required placeholder="e.g., S-RED" data-base-sku="{{ $product->sku }}" data-preview-target="sku-preview-${variantIndex}">
+                    <small class="text-muted">Full SKU: <span class="text-primary fw-bold" id="sku-preview-${variantIndex}">{{ $product->sku }}-[suffix]</span></small>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Price (UGX) *</label>
+                    <input type="number" class="form-control" name="variants[${variantIndex}][price]"
+                           step="0.01" min="0" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Stock Quantity *</label>
+                    <input type="number" class="form-control" name="variants[${variantIndex}][stock_quantity]"
+                           value="0" min="0" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Variant Image *</label>
+                    <input type="file" class="form-control" name="variants[${variantIndex}][image]" accept="image/*" required>
+                    <div class="form-text">Recommended: 800x800px. Max 4MB</div>
+                    <div class="image-preview mt-2" id="image-preview-${variantIndex}" style="display: none;">
+                        <img src="" class="img-fluid rounded" style="height: 100px; width: auto;">
                     </div>
                 </div>
-            `;
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"
+                               name="variants[${variantIndex}][is_active]" value="1"
+                               id="variant_active_${variantIndex}" checked>
+                        <label class="form-check-label" for="variant_active_${variantIndex}">
+                            Active
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
 
             container.insertAdjacentHTML('beforeend', variantHtml);
             variantIndex++;
 
-            // Reattach remove listeners
+            // Reattach remove listeners and initialize image previews
             attachRemoveListeners();
+            attachImagePreviewListeners();
+            // Re-initialize tooltips for new elements
+            const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltips.forEach(el => {
+                if (!el._tooltip) {
+                    new bootstrap.Tooltip(el);
+                }
+            });
+            // Attach SKU preview listeners
+            attachSkuPreviewListeners();
         }
 
         // Remove variant
@@ -616,7 +1099,6 @@
             const variantId = variantItem.querySelector('input[name*="[id]"]').value;
 
             if (variantId) {
-                // Track for deletion if it's an existing variant
                 deletedVariants.push(variantId);
                 updateDeletedVariantsInput();
             }
@@ -648,11 +1130,33 @@
             });
         }
 
-        // Initialize remove listeners on page load
-        attachRemoveListeners();
+        // Image preview for variant images
+        function attachImagePreviewListeners() {
+            document.querySelectorAll('input[type="file"][name*="variants"][name*="image"]').forEach(input => {
+                if (!input.dataset.listenerAttached) {
+                    input.addEventListener('change', function () {
+                        const index = this.name.match(/\[(\d+)\]/)[1];
+                        const previewDiv = document.getElementById(`image-preview-${index}`);
+                        const imgElement = previewDiv.querySelector('img');
 
-        // Image preview functionality
-        document.getElementById('images').addEventListener('change', function(e) {
+                        if (this.files.length > 0 && this.files[0].type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                imgElement.src = e.target.result;
+                                previewDiv.style.display = 'block';
+                            };
+                            reader.readAsDataURL(this.files[0]);
+                        } else {
+                            previewDiv.style.display = 'none';
+                        }
+                    });
+                    input.dataset.listenerAttached = 'true';
+                }
+            });
+        }
+
+        // Image preview for gallery images
+        document.getElementById('images').addEventListener('change', function (e) {
             const preview = document.getElementById('imagePreview');
             preview.innerHTML = '';
 
@@ -662,7 +1166,7 @@
                 Array.from(e.target.files).forEach((file, index) => {
                     if (file.type.startsWith('image/')) {
                         const reader = new FileReader();
-                        reader.onload = function(e) {
+                        reader.onload = function (e) {
                             const col = document.createElement('div');
                             col.className = 'col-md-3';
                             col.innerHTML = `
@@ -686,7 +1190,7 @@
         });
 
         // Featured image preview
-        document.getElementById('featured_image').addEventListener('change', function(e) {
+        document.getElementById('featured_image').addEventListener('change', function (e) {
             const preview = document.getElementById('featuredImagePreview');
             const previewImg = document.getElementById('featuredPreviewImg');
             const fileName = document.getElementById('featuredFileName');
@@ -695,7 +1199,7 @@
                 const file = e.target.files[0];
                 if (file.type.startsWith('image/')) {
                     const reader = new FileReader();
-                    reader.onload = function(event) {
+                    reader.onload = function (event) {
                         previewImg.src = event.target.result;
                         fileName.textContent = file.name;
                         preview.style.display = 'block';
@@ -709,11 +1213,11 @@
             }
         });
 
-        // Auto-generate slug from name (only if slug is empty)
+        // Auto-generate slug from name
         const slugInput = document.getElementById('slug');
         const nameInput = document.getElementById('name');
 
-        nameInput.addEventListener('input', function() {
+        nameInput.addEventListener('input', function () {
             if (slugInput.value === '') {
                 const slug = this.value.toLowerCase()
                     .replace(/[^a-z0-9 -]/g, '')
@@ -724,8 +1228,26 @@
             }
         });
 
+        // SKU suffix live preview
+        function attachSkuPreviewListeners() {
+            document.querySelectorAll('.sku-suffix-input').forEach(input => {
+                if (!input.dataset.listenerAttached) {
+                    input.addEventListener('input', function () {
+                        const baseSku = this.dataset.baseSku;
+                        const previewId = this.dataset.previewTarget;
+                        const preview = document.getElementById(previewId);
+                        if (preview) {
+                            const suffix = this.value.trim();
+                            preview.textContent = suffix ? `${baseSku}-${suffix}` : `${baseSku}-[suffix]`;
+                        }
+                    });
+                    input.dataset.listenerAttached = 'true';
+                }
+            });
+        }
+
         // Form validation
-        document.getElementById('productForm').addEventListener('submit', function(e) {
+        document.getElementById('productForm').addEventListener('submit', function (e) {
             const hasVariants = document.getElementById('has_variants').checked;
             const variantItems = document.querySelectorAll('.variant-item');
 
@@ -753,63 +1275,33 @@
         let formChanged = false;
         const form = document.getElementById('productForm');
 
-        form.addEventListener('change', function() {
+        form.addEventListener('change', function () {
             formChanged = true;
         });
 
-        window.addEventListener('beforeunload', function(e) {
+        window.addEventListener('beforeunload', function (e) {
             if (formChanged) {
                 e.preventDefault();
                 e.returnValue = '';
             }
         });
 
-        form.addEventListener('submit', function() {
+        form.addEventListener('submit', function () {
             formChanged = false;
         });
 
-        // Initialize Bootstrap tooltips
-        document.addEventListener('DOMContentLoaded', function() {
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize tooltips
             const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
             tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl);
             });
-        });
 
-        // Re-initialize tooltips when new variants are added
-        const originalAddVariant = addVariant;
-        function addVariant() {
-            originalAddVariant();
-            // Re-initialize tooltips for new elements
-            const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-            tooltips.forEach(el => {
-                if (!el._tooltip) {
-                    new bootstrap.Tooltip(el);
-                }
-            });
-            // Attach SKU preview listeners to new inputs
+            // Initialize remove listeners and image previews
+            attachRemoveListeners();
+            attachImagePreviewListeners();
             attachSkuPreviewListeners();
-        }
-
-        // SKU suffix live preview
-        function attachSkuPreviewListeners() {
-            document.querySelectorAll('.sku-suffix-input').forEach(input => {
-                if (!input.dataset.listenerAttached) {
-                    input.addEventListener('input', function() {
-                        const baseSku = this.dataset.baseSku;
-                        const previewId = this.dataset.previewTarget;
-                        const preview = document.getElementById(previewId);
-                        if (preview) {
-                            const suffix = this.value.trim();
-                            preview.textContent = suffix ? `${baseSku}-${suffix}` : `${baseSku}-[suffix]`;
-                        }
-                    });
-                    input.dataset.listenerAttached = 'true';
-                }
-            });
-        }
-
-        // Initialize on page load
-        attachSkuPreviewListeners();
+        });
     </script>
 @endpush
