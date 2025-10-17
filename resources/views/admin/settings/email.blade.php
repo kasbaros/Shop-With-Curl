@@ -28,15 +28,14 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="mail_mailer" class="form-label">Mail Driver *</label>
-                            <select class="form-select @error('mail_mailer') is-invalid @enderror" id="mail_mailer" name="mail_mailer" required>
-                                <option value="smtp" {{ old('mail_mailer', setting('mail_mailer', 'smtp')) === 'smtp' ? 'selected' : '' }}>SMTP</option>
-                                <option value="sendmail" {{ old('mail_mailer', setting('mail_mailer', 'smtp')) === 'sendmail' ? 'selected' : '' }}>Sendmail</option>
-                                <option value="mailgun" {{ old('mail_mailer', setting('mail_mailer', 'smtp')) === 'mailgun' ? 'selected' : '' }}>Mailgun</option>
-                                <option value="ses" {{ old('mail_mailer', setting('mail_mailer', 'smtp')) === 'ses' ? 'selected' : '' }}>Amazon SES</option>
-                                <option value="log" {{ old('mail_mailer', setting('mail_mailer', 'smtp')) === 'log' ? 'selected' : '' }}>Log (Testing)</option>
+                            <label for="mail_driver" class="form-label">Mail Driver *</label>
+                            <select class="form-select @error('mail_driver') is-invalid @enderror" id="mail_driver" name="mail_driver" required>
+                                <option value="smtp" {{ old('mail_driver', setting('mail_driver', 'smtp')) === 'smtp' ? 'selected' : '' }}>SMTP</option>
+                                <option value="sendmail" {{ old('mail_driver', setting('mail_driver', 'smtp')) === 'sendmail' ? 'selected' : '' }}>Sendmail</option>
+                                <option value="mailgun" {{ old('mail_driver', setting('mail_driver', 'smtp')) === 'mailgun' ? 'selected' : '' }}>Mailgun</option>
+                                <option value="ses" {{ old('mail_driver', setting('mail_driver', 'smtp')) === 'ses' ? 'selected' : '' }}>Amazon SES</option>
                             </select>
-                            @error('mail_mailer')
+                            @error('mail_driver')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <div class="form-text">Choose your email delivery method</div>

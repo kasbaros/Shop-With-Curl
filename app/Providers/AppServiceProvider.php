@@ -31,6 +31,32 @@ class AppServiceProvider extends ServiceProvider
         // DB settings
         Schema::defaultStringLength(191);
 
+        // Apply mail settings from database at runtime (safe defaults if missing)
+        try {
+            $driver = setting('mail_driver', env('MAIL_MAILER', 'smtp'));
+            $fromAddress = setting('mail_from_address', env('MAIL_FROM_ADDRESS', 'hello@example.com'));
+            $fromName = setting('mail_from_name', env('MAIL_FROM_NAME', 'Example'));
+
+            // Set default mailer
+            config(['mail.default' => $driver]);
+
+            if ($driver === 'smtp') {
+                config([
+                    'mail.mailers.smtp.host' => setting('mail_host', env('MAIL_HOST', '127.0.0.1')),
+                    'mail.mailers.smtp.port' => (int) setting('mail_port', env('MAIL_PORT', 2525)),
+                    'mail.mailers.smtp.username' => setting('mail_username', env('MAIL_USERNAME')),
+                    'mail.mailers.smtp.password' => setting('mail_password', env('MAIL_PASSWORD')),
+                    'mail.mailers.smtp.encryption' => setting('mail_encryption', env('MAIL_ENCRYPTION')) ?: null,
+                ]);
+            }
+
+            // Apply global from
+            config(['mail.from.address' => $fromAddress, 'mail.from.name' => $fromName]);
+        } catch (\Throwable $e) {
+            // Do not break the app if settings are unavailable during early boot
+            Log::warning('Mail settings bootstrap skipped: ' . $e->getMessage());
+        }
+
         // Use Bootstrap 5 for pagination
         Paginator::useBootstrapFive();
 

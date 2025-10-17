@@ -88,7 +88,7 @@ class PagesController extends Controller
 
         try {
             // Send email notification
-            Mail::to(config('mail.admin_email', 'admin@example.com'))
+            Mail::to(setting('site_email', config('app.admin_email', config('mail.from.address', 'admin@example.com'))))
                 ->send(new ContactFormMail($validated));
 
             // Log the contact form submission
