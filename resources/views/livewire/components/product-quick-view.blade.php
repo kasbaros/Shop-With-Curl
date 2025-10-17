@@ -1,5 +1,4 @@
 <div>
-
     @if($showModal && $product)
         <div class="modal fade show modalDemo popup-quickview" id="quick_view" tabindex="-1"
              style="z-index: 1060; display: block; background-color: rgba(0,0,0,0.5);"
@@ -14,7 +13,13 @@
                         <div class="tf-product-media-wrap">
                             <div dir="ltr" class="swiper tf-single-slide" id="productQuickViewSwiper">
                                 <div class="swiper-wrapper">
-                                    @if($product->images && count($product->images) > 0)
+                                    @if($this->currentVariant && $this->currentVariant->image_url)
+                                        <div class="swiper-slide" role="group" aria-label="1 / 1">
+                                            <div class="item">
+                                                <img src="{{ $this->imageUrl }}" alt="{{ $product->name }}">
+                                            </div>
+                                        </div>
+                                    @elseif($product->images && count($product->images) > 0)
                                         @foreach($product->images as $index => $image)
                                             <div class="swiper-slide" role="group"
                                                  aria-label="{{ $index + 1 }} / {{ count($product->images) }}">
@@ -85,18 +90,18 @@
                                                         class="fw-6 variant-picker-label-value">{{ $selectedColor ?? 'Please select' }}</span>
                                                 </div>
                                                 <div class="variant-picker-values">
-                                                    @foreach($this->availableColors as $color)
+                                                    @foreach($this->availableColors as $colorObj)
                                                         <input
-                                                            id="values-{{ strtolower(str_replace(' ', '-', $color)) }}-qv"
+                                                            id="values-{{ strtolower(str_replace(' ', '-', $colorObj['name'])) }}-qv"
                                                             type="radio" name="color-qv"
-                                                            value="{{ $color }}" wire:model.live="selectedColor"
-                                                            @if($selectedColor === $color) checked @endif>
+                                                            value="{{ $colorObj['name'] }}" wire:model.live="selectedColor"
+                                                            @if($selectedColor === $colorObj['name']) checked @endif>
                                                         <label class="hover-tooltip radius-60"
-                                                               for="values-{{ strtolower(str_replace(' ', '-', $color)) }}-qv"
-                                                               data-value="{{ $color }}">
+                                                               for="values-{{ strtolower(str_replace(' ', '-', $colorObj['name'])) }}-qv"
+                                                               data-value="{{ $colorObj['name'] }}">
                                                             <span
-                                                                class="btn-checkbox bg-color-{{ strtolower($color) }}"></span>
-                                                            <span class="tooltip">{{ $color }}</span>
+                                                                class="btn-checkbox" style="background-color: {{ $colorObj['hex_code'] }} !important;"></span>
+                                                            <span class="tooltip">{{ $colorObj['name'] }}</span>
                                                         </label>
                                                     @endforeach
                                                 </div>
@@ -198,12 +203,12 @@
                                             <span class="tooltip">Add to Compare</span>
                                             <span class="icon icon-check"></span>
                                         </a>
-                                        <div class="w-100">
-                                            <a href="#" class="btns-full">Buy with <img
-                                                    src="{{ asset('images/payments/paypal.png') }}"
-                                                    alt=""></a>
-                                            <a href="#" class="payment-more-option">More payment options</a>
-                                        </div>
+{{--                                        <div class="w-100">--}}
+{{--                                            <a href="#" class="btns-full">Buy with <img--}}
+{{--                                                    src="{{ asset('images/payments/paypal.png') }}"--}}
+{{--                                                    alt=""></a>--}}
+{{--                                            <a href="#" class="payment-more-option">More payment options</a>--}}
+{{--                                        </div>--}}
                                     </form>
                                 </div>
                                 <div>

@@ -160,9 +160,6 @@
         </div>
     </section>
 
-    <!-- Quick View Modal Component -->
-    <livewire:components.product-quick-view />
-
     <!-- Quick Add Modal Component -->
     <livewire:components.product-quick-add />
 

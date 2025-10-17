@@ -329,7 +329,6 @@
 
 
         @livewire('components.product-quick-add')
-        @livewire('components.product-quick-view')
         @livewire('components.compare-modal')
         @livewire('components.shopping-cart')
 
