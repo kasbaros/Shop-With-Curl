@@ -181,83 +181,239 @@
                 </div>
 
                 <!-- Inventory & Variants -->
+
+{{--                <div class="stat-card p-4 mb-4">--}}
+{{--                    <h5 class="mb-3">Inventory & Variants</h5>--}}
+
+{{--                    <!-- Main Toggle Section -->--}}
+{{--                    <div class="mb-4 p-3 border rounded bg-light">--}}
+{{--                        <div class="form-check form-switch mb-2">--}}
+{{--                            <input class="form-check-input" type="checkbox" id="has_variants"--}}
+{{--                                   name="has_variants" value="1" {{ old('has_variants') ? 'checked' : '' }}>--}}
+{{--                            <label class="form-check-label fw-semibold" for="has_variants">--}}
+{{--                                Product has variants (sizes, colors)--}}
+{{--                            </label>--}}
+{{--                        </div>--}}
+{{--                        <div class="form-text text-muted">Enable if product comes in different sizes, colors, etc.</div>--}}
+{{--                    </div>--}}
+
+{{--                    <!-- Simple Inventory - Better Visual Separation -->--}}
+{{--                    <div id="simpleInventoryFields" class="simple-inventory border rounded p-3 bg-light" style="{{ old('has_variants') ? 'display: none;' : '' }}">--}}
+{{--                        <div class="mb-3">--}}
+{{--                            <div class="form-check form-switch mb-2">--}}
+{{--                                <input class="form-check-input" type="checkbox" id="manage_stock"--}}
+{{--                                       name="manage_stock" value="1" {{ old('manage_stock') ? 'checked' : '' }}>--}}
+{{--                                <label class="form-check-label fw-semibold" for="manage_stock">--}}
+{{--                                    Manage Stock--}}
+{{--                                </label>--}}
+{{--                            </div>--}}
+{{--                            <div class="form-text text-muted">Enable stock quantity tracking</div>--}}
+{{--                        </div>--}}
+
+{{--                        <div id="stockFields" class="stock-fields mt-3 p-3 border rounded bg-white" style="{{ old('manage_stock') ? '' : 'display: none;' }}">--}}
+{{--                            <div class="row">--}}
+{{--                                <div class="col-md-6 mb-3">--}}
+{{--                                    <label for="stock_quantity" class="form-label fw-semibold">Stock Quantity</label>--}}
+{{--                                    <input type="number" class="form-control @error('stock_quantity') is-invalid @enderror"--}}
+{{--                                           id="stock_quantity" name="stock_quantity" value="{{ old('stock_quantity', 0) }}"--}}
+{{--                                           min="0">--}}
+{{--                                    @error('stock_quantity')--}}
+{{--                                    <div class="invalid-feedback">{{ $message }}</div>--}}
+{{--                                    @enderror--}}
+{{--                                </div>--}}
+
+{{--                                <div class="col-md-6 mb-3">--}}
+{{--                                    <label for="min_stock_level" class="form-label fw-semibold">Low Stock Alert Level</label>--}}
+{{--                                    <input type="number" class="form-control @error('min_stock_level') is-invalid @enderror"--}}
+{{--                                           id="min_stock_level" name="min_stock_level" value="{{ old('min_stock_level', 5) }}"--}}
+{{--                                           min="0">--}}
+{{--                                    <div class="form-text text-muted">Alert when stock falls below this level</div>--}}
+{{--                                    @error('min_stock_level')--}}
+{{--                                    <div class="invalid-feedback">{{ $message }}</div>--}}
+{{--                                    @enderror--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+
+{{--                    <!-- Variants Section - Improved Layout -->--}}
+{{--                    <div id="variantsSection" class="variants-section mt-3" style="{{ old('has_variants') ? '' : 'display: none;' }}">--}}
+{{--                        <div class="border rounded p-3 bg-light">--}}
+{{--                            <!-- Sizes Input -->--}}
+{{--                            <div class="mb-4">--}}
+{{--                                <label for="available_sizes" class="form-label fw-semibold">Available Sizes</label>--}}
+{{--                                <input type="text" class="form-control" id="available_sizes" name="available_sizes"--}}
+{{--                                       value="{{ old('available_sizes', 'XS,S,M,L,XL,XXL') }}"--}}
+{{--                                       placeholder="XS,S,M,L,XL,XXL">--}}
+{{--                                <div class="form-text text-muted">Comma-separated list of sizes</div>--}}
+{{--                            </div>--}}
+
+{{--                            <!-- Colors Selection - Improved Visual Layout -->--}}
+{{--                            <div class="mb-4">--}}
+{{--                                <label class="form-label fw-semibold">Available Colors</label>--}}
+{{--                                @php--}}
+{{--                                    $palette = \App\Support\ColorPalette::all();--}}
+{{--                                    $oldSelectedColors = collect(old('available_colors', []))--}}
+{{--                                        ->map(fn($c) => strtolower(trim(is_string($c) ? $c : strval($c))))--}}
+{{--                                        ->toArray();--}}
+{{--                                @endphp--}}
+{{--                                <div class="border rounded p-3 bg-white" style="max-height: 220px; overflow-y: auto;">--}}
+{{--                                    <div class="row g-3">--}}
+{{--                                        @foreach($palette as $colorName => $hex)--}}
+{{--                                            @php--}}
+{{--                                                $id = 'color_' . str_replace([' ', '#'], ['_', ''], strtolower($colorName));--}}
+{{--                                                $checked = in_array(strtolower($colorName), $oldSelectedColors);--}}
+{{--                                            @endphp--}}
+{{--                                            <div class="col-6 col-md-4 col-lg-3">--}}
+{{--                                                <div class="form-check">--}}
+{{--                                                    <input class="form-check-input" type="checkbox" name="available_colors[]"--}}
+{{--                                                           id="{{ $id }}" value="{{ $colorName }}" {{ $checked ? 'checked' : '' }}>--}}
+{{--                                                    <label class="form-check-label d-flex align-items-center gap-2 w-100" for="{{ $id }}">--}}
+{{--                                        <span class="rounded-circle border shadow-sm"--}}
+{{--                                              style="display:inline-block;width:20px;height:20px;background-color: {{ $hex }};"></span>--}}
+{{--                                                        <span class="text-capitalize small">{{ $colorName }}</span>--}}
+{{--                                                    </label>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        @endforeach--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="form-text text-muted mt-2">Select one or more colors for variant generation</div>--}}
+{{--                            </div>--}}
+
+{{--                            <!-- Generate Button -->--}}
+{{--                            <div class="text-center border-top pt-3">--}}
+{{--                                <button type="button" class="btn btn-primary" id="generateVariants">--}}
+{{--                                    <i class="bi bi-plus-circle me-2"></i> Generate Variant Combinations--}}
+{{--                                </button>--}}
+{{--                                <div class="form-text text-muted mt-2">Click to generate all size/color combinations</div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+
+{{--                        <!-- Variants Container -->--}}
+{{--                        <div id="variantsContainer" class="variants-container mt-3">--}}
+{{--                            <!-- Variants will be generated here -->--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+
                 <div class="stat-card p-4 mb-4">
                     <h5 class="mb-3">Inventory & Variants</h5>
 
-                    <div class="mb-3">
-                        <div class="form-check form-switch">
+                    <!-- Main Toggle Section -->
+                    <div class="mb-4 p-3 border rounded bg-light">
+                        <div class="form-check form-switch mb-2">
                             <input class="form-check-input" type="checkbox" id="has_variants"
                                    name="has_variants" value="1" {{ old('has_variants') ? 'checked' : '' }}>
-                            <label class="form-check-label" for="has_variants">
+                            <label class="form-check-label fw-semibold" for="has_variants">
                                 Product has variants (sizes, colors)
                             </label>
                         </div>
-                        <div class="form-text">Enable if product comes in different sizes, colors, etc.</div>
+                        <div class="form-text text-muted">Enable if product comes in different sizes, colors, etc.</div>
                     </div>
 
-                    <div id="simpleInventoryFields" class="simple-inventory" style="{{ old('has_variants') ? 'display: none;' : '' }}">
+                    <!-- Simple Inventory - Better Visual Separation -->
+                    <div id="simpleInventoryFields" class="simple-inventory border rounded p-3 bg-light" style="{{ old('has_variants') ? 'display: none;' : '' }}">
                         <div class="mb-3">
-                            <div class="form-check form-switch">
+                            <div class="form-check form-switch mb-2">
                                 <input class="form-check-input" type="checkbox" id="manage_stock"
                                        name="manage_stock" value="1" {{ old('manage_stock') ? 'checked' : '' }}>
-                                <label class="form-check-label" for="manage_stock">
+                                <label class="form-check-label fw-semibold" for="manage_stock">
                                     Manage Stock
                                 </label>
                             </div>
-                            <div class="form-text">Enable stock quantity tracking</div>
+                            <div class="form-text text-muted">Enable stock quantity tracking</div>
                         </div>
 
-                        <div id="stockFields" class="stock-fields" style="{{ old('manage_stock') ? '' : 'display: none;' }}">
-                            <div class="mb-3">
-                                <label for="stock_quantity" class="form-label">Stock Quantity</label>
-                                <input type="number" class="form-control @error('stock_quantity') is-invalid @enderror"
-                                       id="stock_quantity" name="stock_quantity" value="{{ old('stock_quantity', 0) }}"
-                                       min="0">
-                                @error('stock_quantity')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                        <div id="stockFields" class="stock-fields mt-3 p-3 border rounded bg-white" style="{{ old('manage_stock') ? '' : 'display: none;' }}">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="stock_quantity" class="form-label fw-semibold">Stock Quantity</label>
+                                    <input type="number" class="form-control @error('stock_quantity') is-invalid @enderror"
+                                           id="stock_quantity" name="stock_quantity" value="{{ old('stock_quantity', 0) }}"
+                                           min="0">
+                                    @error('stock_quantity')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
-                            <div class="mb-3">
-                                <label for="min_stock_level" class="form-label">Low Stock Alert Level</label>
-                                <input type="number" class="form-control @error('min_stock_level') is-invalid @enderror"
-                                       id="min_stock_level" name="min_stock_level" value="{{ old('min_stock_level', 5) }}"
-                                       min="0">
-                                <div class="form-text">Alert when stock falls below this level</div>
-                                @error('min_stock_level')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                <div class="col-md-6 mb-3">
+                                    <label for="min_stock_level" class="form-label fw-semibold">Low Stock Alert Level</label>
+                                    <input type="number" class="form-control @error('min_stock_level') is-invalid @enderror"
+                                           id="min_stock_level" name="min_stock_level" value="{{ old('min_stock_level', 5) }}"
+                                           min="0">
+                                    <div class="form-text text-muted">Alert when stock falls below this level</div>
+                                    @error('min_stock_level')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Variants Section -->
-                    <div id="variantsSection" class="variants-section" style="{{ old('has_variants') ? '' : 'display: none;' }}">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="available_sizes" class="form-label">Available Sizes</label>
+                    <!-- Variants Section - Improved Layout -->
+                    <div id="variantsSection" class="variants-section mt-3" style="{{ old('has_variants') ? '' : 'display: none;' }}">
+                        <div class="border rounded p-3 bg-light">
+                            <!-- Sizes Input -->
+                            <div class="mb-4">
+                                <label for="available_sizes" class="form-label fw-semibold">Available Sizes</label>
                                 <input type="text" class="form-control" id="available_sizes" name="available_sizes"
                                        value="{{ old('available_sizes', 'XS,S,M,L,XL,XXL') }}"
                                        placeholder="XS,S,M,L,XL,XXL">
-                                <div class="form-text">Comma-separated list of sizes</div>
+                                <div class="form-text text-muted">Comma-separated list of sizes</div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="available_colors" class="form-label">Available Colors</label>
-                                <input type="text" class="form-control" id="available_colors" name="available_colors"
-                                       value="{{ old('available_colors', 'Black,White,Blue,Red,Green') }}"
-                                       placeholder="Black,White,Blue,Red,Green">
-                                <div class="form-text">Comma-separated list of colors</div>
+
+                            <!-- Colors Selection - Improved Visual Layout with Search -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Available Colors</label>
+
+                                <!-- Search Input -->
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" id="colorSearch" placeholder="Search colors...">
+                                    <div class="form-text text-muted">Type to filter colors by name</div>
+                                </div>
+
+                                @php
+                                    $palette = \App\Support\ColorPalette::all();
+                                    $oldSelectedColors = collect(old('available_colors', []))
+                                        ->map(fn($c) => strtolower(trim(is_string($c) ? $c : strval($c))))
+                                        ->toArray();
+                                @endphp
+                                <div class="border rounded p-3 bg-white" style="max-height: 220px; overflow-y: auto;">
+                                    <div class="row g-3" id="colorOptions">
+                                        @foreach($palette as $colorName => $hex)
+                                            @php
+                                                $id = 'color_' . str_replace([' ', '#'], ['_', ''], strtolower($colorName));
+                                                $checked = in_array(strtolower($colorName), $oldSelectedColors);
+                                            @endphp
+                                            <div class="col-6 col-md-4 col-lg-3 color-option" data-color-name="{{ strtolower($colorName) }}">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="available_colors[]"
+                                                           id="{{ $id }}" value="{{ $colorName }}" {{ $checked ? 'checked' : '' }}>
+                                                    <label class="form-check-label d-flex align-items-center gap-2 w-100" for="{{ $id }}">
+                                        <span class="rounded-circle border shadow-sm"
+                                              style="display:inline-block;width:20px;height:20px;background-color: {{ $hex }};"></span>
+                                                        <span class="text-capitalize small">{{ $colorName }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="form-text text-muted mt-2">Select one or more colors for variant generation</div>
+                            </div>
+
+                            <!-- Generate Button -->
+                            <div class="text-center border-top pt-3">
+                                <button type="button" class="btn btn-primary" id="generateVariants">
+                                    <i class="bi bi-plus-circle me-2"></i> Generate Variant Combinations
+                                </button>
+                                <div class="form-text text-muted mt-2">Click to generate all size/color combinations</div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <button type="button" class="btn btn-primary" id="generateVariants">
-                                <i class="bi bi-plus-circle me-1"></i> Generate Variant Combinations
-                            </button>
-                            <div class="form-text">Click to generate all size/color combinations</div>
-                        </div>
-
-                        <div id="variantsContainer" class="variants-container">
+                        <!-- Variants Container -->
+                        <div id="variantsContainer" class="variants-container mt-3">
                             <!-- Variants will be generated here -->
                         </div>
                     </div>
@@ -429,19 +585,21 @@
             // Generate variant combinations
             generateVariantsBtn.addEventListener('click', function() {
                 const sizesInput = document.getElementById('available_sizes').value.trim();
-                const colorsInput = document.getElementById('available_colors').value.trim();
                 const basePrice = parseFloat(priceInput.value) || 0;
 
-                if (!sizesInput || !colorsInput) {
-                    alert('Please enter both sizes and colors');
+                // Collect selected colors from checkboxes
+                const colorCheckboxes = document.querySelectorAll('input[name="available_colors[]"]:checked');
+                const colors = Array.from(colorCheckboxes).map(cb => cb.value.trim()).filter(Boolean);
+
+                if (!sizesInput || colors.length === 0) {
+                    alert('Please enter sizes and select at least one color');
                     return;
                 }
 
                 const sizes = sizesInput.split(',').map(s => s.trim()).filter(s => s);
-                const colors = colorsInput.split(',').map(c => c.trim()).filter(c => c);
 
-                if (sizes.length === 0 || colors.length === 0) {
-                    alert('Please enter valid sizes and colors');
+                if (sizes.length === 0) {
+                    alert('Please enter valid sizes');
                     return;
                 }
 
@@ -500,6 +658,37 @@
 
                 variantsContainer.innerHTML = variantsHtml;
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const colorSearch = document.getElementById('colorSearch');
+            const colorOptions = document.querySelectorAll('.color-option');
+
+            if (colorSearch) {
+                colorSearch.addEventListener('input', function(e) {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+
+                    colorOptions.forEach(option => {
+                        const colorName = option.getAttribute('data-color-name');
+
+                        if (colorName.includes(searchTerm)) {
+                            option.style.display = 'block';
+                        } else {
+                            option.style.display = 'none';
+                        }
+                    });
+                });
+
+                // Clear search on escape key
+                colorSearch.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        colorSearch.value = '';
+                        colorOptions.forEach(option => {
+                            option.style.display = 'block';
+                        });
+                    }
+                });
+            }
         });
     </script>
 @endpush
