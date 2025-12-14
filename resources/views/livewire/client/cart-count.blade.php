@@ -1,3 +1,1 @@
-<div>
-    {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day. --}}
-</div>
+<span class="cart-count-badge" wire:poll.30s>{{ $count > 0 ? $count : '' }}</span>

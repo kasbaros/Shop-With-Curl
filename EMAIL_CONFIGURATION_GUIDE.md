@@ -57,22 +57,87 @@ MAIL_FROM_ADDRESS=noreply@yourdomain.com
 MAIL_FROM_NAME="ShopWithCarl"
 ```
 
-## Email Features in the Application
+### Using your cPanel mailbox (info@shopwithcarl.ug)
+The provided settings are compatible. For sending emails from the app, you only need SMTP (outgoing) — IMAP/POP are for reading email and are not required by the application.
 
-### 1. User Email Verification
-- Automatically sends verification emails when users register
-- Users must verify their email before accessing certain features
-- Handled by Laravel's built-in email verification system
+Enter these values in Admin → Settings → Email Settings:
 
-### 2. Payment Notifications
-- Payment confirmation emails
-- Payment failure notifications
-- Refund processed notifications
-- Handled by `App\Notifications\PaymentNotification` class
+- Mail Driver (mail_driver): smtp
+- SMTP Host (mail_host): mail.shopwithcarl.ug
+- SMTP Port (mail_port): 465
+- Encryption (mail_encryption): ssl
+- SMTP Username (mail_username): info@shopwithcarl.ug
+- SMTP Password (mail_password): Your mailbox password (from cPanel)
+- From Email Address (mail_from_address): info@shopwithcarl.ug
+- From Name (mail_from_name): "ShopWithCarl" or your preferred sender name
 
-### 3. Admin Notifications
-- Payment alerts for administrators
-- Handled by `App\Notifications\AdminPaymentNotification` class
+Alternative (non-SSL, not recommended unless 465/SSL is blocked by your host/network):
+- SMTP Port: 587
+- Encryption: tls
+
+Notes specific to cPanel/hosting:
+- Ensure the certificate on mail.shopwithcarl.ug is valid. If your host uses a different hostname for SSL (e.g., server123.yourhost.com), use that exact hostname as MAIL_HOST.
+- If you see certificate/SSL errors on 465, switch to 587 with tls.
+- Authentication is required; anonymous SMTP is not supported.
+- IMAP/POP settings (993/995 or 143/110) are only for email clients and are not used by this app.
+
+After saving these settings, use the "Send Test Email" button on the Email Settings page to verify delivery.
+
+## Email Use Cases in the Application
+
+Below is a complete list of where and why emails are sent in this project, including the key classes/views involved and the expected recipients.
+
+### 1) Contact form submissions (to Admin)
+- Purpose: Notify the site admin whenever a visitor submits the contact form.
+- Recipient(s): Admin email set in `config('mail.admin_email')` (defaults to `admin@example.com`).
+- Key files:
+  - Controller: `App\Http\Controllers\Guest\PagesController::contactSubmit`
+  - Mailable: `App\Mail\ContactFormMail`
+  - View: `resources/views/emails/contact-form.blade.php` (referenced as `emails.contact-form`)
+
+### 2) Admin “Send Test Email” action
+- Purpose: Let admins verify mailer configuration from the dashboard.
+- Recipient(s): Any address entered in the Email Settings screen.
+- Key files:
+  - Controller action: `App\Http\Controllers\Admin\SettingsController::testEmail`
+  - View/UI: `resources/views/admin/settings/email.blade.php`
+
+### 3) Console test email command
+- Purpose: Quick CLI sanity check of email delivery.
+- Recipient(s): Address passed via CLI argument.
+- Key files:
+  - Command: `App\Console\Commands\SendTestEmail.php`
+
+### 4) Customer payment notifications
+- Purpose: Transactional updates for payment lifecycle events.
+- Recipient(s): The customer (User) associated with the order/payment.
+- When email is sent: For important events such as `payment_confirmed`, `payment_failed`, `refund_processed`.
+- Key files:
+  - Notification: `App\Notifications\PaymentNotification` (implements `ShouldQueue`)
+
+### 5) Customer order status notifications
+- Purpose: Inform customers about order progress.
+- Recipient(s): The customer (User) associated with the order.
+- When email is sent: On status changes like `confirmed`/`processing`, `shipped` (with optional tracking), `delivered`, `cancelled`.
+- Key files:
+  - Notification: `App\Notifications\OrderStatusNotification` (implements `ShouldQueue`)
+
+### 6) Admin payment notifications (critical events)
+- Purpose: Escalate critical payment events to admins via email (and optionally Slack).
+- Recipient(s): Notifiable admin users (as determined by where this notification is dispatched in your admin/payment flows).
+- When email is sent: For types such as `manual_payment_pending`, `high_value_payment`, `payment_fraud_alert`.
+- Key files:
+  - Notification: `App\Notifications\AdminPaymentNotification` (implements `ShouldQueue`)
+
+### 7) User email verification
+- Purpose: Ensure users own the email address they registered with.
+- Recipient(s): Newly registered / unverified users.
+- Key files:
+  - Controller/UI/tests involved in the standard Laravel verification flow, e.g. `App\Http\Controllers\Auth\VerifyEmailController`, `resources/views/livewire/auth/verify-email.blade.php`, and tests in `tests/Feature/Auth/EmailVerificationTest.php`.
+
+Notes
+- All the above notification classes that implement `ShouldQueue` will send email via the queue if a worker is running. See the Queue Configuration section below.
+- Many notifications also persist to the database in parallel to email.
 
 ## Testing Email Configuration
 
