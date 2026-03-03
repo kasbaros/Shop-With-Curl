@@ -40,13 +40,12 @@ new #[Layout('components.app-layout')] class extends Component {
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
 
-//        $this->redirectIntended(default: route('', absolute: false), navigate: true);
         // Check if user is admin and redirect accordingly
         $user = auth()->user();
-        if ($user && $user->isAdmin()) {
-            $this->redirectIntended(default: route('admin.dashboard', absolute: false), navigate: true);
+        if ($user && ($user->isAdmin() || $user->isDeveloper())) {
+            $this->redirectIntended(default: route('admin.dashboard'), navigate: false);
         } else {
-            $this->redirectIntended(default: route('account.dashboard', absolute: false), navigate: true);
+            $this->redirectIntended(default: route('account.dashboard'), navigate: false);
         }
     }
 
