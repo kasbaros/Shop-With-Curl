@@ -182,6 +182,23 @@ return [
             'replace_placeholders' => true,
         ],
 
+        // Enhanced channels (resolved via Log::extend in EnhancedLoggingServiceProvider)
+        'enhanced_security' => [
+            'driver' => 'enhanced_security',
+        ],
+
+        'enhanced_performance' => [
+            'driver' => 'enhanced_performance',
+        ],
+
+        'enhanced_user_activity' => [
+            'driver' => 'enhanced_user_activity',
+        ],
+
+        'enhanced_business' => [
+            'driver' => 'enhanced_business',
+        ],
+
         'null' => [
             'driver' => 'monolog',
             'handler' => NullHandler::class,

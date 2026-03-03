@@ -3,8 +3,7 @@
 
     use App\Helpers\ImageStorageHelper;
     use App\Http\Controllers\Client\CheckoutController;
-    use App\Http\Controllers\Guest\StorageController;
-    use App\Livewire\Client\Profile\AccountPage;
+use App\Livewire\Client\Profile\AccountPage;
     use App\Livewire\Guest\CategoryDetail;
     use App\Livewire\Guest\CategoryGrid;
     use App\Livewire\Guest\ProductGrid;
@@ -75,15 +74,15 @@
         Route::get('/category/{category:slug}', [\App\Http\Controllers\Guest\ProductController::class, 'category'])->name('category');
     });
 
-// Blog routes - Direct Livewire approach
-    Route::prefix('blog')->name('blog.')->group(function () {
-        Route::get('/', \App\Livewire\Guest\BlogIndex::class)->name('index');
-        Route::get('/grid', \App\Livewire\Guest\BlogGrid::class)->name('grid');
-        Route::get('/list', \App\Livewire\Guest\BlogList::class)->name('list');
-        Route::get('/sidebar-left', \App\Livewire\Guest\BlogSidebarLeft::class)->name('sidebar-left');
-        Route::get('/sidebar-right', \App\Livewire\Guest\BlogSidebarRight::class)->name('sidebar-right');
-        Route::get('/{post:slug}', \App\Livewire\Guest\BlogShow::class)->name('show');
-    });
+// Blog routes - Temporarily disabled due to missing Livewire components
+    // Route::prefix('blog')->name('blog.')->group(function () {
+    //     Route::get('/', \App\Livewire\Guest\BlogIndex::class)->name('index');
+    //     Route::get('/grid', \App\Livewire\Guest\BlogGrid::class)->name('grid');
+    //     Route::get('/list', \App\Livewire\Guest\BlogList::class)->name('list');
+    //     Route::get('/sidebar-left', \App\Livewire\Guest\BlogSidebarLeft::class)->name('sidebar-left');
+    //     Route::get('/sidebar-right', \App\Livewire\Guest\BlogSidebarRight::class)->name('sidebar-right');
+    //     Route::get('/{post:slug}', \App\Livewire\Guest\BlogShow::class)->name('show');
+    // });
 
 // Static Pages (Keep Controllers - Content processing, form handling)
     Route::prefix('pages')->name('pages.')->group(function () {

@@ -22,28 +22,61 @@ new #[Layout('components.app-layout')] class extends Component {
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
-    <x-auth-header :title="__('Forgot password')" :description="__('Enter your email to receive a password reset link')" />
+<div class="container ec__login-container animate__animated animate__fadeIn my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h5 class="ec__form-title fw-bold">Forgot Password</h5>
+                <p class="ec__form-description text-muted">Enter your email to receive a password reset link</p>
+            </div>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
+            <!-- Session Status -->
+            @if (session('status'))
+                <div class="alert alert-success alert-dismissible fade show ec__alert" role="alert">
+                    {{ session('status') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
-    <form wire:submit="sendPasswordResetLink" class="flex flex-col gap-6">
-        <!-- Email Address -->
-        <flux:input
-            wire:model="email"
-            :label="__('Email Address')"
-            type="email"
-            required
-            autofocus
-            placeholder="email@example.com"
-        />
+            <!-- Validation Errors -->
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show ec__alert" role="alert">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
-        <flux:button variant="primary" type="submit" class="w-full">{{ __('Email password reset link') }}</flux:button>
-    </form>
+            <!-- Forgot Password Form -->
+            <form wire:submit="sendPasswordResetLink" class="ec__form">
+                <!-- Email Address -->
+                <div class="mb-3">
+                    <label for="email" class="form-label ec__form-label">Email Address</label>
+                    <input
+                        type="email"
+                        class="form-control ec__input"
+                        id="email"
+                        wire:model="email"
+                        required
+                        autofocus
+                        autocomplete="email"
+                        placeholder="email@example.com"
+                    >
+                </div>
 
-    <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-400">
-        <span>{{ __('Or, return to') }}</span>
-        <flux:link :href="route('login')" wire:navigate>{{ __('log in') }}</flux:link>
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary ec__btn w-100">Email Password Reset Link</button>
+                </div>
+            </form>
+
+            <!-- Back to Login -->
+            <div class="text-center mt-3">
+                <span class="ec__text text-muted">Or, return to</span>
+                <a class="ec__link ms-1" href="{{ route('login') }}" wire:navigate>Log in</a>
+            </div>
+        </div>
     </div>
 </div>

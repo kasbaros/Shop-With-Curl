@@ -22,11 +22,22 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Define middleware aliases
         $middleware->alias([
+            'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
+            'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+            'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
+            'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+            'can' => \Illuminate\Auth\Middleware\Authorize::class,
+            'guest' => \Illuminate\Auth\Middleware\RedirectIfAuthenticated::class,
+            'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+            'precognitive' => \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
+            'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+            'subscribed' => \Spark\Http\Middleware\VerifyBillableIsSubscribed::class,
+            'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+            'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'developer' => \App\Http\Middleware\DeveloperMiddleware::class,
             'client' => \App\Http\Middleware\ClientOnlyMiddleware::class,
             'block.privileged' => \App\Http\Middleware\PrivilegedBlockMiddleware::class,
-            'session.debug' => \App\Http\Middleware\SessionDebugMiddleware::class,
         ]);
 
         // Apply log context middleware globally

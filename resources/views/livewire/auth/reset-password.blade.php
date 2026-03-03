@@ -38,9 +38,6 @@ new #[Layout('components.app-layout')] class extends Component {
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
             $this->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) {
@@ -53,9 +50,6 @@ new #[Layout('components.app-layout')] class extends Component {
             }
         );
 
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
         if ($status != Password::PasswordReset) {
             $this->addError('email', __($status));
 
@@ -68,48 +62,88 @@ new #[Layout('components.app-layout')] class extends Component {
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
-    <x-auth-header :title="__('Reset password')" :description="__('Please enter your new password below')" />
+<div class="container ec__login-container animate__animated animate__fadeIn my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <h5 class="ec__form-title fw-bold">Reset Password</h5>
+                <p class="ec__form-description text-muted">Please enter your new password below</p>
+            </div>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
+            <!-- Session Status -->
+            @if (session('status'))
+                <div class="alert alert-success alert-dismissible fade show ec__alert" role="alert">
+                    {{ session('status') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
-    <form wire:submit="resetPassword" class="flex flex-col gap-6">
-        <!-- Email Address -->
-        <flux:input
-            wire:model="email"
-            :label="__('Email')"
-            type="email"
-            required
-            autocomplete="email"
-        />
+            <!-- Validation Errors -->
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show ec__alert" role="alert">
+                    @foreach ($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
-        <!-- Password -->
-        <flux:input
-            wire:model="password"
-            :label="__('Password')"
-            type="password"
-            required
-            autocomplete="new-password"
-            :placeholder="__('Password')"
-            viewable
-        />
+            <!-- Reset Password Form -->
+            <form wire:submit="resetPassword" class="ec__form">
+                <!-- Email Address -->
+                <div class="mb-3">
+                    <label for="email" class="form-label ec__form-label">Email Address</label>
+                    <input
+                        type="email"
+                        class="form-control ec__input"
+                        id="email"
+                        wire:model="email"
+                        required
+                        autocomplete="email"
+                        placeholder="email@example.com"
+                    >
+                </div>
 
-        <!-- Confirm Password -->
-        <flux:input
-            wire:model="password_confirmation"
-            :label="__('Confirm password')"
-            type="password"
-            required
-            autocomplete="new-password"
-            :placeholder="__('Confirm password')"
-            viewable
-        />
+                <!-- Password -->
+                <div class="mb-3">
+                    <label for="password" class="form-label ec__form-label">New Password</label>
+                    <input
+                        type="password"
+                        class="form-control ec__input"
+                        id="password"
+                        wire:model="password"
+                        required
+                        autocomplete="new-password"
+                        placeholder="New password"
+                    >
+                </div>
 
-        <div class="flex items-center justify-end">
-            <flux:button type="submit" variant="primary" class="w-full">
-                {{ __('Reset password') }}
-            </flux:button>
+                <!-- Confirm Password -->
+                <div class="mb-3">
+                    <label for="password_confirmation" class="form-label ec__form-label">Confirm Password</label>
+                    <input
+                        type="password"
+                        class="form-control ec__input"
+                        id="password_confirmation"
+                        wire:model="password_confirmation"
+                        required
+                        autocomplete="new-password"
+                        placeholder="Confirm new password"
+                    >
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary ec__btn w-100">Reset Password</button>
+                </div>
+            </form>
+
+            <!-- Back to Login -->
+            <div class="text-center mt-3">
+                <span class="ec__text text-muted">Remember your password?</span>
+                <a class="ec__link ms-1" href="{{ route('login') }}" wire:navigate>Log in</a>
+            </div>
         </div>
-    </form>
+    </div>
 </div>

@@ -279,7 +279,7 @@
                             </div>
                         </li>
                         <li class="menu-item position-relative">
-                            <a href="{{ route('blog.index') }}" class="item-link" wire:navigate>Blog</a>
+                            {{-- <a href="{{ route('blog.index') }}" class="item-link" wire:navigate>Blog</a> --}}
                         </li>
                     </ul>
                 </nav>
@@ -313,10 +313,10 @@
                                wire:navigate>
                 {{ __('Products') }}
             </flux:navlist.item>
-            <flux:navlist.item icon="newspaper" :href="route('blog.index')" :current="request()->routeIs('blog.*')"
+            {{-- <flux:navlist.item icon="newspaper" :href="route('blog.index')" :current="request()->routeIs('blog.*')"
                                wire:navigate>
                 {{ __('Blog') }}
-            </flux:navlist.item>
+            </flux:navlist.item> --}}
         </flux:navlist.group>
 
         @auth

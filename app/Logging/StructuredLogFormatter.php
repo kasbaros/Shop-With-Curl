@@ -35,7 +35,7 @@ class StructuredLogFormatter
                 $record['extra']['environment'] = config('app.env');
 
                 // Add user information if authenticated
-                if (auth()->check()) {
+                if (app()->bound('auth') && auth()->check()) {
                     $record['extra']['user_id'] = auth()->id();
                     $record['extra']['user_email'] = auth()->user()->email;
                 }
