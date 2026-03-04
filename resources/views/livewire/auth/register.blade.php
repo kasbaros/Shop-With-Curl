@@ -37,8 +37,7 @@ new #[Layout('components.app-layout')] class extends Component {
 
 <div class="tf-page-cart-wrap py-5">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-4 col-lg-5 col-md-7">
+        <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
                 <div class="text-center mb-4">
                     <h5 class="fw-bold">Create an Account</h5>
                     <p class="mt-1 text-secondary">Enter your details below to create your account</p>
@@ -110,7 +109,6 @@ new #[Layout('components.app-layout')] class extends Component {
                     <span class="text-secondary">Already have an account?</span>
                     <a class="fw-5 text-decoration-underline ms-1" href="{{ route('login') }}" wire:navigate>Log in</a>
                 </div>
-            </div>
         </div>
     </div>
 </div>
