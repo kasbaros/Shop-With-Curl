@@ -93,10 +93,10 @@ new #[Layout('components.app-layout')] class extends Component {
     }
 }; ?>
 
-<div class="tf-page-cart-wrap">
+<div class="tf-page-cart-wrap py-5">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-xl-5 col-lg-6 col-md-8">
+            <div class="col-xl-4 col-lg-5 col-md-7">
                 <div class="text-center mb-4">
                     <h5 class="fw-bold">Log in to Your Account</h5>
                     <p class="mt-1 text-secondary">Enter your email and password below to log in</p>
@@ -132,7 +132,8 @@ new #[Layout('components.app-layout')] class extends Component {
                     </div>
                 @endif
 
-                <form wire:submit="login">
+                <form wire:submit="login" method="POST" action="{{ route('login') }}">
+                    @csrf
                     <div class="mb-3">
                         <label for="email" class="mb-2 fw-5">Email Address</label>
                         <div class="tf-field">
@@ -140,6 +141,7 @@ new #[Layout('components.app-layout')] class extends Component {
                                 type="email"
                                 class="tf-input"
                                 id="email"
+                                name="email"
                                 wire:model="email"
                                 required
                                 autofocus
@@ -163,6 +165,7 @@ new #[Layout('components.app-layout')] class extends Component {
                                 type="password"
                                 class="tf-input"
                                 id="password"
+                                name="password"
                                 wire:model="password"
                                 required
                                 autocomplete="current-password"
@@ -176,6 +179,7 @@ new #[Layout('components.app-layout')] class extends Component {
                             <input
                                 type="checkbox"
                                 id="remember"
+                                name="remember"
                                 wire:model="remember"
                             >
                             <label for="remember">Remember me</label>
