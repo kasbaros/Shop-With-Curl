@@ -1106,11 +1106,6 @@
                 display: block;
             }
 
-            /* Ensure swiper containers have proper height */
-            .tf-sw-brand {
-                min-height: 600px;
-            }
-
             .swiper-wrapper {
                 display: flex;
             }

@@ -23,7 +23,6 @@ new #[Layout('components.app-layout')] class extends Component {
     public function mount(string $token): void
     {
         $this->token = $token;
-
         $this->email = request()->string('email');
     }
 
@@ -52,97 +51,80 @@ new #[Layout('components.app-layout')] class extends Component {
 
         if ($status != Password::PasswordReset) {
             $this->addError('email', __($status));
-
             return;
         }
 
         Session::flash('status', __($status));
-
         $this->redirectRoute('login', navigate: true);
     }
 }; ?>
 
-<div class="container ec__login-container animate__animated animate__fadeIn my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-            <!-- Header -->
-            <div class="text-center mb-4">
-                <h5 class="ec__form-title fw-bold">Reset Password</h5>
-                <p class="ec__form-description text-muted">Please enter your new password below</p>
-            </div>
-
-            <!-- Session Status -->
-            @if (session('status'))
-                <div class="alert alert-success alert-dismissible fade show ec__alert" role="alert">
-                    {{ session('status') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            <!-- Validation Errors -->
-            @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show ec__alert" role="alert">
-                    @foreach ($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            <!-- Reset Password Form -->
-            <form wire:submit="resetPassword" class="ec__form">
-                <!-- Email Address -->
-                <div class="mb-3">
-                    <label for="email" class="form-label ec__form-label">Email Address</label>
-                    <input
-                        type="email"
-                        class="form-control ec__input"
-                        id="email"
-                        wire:model="email"
-                        required
-                        autocomplete="email"
-                        placeholder="email@example.com"
-                    >
+<div class="tf-page-cart-wrap py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-5 col-md-7">
+                <div class="text-center mb-4">
+                    <h5 class="fw-bold">Reset Password</h5>
+                    <p class="mt-1 text-secondary">Please enter your new password below</p>
                 </div>
 
-                <!-- Password -->
-                <div class="mb-3">
-                    <label for="password" class="form-label ec__form-label">New Password</label>
-                    <input
-                        type="password"
-                        class="form-control ec__input"
-                        id="password"
-                        wire:model="password"
-                        required
-                        autocomplete="new-password"
-                        placeholder="New password"
-                    >
-                </div>
+                @if (session('status'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('status') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
 
-                <!-- Confirm Password -->
-                <div class="mb-3">
-                    <label for="password_confirmation" class="form-label ec__form-label">Confirm Password</label>
-                    <input
-                        type="password"
-                        class="form-control ec__input"
-                        id="password_confirmation"
-                        wire:model="password_confirmation"
-                        required
-                        autocomplete="new-password"
-                        placeholder="Confirm new password"
-                    >
-                </div>
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @foreach ($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
 
-                <!-- Submit Button -->
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary ec__btn w-100">Reset Password</button>
-                </div>
-            </form>
+                <form wire:submit="resetPassword">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="email" class="mb-2 fw-5">Email Address</label>
+                        <div class="tf-field">
+                            <input type="email" class="tf-input" id="email" name="email"
+                                   wire:model="email" required autocomplete="email"
+                                   placeholder="email@example.com">
+                        </div>
+                    </div>
 
-            <!-- Back to Login -->
-            <div class="text-center mt-3">
-                <span class="ec__text text-muted">Remember your password?</span>
-                <a class="ec__link ms-1" href="{{ route('login') }}" wire:navigate>Log in</a>
+                    <div class="mb-3">
+                        <label for="password" class="mb-2 fw-5">New Password</label>
+                        <div class="tf-field">
+                            <input type="password" class="tf-input" id="password" name="password"
+                                   wire:model="password" required autocomplete="new-password"
+                                   placeholder="New password">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="mb-2 fw-5">Confirm Password</label>
+                        <div class="tf-field">
+                            <input type="password" class="tf-input" id="password_confirmation" name="password_confirmation"
+                                   wire:model="password_confirmation" required autocomplete="new-password"
+                                   placeholder="Confirm new password">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" class="tf-btn btn-fill radius-60 animate-hover-btn w-100 justify-content-center">
+                            <span wire:loading.remove wire:target="resetPassword">Reset Password</span>
+                            <span wire:loading wire:target="resetPassword">Resetting...</span>
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <span class="text-secondary">Remember your password?</span>
+                    <a class="fw-5 text-decoration-underline ms-1" href="{{ route('login') }}" wire:navigate>Log in</a>
+                </div>
             </div>
         </div>
     </div>
