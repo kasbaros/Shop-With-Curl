@@ -20,6 +20,40 @@ $viewsDir = "$laravelDir/storage/framework/views";
 
 header('Content-Type: text/plain');
 
+// ----- REHASH ADMIN PASSWORD -----
+if (isset($_GET['rehash'])) {
+    $email = $_GET['rehash'];
+    echo "=== Rehash password for: $email ===\n\n";
+
+    // Boot Laravel
+    require "$laravelDir/vendor/autoload.php";
+    $app = require "$laravelDir/bootstrap/app.php";
+    $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
+    $user = \App\Models\User::where('email', $email)->first();
+    if (!$user) {
+        echo "ERROR: User not found.\n";
+        exit;
+    }
+
+    echo "Current hash: " . substr($user->password, 0, 10) . "...\n";
+    echo "Hash algo: " . (str_starts_with($user->password, '$2y$') ? 'bcrypt' :
+        (str_starts_with($user->password, '$argon2') ? 'argon2' : 'unknown')) . "\n\n";
+
+    if (isset($_GET['newpass'])) {
+        $newPass = $_GET['newpass'];
+        $user->password = \Illuminate\Support\Facades\Hash::make($newPass);
+        $user->save();
+        echo "Password updated with bcrypt hash.\n";
+        echo "New hash: " . substr($user->password, 0, 10) . "...\n";
+        echo "DONE. You can now log in.\n";
+    } else {
+        echo "To reset, add &newpass=YOUR_NEW_PASSWORD to the URL.\n";
+        echo "Example: ...&rehash=$email&newpass=MyNewPass123\n";
+    }
+    exit;
+}
+
 // ----- DIAGNOSTICS -----
 if (isset($_GET['diag'])) {
     echo "========== DIAGNOSTICS ==========\n\n";
