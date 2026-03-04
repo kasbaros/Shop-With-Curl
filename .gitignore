@@ -36,8 +36,8 @@ public/index.php
 /category_controller_fix.md
 
 # Deployment scripts (server-specific)
-public/deploy.php
-public/background_deploy.php
+#public/deploy.php
+#public/background_deploy.php
 
 # Migration and deployment scripts (keep local only)
 public/fresh_migrate.php
