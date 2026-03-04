@@ -260,10 +260,8 @@ use App\Livewire\Client\Profile\AccountPage;
         Route::delete('orders/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
         Route::patch('orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
 
-        // Backward-compatible alias group for previous /admin/my-orders URLs
-        Route::prefix('my-orders')->name('orders.')->group(function () {
-            Route::get('/', [AdminOrderController::class, 'index'])->name('index');
-        });
+        // Backward-compatible redirect for previous /admin/my-orders URLs
+        Route::get('my-orders', fn () => redirect()->route('admin.orders.index'));
 
 
         // Users/Customers Management
