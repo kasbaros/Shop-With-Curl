@@ -79,93 +79,96 @@ new #[Layout('components.app-layout')] class extends Component {
     }
 }; ?>
 
-<div class="container ec__login-container animate__animated animate__fadeIn my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-            <!-- Header -->
-            <div class="text-center mb-4">
-                <h5 class="ec__form-title fw-bold">Log in to Your Account</h5>
-                <p class="ec__form-description text-muted">Enter your email and password below to log in</p>
+<div class="tf-page-cart-wrap">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8">
+                <div class="text-center mb-4">
+                    <h5 class="fw-bold">Log in to Your Account</h5>
+                    <p class="mt-1 text-secondary">Enter your email and password below to log in</p>
+                </div>
+
+                @if (session('status'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('status') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @foreach ($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                <form wire:submit="login">
+                    <div class="mb-3">
+                        <label for="email" class="mb-2 fw-5">Email Address</label>
+                        <div class="tf-field">
+                            <input
+                                type="email"
+                                class="tf-input"
+                                id="email"
+                                wire:model="email"
+                                required
+                                autofocus
+                                autocomplete="email"
+                                placeholder="email@example.com"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label for="password" class="fw-5">Password</label>
+                            @if (Route::has('password.request'))
+                                <a class="text-secondary text-decoration-underline" href="{{ route('password.request') }}" wire:navigate>
+                                    Forgot your password?
+                                </a>
+                            @endif
+                        </div>
+                        <div class="tf-field">
+                            <input
+                                type="password"
+                                class="tf-input"
+                                id="password"
+                                wire:model="password"
+                                required
+                                autocomplete="current-password"
+                                placeholder="Password"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center gap-2">
+                            <input
+                                type="checkbox"
+                                id="remember"
+                                wire:model="remember"
+                            >
+                            <label for="remember">Remember me</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" class="tf-btn btn-fill radius-60 animate-hover-btn w-100 justify-content-center">
+                            <span wire:loading.remove wire:target="login">Log in</span>
+                            <span wire:loading wire:target="login">Logging in...</span>
+                        </button>
+                    </div>
+                </form>
+
+                @if (Route::has('register'))
+                    <div class="text-center mt-3">
+                        <span class="text-secondary">Don't have an account?</span>
+                        <a class="fw-5 text-decoration-underline ms-1" href="{{ route('register') }}" wire:navigate>Sign up</a>
+                    </div>
+                @endif
             </div>
-
-            <!-- Session Status -->
-            @if (session('status'))
-                <div class="alert alert-success alert-dismissible fade show ec__alert" role="alert">
-                    {{ session('status') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            <!-- Validation Errors -->
-            @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show ec__alert" role="alert">
-                    @foreach ($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-
-            <!-- Login Form -->
-            <form wire:submit="login" class="ec__form">
-                <!-- Email Address -->
-                <div class="mb-3">
-                    <label for="email" class="form-label ec__form-label">Email Address</label>
-                    <input
-                        type="email"
-                        class="form-control ec__input"
-                        id="email"
-                        wire:model="email"
-                        required
-                        autofocus
-                        autocomplete="email"
-                        placeholder="email@example.com"
-                    >
-                </div>
-
-                <!-- Password -->
-                <div class="mb-3 position-relative">
-                    <label for="password" class="form-label ec__form-label">Password</label>
-                    <input
-                        type="password"
-                        class="form-control ec__input"
-                        id="password"
-                        wire:model="password"
-                        required
-                        autocomplete="current-password"
-                        placeholder="Password"
-                    >
-                    @if (Route::has('password.request'))
-                        <a class="ec__link text-sm position-absolute end-0 top-0 mt-1" href="{{ route('password.request') }}" wire:navigate>
-                            Forgot your password?
-                        </a>
-                    @endif
-                </div>
-
-                <!-- Remember Me -->
-                <div class="mb-3 form-check">
-                    <input
-                        type="checkbox"
-                        class="form-check-input ec__checkbox"
-                        id="remember"
-                        wire:model="remember"
-                    >
-                    <label class="form-check-label ec__form-label" for="remember">Remember me</label>
-                </div>
-
-                <!-- Submit Button -->
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary ec__btn w-100">Log in</button>
-                </div>
-            </form>
-
-            <!-- Sign Up Link -->
-            @if (Route::has('register'))
-                <div class="text-center mt-3">
-                    <span class="ec__text text-muted">Don't have an account?</span>
-                    <a class="ec__link ms-1" href="{{ route('register') }}" wire:navigate>Sign up</a>
-                </div>
-            @endif
         </div>
     </div>
 </div>
