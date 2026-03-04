@@ -20,32 +20,46 @@ new #[Layout('components.app-layout')] class extends Component {
 
     public bool $remember = false;
 
+    public string $successMessage = '';
+    public string $errorMessage = '';
+
     /**
      * Handle an incoming authentication request.
      */
     public function login(): void
     {
-        $this->validate();
+        $this->successMessage = '';
+        $this->errorMessage = '';
 
-        $this->ensureIsNotRateLimited();
+        try {
+            $this->validate();
 
-        if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
-            RateLimiter::hit($this->throttleKey());
+            $this->ensureIsNotRateLimited();
 
-            throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
-            ]);
-        }
+            if (! Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
+                RateLimiter::hit($this->throttleKey());
 
-        RateLimiter::clear($this->throttleKey());
-        Session::regenerate();
+                throw ValidationException::withMessages([
+                    'email' => __('auth.failed'),
+                ]);
+            }
 
-        // Check if user is admin and redirect accordingly
-        $user = auth()->user();
-        if ($user && ($user->isAdmin() || $user->isDeveloper())) {
-            $this->redirectIntended(default: route('admin.dashboard'), navigate: false);
-        } else {
-            $this->redirectIntended(default: route('account.dashboard'), navigate: false);
+            RateLimiter::clear($this->throttleKey());
+            Session::regenerate();
+
+            $this->successMessage = 'Login successful! Redirecting...';
+
+            // Check if user is admin and redirect accordingly
+            $user = auth()->user();
+            if ($user && ($user->isAdmin() || $user->isDeveloper())) {
+                $this->redirectIntended(default: route('admin.dashboard'), navigate: false);
+            } else {
+                $this->redirectIntended(default: route('account.dashboard'), navigate: false);
+            }
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (\Throwable $e) {
+            $this->errorMessage = 'Something went wrong: ' . $e->getMessage();
         }
     }
 
@@ -91,6 +105,20 @@ new #[Layout('components.app-layout')] class extends Component {
                 @if (session('status'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         {{ session('status') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                @if ($successMessage)
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ $successMessage }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                @endif
+
+                @if ($errorMessage)
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ $errorMessage }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
