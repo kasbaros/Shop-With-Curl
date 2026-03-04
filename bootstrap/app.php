@@ -6,6 +6,25 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+// Helper function for security exceptions (must be defined before the return)
+if (! function_exists('isSecurityException')) {
+    function isSecurityException(Throwable $e): bool
+    {
+        $securityExceptions = [
+            \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException::class,
+            \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException::class,
+            \Illuminate\Auth\AuthenticationException::class,
+            \Illuminate\Auth\Access\AuthorizationException::class,
+            \Illuminate\Validation\ValidationException::class,
+        ];
+
+        return in_array(get_class($e), $securityExceptions) ||
+            str_contains($e->getMessage(), 'unauthorized') ||
+            str_contains($e->getMessage(), 'forbidden') ||
+            str_contains($e->getMessage(), 'access denied');
+    }
+}
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withProviders()
     ->withRouting(
@@ -94,22 +113,3 @@ return Application::configure(basePath: dirname(__DIR__))
         });
     })
     ->create();
-
-// Helper function for security exceptions
-if (! function_exists('isSecurityException')) {
-    function isSecurityException(Throwable $e): bool
-    {
-        $securityExceptions = [
-            \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException::class,
-            \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException::class,
-            \Illuminate\Auth\AuthenticationException::class,
-            \Illuminate\Auth\Access\AuthorizationException::class,
-            \Illuminate\Validation\ValidationException::class,
-        ];
-
-        return in_array(get_class($e), $securityExceptions) ||
-            str_contains($e->getMessage(), 'unauthorized') ||
-            str_contains($e->getMessage(), 'forbidden') ||
-            str_contains($e->getMessage(), 'access denied');
-    }
-}
