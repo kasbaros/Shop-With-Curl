@@ -46,7 +46,6 @@
         #header { border-bottom: 1px solid #e5e5e5; }
         #header .main-header { border-bottom: 1px solid #ebebeb; }
         #header .header-bottom {
-            background-color: #f5f5f5;
             border-top: 1px solid #ebebeb;
         }
         #header .header-bottom .box-nav-ul .menu-item { padding: 14px 0; }
@@ -91,48 +90,26 @@
         /* Logo sizing */
         .logo-header img { max-height: 45px; width: auto; }
 
-        /* Footer */
-        .footer {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: white; position: relative; overflow: hidden; margin-top: 100px;
+        /* Footer overrides */
+        .footer .footer-heading h6 {
+            font-size: 18px; font-weight: 600; line-height: 18px;
+            font-family: "Albert Sans", sans-serif;
         }
-        .footer::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0;
-            height: 2px; background: var(--accent-gradient);
+        .footer .subscribe-content {
+            display: flex; align-items: center;
+            border: 1px solid #ccc; border-radius: 60px;
+            overflow: hidden; margin-top: 16px;
         }
-        .footer-content {
-            max-width: 1440px; margin: 0 auto; padding: 100px 32px 50px;
-            position: relative; z-index: 2;
+        .footer .subscribe-content .email {
+            flex-grow: 1; border: none; margin: 0;
         }
-        .footer-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 80px; margin-bottom: 80px;
+        .footer .subscribe-content input {
+            padding: 12px 20px; border: none; width: 100%;
+            background: transparent; outline: none; font-size: 14px;
         }
-        .footer-section h3 {
-            font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 600;
-            margin-bottom: 32px; background: var(--luxury-gradient);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        .footer .subscribe-content .tf-btn {
+            flex-shrink: 0; border-radius: 60px; margin: 4px;
         }
-        .footer-section p, .footer-section li {
-            color: rgba(255,255,255,0.8); margin-bottom: 16px; line-height: 1.7; font-size: 15px;
-        }
-        .footer-link {
-            color: rgba(255,255,255,0.8); text-decoration: none; transition: all 0.3s;
-            display: inline-block; padding: 4px 0;
-        }
-        .footer-link:hover { color: white; transform: translateX(6px); }
-        .social-links { display: flex; gap: 20px; margin-top: 32px; }
-        .social-link {
-            width: 56px; height: 56px; border-radius: 20px;
-            background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2);
-            display: flex; align-items: center; justify-content: center;
-            color: white; text-decoration: none; transition: all 0.3s;
-        }
-        .social-link:hover {
-            background: rgba(255,255,255,0.15); transform: translateY(-6px);
-            border-color: var(--brand-secondary);
-        }
-        .social-link .icon { font-size: 22px; }
     </style>
 </head>
 
@@ -163,37 +140,27 @@
 
     {{-- ==================== HEADER ==================== --}}
     @if (!($isAuthPage ?? false))
-    <header id="header" class="header-default">
+    <header id="header" class="header-default header-style-2">
         {{-- Main Header Row --}}
         <div class="main-header">
             <div class="container-full px_15 lg-px_40">
                 <div class="row wrapper-header align-items-center">
 
-                    {{-- Mobile hamburger (visible < lg) --}}
-                    <div class="col-xl-3 tf-lg-hidden">
+                    {{-- Left column: empty on desktop, hamburger on mobile --}}
+                    <div class="col-xl-5 tf-md-hidden"></div>
+                    <div class="col-md-4 col-3 tf-lg-hidden">
                         <a href="#mobileMenu" data-bs-toggle="offcanvas" aria-controls="mobileMenu">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="3" y1="6" x2="21" y2="6"/>
-                                <line x1="3" y1="12" x2="21" y2="12"/>
-                                <line x1="3" y1="18" x2="21" y2="18"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="16" viewBox="0 0 24 16"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <line x1="0" y1="1" x2="14" y2="1"/>
+                                <line x1="0" y1="8" x2="24" y2="8"/>
+                                <line x1="0" y1="15" x2="18" y2="15"/>
                             </svg>
                         </a>
                     </div>
 
-                    {{-- Logo --}}
-                    <div class="col-xl-3 tf-lg-hidden">
-                        <a href="{{ route('home') }}" class="logo-header" wire:navigate>
-                            @if(file_exists(public_path('images/logo/SWC 2.png')))
-                                <img src="{{ asset('images/logo/SWC 2.png') }}" alt="{{ config('app.name', 'ShopWithCarl') }}">
-                            @else
-                                {{ config('app.name', 'ShopWithCarl') }}
-                            @endif
-                        </a>
-                    </div>
-
-                    {{-- Desktop logo (visible >= lg) --}}
-                    <div class="col-xl-3 tf-md-hidden">
+                    {{-- Centered Logo --}}
+                    <div class="col-xl-2 col-md-4 col-6 text-center">
                         <a href="{{ route('home') }}" class="logo-header" wire:navigate>
                             @if(file_exists(public_path('images/logo/SWC 2.png')))
                                 <img src="{{ asset('images/logo/SWC 2.png') }}" alt="{{ config('app.name', 'ShopWithCarl') }}">
@@ -204,7 +171,7 @@
                     </div>
 
                     {{-- Nav Icons (right side) --}}
-                    <div class="col-xl-9">
+                    <div class="col-xl-5 col-md-4 col-3">
                         <ul class="nav-icon d-flex justify-content-end align-items-center gap-20">
 
                             {{-- Search icon → opens canvasSearch --}}
@@ -299,7 +266,7 @@
         </div>
 
         {{-- Navigation Bar (hidden on mobile, visible >= md) --}}
-        <div class="header-bottom tf-md-hidden">
+        <div class="header-bottom bg_grey-11 tf-md-hidden">
             <div class="container-full px_15 lg-px_40">
                 <div class="wrapper-header d-flex justify-content-center">
                     <nav class="box-navigation text-center">
@@ -380,177 +347,152 @@
 
     {{-- ==================== FOOTER ==================== --}}
     @if (!isset($isAuthPage) || !$isAuthPage)
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-grid">
-                    <!-- Company Info -->
-                    <div class="footer-section">
-                        <h3>ShopWithCarl</h3>
-                        <p>Your premier destination for luxury women's undergarments, activewear, and shapewear. We
-                            believe every woman deserves to feel confident and beautiful.</p>
-                        <p>
-                            <strong>Address:</strong> {{ config('contact.address', '123 Fashion Avenue, Style District') }}
-                        </p>
-                        <p><strong>Email:</strong> <a
-                                href="mailto:{{ config('contact.email', 'hello@shopwithcarl.com') }}"
-                                class="footer-link">{{ config('contact.email', 'hello@shopwithcarl.com') }}</a></p>
-                        <p><strong>Phone:</strong> <a href="tel:{{ config('contact.phone', '+1234567890') }}"
-                                                      class="footer-link">{{ config('contact.phone', '+1 (234) 567-890') }}</a>
-                        </p>
-                        <a href="{{ route('pages.contact') }}" class="footer-link"
-                           style="margin-top: 16px; display: inline-block;" wire:navigate>Get Directions →</a>
-
-                        <div class="social-links">
-                            @if(config('contact.socials'))
-                                @foreach (config('contact.socials') as $platform => $url)
-                                    @php $p = strtolower($platform); @endphp
-                                    <a href="{{ $url }}" class="social-link" title="{{ ucfirst($platform) }}">
-                                        @if($p === 'instagram')
-                                            <span class="icon icon-instagram"></span>
-                                        @elseif($p === 'pinterest')
-                                            <span class="icon icon-pinterest"></span>
-                                        @elseif($p === 'youtube')
-                                            <span class="icon icon-youtube"></span>
-                                        @elseif($p === 'tiktok')
-                                            <span class="icon icon-tiktok"></span>
-                                        @elseif($p === 'twitter')
-                                            <span class="icon icon-twitter"></span>
-                                        @elseif($p === 'x' || $p === 'x-twitter')
-                                            <span class="icon icon-Icon-x"></span>
-                                        @elseif($p === 'facebook')
-                                            <span class="icon icon-share"></span>
-                                        @else
-                                            <span class="icon icon-share"></span>
-                                        @endif
+        <footer id="footer" class="footer background-gray md-pb-70">
+            <div class="footer-wrap">
+                <div class="footer-body">
+                    <div class="container">
+                        <div class="row">
+                            {{-- Col 1: Company Info --}}
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <div class="footer-infor">
+                                    <div class="footer-logo">
+                                        <a href="{{ route('home') }}" wire:navigate>
+                                            @if(file_exists(public_path('images/logo/SWC 2.png')))
+                                                <img src="{{ asset('images/logo/SWC 2.png') }}" alt="{{ config('app.name', 'ShopWithCarl') }}" style="max-height: 40px;">
+                                            @else
+                                                {{ config('app.name', 'ShopWithCarl') }}
+                                            @endif
+                                        </a>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <p>Address: {{ config('contact.address', '123 Fashion Avenue, Style District') }}</p>
+                                        </li>
+                                        <li>
+                                            <p>Email: <a href="mailto:{{ config('contact.email', 'hello@shopwithcarl.com') }}">{{ config('contact.email', 'hello@shopwithcarl.com') }}</a></p>
+                                        </li>
+                                        <li>
+                                            <p>Phone: <a href="tel:{{ config('contact.phone', '+1234567890') }}">{{ config('contact.phone', '+1 (234) 567-890') }}</a></p>
+                                        </li>
+                                    </ul>
+                                    <a href="{{ route('pages.contact') }}" class="tf-btn btn-line" wire:navigate>
+                                        Get direction<i class="icon icon-arrow1-top-left"></i>
                                     </a>
-                                @endforeach
-                            @else
-                                <a href="#" class="social-link" title="Instagram">
-                                    <span class="icon icon-instagram"></span>
-                                </a>
-                                <a href="#" class="social-link" title="Twitter/X">
-                                    <span class="icon icon-Icon-x"></span>
-                                </a>
-                                <a href="#" class="social-link" title="Pinterest">
-                                    <span class="icon icon-pinterest"></span>
-                                </a>
-                                <a href="#" class="social-link" title="YouTube">
-                                    <span class="icon icon-youtube"></span>
-                                </a>
-                                <a href="#" class="social-link" title="TikTok">
-                                    <span class="icon icon-tiktok"></span>
-                                </a>
-                            @endif
+                                    <ul class="tf-social-icon d-flex gap-10 mt_20">
+                                        @if(config('contact.socials'))
+                                            @foreach (config('contact.socials') as $platform => $url)
+                                                @php $p = strtolower($platform); @endphp
+                                                <li>
+                                                    <a href="{{ $url }}" class="box-icon w_34 round social-line" title="{{ ucfirst($platform) }}">
+                                                        @if($p === 'facebook')
+                                                            <i class="icon fs-14 icon-facebook"></i>
+                                                        @elseif($p === 'instagram')
+                                                            <i class="icon fs-12 icon-instagram"></i>
+                                                        @elseif($p === 'twitter' || $p === 'x' || $p === 'x-twitter')
+                                                            <i class="icon fs-12 icon-Icon-x"></i>
+                                                        @elseif($p === 'tiktok')
+                                                            <i class="icon fs-12 icon-tiktok"></i>
+                                                        @elseif($p === 'pinterest')
+                                                            <i class="icon fs-12 icon-pinterest"></i>
+                                                        @elseif($p === 'youtube')
+                                                            <i class="icon fs-12 icon-youtube"></i>
+                                                        @else
+                                                            <i class="icon fs-12 icon-share"></i>
+                                                        @endif
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        @else
+                                            <li><a href="#" class="box-icon w_34 round social-line"><i class="icon fs-14 icon-facebook"></i></a></li>
+                                            <li><a href="#" class="box-icon w_34 round social-line"><i class="icon fs-12 icon-instagram"></i></a></li>
+                                            <li><a href="#" class="box-icon w_34 round social-line"><i class="icon fs-12 icon-Icon-x"></i></a></li>
+                                            <li><a href="#" class="box-icon w_34 round social-line"><i class="icon fs-12 icon-tiktok"></i></a></li>
+                                            <li><a href="#" class="box-icon w_34 round social-line"><i class="icon fs-12 icon-pinterest"></i></a></li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            </div>
+
+                            {{-- Col 2: Help --}}
+                            <div class="col-xl-3 col-md-6 col-12 footer-col-block">
+                                <div class="footer-heading footer-heading-desktop">
+                                    <h6>Help</h6>
+                                </div>
+                                <div class="footer-heading footer-heading-moblie">
+                                    <h6>Help</h6>
+                                </div>
+                                <ul class="footer-menu-list tf-collapse-content">
+                                    <li><a href="#" class="footer-menu_item">Privacy Policy</a></li>
+                                    <li><a href="#" class="footer-menu_item">Returns + Exchanges</a></li>
+                                    <li><a href="#" class="footer-menu_item">Shipping</a></li>
+                                    <li><a href="#" class="footer-menu_item">Terms &amp; Conditions</a></li>
+                                    <li><a href="#" class="footer-menu_item">FAQ's</a></li>
+                                    <li><a href="{{ route('compare.index') }}" class="footer-menu_item" wire:navigate>Compare</a></li>
+                                    <li><a href="{{ route('account.page', ['section' => 'wishlist']) }}" class="footer-menu_item" wire:navigate>My Wishlist</a></li>
+                                </ul>
+                            </div>
+
+                            {{-- Col 3: Useful Links --}}
+                            <div class="col-xl-3 col-md-6 col-12 footer-col-block">
+                                <div class="footer-heading footer-heading-desktop">
+                                    <h6>Useful Links</h6>
+                                </div>
+                                <div class="footer-heading footer-heading-moblie">
+                                    <h6>Useful Links</h6>
+                                </div>
+                                <ul class="footer-menu-list tf-collapse-content">
+                                    <li><a href="{{ route('pages.about') }}" class="footer-menu_item" wire:navigate>About Us</a></li>
+                                    <li><a href="{{ route('shop.index') }}" class="footer-menu_item" wire:navigate>Shop</a></li>
+                                    <li><a href="{{ route('pages.contact') }}" class="footer-menu_item" wire:navigate>Contact Us</a></li>
+                                    <li><a href="{{ route('account.dashboard') }}" class="footer-menu_item" wire:navigate>My Account</a></li>
+                                </ul>
+                            </div>
+
+                            {{-- Col 4: Newsletter --}}
+                            <div class="col-xl-3 col-md-6 col-12">
+                                <div class="footer-newsletter footer-col-block">
+                                    <div class="footer-heading footer-heading-desktop">
+                                        <h6>Sign Up for Email</h6>
+                                    </div>
+                                    <div class="footer-heading footer-heading-moblie">
+                                        <h6>Sign Up for Email</h6>
+                                    </div>
+                                    <div class="tf-collapse-content">
+                                        <div class="footer-menu_item">Sign up to get first dibs on new arrivals, sales, exclusive content, events and more!</div>
+                                        <form class="form-newsletter" action="{{ route('newsletter.subscribe') }}" method="POST" onsubmit="handleNewsletter(event)">
+                                            @csrf
+                                            <div class="subscribe-content">
+                                                <fieldset class="email border-none">
+                                                    <input type="email" name="email" placeholder="Enter your email...." required>
+                                                </fieldset>
+                                                <button type="submit" class="tf-btn btn-sm radius-60 btn-fill btn-icon animate-hover-btn">
+                                                    Subscribe<i class="icon icon-arrow1-top-left"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Quick Links -->
-                    <div class="footer-section">
-                        <h3>Quick Links</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            <li><a href="{{ route('home') }}" class="footer-link" wire:navigate>Home</a></li>
-                            <li><a href="{{ route('shop.index') }}" class="footer-link" wire:navigate>Shop All</a></li>
-                            <li><a href="{{ route('products.index') }}" class="footer-link" wire:navigate>New
-                                    Arrivals</a></li>
-                            <li><a href="#" class="footer-link">Best Sellers</a></li>
-                            <li><a href="#" class="footer-link">Sale Items</a></li>
-                            <li><a href="{{ route('pages.about') }}" class="footer-link" wire:navigate>About Us</a></li>
-                            <li><a href="{{ route('pages.contact') }}" class="footer-link" wire:navigate>Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Categories -->
-                    <div class="footer-section">
-                        <h3>Shop Categories</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            @php
-                                $footerCategories = \App\Models\Category::active()->parent()->orderBy('sort_order')->take(8)->get();
-                            @endphp
-                            @foreach($footerCategories as $category)
-                                <li><a href="{{ route('categories.show', $category->slug) }}" class="footer-link"
-                                       wire:navigate>{{ $category->name }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    <!-- Customer Service -->
-                    <div class="footer-section">
-                        <h3>Customer Care</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            <li><a href="#" class="footer-link">Help Center</a></li>
-                            <li><a href="#" class="footer-link">Track Your Order</a></li>
-                            <li><a href="#" class="footer-link">Shipping & Returns</a></li>
-                            <li><a href="#" class="footer-link">Size Exchange</a></li>
-                            <li><a href="#" class="footer-link">Gift Cards</a></li>
-                            <li><a href="#" class="footer-link">Privacy Policy</a></li>
-                            <li><a href="#" class="footer-link">Terms of Service</a></li>
-                            <li><a href="#" class="footer-link">Accessibility</a></li>
-                        </ul>
-                    </div>
-
-                    <!-- Newsletter -->
-                    <div class="footer-section">
-                        <h3>Stay Connected</h3>
-                        <p>Join our exclusive community for early access to new collections, styling tips, and special
-                            offers just for you.</p>
-                        <form class="newsletter-form" action="{{ route('newsletter.subscribe') }}" method="POST"
-                              onsubmit="handleNewsletter(event)" style="display: flex; gap: 12px; margin-top: 24px;">
-                            @csrf
-                            <input type="email" name="email" class="newsletter-input"
-                                   placeholder="Enter your email address" required
-                                   style="flex: 1; padding: 16px 20px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 16px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); color: white; font-size: 14px; outline: none;">
-                            <button type="submit" class="newsletter-button"
-                                    style="padding: 16px 24px; background: var(--accent-gradient); border: none; border-radius: 16px; color: white; font-weight: 600; cursor: pointer;">
-                                Subscribe
-                            </button>
-                        </form>
-                        <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6); margin-top: 12px;">
-                            By subscribing, you agree to receive marketing emails. Unsubscribe anytime.
-                        </p>
                     </div>
                 </div>
 
-                <!-- Footer Bottom -->
-                <div class="footer-bottom"
-                     style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 40px; text-align: center;">
-                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 16px;">
-                        &copy; {{ date('Y') }} {{ config('app.name', 'ShopWithCarl') }}. All rights reserved.
-                    </p>
-
-                    <!-- Payment Methods -->
-                    <div class="payment-methods"
-                         style="display: flex; justify-content: center; gap: 16px; margin-top: 24px; flex-wrap: wrap;">
-                        <div class="payment-method" title="MTN Mobile Money"
-                             style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.2); font-size: 10px; font-weight: bold; color: #FFD700;">
-                            MTN
-                        </div>
-                        <div class="payment-method" title="Airtel Money"
-                             style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.2); font-size: 10px; font-weight: bold; color: #FF0000;">
-                            AIRTEL
-                        </div>
-                        <div class="payment-method" title="Flutterwave"
-                             style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.2);">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="#FF6B35"/>
-                                <circle cx="12" cy="12" r="3" fill="#1B365C"/>
-                            </svg>
-                        </div>
-                        <div class="payment-method" title="Pesapal"
-                             style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.2);">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <rect x="3" y="6" width="18" height="12" rx="2" fill="#0056B3"/>
-                                <path d="M7 10h10v4H7z" fill="#FF0000"/>
-                                <circle cx="9" cy="12" r="1" fill="white"/>
-                                <circle cx="15" cy="12" r="1" fill="white"/>
-                            </svg>
-                        </div>
-                        <div class="payment-method" title="Bank Transfer"
-                             style="width: 48px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.2);">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/>
-                                <path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/>
-                            </svg>
+                <div class="footer-bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="footer-bottom-wrap d-flex align-items-center justify-content-between flex-wrap gap-10">
+                                    <div class="footer-body-text">
+                                        <span>&copy; {{ date('Y') }} {{ config('app.name', 'ShopWithCarl') }}. All Rights Reserved.</span>
+                                    </div>
+                                    <div class="tf-payment d-flex align-items-center gap-10">
+                                        <span class="fw-6" style="font-size: 12px;">MTN</span>
+                                        <span class="fw-6" style="font-size: 12px;">Airtel</span>
+                                        <span class="fw-6" style="font-size: 12px;">Visa</span>
+                                        <span class="fw-6" style="font-size: 12px;">PayPal</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

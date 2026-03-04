@@ -12,177 +12,112 @@
     <!-- /preload -->
     <div id="wrapper">
         <!-- Slider -->
-        <div class="slider-container">
-            <div class="slides-wrapper">
-                @forelse($banners as $index => $banner)
-                    <div class="slide {{ $loop->first ? 'active' : '' }}" data-slide="{{ $index }}">
-                        <div class="slide-bg" style="background-image: url('{{ $banner->image_url }}')"></div>
-                        <div class="slide-particles">
-                            @for($i = 1; $i <= 9; $i++)
-                                <div class="particle"
-                                     style="left: {{ 10 + ($i * 10) }}%; animation-delay: {{ ($i % 6) }}s;"></div>
-                            @endfor
-                        </div>
-                        <div class="floating-elements">
-                            <div class="floating-element"></div>
-                            <div class="floating-element"></div>
-                            <div class="floating-element"></div>
-                        </div>
-                        <div class="slide-number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</div>
-                        <div class="slide-content">
-                            @if($banner->subtitle)
-                                <div class="slide-subtitle">{{ $banner->subtitle }}</div>
-                            @endif
-                            <h1 class="slide-title">{!! nl2br(e($banner->title)) !!}</h1>
-                            @if($banner->description)
-                                <p class="slide-description">{{ $banner->description }}</p>
-                            @endif
-                            <div class="cta-group">
-                                @if($banner->button_text && $banner->button_link)
-                                    <a href="{{ $banner->button_link }}" class="cta-button">
-                                        {{ $banner->button_text }}
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                             stroke="currentColor" stroke-width="2">
-                                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                                        </svg>
-                                    </a>
-                                @endif
-                                @if($banner->secondary_button_text && $banner->secondary_button_link)
-                                    <a href="{{ $banner->secondary_button_link }}" class="cta-button cta-secondary">
-                                        {{ $banner->secondary_button_text }}
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                             stroke="currentColor" stroke-width="2">
-                                            <polygon points="5,3 19,12 5,21"/>
-                                        </svg>
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                     Fallback to original hardcoded slide if no banners exist
-                    <div class="slide active" data-slide="0">
-                        <div class="slide-bg"
-                             style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&h=1080&fit=crop&crop=center')"></div>
-                         Include the original hardcoded slide content as fallback
-                        <div class="slide-particles">...</div>
-                        <div class="floating-elements">...</div>
-                        <div class="slide-number">01</div>
-                        <div class="slide-content">
-                            <div class="slide-subtitle">Premium Collection</div>
-                            <h1 class="slide-title">Living<br>Beyond<br>Limits</h1>
-                            <p class="slide-description">Experience unparalleled comfort and revolutionary design that
-                                transforms your active lifestyle into an extraordinary journey.</p>
-                            <div class="cta-group">
-                                <a href="#" class="cta-button">Explore Collection</a>
-                                <a href="#" class="cta-button cta-secondary">Watch Story</a>
-                            </div>
-                        </div>
-                    </div>
-                @endforelse
-            </div>
-
-            <!-- Navigation -->
-            <div class="navigation">
-                <button class="nav-arrow prev-arrow" aria-label="Previous slide">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                    </svg>
-                </button>
-                <div class="pagination-dots">
+        <div class="tf-slideshow slider-effect-fade">
+            <div class="swiper tf-sw-slideshow" data-preview="1" data-loop="true" data-speed="1000" data-autoplay="true" data-delay="5000">
+                <div class="swiper-wrapper">
                     @forelse($banners as $index => $banner)
-                        <div class="dot {{ $loop->first ? 'active' : '' }}" data-slide="{{ $index }}"></div>
+                        <div class="swiper-slide" style="height: 100%;">
+                            <div class="wrap-slider" style="height: 100%;">
+                                <img src="{{ $banner->image_url }}" alt="{{ $banner->title }}">
+                                <div class="box-content text-center">
+                                    @if($banner->subtitle)
+                                        <div class="fade-item fade-item-1">
+                                            <p class="subheading text-uppercase letter-spacing-5 fw-6">{{ $banner->subtitle }}</p>
+                                        </div>
+                                    @endif
+                                    <div class="fade-item fade-item-2">
+                                        <h1 class="heading font-young-serif fw-6">{!! nl2br(e($banner->title)) !!}</h1>
+                                    </div>
+                                    @if($banner->description)
+                                        <div class="fade-item fade-item-3">
+                                            <p class="description">{{ $banner->description }}</p>
+                                        </div>
+                                    @endif
+                                    @if($banner->button_text && $banner->button_link)
+                                        <div class="fade-item fade-item-4">
+                                            <a href="{{ $banner->button_link }}" class="tf-btn btn-light-icon animate-hover-btn btn-xl radius-60">
+                                                <span>{{ $banner->button_text }}</span>
+                                                <i class="icon icon-arrow1-top-left"></i>
+                                            </a>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     @empty
-                        <div class="dot active" data-slide="0"></div>
+                        <div class="swiper-slide" style="height: 100%;">
+                            <div class="wrap-slider" style="height: 100%;">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&h=1080&fit=crop&crop=center" alt="Premium Collection">
+                                <div class="box-content text-center">
+                                    <div class="fade-item fade-item-1">
+                                        <p class="subheading text-uppercase letter-spacing-5 fw-6">Premium Collection</p>
+                                    </div>
+                                    <div class="fade-item fade-item-2">
+                                        <h1 class="heading font-young-serif fw-6">Living<br>Beyond<br>Limits</h1>
+                                    </div>
+                                    <div class="fade-item fade-item-3">
+                                        <p class="description">Experience unparalleled comfort and revolutionary design that transforms your active lifestyle.</p>
+                                    </div>
+                                    <div class="fade-item fade-item-4">
+                                        <a href="{{ route('shop.index') }}" class="tf-btn btn-light-icon animate-hover-btn btn-xl radius-60">
+                                            <span>Explore Collection</span>
+                                            <i class="icon icon-arrow1-top-left"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endforelse
                 </div>
-                <button class="nav-arrow next-arrow" aria-label="Next slide">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
-                </button>
             </div>
-
-            <!-- Side Navigation -->
-            <div class="side-navigation">
-                @forelse($banners as $index => $banner)
-                    <div class="side-nav-dot {{ $loop->first ? 'active' : '' }}" data-slide="{{ $index }}"></div>
-                @empty
-                    <div class="side-nav-dot active" data-slide="0"></div>
-                @endforelse
-            </div>
-
-            <!-- Slide Counter -->
-            <div class="slide-counter">
-                <span class="current-slide">01</span> / <span
-                    class="total-slides">{{ str_pad($banners->count() ?: 1, 2, '0', STR_PAD_LEFT) }}</span>
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
+            <div class="wrap-pagination">
+                <div class="sw-dots line-pagination sw-pagination-slider justify-content-center"></div>
             </div>
         </div>
-
         <!-- /Slider -->
         <!-- Iconbox -->
-
-        <div class="container-full mt-5">
-            <div class="features">
-                <div class="feature-list">
-                    <div class="single-feature">
-                        <div class="feature-icon">
-                            <span>🎧</span>
+        <section class="flat-spacing-25 bg_light-green-3">
+            <div class="container">
+                <div class="swiper tf-sw-recent" data-preview="3" data-tablet="3" data-mobile="1" data-space-lg="30" data-space-md="30" data-space="15" data-loop="false" data-auto-play="false">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="tf-icon-box-v2 text-center">
+                                <div class="icon">
+                                    <svg viewBox="0 0 50 50" width="50" height="50">
+                                        <path fill="currentColor" d="M47.1 16.5H37.4l-4.8-9.3c-.4-.7-1.2-1-1.9-.6-.7.4-1 1.2-.6 1.9l4.1 8H15.8l4.1-8c.4-.7.1-1.5-.6-1.9-.7-.4-1.5-.1-1.9.6l-4.8 9.3H2.9c-.8 0-1.4.6-1.4 1.4s.6 1.4 1.4 1.4h1.6l3.2 22.7c.4 2.6 2.6 4.5 5.2 4.5h24.2c2.6 0 4.8-1.9 5.2-4.5l3.2-22.7h1.6c.8 0 1.4-.6 1.4-1.4s-.6-1.4-1.4-1.4zM39.5 41.7c-.2 1.3-1.3 2.3-2.6 2.3H13c-1.3 0-2.5-1-2.6-2.3L7.3 19.3h35.4l-3.2 22.4zM18 37.5V25c0-.8.6-1.4 1.4-1.4s1.4.6 1.4 1.4v12.5c0 .8-.6 1.4-1.4 1.4s-1.4-.6-1.4-1.4zm11.2 0V25c0-.8.6-1.4 1.4-1.4s1.4.6 1.4 1.4v12.5c0 .8-.6 1.4-1.4 1.4s-1.4-.6-1.4-1.4z"/>
+                                    </svg>
+                                </div>
+                                <div class="title">Free Shipping</div>
+                                <p class="description">Free shipping over UGX 200,000</p>
+                            </div>
                         </div>
-                        <div class="feature-details">
-                            <h6>24/7 SUPPORT</h6>
-                            <span>Support always</span>
+                        <div class="swiper-slide">
+                            <div class="tf-icon-box-v2 text-center">
+                                <div class="icon">
+                                    <svg viewBox="0 0 50 50" width="50" height="50">
+                                        <path fill="currentColor" d="M25 1C11.7 1 1 11.7 1 25s10.7 24 24 24 24-10.7 24-24S38.3 1 25 1zm0 45.2C13.3 46.2 3.8 36.7 3.8 25S13.3 3.8 25 3.8 46.2 13.3 46.2 25 36.7 46.2 25 46.2zm10.2-30.6L21 29.8l-6.2-6.2c-.5-.5-1.4-.5-1.9 0s-.5 1.4 0 1.9l7.2 7.2c.3.3.6.4 1 .4s.7-.1 1-.4l15.2-15.2c.5-.5.5-1.4 0-1.9s-1.4-.5-2 0z"/>
+                                    </svg>
+                                </div>
+                                <div class="title">Payment Solutions</div>
+                                <p class="description">MTN MoMo, Airtel Money, Visa & PayPal</p>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="single-feature">
-                        <div class="feature-icon">
-                            <span>💳</span>
-                        </div>
-                        <div class="feature-details">
-                            <h6>SECURE PAYMENT</h6>
-                            <span>Visa, PayPal, MasterCard</span>
-                        </div>
-                    </div>
-
-                    <div class="single-feature">
-                        <div class="feature-icon">
-                            <span>🛡️</span>
-                        </div>
-                        <div class="feature-details">
-                            <h6>PRIVACY PROTECTION</h6>
-                            <span>100% secure & confidential</span>
-                        </div>
-                    </div>
-
-                    <div class="single-feature">
-                        <div class="feature-icon">
-                            <span>🚚</span>
-                        </div>
-                        <div class="feature-details">
-                            <h6>DISCREET DELIVERY</h6>
-                            <span>Private packaging, ontime</span>
-                        </div>
-                    </div>
-
-                    <div class="single-feature">
-                        <div class="feature-icon">
-                            <span>📅</span>
-                        </div>
-                        <div class="feature-details">
-                            <h6>30 DAYS RETURN</h6>
-                            <span>Hassle-free returns</span>
+                        <div class="swiper-slide">
+                            <div class="tf-icon-box-v2 text-center">
+                                <div class="icon">
+                                    <svg viewBox="0 0 50 50" width="50" height="50">
+                                        <path fill="currentColor" d="M45.1 11.6l-3.2-3.2c-1.6-1.6-4.3-1.6-5.9 0L15.4 29.1l-.2.5-2.7 10.4c-.2.6 0 1.3.5 1.7.3.3.7.5 1.1.5h.3l10.4-2.7.5-.2L46 18.7c.8-.8 1.2-1.8 1.2-2.9 0-1.2-.5-2.3-1.3-3.1l-.8-1.1zM23.4 37l-8 2.1 2.1-8 17.6-17.6 5.9 5.9L23.4 37zm21.2-20.5l-1.6 1.6-5.9-5.9 1.6-1.6c.5-.5 1.5-.5 2 0l3.2 3.2c.3.3.5.6.5 1s-.1.8-.4 1.1l-1.4 1.6zM4.9 46.2h27c.8 0 1.4-.6 1.4-1.4s-.6-1.4-1.4-1.4H4.9c-.8 0-1.4-.6-1.4-1.4V5.1c0-.8.6-1.4 1.4-1.4h36.9c.8 0 1.4.6 1.4 1.4v18.5c0 .8.6 1.4 1.4 1.4s1.4-.6 1.4-1.4V5.1c0-2.3-1.9-4.2-4.2-4.2H4.9C2.7.9.8 2.8.8 5.1v36.9c0 2.3 1.9 4.2 4.1 4.2z"/>
+                                    </svg>
+                                </div>
+                                <div class="title">Return Policy</div>
+                                <p class="description">30 days hassle-free returns</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="sw-dots style-2 sw-pagination-recent justify-content-center"></div>
             </div>
-        </div>
-
+        </section>
         <!-- /Iconbox -->
 
         <!-- Season Collection -->
@@ -1096,6 +1031,72 @@
 
     @push('styles')
         <style>
+            /* Slideshow sizing */
+            .tf-slideshow { position: relative; }
+            .tf-slideshow .tf-sw-slideshow,
+            .tf-slideshow .swiper-wrapper,
+            .tf-slideshow .swiper-slide { height: 778px; }
+            .tf-slideshow .wrap-slider { position: relative; height: 100%; }
+            .tf-slideshow .wrap-slider img {
+                width: 100%; height: 100%; object-fit: cover;
+                display: block;
+            }
+            .tf-slideshow .box-content {
+                position: absolute; left: 0; right: 0;
+                top: 50%; transform: translateY(-50%);
+                padding: 0 60px;
+            }
+            /* Dark overlay for text contrast */
+            .tf-slideshow .wrap-slider::after {
+                content: ''; position: absolute; inset: 0;
+                background: linear-gradient(
+                    to right,
+                    rgba(0,0,0,0.45) 0%,
+                    rgba(0,0,0,0.2) 50%,
+                    rgba(0,0,0,0.05) 100%
+                );
+                z-index: 1;
+            }
+            .tf-slideshow .box-content { z-index: 2; }
+            .tf-slideshow .box-content .subheading {
+                font-size: 14px; letter-spacing: 3px; color: #fff;
+                margin-bottom: 14px; font-weight: 600;
+                font-family: "Albert Sans", sans-serif;
+                text-transform: uppercase;
+            }
+            .tf-slideshow .box-content .heading {
+                font-size: 56px; line-height: 1.15;
+                color: #fff; margin-bottom: 18px;
+            }
+            .tf-slideshow .box-content .description {
+                font-size: 18px; line-height: 26px; color: rgba(255,255,255,0.9);
+                margin-bottom: 36px; max-width: 500px;
+                font-family: "Albert Sans", sans-serif;
+            }
+            .tf-slideshow .box-content.text-center .description {
+                margin-left: auto; margin-right: auto;
+            }
+            .tf-slideshow .tf-btn.btn-light-icon {
+                background: #fff; color: #222; border-color: #fff;
+            }
+            .tf-slideshow .tf-btn.btn-light-icon:hover {
+                background: transparent; color: #fff; border-color: #fff;
+            }
+            @media (max-width: 991px) {
+                .tf-slideshow .tf-sw-slideshow,
+                .tf-slideshow .swiper-wrapper,
+                .tf-slideshow .swiper-slide { height: 550px; }
+                .tf-slideshow .box-content .heading { font-size: 40px; }
+                .tf-slideshow .box-content { padding: 0 30px; }
+            }
+            @media (max-width: 575px) {
+                .tf-slideshow .tf-sw-slideshow,
+                .tf-slideshow .swiper-wrapper,
+                .tf-slideshow .swiper-slide { height: 450px; }
+                .tf-slideshow .box-content .heading { font-size: 30px; }
+                .tf-slideshow .box-content .description { font-size: 15px; }
+                .tf-slideshow .box-content { padding: 0 20px; }
+            }
 
             .tab-pane {
                 display: none;
@@ -1247,270 +1248,7 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         });
 
-        class UltraModernSlider {
-            constructor() {
-                this.currentSlide = 0;
-                this.totalSlides = 3;
-                this.autoplayInterval = null;
-                this.slideInterval = 6000;
-                this.isPlaying = true;
-                this.isDragging = false;
-                this.startX = 0;
-                this.currentX = 0;
-
-                this.init();
-            }
-
-            init() {
-                this.bindEvents();
-                this.startAutoplay();
-                this.updateSlideCounter();
-            }
-
-            bindEvents() {
-                // Navigation arrows
-                document.querySelector('.prev-arrow').addEventListener('click', () => this.prevSlide());
-                document.querySelector('.next-arrow').addEventListener('click', () => this.nextSlide());
-
-                // Pagination dots
-                document.querySelectorAll('.dot').forEach((dot, index) => {
-                    dot.addEventListener('click', () => this.goToSlide(index));
-                });
-
-                // Side navigation
-                document.querySelectorAll('.side-nav-dot').forEach((dot, index) => {
-                    dot.addEventListener('click', () => this.goToSlide(index));
-                });
-
-                // Keyboard navigation
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'ArrowLeft') this.prevSlide();
-                    if (e.key === 'ArrowRight') this.nextSlide();
-                });
-
-                // Only bind drag events to the slider content area, not the entire container
-                const slidesWrapper = document.querySelector('.slides-wrapper');
-
-                // Mouse events
-                slidesWrapper.addEventListener('mousedown', (e) => this.handleDragStart(e));
-                document.addEventListener('mousemove', (e) => this.handleDragMove(e));
-                document.addEventListener('mouseup', () => this.handleDragEnd());
-
-                // Touch events - only horizontal dragging
-                slidesWrapper.addEventListener('touchstart', (e) => this.handleDragStart(e), {passive: true});
-                slidesWrapper.addEventListener('touchmove', (e) => {
-                    if (this.isDragging) {
-                        const touch = e.touches[0];
-                        const deltaX = Math.abs(touch.clientX - this.startX);
-                        const deltaY = Math.abs(touch.clientY - this.startY);
-
-                        // Only handle horizontal swipes
-                        if (deltaX > deltaY && deltaX > 10) {
-                            e.preventDefault();
-                            this.handleDragMove(e);
-                        }
-                    }
-                }, {passive: false});
-                slidesWrapper.addEventListener('touchend', () => this.handleDragEnd(), {passive: true});
-
-                // Pause on hover - only on slider area
-                slidesWrapper.addEventListener('mouseenter', () => this.pauseAutoplay());
-                slidesWrapper.addEventListener('mouseleave', () => this.resumeAutoplay());
-            }
-
-            handleDragStart(e) {
-                this.isDragging = true;
-                this.startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-                this.startY = e.type === 'mousedown' ? e.clientY : e.touches[0].clientY;
-                this.pauseAutoplay();
-            }
-
-            handleDragMove(e) {
-                if (!this.isDragging) return;
-                e.preventDefault();
-                this.currentX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-            }
-
-            handleDragEnd() {
-                if (!this.isDragging) return;
-                this.isDragging = false;
-
-                const deltaX = this.currentX - this.startX;
-                const threshold = 50;
-
-                if (Math.abs(deltaX) > threshold) {
-                    if (deltaX > 0) {
-                        this.prevSlide();
-                    } else {
-                        this.nextSlide();
-                    }
-                }
-
-                this.resumeAutoplay();
-            }
-
-            goToSlide(index) {
-                if (index === this.currentSlide) return;
-
-                this.currentSlide = index;
-                this.updateSlider();
-                this.restartAutoplay();
-            }
-
-            nextSlide() {
-                this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
-                this.updateSlider();
-                this.restartAutoplay();
-            }
-
-            prevSlide() {
-                this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
-                this.updateSlider();
-                this.restartAutoplay();
-            }
-
-            updateSlider() {
-                const slides = document.querySelectorAll('.slide');
-                const slidesWrapper = document.querySelector('.slides-wrapper');
-
-                // Update slide positions
-                slidesWrapper.style.transform = `translateX(-${this.currentSlide * 100}%)`;
-
-                // Update active states
-                slides.forEach((slide, index) => {
-                    slide.classList.toggle('active', index === this.currentSlide);
-                });
-
-                // Update navigation dots
-                document.querySelectorAll('.dot').forEach((dot, index) => {
-                    dot.classList.toggle('active', index === this.currentSlide);
-                });
-
-                // Update side navigation
-                document.querySelectorAll('.side-nav-dot').forEach((dot, index) => {
-                    dot.classList.toggle('active', index === this.currentSlide);
-                });
-
-                // Update slide counter
-                this.updateSlideCounter();
-
-                // Restart progress bar
-                this.startProgressBar();
-            }
-
-            updateSlideCounter() {
-                const currentSlideEl = document.querySelector('.current-slide');
-                currentSlideEl.textContent = String(this.currentSlide + 1).padStart(2, '0');
-            }
-
-            startProgressBar() {
-                const progressFill = document.querySelector('.progress-fill');
-                progressFill.style.transition = 'none';
-                progressFill.style.width = '0%';
-
-                // Force reflow
-                progressFill.offsetHeight;
-
-                progressFill.style.transition = `width ${this.slideInterval}ms linear`;
-                progressFill.style.width = '100%';
-            }
-
-            startAutoplay() {
-                if (this.autoplayInterval) return;
-
-                this.autoplayInterval = setInterval(() => {
-                    this.nextSlide();
-                }, this.slideInterval);
-
-                this.startProgressBar();
-            }
-
-            pauseAutoplay() {
-                if (this.autoplayInterval) {
-                    clearInterval(this.autoplayInterval);
-                    this.autoplayInterval = null;
-                }
-
-                // Pause progress bar
-                const progressFill = document.querySelector('.progress-fill');
-                const currentWidth = getComputedStyle(progressFill).width;
-                progressFill.style.transition = 'none';
-                progressFill.style.width = currentWidth;
-            }
-
-            resumeAutoplay() {
-                if (!this.autoplayInterval) {
-                    this.startAutoplay();
-                }
-            }
-
-            restartAutoplay() {
-                this.pauseAutoplay();
-                this.startAutoplay();
-            }
-        }
-
-        // Initialize slider when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new UltraModernSlider();
-        });
-
-        // Add some interactive particles on mouse move
-        document.addEventListener('mousemove', (e) => {
-            const particles = document.querySelectorAll('.particle');
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-
-            particles.forEach((particle, index) => {
-                const speed = (index % 3 + 1) * 0.5;
-                const x = mouseX * 20 * speed;
-                const y = mouseY * 20 * speed;
-
-                particle.style.transform = `translate(${x}px, ${y}px)`;
-            });
-        });
-
-        // Add scroll-based interactions (if needed for future enhancements)
-        let ticking = false;
-
-        function updateParallax() {
-            const slides = document.querySelectorAll('.slide.active');
-            slides.forEach(slide => {
-                const bg = slide.querySelector('.slide-bg');
-                if (bg) {
-                    // Subtle parallax effect on mouse movement
-                    const rect = slide.getBoundingClientRect();
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
-
-                    // This could be enhanced with actual mouse position tracking
-                    bg.style.transform = `scale(1.05) translate(0px, 0px)`;
-                }
-            });
-            ticking = false;
-        }
-
-        // Intersection Observer for performance optimization
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const slideObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                } else {
-                    entry.target.classList.remove('in-view');
-                }
-            });
-        }, observerOptions);
-
-        // Observe all slides for performance
-        document.querySelectorAll('.slide').forEach(slide => {
-            slideObserver.observe(slide);
-        });
+        // goTop scroll
 
 
     </script>
@@ -1520,6 +1258,58 @@
     <script>
         (function initSwipersWhenReady() {
             function startInit() {
+                // Initialize Slideshow Swiper
+                const slideshowEl = document.querySelector('.tf-sw-slideshow');
+                if (slideshowEl && !slideshowEl.swiper) {
+                    try {
+                        new (window.Swiper)('.tf-sw-slideshow', {
+                            slidesPerView: 1,
+                            loop: true,
+                            speed: 1000,
+                            effect: 'fade',
+                            fadeEffect: { crossFade: true },
+                            autoplay: {
+                                delay: 5000,
+                                disableOnInteraction: false,
+                            },
+                            pagination: {
+                                el: '.sw-pagination-slider',
+                                clickable: true,
+                            },
+                            on: {
+                                init: function () {
+                                    console.log('Slideshow swiper initialized');
+                                }
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error initializing slideshow swiper:', error);
+                    }
+                }
+
+                // Initialize Iconbox (tf-sw-recent) Swiper
+                const recentEl = document.querySelector('.tf-sw-recent');
+                if (recentEl && !recentEl.swiper) {
+                    try {
+                        new (window.Swiper)('.tf-sw-recent', {
+                            slidesPerView: 1,
+                            spaceBetween: 15,
+                            loop: false,
+                            autoplay: false,
+                            pagination: {
+                                el: '.sw-pagination-recent',
+                                clickable: true,
+                            },
+                            breakpoints: {
+                                768: { slidesPerView: 3, spaceBetween: 30 },
+                                1024: { slidesPerView: 3, spaceBetween: 30 }
+                            }
+                        });
+                    } catch (error) {
+                        console.error('Error initializing recent swiper:', error);
+                    }
+                }
+
                 // Initialize Season Collection Swiper with better error handling
                 const collectionEl = document.querySelector('.tf-sw-collection');
                 if (collectionEl && !collectionEl.swiper) {

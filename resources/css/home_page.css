@@ -102,31 +102,7 @@
     margin-top: 0.5rem;
 }
 
-.tf-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 16px 32px;
-    background: var(--accent-gradient);
-    color: white;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(91, 58, 121, 0.3);
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.tf-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(91, 58, 121, 0.45);
-    background: var(--accent-gradient);
-}
+/* .tf-btn styles removed — using Ecomus theme defaults from styles.css */
 
 .price-badge {
     background: rgba(255, 255, 255, 0.9);

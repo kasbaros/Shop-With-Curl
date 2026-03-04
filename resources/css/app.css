@@ -11,6 +11,9 @@
 /* Project icon font (Icomoon) */
 @import '../fonts/font-icons.css';
 
+/* Albert Sans font (Ecomus theme) */
+@import '../fonts/fonts.css';
+
 /* Custom styles (template-specific) */
 @import './styles.css';
 
