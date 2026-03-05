@@ -637,7 +637,7 @@
                         <div class="mb-3">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <label for="canvas-password" class="fw-5">Password</label>
-                                <a class="text-secondary fs-12" href="{{ route('password.request') }}">Forgot password?</a>
+                                <button type="button" class="text-secondary fs-12 border-0 bg-transparent p-0 canvas-auth-switch" data-target="canvasForgotForm">Forgot password?</button>
                             </div>
                             <div class="tf-field">
                                 <input type="password" class="tf-input" id="canvas-password" name="password"
@@ -707,6 +707,33 @@
 
                     <div class="text-center mt-3">
                         <span class="text-secondary">Already have an account?</span>
+                        <button type="button" class="fw-5 text-decoration-underline border-0 bg-transparent canvas-auth-switch" data-target="canvasLoginForm">Log in</button>
+                    </div>
+                </div>
+
+                {{-- Forgot Password Form --}}
+                <div id="canvasForgotForm" class="canvas-auth-pane" style="display:none;">
+                    <div class="text-center mb-4">
+                        <p class="text-secondary">Enter your email to receive a password reset link</p>
+                    </div>
+                    <div id="canvasForgotAlerts"></div>
+                    <form action="{{ route('password.email') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="canvas-forgot-email" class="mb-2 fw-5">Email Address</label>
+                            <div class="tf-field">
+                                <input type="email" class="tf-input" id="canvas-forgot-email" name="email"
+                                       required autocomplete="email" placeholder="email@example.com">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="tf-btn btn-fill radius-60 animate-hover-btn w-100 justify-content-center">
+                            Email Password Reset Link
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <span class="text-secondary">Remember your password?</span>
                         <button type="button" class="fw-5 text-decoration-underline border-0 bg-transparent canvas-auth-switch" data-target="canvasLoginForm">Log in</button>
                     </div>
                 </div>
@@ -842,7 +869,8 @@
                 var matchTab = document.querySelector('.canvas-auth-tab[data-target="' + target + '"]');
                 if (matchTab) { matchTab.classList.add('active'); matchTab.classList.remove('text-secondary'); }
                 var title = document.getElementById('canvasAccountTitle');
-                if (title) title.textContent = target === 'canvasRegisterForm' ? 'Register' : 'Login';
+                var titles = { canvasLoginForm: 'Login', canvasRegisterForm: 'Register', canvasForgotForm: 'Forgot Password' };
+                if (title) title.textContent = titles[target] || 'Account';
             });
         });
     });
