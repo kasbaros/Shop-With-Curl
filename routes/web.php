@@ -86,12 +86,11 @@ use App\Livewire\Client\Profile\AccountPage;
 
 // Static Pages (Keep Controllers - Content processing, form handling)
     Route::prefix('pages')->name('pages.')->group(function () {
-        Route::get('/about', [\App\Http\Controllers\Guest\PagesController::class, 'about'])->name('about');
+        Route::get('/about', [\App\Http\Controllers\Guest\PagesController::class, 'aboutUs'])->name('about');
         Route::get('/contact', [\App\Http\Controllers\Guest\PagesController::class, 'contact'])->name('contact');
         Route::post('/contact', [\App\Http\Controllers\Guest\PagesController::class, 'contactSubmit'])->name('contact.submit');
-        Route::get('/faq', [\App\Http\Controllers\Guest\PagesController::class, 'faq'])->name('faq');
-        Route::get('/privacy', [\App\Http\Controllers\Guest\PagesController::class, 'privacy'])->name('privacy');
-        Route::get('/terms', [\App\Http\Controllers\Guest\PagesController::class, 'terms'])->name('terms');
+        Route::get('/privacy', [\App\Http\Controllers\Guest\PagesController::class, 'privacyPolicy'])->name('privacy');
+        Route::get('/terms', [\App\Http\Controllers\Guest\PagesController::class, 'termsConditions'])->name('terms');
     });
 
 // Newsletter (Keep Controller - Email processing, validation, external APIs)
