@@ -1106,7 +1106,7 @@
                 display: block;
             }
 
-            .swiper-wrapper {
+            .tf-slideshow .swiper-wrapper {
                 display: flex;
             }
 
