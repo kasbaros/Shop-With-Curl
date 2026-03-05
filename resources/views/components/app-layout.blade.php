@@ -110,6 +110,13 @@
         .footer .subscribe-content .tf-btn {
             flex-shrink: 0; border-radius: 60px; margin: 4px;
         }
+        /* Auth canvas tabs */
+        .canvas-auth-tab.active {
+            border-bottom: 2px solid #000 !important;
+            color: #000 !important;
+        }
+        #canvasAccount .canvas-body { overflow-y: auto; }
+        #canvasAccount .tf-field { margin-bottom: 0; }
     </style>
 </head>
 
@@ -233,7 +240,7 @@
                                             </li>
                                         </ul>
                                     @else
-                                        <a href="{{ route('login') }}" class="nav-icon-item" wire:navigate>
+                                        <a href="#canvasAccount" data-bs-toggle="offcanvas" aria-controls="canvasAccount" class="nav-icon-item">
                                             <i class="icon icon-account"></i>
                                         </a>
                                     @endauth
@@ -552,7 +559,7 @@
             </div>
             <div class="mb-bottom">
                 @guest
-                    <a href="{{ route('login') }}" class="site-nav-icon"><i class="icon icon-account"></i>Login</a>
+                    <a href="#canvasAccount" data-bs-toggle="offcanvas" aria-controls="canvasAccount" class="site-nav-icon"><i class="icon icon-account"></i>Login</a>
                 @else
                     <a href="{{ route('account.dashboard') }}" class="site-nav-icon"><i class="icon icon-account"></i>My Account</a>
                 @endguest
@@ -599,6 +606,115 @@
         </div>
     </div>
 
+    {{-- ==================== LOGIN / REGISTER CANVAS ==================== --}}
+    @guest
+    <div class="offcanvas offcanvas-end" id="canvasAccount" tabindex="-1">
+        <div class="canvas-wrapper">
+            <header class="d-flex align-items-center justify-content-between px-4 py-3 border-bottom">
+                <h5 class="fw-bold mb-0" id="canvasAccountTitle">Login</h5>
+                <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close" style="cursor:pointer;"></span>
+            </header>
+            <div class="canvas-body px-4 py-4">
+                {{-- Tab buttons --}}
+                <div class="d-flex mb-4 border-bottom">
+                    <button type="button" class="canvas-auth-tab active fw-5 pb-2 me-4 border-0 bg-transparent" data-target="canvasLoginForm">Login</button>
+                    <button type="button" class="canvas-auth-tab fw-5 pb-2 border-0 bg-transparent text-secondary" data-target="canvasRegisterForm">Register</button>
+                </div>
+
+                {{-- Login Form --}}
+                <div id="canvasLoginForm" class="canvas-auth-pane">
+                    <div id="canvasLoginAlerts"></div>
+                    <form action="{{ route('login') }}" method="POST" id="canvasLoginFormEl">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="canvas-email" class="mb-2 fw-5">Email Address</label>
+                            <div class="tf-field">
+                                <input type="email" class="tf-input" id="canvas-email" name="email"
+                                       required autocomplete="email" placeholder="email@example.com">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label for="canvas-password" class="fw-5">Password</label>
+                                <a class="text-secondary fs-12" href="{{ route('password.request') }}">Forgot password?</a>
+                            </div>
+                            <div class="tf-field">
+                                <input type="password" class="tf-input" id="canvas-password" name="password"
+                                       required autocomplete="current-password" placeholder="Password">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="checkbox" id="canvas-remember" name="remember">
+                                <label for="canvas-remember">Remember me</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="tf-btn btn-fill radius-60 animate-hover-btn w-100 justify-content-center">
+                            Log in
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <span class="text-secondary">Don't have an account?</span>
+                        <button type="button" class="fw-5 text-decoration-underline border-0 bg-transparent canvas-auth-switch" data-target="canvasRegisterForm">Sign up</button>
+                    </div>
+                </div>
+
+                {{-- Register Form --}}
+                <div id="canvasRegisterForm" class="canvas-auth-pane" style="display:none;">
+                    <div id="canvasRegisterAlerts"></div>
+                    <form action="{{ route('register') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="canvas-reg-name" class="mb-2 fw-5">Name</label>
+                            <div class="tf-field">
+                                <input type="text" class="tf-input" id="canvas-reg-name" name="name"
+                                       required autocomplete="name" placeholder="Full name">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="canvas-reg-email" class="mb-2 fw-5">Email Address</label>
+                            <div class="tf-field">
+                                <input type="email" class="tf-input" id="canvas-reg-email" name="email"
+                                       required autocomplete="email" placeholder="email@example.com">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="canvas-reg-password" class="mb-2 fw-5">Password</label>
+                            <div class="tf-field">
+                                <input type="password" class="tf-input" id="canvas-reg-password" name="password"
+                                       required autocomplete="new-password" placeholder="Password">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="canvas-reg-password-confirm" class="mb-2 fw-5">Confirm Password</label>
+                            <div class="tf-field">
+                                <input type="password" class="tf-input" id="canvas-reg-password-confirm" name="password_confirmation"
+                                       required autocomplete="new-password" placeholder="Confirm password">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="tf-btn btn-fill radius-60 animate-hover-btn w-100 justify-content-center">
+                            Create Account
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <span class="text-secondary">Already have an account?</span>
+                        <button type="button" class="fw-5 text-decoration-underline border-0 bg-transparent canvas-auth-switch" data-target="canvasLoginForm">Log in</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endguest
+
     {{-- ==================== MOBILE TOOLBAR BOTTOM ==================== --}}
     <div class="tf-toolbar-bottom type-1150">
         <div class="toolbar-item">
@@ -619,7 +735,7 @@
         </div>
         <div class="toolbar-item">
             @guest
-                <a href="{{ route('login') }}">
+                <a href="#canvasAccount" data-bs-toggle="offcanvas" aria-controls="canvasAccount">
                     <div class="toolbar-icon">
                         <i class="icon-account"></i>
                     </div>
@@ -714,6 +830,20 @@
             if (Livewire.getByName('client.cart.cart-drawer').length > 0) {
                 Livewire.dispatch('cart-drawer-was-closed');
             }
+        });
+
+        // Auth canvas tab switching
+        document.querySelectorAll('.canvas-auth-tab, .canvas-auth-switch').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var target = this.dataset.target;
+                document.querySelectorAll('.canvas-auth-pane').forEach(function(p) { p.style.display = 'none'; });
+                document.getElementById(target).style.display = 'block';
+                document.querySelectorAll('.canvas-auth-tab').forEach(function(t) { t.classList.remove('active'); t.classList.add('text-secondary'); });
+                var matchTab = document.querySelector('.canvas-auth-tab[data-target="' + target + '"]');
+                if (matchTab) { matchTab.classList.add('active'); matchTab.classList.remove('text-secondary'); }
+                var title = document.getElementById('canvasAccountTitle');
+                if (title) title.textContent = target === 'canvasRegisterForm' ? 'Register' : 'Login';
+            });
         });
     });
 </script>
