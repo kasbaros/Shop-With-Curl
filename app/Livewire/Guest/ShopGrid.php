@@ -24,7 +24,7 @@
         public $selectedCategory = '';
 
         #[Url(as: 'sort')]
-        public $sortBy = 'popular';
+        public $sortBy = 'name';
 
         #[Url(as: 'min_price')]
         public $minPrice = '';
@@ -36,6 +36,11 @@
         public $inStockOnly = false;
 
         public $perPage = 12;
+
+        public function mount()
+        {
+            // Initialize any default values if needed
+        }
 
         public function updatedSearch()
         {
@@ -70,58 +75,59 @@
         public function clearFilters()
         {
             $this->reset(['search', 'selectedCategory', 'minPrice', 'maxPrice', 'inStockOnly']);
-            $this->sortBy = 'popular';
+            $this->sortBy = 'name';
             $this->resetPage();
         }
 
         public function render()
         {
-            $query = Product::query()
+            $products = Product::query()
                 ->active()
                 ->published()
-                ->with(['categories', 'media']);
-
-            if ($this->search) {
-                $search = $this->search;
-                $query->where(function ($q) use ($search) {
-                    $q->where('name', 'ilike', '%' . $search . '%')
-                      ->orWhere('description', 'ilike', '%' . $search . '%')
-                      ->orWhere('short_description', 'ilike', '%' . $search . '%');
-                });
-            }
-
-            if ($this->selectedCategory) {
-                $selected = $this->selectedCategory;
-                $query->whereHas('categories', function ($q) use ($selected) {
-                    if (is_numeric($selected)) {
-                        $q->where('categories.id', (int) $selected);
-                    } else {
-                        $q->where('categories.slug', $selected);
-                    }
-                });
-            }
-
-            if ($this->minPrice) {
-                $query->where('price', '>=', (float) $this->minPrice);
-            }
-
-            if ($this->maxPrice) {
-                $query->where('price', '<=', (float) $this->maxPrice);
-            }
-
-            if ($this->inStockOnly) {
-                $query->where('stock_quantity', '>', 0);
-            }
-
-            match ($this->sortBy) {
-                'name' => $query->orderBy('name'),
-                'price_low_high' => $query->orderByRaw('COALESCE(sale_price, price) ASC'),
-                'price_high_low' => $query->orderByRaw('COALESCE(sale_price, price) DESC'),
-                'newest' => $query->orderByDesc('created_at'),
-                default => $query->orderByDesc('created_at'), // 'popular' fallback
-            };
-
-            $products = $query->paginate($this->perPage);
+                ->with(['categories', 'media'])
+                ->when($this->search, function ($query) {
+                    $search = $this->search;
+                    $query->where(function ($q) use ($search) {
+                        $q->where('name', 'ilike', '%' . $search . '%')
+                          ->orWhere('description', 'ilike', '%' . $search . '%')
+                          ->orWhere('short_description', 'ilike', '%' . $search . '%');
+                    });
+                })
+                ->when($this->selectedCategory, function ($query) {
+                    $selected = $this->selectedCategory;
+                    $query->whereHas('categories', function ($q) use ($selected) {
+                        if (is_numeric($selected)) {
+                            $q->where('categories.id', (int) $selected);
+                        } else {
+                            $q->where('categories.slug', $selected);
+                        }
+                    });
+                })
+                ->when($this->minPrice, function ($query) {
+                    $query->where('price', '>=', (float) $this->minPrice);
+                })
+                ->when($this->maxPrice, function ($query) {
+                    $query->where('price', '<=', (float) $this->maxPrice);
+                })
+                ->when($this->inStockOnly, function ($query) {
+                    $query->where('stock_quantity', '>', 0);
+                })
+                ->when($this->sortBy === 'name', function ($query) {
+                    $query->orderBy('name');
+                })
+                ->when($this->sortBy === 'price_low_high', function ($query) {
+                    $query->orderBy('price');
+                })
+                ->when($this->sortBy === 'price_high_low', function ($query) {
+                    $query->orderByDesc('price');
+                })
+                ->when($this->sortBy === 'newest', function ($query) {
+                    $query->orderByDesc('created_at');
+                })
+                ->when($this->sortBy === 'popular', function ($query) {
+                    $query->orderByDesc('created_at');
+                })
+                ->paginate($this->perPage);
 
             $categories = Category::active()
                 ->withCount('products')
