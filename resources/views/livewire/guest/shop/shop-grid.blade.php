@@ -111,7 +111,7 @@
                             $displayPrice = $hasSale ? $product->sale_price : $product->price;
                         @endphp
 
-                        <div class="card-product" wire:key="product-{{ $product->id }}">
+                        <div class="card-product grid" wire:key="product-{{ $product->id }}">
                             <div class="card-product-wrapper">
                                 <a href="{{ route('products.show', $product->slug) }}" class="product-img">
                                     <img class="img-product" src="{{ $imageUrl }}" alt="{{ $product->name }}">
