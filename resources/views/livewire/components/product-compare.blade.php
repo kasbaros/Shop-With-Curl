@@ -1,5 +1,5 @@
 <div>
-    @if($showCompare && $compareProducts->count() > 0)
+    @if($showCompare && $this->compareProducts->count() > 0)
         <div class="offcanvas offcanvas-bottom canvas-compare show d-block" style="visibility: visible; background-color: rgba(0,0,0,0.5);">
             <div class="canvas-wrapper">
                 <header class="canvas-header">
@@ -20,7 +20,7 @@
                                     </div>
 
                                     <div class="tf-compare-offcanvas d-flex gap-3 mb-4">
-                                        @foreach($compareProducts as $product)
+                                        @foreach($this->compareProducts as $product)
                                             <div class="tf-compare-item">
                                                 <div class="position-relative">
                                                     <div class="icon"
