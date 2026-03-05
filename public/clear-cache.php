@@ -64,11 +64,59 @@ if (isset($_GET['diag'])) {
     echo implode("\n", $out) . "\n\n";
     $out = [];
 
-    // Git status
-    echo "=== Git HEAD ===\n";
+    // Git status - check both repo and Laravel dir
+    $repoDir = '/home/shopwithcaug/repositories/shopwithcarl';
+
+    echo "=== Git HEAD (Laravel dir: $laravelDir) ===\n";
     exec("cd $laravelDir && git log --oneline -5 2>&1", $out, $c);
     echo implode("\n", $out) . "\n\n";
     $out = [];
+
+    echo "=== Git HEAD (Repo dir: $repoDir) ===\n";
+    if (is_dir($repoDir)) {
+        exec("cd $repoDir && git log --oneline -5 2>&1", $out, $c);
+        echo implode("\n", $out) . "\n";
+    } else {
+        echo "Directory does NOT exist!\n";
+    }
+    echo "\n";
+    $out = [];
+
+    // Check deploy scripts
+    echo "=== Deploy Scripts ===\n";
+    $deployFiles = ['deploy.php', 'background_deploy.php'];
+    foreach ($deployFiles as $df) {
+        $path = "/home/shopwithcaug/public_html/$df";
+        echo "$df: " . (file_exists($path) ? 'EXISTS (' . filesize($path) . ' bytes)' : 'MISSING') . "\n";
+    }
+    echo "\n";
+
+    // Check if key recent files exist in Laravel dir
+    echo "=== Recent Files Check ===\n";
+    $checkFiles = [
+        'resources/views/components/app-layout.blade.php',
+        'resources/views/livewire/guest/shop/shop-grid.blade.php',
+        'resources/views/guest/home.blade.php',
+        'app/Livewire/Components/ProductCompare.php',
+    ];
+    foreach ($checkFiles as $cf) {
+        $full = "$laravelDir/$cf";
+        if (file_exists($full)) {
+            echo "$cf: " . date('Y-m-d H:i:s', filemtime($full)) . "\n";
+        } else {
+            echo "$cf: MISSING\n";
+        }
+    }
+    echo "\n";
+
+    // Check for canvasForgotForm in app-layout (proves our latest code is deployed)
+    echo "=== Code Freshness Check ===\n";
+    $layoutContent = file_get_contents("$laravelDir/resources/views/components/app-layout.blade.php");
+    echo "Has canvasForgotForm (forgot-password pane): " . (str_contains($layoutContent, 'canvasForgotForm') ? 'YES' : 'NO') . "\n";
+    echo "Has canvasRegisterForm (register pane): " . (str_contains($layoutContent, 'canvasRegisterForm') ? 'YES' : 'NO') . "\n";
+    $homeContent = file_get_contents("$laravelDir/resources/views/guest/home.blade.php");
+    echo "Has scoped swiper fix (.tf-slideshow .swiper-wrapper): " . (str_contains($homeContent, '.tf-slideshow .swiper-wrapper') ? 'YES' : 'NO') . "\n";
+    echo "\n";
 
     // .env key checks
     echo "=== .env Key Settings ===\n";
