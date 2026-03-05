@@ -162,6 +162,23 @@ if (isset($_GET['diag'])) {
     exit;
 }
 
+// ----- OPCACHE RESET -----
+echo "=== OPcache Reset ===\n";
+if (function_exists('opcache_reset')) {
+    opcache_reset();
+    echo "OPcache cleared successfully.\n";
+} else {
+    echo "OPcache not available (extension not loaded).\n";
+}
+if (function_exists('opcache_get_status')) {
+    $status = opcache_get_status(false);
+    if ($status) {
+        echo "OPcache enabled: " . ($status['opcache_enabled'] ? 'YES' : 'NO') . "\n";
+        echo "Cached scripts: " . ($status['opcache_statistics']['num_cached_scripts'] ?? 0) . "\n";
+    }
+}
+echo "\n";
+
 // ----- CACHE CLEAR + REBUILD -----
 $commands = [
     "$php $artisan config:clear"  => 'config:clear',
@@ -187,7 +204,20 @@ foreach ($files as $f) {
 }
 echo "Deleted $count compiled view files\n\n";
 
-echo "DONE. All caches cleared.\n";
+// Force-delete bootstrap cache files
+echo "=== purge bootstrap cache ===\n";
+$bootstrapCache = "$laravelDir/bootstrap/cache";
+$cacheFiles = ['config.php', 'routes-v7.php', 'services.php', 'packages.php', 'events.php'];
+foreach ($cacheFiles as $cf) {
+    $path = "$bootstrapCache/$cf";
+    if (file_exists($path)) {
+        unlink($path);
+        echo "Deleted: $cf\n";
+    }
+}
+echo "\n";
+
+echo "DONE. All caches cleared (including OPcache + bootstrap).\n";
 echo "Now rebuild caches:\n\n";
 
 $rebuild = [
