@@ -106,9 +106,8 @@
         public string $message = '';
 
         #[On('compare:toggle')]
-        public function toggle($productId = null)
+        public function toggle($id = null)
         {
-            $id = is_array($productId) ? ($productId['id'] ?? null) : $productId;
             if (!$id) return;
 
             $compare = session()->get('compare', []);

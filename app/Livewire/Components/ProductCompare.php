@@ -10,15 +10,10 @@
     {
         public bool $showCompare = false;
 
-        public function __construct()
-        {
-            // Empty constructor to prevent dependency injection issues
-        }
-
         #[On('compare:toggle')]
-        public function toggleCompare($eventPayload) // Renamed $data to $eventPayload
+        public function toggleCompare($id)
         {
-            $productId = $eventPayload['id'] ?? null; // Use $eventPayload here
+            $productId = $id;
 
             if (!$productId) return;
 
