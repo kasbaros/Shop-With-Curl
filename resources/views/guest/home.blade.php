@@ -295,24 +295,25 @@
         <!-- /Trending Now -->
 
         <!-- Lookbook -->
-        @if($lookbook && ($lookbook->items?->count() ?? 0) > 0)
-            <section class="section-lookbook-activewear flat-spacing-12">
-                <div class="container-full">
-                    <div class="flat-activewear-lookbook radius-20 o-hidden bg_grey-11 flat-spacing-12">
-                        <div class="container">
-                            <div class="flat-lookbook-v3 d-flex">
-                                <div class="col-left w-50">
-                                    <div class="slider-wrap-lookbook">
-                                        <div class="inner-sw-lookbook">
-                                            <div class="flat-title-lookbook">
-                                                <p class="label text_black">{{ $lookbook->label ?? 'SHOP THIS LOOK' }}</p>
-                                                <h3 class="heading font-young-serif">{{ $lookbook->title ?? 'Bundle & Save' }}</h3>
-                                            </div>
-                                            <div dir="ltr" class="swiper tf-lookbook" data-preview="3" data-tablet="1" data-mobile="1" data-space-lg="0" data-space-md="0">
-                                                <div class="swiper-wrapper">
-                                                    @foreach($lookbook->items as $item)
+        <section class="section-lookbook-activewear py-5">
+            <div class="container-full">
+                <div class="flat-activewear-lookbook radius-20 o-hidden bg_grey-11 flat-spacing-12">
+                    <div class="container">
+                        <div class="flat-lookbook-v3 d-flex">
+                            <div class="col-left w-50">
+                                <div class="slider-wrap-lookbook">
+                                    <div class="inner-sw-lookbook">
+                                        <div class="flat-title-lookbook">
+                                            <p class="label text_black">{{ $lookbook?->label ?? 'SHOP THIS LOOK' }}</p>
+                                            <h3 class="heading font-young-serif">{{ $lookbook?->title ?? 'Bundle & Save' }}</h3>
+                                        </div>
+                                        <form>
+                                            <div class="swiper tf-lookbook" data-preview="3" data-tablet="1" data-mobile="1" data-space-lg="0" data-space-md="0">
+                                                <div class="swiper-wrapper" aria-live="polite">
+                                                    @forelse(($lookbook?->items) ?? [] as $item)
                                                         @php
                                                             $p = $item->product;
+                                                            // Get product image, ensuring consistency with other sections
                                                             $imagePath = null;
                                                             if ($p) {
                                                                 $galleryPaths = is_array($p->gallery) ? $p->gallery : [];
@@ -334,14 +335,15 @@
                                                                     <div class="d-flex align-items-center">
                                                                         <input class="form-check-input lookbook-item-checkbox me-2" type="checkbox" value="{{ $p->id ?? '' }}" id="lookbook-item-{{ $p->id ?? $loop->index }}" checked style="width: 1.5em; height: 1.5em; margin-top: 0;">
                                                                         <div>
-                                                                            <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}" class="tf-product-bundle-title fs-16">{{ $p?->name ?? 'Product' }}</a>
+                                                                            <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}"
+                                                                               class="tf-product-bundle-title fs-16">{{ $p?->name ?? 'Product' }}</a>
                                                                             <div class="tf-product-bundle-price">
                                                                                 <div class="price fs-16">
                                                                                     @if($onSale)
-                                                                                        <span class="text-danger fw-6">{{ money_format_ugx($sale) }}</span>
-                                                                                        <span class="text-muted text-decoration-line-through ms-1">{{ money_format_ugx($price) }}</span>
+                                                                                        <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
+                                                                                        <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
                                                                                     @elseif($p)
-                                                                                        {{ money_format_ugx($price) }}
+                                                                                        UGX {{ number_format($price, 0) }}
                                                                                     @endif
                                                                                 </div>
                                                                             </div>
@@ -350,30 +352,44 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @endforeach
+                                                    @empty
+                                                        <div class="swiper-slide">
+                                                            <div class="p-4">Lookbook coming soon.</div>
+                                                        </div>
+                                                    @endforelse
                                                 </div>
                                             </div>
-                                            <button type="button"
-                                                    class="tf-btn justify-content-center style-2 btn-fill radius-3 animate-hover-btn"
-                                                    id="lookbook-add-btn" data-lookbook-id="{{ $lookbook->id }}">
-                                                Add selected to cart
-                                            </button>
-                                        </div>
+
+                                            @if(($lookbook?->items?->count() ?? 0) > 0)
+                                                <button type="button"
+                                                        class="tf-btn justify-content-center style-2 btn-fill radius-3 animate-hover-btn"
+                                                        onclick="addLookbookToCart('{{ $lookbook->id }}')">
+                                                    Add selected to cart
+                                                </button>
+                                            @endif
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="col-right w-50">
-                                    <div class="wrap-lookbook lookbook-sw">
-                                        <div class="image">
+                            </div>
+                            <div class="col-right w-50">
+                                <div class="wrap-lookbook lookbook-sw">
+                                    <div class="image">
+                                        @if(!empty($lookbook))
                                             <img src="{{ $lookbook->imageUrl }}" alt="{{ $lookbook->title }}">
-                                        </div>
+                                        @endif
                                     </div>
+                                    <div class="navigation-sw-dot type-black item-1"><span></span></div>
+                                    <div class="navigation-sw-dot type-black item-2"><span></span></div>
+                                    <div class="navigation-sw-dot type-black item-3"><span></span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        @endif
+            </div>
+
+        </section>
+
         <!-- /Lookbook -->
 
         <!-- Banner Collection -->
