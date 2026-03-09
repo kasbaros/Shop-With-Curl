@@ -3,21 +3,14 @@
 
     <x-slot name="title">Home - ShopWithCarl</x-slot>
 
-    <!-- preload -->
-    <div class="preload preload-container">
-        <div class="preload-logo">
-            <div class="spinner"></div>
-        </div>
-    </div>
-    <!-- /preload -->
     <div id="wrapper">
         <!-- Slider -->
         <div class="tf-slideshow slider-effect-fade">
-            <div class="swiper tf-sw-slideshow" data-preview="1" data-loop="true" data-speed="1000" data-autoplay="true" data-delay="5000">
+            <div dir="ltr" class="swiper tf-sw-slideshow" data-preview="1" data-loop="true" data-speed="1000">
                 <div class="swiper-wrapper">
-                    @forelse($banners as $index => $banner)
-                        <div class="swiper-slide" style="height: 100%;">
-                            <div class="wrap-slider" style="height: 100%;">
+                    @forelse($banners as $banner)
+                        <div class="swiper-slide">
+                            <div class="wrap-slider">
                                 <img src="{{ $banner->image_url }}" alt="{{ $banner->title }}">
                                 <div class="box-content text-center">
                                     @if($banner->subtitle)
@@ -45,18 +38,12 @@
                             </div>
                         </div>
                     @empty
-                        <div class="swiper-slide" style="height: 100%;">
-                            <div class="wrap-slider" style="height: 100%;">
-                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&h=1080&fit=crop&crop=center" alt="Premium Collection">
+                        <div class="swiper-slide">
+                            <div class="wrap-slider">
+                                <img src="{{ asset('images/products/shop_with_carl-1.jpg') }}" alt="ShopWithCarl">
                                 <div class="box-content text-center">
-                                    <div class="fade-item fade-item-1">
-                                        <p class="subheading text-uppercase letter-spacing-5 fw-6">Premium Collection</p>
-                                    </div>
                                     <div class="fade-item fade-item-2">
-                                        <h1 class="heading font-young-serif fw-6">Living<br>Beyond<br>Limits</h1>
-                                    </div>
-                                    <div class="fade-item fade-item-3">
-                                        <p class="description">Experience unparalleled comfort and revolutionary design that transforms your active lifestyle.</p>
+                                        <h1 class="heading font-young-serif fw-6">Shop With<br>Carl</h1>
                                     </div>
                                     <div class="fade-item fade-item-4">
                                         <a href="{{ route('shop.index') }}" class="tf-btn btn-light-icon animate-hover-btn btn-xl radius-60">
@@ -75,10 +62,11 @@
             </div>
         </div>
         <!-- /Slider -->
+
         <!-- Iconbox -->
         <section class="flat-spacing-25 bg_light-green-3">
             <div class="container">
-                <div class="swiper tf-sw-recent" data-preview="3" data-tablet="3" data-mobile="1" data-space-lg="30" data-space-md="30" data-space="15" data-loop="false" data-auto-play="false">
+                <div dir="ltr" class="swiper tf-sw-recent" data-preview="3" data-tablet="3" data-mobile="1" data-space-lg="30" data-space-md="30" data-space="15" data-loop="false" data-auto-play="false">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="tf-icon-box-v2 text-center">
@@ -121,14 +109,11 @@
         <!-- /Iconbox -->
 
         <!-- Season Collection -->
-
         <section class="flat-spacing-12 bg_grey-3">
             <div class="container">
-                <div class="flat-title flex-row justify-content-between align-items-center px-0 wow fadeInUp"
-                     data-wow-delay="0s">
+                <div class="flat-title flex-row justify-content-between align-items-center px-0">
                     <h3 class="title">Season Collection</h3>
-                    <a href="{{ route('categories.index') }}" class="btn btn-line">View all categories<i
-                            class="icon icon-arrow1-top-left"></i></a>
+                    <a href="{{ route('categories.index') }}" class="btn btn-line">View all categories<i class="icon icon-arrow1-top-left"></i></a>
                 </div>
                 <div class="hover-sw-nav hover-sw-2">
                     <div dir="ltr" class="swiper tf-sw-collection" data-preview="6" data-tablet="3" data-mobile="2"
@@ -136,21 +121,15 @@
                         <div class="swiper-wrapper">
                             @forelse($categories as $category)
                                 @php
-                                    // The complex logic, including varied fallbacks, is now handled by the model's accessor.
-                                    // We can just call it directly for clean, consistent code.
                                     $imageUrl = $category->thumbnail_url;
-                                    // This onerror fallback is now just a final safety net for the browser.
                                     $browserFallbackImage = asset('images/products/shop_with_carl-1.jpg');
                                 @endphp
                                 <div class="swiper-slide" lazy="true">
                                     <div class="collection-item-circle hover-img">
                                         <a href="{{ route('categories.show', $category) }}" class="collection-image img-style">
-                                            <img
-                                                src="{{ $imageUrl }}"
-                                                alt="{{ $category->name }}"
-                                                style="width: 100%; height: 200px; object-fit: cover;"
-                                                onload="this.style.opacity=1"
-                                                onerror="this.src='{{ $browserFallbackImage }}'">
+                                            <img src="{{ $imageUrl }}" alt="{{ $category->name }}"
+                                                 style="width: 100%; height: 200px; object-fit: cover;"
+                                                 onerror="this.src='{{ $browserFallbackImage }}'">
                                         </a>
                                         <div class="collection-content text-center">
                                             <a href="{{ route('categories.show', $category) }}" class="link title fw-5">{{ $category->name }}</a>
@@ -175,84 +154,27 @@
                 </div>
             </div>
         </section>
-
         <!-- /Season Collection -->
 
-        <!-- New releases -->
+        <!-- New Releases -->
         <section class="flat-spacing-12">
             <div class="container">
                 <div class="flat-title mb_1 flex-row justify-content-between px-0">
-                    <span class="title wow fadeInUp font-young-serif" data-wow-delay="0s">New releases</span>
+                    <span class="title font-young-serif">New releases</span>
                     <div class="box-sw-navigation">
-                        <div class="nav-sw round nav-next-brand nav-next-slider" tabindex="0" role="button" aria-label="Previous slide">
-                            <span class="icon icon-arrow1-left"></span>
-                        </div>
-                        <div class="nav-sw round nav-prev-brand nav-prev-slider" tabindex="0" role="button" aria-label="Next slide">
-                            <span class="icon icon-arrow1-right"></span>
-                        </div>
+                        <div class="nav-sw round nav-next-releases nav-next-slider"><span class="icon icon-arrow1-left"></span></div>
+                        <div class="nav-sw round nav-prev-releases nav-prev-slider"><span class="icon icon-arrow1-right"></span></div>
                     </div>
                 </div>
-
                 <div class="hover-sw-nav hover-sw-3">
-                    <div class="swiper tf-sw-brand rounded-0 border-0 wrap-sw-over"
-                         data-loop="false" data-play="false" data-preview="4" data-tablet="3" data-mobile="2"
-                         data-space-lg="30" data-space-md="15">
-                        <div class="swiper-wrapper" aria-live="polite">
+                    <div dir="ltr" class="swiper tf-sw-releases" data-preview="4" data-tablet="3" data-mobile="2"
+                         data-space-lg="30" data-space-md="15" data-loop="false" data-auto-play="false">
+                        <div class="swiper-wrapper">
                             @forelse($latestProducts as $product)
-                                @php
-                                    $galleryPaths = is_array($product->gallery) ? $product->gallery : [];
-
-                                    // The main image is the FIRST image from the gallery, falling back to the featured image.
-                                    $primaryPath = $galleryPaths[0] ?? $product->featured_image;
-                                    $img = $product->getStorageImageUrl($primaryPath);
-
-                                    // The hover image is the featured_image, falling back to the primary image if it doesn't exist.
-                                    $hoverPath = $product->featured_image ?? $primaryPath;
-                                    $hover = $product->getStorageImageUrl($hoverPath);
-
-                                    $price = (float) ($product->price ?? 0);
-                                    $sale = (float) ($product->sale_price ?? 0);
-                                    $isOnSale = $sale > 0 && $sale < $price;
-                                @endphp
-                                <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $latestProducts->count() }}">
-                                    <div class="card-product">
-                                        <div class="card-product-wrapper">
-                                            <a href="{{ route('products.show', $product->slug) }}" class="product-img">
-                                                <img class="img-product" src="{{ $img }}" alt="{{ $product->name }}">
-                                                <img class="img-hover" src="{{ $hover }}" alt="{{ $product->name }}">
-                                            </a>
-                                            <div class="list-product-btn">
-                                                <a href="javascript:void(0)" class="box-icon bg_white quick-add" data-product-id="{{ $product->id }}">
-                                                    <span class="icon icon-bag"></span>
-                                                    <span class="tooltip">Quick Add</span>
-                                                </a>
-                                                <a href="javascript:void(0)" class="box-icon bg_white wishlist btn-icon-action" data-product-id="{{ $product->id }}">
-                                                    <span class="icon icon-heart"></span>
-                                                    <span class="tooltip">Add to Wishlist</span>
-                                                    <span class="icon icon-delete"></span>
-                                                </a>
-                                                <a href="javascript:void(0)" class="box-icon bg_white quickview" data-product-id="{{ $product->id }}">
-                                                    <span class="icon icon-view"></span>
-                                                    <span class="tooltip">Quick View</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="card-product-info">
-                                            <a href="{{ route('products.show', $product->slug) }}" class="title link">{{ $product->name }}</a>
-                                            @if($isOnSale)
-                                                <span class="price">
-                                                    <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
-                                                    <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
-                                                </span>
-                                            @else
-                                                <span class="price">UGX {{ number_format($price, 0) }}</span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('partials.product-card', ['product' => $product])
                             @empty
-                                <div class="swiper-slide w-100">
-                                    <div class="text-center py-4 w-100">No products yet. Check back soon.</div>
+                                <div class="swiper-slide">
+                                    <div class="text-center py-4">No products yet. Check back soon.</div>
                                 </div>
                             @endforelse
                         </div>
@@ -260,164 +182,10 @@
                 </div>
             </div>
         </section>
+        <!-- /New Releases -->
 
-
-
-        @livewire('components.product-quick-add')
-        @livewire('components.compare-modal')
-        @livewire('components.shopping-cart')
-
-        @push('styles')
-            <style>
-                .list-product-btn .wishlist .icon-delete { display: none; }
-                .list-product-btn .wishlist.active .icon-delete { display: inline-block; }
-                .list-product-btn .wishlist.active .icon-heart { display: none; }
-            </style>
-        @endpush
-
-        @push('scripts')
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    const root = document;
-
-                    function getProductId(el) {
-                        const btn = el.closest('[data-product-id]') || el.closest('a[data-product-id]') || el;
-                        return btn?.dataset?.productId || el.getAttribute('data-product-id');
-                    }
-
-                    function notify(msg, type = 'info') {
-                        if (window.Livewire?.dispatch) {
-                            window.Livewire.dispatch('notify', {message: msg, type});
-                        } else {
-                            console.log(type.toUpperCase() + ': ' + msg);
-                        }
-                    }
-
-                    // Delegate clicks for New releases actions
-                    root.addEventListener('click', function (e) {
-                        const quickAdd = e.target.closest('.quick-add');
-                        const quickView = e.target.closest('.quickview');
-                        const wishlist = e.target.closest('.wishlist');
-                        const compare = e.target.closest('.compare');
-
-                        if (quickAdd) {
-                            e.preventDefault();
-                            const id = getProductId(quickAdd);
-                            if (window.Livewire?.dispatch) {
-                                window.Livewire.dispatch('product:quickAdd', { productId: id });                            } else {
-                                notify('Livewire not loaded. Cannot quick add right now.', 'error');
-                            }
-                            return;
-                        }
-
-                        if (quickView) {
-                            e.preventDefault();
-                            const id = getProductId(quickView);
-                            if (window.Livewire?.dispatch) {
-                                window.Livewire.dispatch('product:quickView', {productId: Number(id)});
-                            } else {
-                                // Fallback: navigate to product page if Livewire missing
-                                const link = quickView.closest('.card-product')?.querySelector('a.product-img');
-                                if (link) window.location.href = link.getAttribute('href');
-                            }
-                            return;
-                        }
-
-                        if (compare) {
-                            e.preventDefault();
-                            const id = getProductId(compare);
-                            if (window.Livewire?.dispatch) {
-                                window.Livewire.dispatch('compare:toggle', {id: Number(id)});
-                            }
-                            return;
-                        }
-
-                        if (wishlist) {
-                            e.preventDefault();
-                            const id = getProductId(wishlist);
-
-                            // Try Livewire event first if you have per-item listeners, otherwise use fetch to route
-                            if (window.Livewire?.dispatch) {
-                                // If a WishListToggle component exists on the page it will react to this
-                                window.Livewire.dispatch('wishlist:toggle', {id: Number(id)});
-                            }
-
-                            // Also call the wishlist add route to ensure persistence
-                            const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-                            if (!token) return;
-
-                            fetch("{{ route('wishlist.add') }}", {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': token,
-                                    'Accept': 'application/json'
-                                },
-                                body: JSON.stringify({ product_id: Number(id) })
-                            }).then(async (res) => {
-                                if (res.status === 401) {
-                                    // Not logged in -> redirect to login
-                                    window.location.href = "{{ route('login') }}";
-                                    return;
-                                }
-                                const data = await res.json().catch(() => ({}));
-                                // Toggle icon state visually
-                                wishlist.classList.toggle('active');
-                                const tooltip = wishlist.querySelector('.tooltip');
-                                if (tooltip) {
-                                    tooltip.textContent = wishlist.classList.contains('active') ? 'Remove from Wishlist' : 'Add to Wishlist';
-                                }
-                                notify(data?.message || 'Wishlist updated', 'success');
-                            }).catch(() => {
-                                notify('Failed to update wishlist', 'error');
-                            });
-                            return;
-                        }
-                    });
-
-                    function addLookbookToCart(lookbookId) {
-                        const selectedItems = document.querySelectorAll('.lookbook-item-checkbox:checked');
-                        const productIds = Array.from(selectedItems).map(item => item.value).filter(id => id);
-
-                        if (productIds.length === 0) {
-                            if (window.Livewire?.dispatch) {
-                                window.Livewire.dispatch('notify', {message: 'Please select at least one item to add.', type: 'info'});
-                            } else {
-                                alert('Please select at least one item to add.');
-                            }
-                            return;
-                        }
-
-                        if (window.Livewire?.dispatch) {
-                            let addedCount = 0;
-                            productIds.forEach(productId => {
-                                // This will open the quick add modal for each product if it has variants,
-                                // or add it directly if it doesn't.
-                                window.Livewire.dispatch('product:quickAdd', { productId: productId });
-                                addedCount++;
-                            });
-
-                            // A generic notification, since QuickAdd might show its own.
-                            if (addedCount > 0) {
-                                setTimeout(() => {
-                                    window.Livewire.dispatch('notify', {
-                                        message: `Attempting to add ${addedCount} item(s).`,
-                                        type: 'info'
-                                    });
-                                }, 500); // Delay to avoid conflicting with other notifications
-                            }
-                        } else {
-                            console.error('Livewire not available. Cannot add lookbook to cart.');
-                            alert('Could not add items to cart.');
-                        }
-                    }
-                });
-            </script>
-        @endpush
-
-        <!-- /New releases -->
-
-        <section>
+        <!-- Promo Banner -->
+        <section class="bg-body-tertiary py-5">
             <div class="container">
                 <div class="tf-hero-image-liquid radius-10 o-hidden banner-countdown-v2">
                     <div class="banner-bg"
@@ -466,23 +234,14 @@
                 </div>
             </div>
         </section>
-        <!-- /Banner Countdown -->
+        <!-- /Promo Banner -->
 
         <!-- Trending Now -->
         <section class="flat-spacing-5">
             <div class="container">
                 <div class="flat-title mb_1 flex-row justify-content-between px-0">
-                    <span class="title wow fadeInUp font-young-serif" data-wow-delay="0s">Trending Now</span>
-                    <div class="box-sw-navigation">
-                        <div class="nav-sw round nav-next-brand nav-next-slider" tabindex="0" role="button" aria-label="Previous slide">
-                            <span class="icon icon-arrow1-left"></span>
-                        </div>
-                        <div class="nav-sw round nav-prev-brand nav-prev-slider" tabindex="0" role="button" aria-label="Next slide">
-                            <span class="icon icon-arrow1-right"></span>
-                        </div>
-                    </div>
+                    <span class="title font-young-serif">Trending Now</span>
                 </div>
-
                 <div class="flat-animate-tab">
                     <ul class="widget-tab-3 style-3 d-flex justify-content-center" role="tablist">
                         <li class="nav-tab-item" role="presentation">
@@ -492,160 +251,68 @@
                             <a href="#onsale-tab" data-bs-toggle="tab" aria-selected="false" role="tab">On Sale</a>
                         </li>
                     </ul>
-
                     <div class="tab-content">
-                        <div class="tab-pane hover-sw-nav active show" id="featured-tab" role="tabpanel">
+                        <div class="tab-pane active show" id="featured-tab" role="tabpanel">
                             <div class="hover-sw-nav hover-sw-3">
-                                <div class="swiper tf-sw-brand rounded-0 border-0 wrap-sw-over"
-                                     data-loop="false" data-play="false" data-preview="4" data-tablet="3" data-mobile="2"
-                                     data-space-lg="30" data-space-md="15">
-                                    <div class="swiper-wrapper" aria-live="polite">
+                                <div dir="ltr" class="swiper tf-sw-featured" data-preview="4" data-tablet="3" data-mobile="2"
+                                     data-space-lg="30" data-space-md="15" data-loop="false" data-auto-play="false">
+                                    <div class="swiper-wrapper">
                                         @forelse($featuredProducts as $product)
-                                            @php
-                                                $galleryPaths = is_array($product->gallery) ? $product->gallery : [];
-
-                                                // The main image is the FIRST image from the gallery, falling back to the featured image.
-                                                $primaryPath = $galleryPaths[0] ?? $product->featured_image;
-                                                $img = $product->getStorageImageUrl($primaryPath);
-
-                                                // The hover image is the featured_image, falling back to the primary image if it doesn't exist.
-                                                $hoverPath = $product->featured_image ?? $primaryPath;
-                                                $hover = $product->getStorageImageUrl($hoverPath);
-
-                                                $isOnSale = $product->sale_price && $product->sale_price < $product->price;
-                                            @endphp
-                                            <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $featuredProducts->count() }}">
-                                                <div class="card-product">
-                                                    <div class="card-product-wrapper">
-                                                        <a href="{{ route('products.show', $product->slug) }}" class="product-img">
-                                                            <img class="img-product" src="{{ $img }}" alt="{{ $product->name }}">
-                                                            <img class="img-hover" src="{{ $hover }}" alt="{{ $product->name }}">
-                                                        </a>
-                                                        <div class="list-product-btn">
-                                                            <a href="javascript:void(0)" class="box-icon bg_white quick-add" data-product-id="{{ $product->id }}">
-                                                                <span class="icon icon-bag"></span>
-                                                                <span class="tooltip">Quick Add</span>
-                                                            </a>
-                                                            <a href="javascript:void(0)" class="box-icon bg_white wishlist btn-icon-action" data-product-id="{{ $product->id }}">
-                                                                <span class="icon icon-heart"></span>
-                                                                <span class="tooltip">Add to Wishlist</span>
-                                                                <span class="icon icon-delete"></span>
-                                                            </a>
-                                                            <a href="javascript:void(0)" class="box-icon bg_white quickview" data-product-id="{{ $product->id }}">
-                                                                <span class="icon icon-view"></span>
-                                                                <span class="tooltip">Quick View</span>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-product-info">
-                                                        <a href="{{ route('products.show', $product->slug) }}" class="title link">{{ $product->name }}</a>
-                                                        @if($isOnSale)
-                                                            <span class="price">
-                                                                <span class="text-danger fw-6">{{ money_format_ugx($product->sale_price) }}</span>
-                                                                <span class="text-muted text-decoration-line-through ms-1">{{ money_format_ugx($product->price) }}</span>
-                                                            </span>
-                                                        @else
-                                                            <span class="price">{{ money_format_ugx($product->price) }}</span>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @include('partials.product-card', ['product' => $product])
                                         @empty
-                                            <div class="swiper-slide w-100">
-                                                <div class="text-center py-4 w-100">No featured products yet.</div>
+                                            <div class="swiper-slide">
+                                                <div class="text-center py-4">No featured products yet.</div>
                                             </div>
                                         @endforelse
                                     </div>
                                 </div>
+                                <div class="nav-sw nav-next-slider nav-next-featured"><span class="icon icon-arrow-left"></span></div>
+                                <div class="nav-sw nav-prev-slider nav-prev-featured"><span class="icon icon-arrow-right"></span></div>
                             </div>
                         </div>
-
-                        <div class="tab-pane hover-sw-nav" id="onsale-tab" role="tabpanel">
+                        <div class="tab-pane" id="onsale-tab" role="tabpanel">
                             <div class="hover-sw-nav hover-sw-3">
-                                <div class="swiper tf-sw-brand rounded-0 border-0 wrap-sw-over"
-                                     data-loop="false" data-play="false" data-preview="4" data-tablet="3" data-mobile="2"
-                                     data-space-lg="30" data-space-md="15">
-                                    <div class="swiper-wrapper" aria-live="polite">
+                                <div dir="ltr" class="swiper tf-sw-onsale" data-preview="4" data-tablet="3" data-mobile="2"
+                                     data-space-lg="30" data-space-md="15" data-loop="false" data-auto-play="false">
+                                    <div class="swiper-wrapper">
                                         @forelse($onSaleProducts as $product)
-                                            @php
-                                                $galleryPaths = is_array($product->gallery) ? $product->gallery : [];
-
-                                                // The main image is the FIRST image from the gallery, falling back to the featured image.
-                                                $primaryPath = $galleryPaths[0] ?? $product->featured_image;
-                                                $img = $product->getStorageImageUrl($primaryPath);
-
-                                                // The hover image is the featured_image, falling back to the primary image if it doesn't exist.
-                                                $hoverPath = $product->featured_image ?? $primaryPath;
-                                                $hover = $product->getStorageImageUrl($hoverPath);
-                                            @endphp
-                                            <div class="swiper-slide" lazy="true" role="group" aria-label="{{ $loop->iteration }} / {{ $onSaleProducts->count() }}">
-                                                <div class="card-product">
-                                                    <div class="card-product-wrapper">
-                                                        <a href="{{ route('products.show', $product->slug) }}" class="product-img">
-                                                            <img class="img-product" src="{{ $img }}" alt="{{ $product->name }}">
-                                                            <img class="img-hover" src="{{ $hover }}" alt="{{ $product->name }}">
-                                                        </a>
-                                                        <div class="list-product-btn">
-                                                            <a href="javascript:void(0)" class="box-icon bg_white quick-add" data-product-id="{{ $product->id }}">
-                                                                <span class="icon icon-bag"></span>
-                                                                <span class="tooltip">Quick Add</span>
-                                                            </a>
-                                                            <a href="javascript:void(0)" class="box-icon bg_white wishlist btn-icon-action" data-product-id="{{ $product->id }}">
-                                                                <span class="icon icon-heart"></span>
-                                                                <span class="tooltip">Add to Wishlist</span>
-                                                                <span class="icon icon-delete"></span>
-                                                            </a>
-                                                            <a href="javascript:void(0)" class="box-icon bg_white quickview" data-product-id="{{ $product->id }}">
-                                                                <span class="icon icon-view"></span>
-                                                                <span class="tooltip">Quick View</span>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-product-info">
-                                                        <a href="{{ route('products.show', $product->slug) }}" class="title link">{{ $product->name }}</a>
-                                                        <span class="price">
-                                                            <span class="text-danger fw-6">{{ money_format_ugx($product->sale_price) }}</span>
-                                                            <span class="text-muted text-decoration-line-through ms-1">{{ money_format_ugx($product->price) }}</span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            @include('partials.product-card', ['product' => $product])
                                         @empty
-                                            <div class="swiper-slide w-100">
-                                                <div class="text-center py-4 w-100">No products on sale right now.</div>
+                                            <div class="swiper-slide">
+                                                <div class="text-center py-4">No items on sale right now.</div>
                                             </div>
                                         @endforelse
                                     </div>
                                 </div>
+                                <div class="nav-sw nav-next-slider nav-next-onsale"><span class="icon icon-arrow-left"></span></div>
+                                <div class="nav-sw nav-prev-slider nav-prev-onsale"><span class="icon icon-arrow-right"></span></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
         <!-- /Trending Now -->
 
         <!-- Lookbook -->
-        <section class="section-lookbook-activewear">
-            <div class="container-full">
-                <div class="flat-activewear-lookbook radius-20 o-hidden bg_grey-11 flat-spacing-12">
-                    <div class="container">
-                        <div class="flat-lookbook-v3 d-flex">
-                            <div class="col-left w-50">
-                                <div class="slider-wrap-lookbook">
-                                    <div class="inner-sw-lookbook">
-                                        <div class="flat-title-lookbook">
-                                            <p class="label text_black">{{ $lookbook?->label ?? 'SHOP THIS LOOK' }}</p>
-                                            <h3 class="heading font-young-serif">{{ $lookbook?->title ?? 'Bundle & Save' }}</h3>
-                                        </div>
-                                        <form>
-                                            <div class="swiper tf-lookbook" data-preview="3" data-tablet="1" data-mobile="1" data-space-lg="0" data-space-md="0">
-                                                <div class="swiper-wrapper" aria-live="polite">
-                                                    @forelse(($lookbook?->items) ?? [] as $item)
+        @if($lookbook && ($lookbook->items?->count() ?? 0) > 0)
+            <section class="section-lookbook-activewear flat-spacing-12">
+                <div class="container-full">
+                    <div class="flat-activewear-lookbook radius-20 o-hidden bg_grey-11 flat-spacing-12">
+                        <div class="container">
+                            <div class="flat-lookbook-v3 d-flex">
+                                <div class="col-left w-50">
+                                    <div class="slider-wrap-lookbook">
+                                        <div class="inner-sw-lookbook">
+                                            <div class="flat-title-lookbook">
+                                                <p class="label text_black">{{ $lookbook->label ?? 'SHOP THIS LOOK' }}</p>
+                                                <h3 class="heading font-young-serif">{{ $lookbook->title ?? 'Bundle & Save' }}</h3>
+                                            </div>
+                                            <div dir="ltr" class="swiper tf-lookbook" data-preview="3" data-tablet="1" data-mobile="1" data-space-lg="0" data-space-md="0">
+                                                <div class="swiper-wrapper">
+                                                    @foreach($lookbook->items as $item)
                                                         @php
                                                             $p = $item->product;
-                                                            // Get product image, ensuring consistency with other sections
                                                             $imagePath = null;
                                                             if ($p) {
                                                                 $galleryPaths = is_array($p->gallery) ? $p->gallery : [];
@@ -667,15 +334,14 @@
                                                                     <div class="d-flex align-items-center">
                                                                         <input class="form-check-input lookbook-item-checkbox me-2" type="checkbox" value="{{ $p->id ?? '' }}" id="lookbook-item-{{ $p->id ?? $loop->index }}" checked style="width: 1.5em; height: 1.5em; margin-top: 0;">
                                                                         <div>
-                                                                            <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}"
-                                                                               class="tf-product-bundle-title fs-16">{{ $p?->name ?? 'Product' }}</a>
+                                                                            <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}" class="tf-product-bundle-title fs-16">{{ $p?->name ?? 'Product' }}</a>
                                                                             <div class="tf-product-bundle-price">
                                                                                 <div class="price fs-16">
                                                                                     @if($onSale)
-                                                                                        <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
-                                                                                        <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
+                                                                                        <span class="text-danger fw-6">{{ money_format_ugx($sale) }}</span>
+                                                                                        <span class="text-muted text-decoration-line-through ms-1">{{ money_format_ugx($price) }}</span>
                                                                                     @elseif($p)
-                                                                                        UGX {{ number_format($price, 0) }}
+                                                                                        {{ money_format_ugx($price) }}
                                                                                     @endif
                                                                                 </div>
                                                                             </div>
@@ -684,47 +350,34 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @empty
-                                                        <div class="swiper-slide">
-                                                            <div class="p-4">Lookbook coming soon.</div>
-                                                        </div>
-                                                    @endforelse
+                                                    @endforeach
                                                 </div>
                                             </div>
-
-                                            @if(($lookbook?->items?->count() ?? 0) > 0)
-                                                <button type="button"
-                                                        class="tf-btn justify-content-center style-2 btn-fill radius-3 animate-hover-btn"
-                                                        onclick="addLookbookToCart('{{ $lookbook->id }}')">
-                                                    Add selected to cart
-                                                </button>
-                                            @endif
-                                        </form>
+                                            <button type="button"
+                                                    class="tf-btn justify-content-center style-2 btn-fill radius-3 animate-hover-btn"
+                                                    id="lookbook-add-btn" data-lookbook-id="{{ $lookbook->id }}">
+                                                Add selected to cart
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-right w-50">
-                                <div class="wrap-lookbook lookbook-sw">
-                                    <div class="image">
-                                        @if(!empty($lookbook))
+                                <div class="col-right w-50">
+                                    <div class="wrap-lookbook lookbook-sw">
+                                        <div class="image">
                                             <img src="{{ $lookbook->imageUrl }}" alt="{{ $lookbook->title }}">
-                                        @endif
+                                        </div>
                                     </div>
-                                    <div class="navigation-sw-dot type-black item-1"><span></span></div>
-                                    <div class="navigation-sw-dot type-black item-2"><span></span></div>
-                                    <div class="navigation-sw-dot type-black item-3"><span></span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-        </section>
-
+            </section>
+        @endif
         <!-- /Lookbook -->
+
         <!-- Banner Collection -->
-        <section class="flat-spacing-27 bg-white">
+        <section class="flat-spacing-27 bg-body-tertiary">
             <div class="container">
                 <div class="tf-grid-layout md-col-2 tf-img-with-text style-5">
                     <div class="tf-image-wrap wow fadeInUp" data-wow-delay="0s">
@@ -738,15 +391,14 @@
                             intention;
                             to help build resilient human beings through performance, innovation, sustainability and
                             functionality.</p>
-                        <a href="shop-collection-list.html"
-                           class="tf-btn style-2 btn-fill btn-icon rounded-full animate-hover-btn">Learn more <i
-                                class="icon icon-arrow1-top-left"></i></a>
+                        <a href="{{ route('shop.index') }}" class="tf-btn style-2 btn-fill btn-icon rounded-full animate-hover-btn">Shop With Us Now <i class="icon icon-arrow1-top-left"></i></a>
                     </div>
                 </div>
             </div>
         </section>
         <!-- /Banner Collection -->
-        <!-- iconbox -->
+
+        <!-- Sustainability Iconbox -->
         <section class="flat-spacing-8 bg-white">
             <div class="container">
                 <div class="flat-iconbox-v3">
@@ -875,11 +527,11 @@
                 </div>
             </div>
         </section>
-        <!-- /iconbox -->
-        <!-- Trust indicators -->
-        <section class="flat-spacing-10 bg-white">
+        <!-- /Sustainability Iconbox -->
+
+        <!-- Trust Indicators -->
+        <section class="flat-spacing-10 bg-body-tertiary">
             <div class="container">
-                <!-- Trust Stats -->
                 <div class="row text-center mb-5">
                     <div class="col-lg-3 col-md-6 mb-4">
                         <div class="trust-stat">
@@ -906,17 +558,13 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Recent Activity -->
                 @if(count($trustData['recent_purchases']) > 0)
                     <div class="recent-activity">
                         <h6 class="text-center mb-4">Recent Activity</h6>
                         <div class="activity-list">
                             @foreach($trustData['recent_purchases'] as $purchase)
                                 <div class="activity-item">
-                                    <div class="activity-avatar">
-                                        {{ substr($purchase['customer_name'], 0, 1) }}
-                                    </div>
+                                    <div class="activity-avatar">{{ substr($purchase['customer_name'], 0, 1) }}</div>
                                     <div class="activity-content">
                                         <strong>{{ $purchase['customer_name'] }}</strong>
                                         from {{ $purchase['location'] }}
@@ -930,35 +578,26 @@
                 @endif
             </div>
         </section>
-        <!-- /Trust indicators -->
+        <!-- /Trust Indicators -->
 
-        <!-- Shop gram (instagram gallery) -->
-        <section class="flat-spacing-10 bg-color-white">
+        <!-- Shop Gram -->
+        <section class="flat-spacing-10">
             <div class="container">
-                <div class="flat-title mb_1 wow fadeInUp" data-wow-delay="0s">
+                <div class="flat-title mb_1">
                     <span class="title font-young-serif">Be active. Be social</span>
                     <p class="sub-title text_black-2">Follow <strong>@shop_with_carl</strong> on Instagram</p>
                 </div>
-
                 <div class="wrap-carousel wrap-shop-gram">
-                    <div dir="ltr"
-                         class="swiper tf-sw-shop-gallery swiper-initialized swiper-horizontal swiper-pointer-events swiper-backface-hidden"
-                         data-preview="5" data-tablet="3" data-mobile="2" data-space-lg="7" data-space-md="7">
-                        <div class="swiper-wrapper" id="swiper-wrapper-gallery" aria-live="polite">
+                    <div dir="ltr" class="swiper tf-sw-shop-gallery" data-preview="5" data-tablet="3" data-mobile="2" data-space-lg="7" data-space-md="7">
+                        <div class="swiper-wrapper">
                             @forelse($galleryItems as $item)
-                                <div class="swiper-slide" role="group"
-                                     aria-label="{{ $loop->iteration }} / {{ $galleryItems->count() }}">
-                                    <div class="gallery-item hover-img wow fadeInUp"
-                                         data-wow-delay="{{ $loop->index * 0.1 }}s">
+                                <div class="swiper-slide">
+                                    <div class="gallery-item hover-img">
                                         <div class="img-style">
-                                            <img class="img-hover lazyloaded"
-                                                 src="{{ $item->image_url }}"
-                                                 alt="{{ $item->caption ?? 'Gallery Image' }}">
+                                            <img class="img-hover" src="{{ $item->image_url }}" alt="{{ $item->caption ?? 'Gallery Image' }}">
                                         </div>
-
                                         @if($item->product)
-                                            <a href="{{ route('products.show', $item->product->slug) }}"
-                                               class="box-icon">
+                                            <a href="{{ route('products.show', $item->product->slug) }}" class="box-icon">
                                                 <span class="icon icon-bag"></span>
                                                 <span class="tooltip">Shop This Look</span>
                                             </a>
@@ -973,115 +612,64 @@
                                                 <span class="tooltip">{{ $item->caption ?? 'Love This' }}</span>
                                             </div>
                                         @endif
-
-                                        @if($item->hashtags)
-                                            <div class="gallery-hashtags">
-                                                {{ $item->hashtags_string }}
-                                            </div>
-                                        @endif
                                     </div>
                                 </div>
                             @empty
-                                 Fallback to original hardcoded gallery
-                                <div class="swiper-slide" role="group" aria-label="1 / 1">
-                                    <div class="gallery-item hover-img wow fadeInUp" data-wow-delay="0s">
+                                <div class="swiper-slide">
+                                    <div class="gallery-item hover-img">
                                         <div class="img-style">
-                                            <img class="img-hover lazyloaded"
-                                                 src="images/products/shop_with_carl-10.jpg"
-                                                 alt="Gallery Image">
-                                        </div>
-                                        <div class="box-icon">
-                                            <span class="icon icon-bag"></span>
-                                            <span class="tooltip">Shop This Look</span>
+                                            <img class="img-hover" src="{{ asset('images/products/shop_with_carl-10.jpg') }}" alt="Gallery Image">
                                         </div>
                                     </div>
                                 </div>
                             @endforelse
                         </div>
                     </div>
-
-                    <div
-                        class="sw-dots sw-pagination-gallery justify-content-center swiper-pagination-clickable swiper-pagination-bullets swiper-pagination-horizontal">
-                        @forelse($galleryItems as $item)
-                            <span
-                                class="swiper-pagination-bullet {{ $loop->first ? 'swiper-pagination-bullet-active' : '' }}"
-                                tabindex="0" role="button" aria-label="Go to slide {{ $loop->iteration }}"
-                          {{ $loop->first ? 'aria-current="true"' : '' }}></span>
-                        @empty
-                            <span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0"
-                                  role="button" aria-label="Go to slide 1" aria-current="true"></span>
-                        @endforelse
-                    </div>
+                    <div class="sw-dots sw-pagination-gallery justify-content-center"></div>
                 </div>
             </div>
         </section>
-        <!-- Shop gram -->
-
+        <!-- /Shop Gram -->
     </div>
 
-    <!-- gotop -->
-    <button id="goTop">
-        <span class="border-progress"></span>
-        <span class="icon icon-arrow-up"></span>
-    </button>
-    <!-- /gotop -->
+    @livewire('components.product-quick-add')
+    @livewire('components.compare-modal')
+    @livewire('components.shopping-cart')
 
-    {{-- Mobile menu, search canvas, and toolbar are now in the app-layout --}}
-
+    <button id="goTop"><span class="border-progress"></span><span class="icon icon-arrow-up"></span></button>
 
     @push('styles')
         <style>
-            /* Slideshow sizing */
             .tf-slideshow { position: relative; }
             .tf-slideshow .tf-sw-slideshow,
             .tf-slideshow .swiper-wrapper,
             .tf-slideshow .swiper-slide { height: 778px; }
             .tf-slideshow .wrap-slider { position: relative; height: 100%; }
-            .tf-slideshow .wrap-slider img {
-                width: 100%; height: 100%; object-fit: cover;
-                display: block;
-            }
+            .tf-slideshow .wrap-slider img { width: 100%; height: 100%; object-fit: cover; display: block; }
             .tf-slideshow .box-content {
                 position: absolute; left: 0; right: 0;
                 top: 50%; transform: translateY(-50%);
-                padding: 0 60px;
+                padding: 0 60px; z-index: 2;
             }
-            /* Dark overlay for text contrast */
             .tf-slideshow .wrap-slider::after {
                 content: ''; position: absolute; inset: 0;
-                background: linear-gradient(
-                    to right,
-                    rgba(0,0,0,0.45) 0%,
-                    rgba(0,0,0,0.2) 50%,
-                    rgba(0,0,0,0.05) 100%
-                );
+                background: linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.05) 100%);
                 z-index: 1;
             }
-            .tf-slideshow .box-content { z-index: 2; }
             .tf-slideshow .box-content .subheading {
                 font-size: 14px; letter-spacing: 3px; color: #fff;
-                margin-bottom: 14px; font-weight: 600;
-                font-family: "Albert Sans", sans-serif;
-                text-transform: uppercase;
+                margin-bottom: 14px; font-weight: 600; text-transform: uppercase;
             }
             .tf-slideshow .box-content .heading {
-                font-size: 56px; line-height: 1.15;
-                color: #fff; margin-bottom: 18px;
+                font-size: 56px; line-height: 1.15; color: #fff; margin-bottom: 18px;
             }
             .tf-slideshow .box-content .description {
                 font-size: 18px; line-height: 26px; color: rgba(255,255,255,0.9);
                 margin-bottom: 36px; max-width: 500px;
-                font-family: "Albert Sans", sans-serif;
             }
-            .tf-slideshow .box-content.text-center .description {
-                margin-left: auto; margin-right: auto;
-            }
-            .tf-slideshow .tf-btn.btn-light-icon {
-                background: #fff; color: #222; border-color: #fff;
-            }
-            .tf-slideshow .tf-btn.btn-light-icon:hover {
-                background: transparent; color: #fff; border-color: #fff;
-            }
+            .tf-slideshow .box-content.text-center .description { margin-left: auto; margin-right: auto; }
+            .tf-slideshow .tf-btn.btn-light-icon { background: #fff; color: #222; border-color: #fff; }
+            .tf-slideshow .tf-btn.btn-light-icon:hover { background: transparent; color: #fff; border-color: #fff; }
             @media (max-width: 991px) {
                 .tf-slideshow .tf-sw-slideshow,
                 .tf-slideshow .swiper-wrapper,
@@ -1097,20 +685,8 @@
                 .tf-slideshow .box-content .description { font-size: 15px; }
                 .tf-slideshow .box-content { padding: 0 20px; }
             }
-
-            .tab-pane {
-                display: none;
-            }
-
-            .tab-pane.active {
-                display: block;
-            }
-
-            .tf-slideshow .swiper-wrapper {
-                display: flex;
-            }
-
-            /* Trust Indicators Styles */
+            .tab-pane { display: none; }
+            .tab-pane.active { display: block; }
             .trust-stat {
                 padding: 2rem 1rem;
                 background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
@@ -1118,571 +694,215 @@
                 box-shadow: 0 5px 15px rgba(0,0,0,0.08);
                 transition: transform 0.3s ease;
             }
-
-            .trust-stat:hover {
-                transform: translateY(-5px);
-            }
-
-            .trust-number {
-                font-size: 2.5rem;
-                font-weight: 700;
-                color: #2c3e50;
-                margin-bottom: 0.5rem;
-            }
-
-            .trust-label {
-                color: #6c757d;
-                font-weight: 500;
-                text-transform: uppercase;
-                font-size: 0.875rem;
-                letter-spacing: 1px;
-            }
-
-            /* Recent Activity Styles */
-            .recent-activity {
-                background: #f8f9fa;
-                border-radius: 15px;
-                padding: 2rem;
-                margin-top: 3rem;
-            }
-
-            .activity-list {
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-                max-height: 300px;
-                overflow-y: auto;
-            }
-
+            .trust-stat:hover { transform: translateY(-5px); }
+            .trust-number { font-size: 2.5rem; font-weight: 700; color: #2c3e50; margin-bottom: 0.5rem; }
+            .trust-label { color: #6c757d; font-weight: 500; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 1px; }
+            .recent-activity { background: #f8f9fa; border-radius: 15px; padding: 2rem; margin-top: 3rem; }
+            .activity-list { display: flex; flex-direction: column; gap: 1rem; max-height: 300px; overflow-y: auto; }
             .activity-item {
-                display: flex;
-                align-items: center;
-                gap: 1rem;
-                padding: 1rem;
-                background: white;
-                border-radius: 10px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-                animation: slideInUp 0.5s ease-out;
+                display: flex; align-items: center; gap: 1rem; padding: 1rem;
+                background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             }
-
             .activity-avatar {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
+                width: 40px; height: 40px; border-radius: 50%;
                 background: linear-gradient(135deg, #007bff, #0056b3);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: white;
-                font-weight: bold;
-                font-size: 1.1rem;
+                display: flex; align-items: center; justify-content: center;
+                color: white; font-weight: bold; font-size: 1.1rem; flex-shrink: 0;
             }
-
-            .activity-content {
-                flex: 1;
-                font-size: 0.9rem;
-                line-height: 1.4;
-            }
-
-            .activity-time {
-                display: block;
-                color: #6c757d;
-                font-size: 0.8rem;
-                margin-top: 0.25rem;
-            }
-
-            /* Gallery Enhancements */
-            .gallery-hashtags {
-                position: absolute;
-                bottom: 10px;
-                left: 10px;
-                right: 10px;
-                background: rgba(0,0,0,0.7);
-                color: white;
-                padding: 0.5rem;
-                font-size: 0.8rem;
-                border-radius: 5px;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-            }
-
-            .gallery-item:hover .gallery-hashtags {
-                opacity: 1;
-            }
-
-            @keyframes slideInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
+            .activity-content { flex: 1; font-size: 0.9rem; line-height: 1.4; }
+            .activity-time { display: block; color: #6c757d; font-size: 0.8rem; margin-top: 0.25rem; }
+            .list-product-btn .wishlist .icon-delete { display: none; }
+            .list-product-btn .wishlist.active .icon-delete { display: inline-block; }
+            .list-product-btn .wishlist.active .icon-heart { display: none; }
             @media (max-width: 768px) {
-                .trust-number {
-                    font-size: 2rem;
-                }
-
-                .activity-item {
-                    padding: 0.75rem;
-                }
-
-                .activity-avatar {
-                    width: 35px;
-                    height: 35px;
-                }
+                .trust-number { font-size: 2rem; }
+                .activity-item { padding: 0.75rem; }
+                .activity-avatar { width: 35px; height: 35px; }
             }
         </style>
     @endpush
 
-    <script>
-        document.getElementById('goTop').addEventListener('click', () => {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        });
+    @push('scripts')
+        <script>
+            (function () {
+                /* ── Delegated click handlers for product actions ── */
+                document.addEventListener('click', function (e) {
+                    var quickAdd = e.target.closest('.quick-add');
+                    var quickView = e.target.closest('.quickview');
+                    var wishlist = e.target.closest('.wishlist');
+                    var compare = e.target.closest('.compare');
 
-        // goTop scroll
-
-
-    </script>
-
-    <!-- Swiper Initialization Script -->
-
-    <script>
-        (function initSwipersWhenReady() {
-            function startInit() {
-                // Initialize Slideshow Swiper
-                const slideshowEl = document.querySelector('.tf-sw-slideshow');
-                if (slideshowEl && !slideshowEl.swiper) {
-                    try {
-                        new (window.Swiper)('.tf-sw-slideshow', {
-                            slidesPerView: 1,
-                            loop: true,
-                            speed: 1000,
-                            effect: 'fade',
-                            fadeEffect: { crossFade: true },
-                            autoplay: {
-                                delay: 5000,
-                                disableOnInteraction: false,
-                            },
-                            pagination: {
-                                el: '.sw-pagination-slider',
-                                clickable: true,
-                            },
-                            on: {
-                                init: function () {
-                                    console.log('Slideshow swiper initialized');
-                                }
-                            }
-                        });
-                    } catch (error) {
-                        console.error('Error initializing slideshow swiper:', error);
+                    function pid(el) {
+                        var btn = el.closest('[data-product-id]');
+                        return btn ? btn.dataset.productId : null;
                     }
+
+                    if (quickAdd) {
+                        e.preventDefault();
+                        var id = pid(quickAdd);
+                        if (id && window.Livewire) window.Livewire.dispatch('product:quickAdd', { productId: id });
+                        return;
+                    }
+                    if (quickView) {
+                        e.preventDefault();
+                        var id = pid(quickView);
+                        if (id && window.Livewire) window.Livewire.dispatch('product:quickView', { productId: Number(id) });
+                        return;
+                    }
+                    if (compare) {
+                        e.preventDefault();
+                        var id = pid(compare);
+                        if (id && window.Livewire) window.Livewire.dispatch('compare:toggle', { id: Number(id) });
+                        return;
+                    }
+                    if (wishlist) {
+                        e.preventDefault();
+                        var id = pid(wishlist);
+                        if (!id) return;
+                        if (window.Livewire) window.Livewire.dispatch('wishlist:toggle', { id: Number(id) });
+                        var token = document.querySelector('meta[name="csrf-token"]');
+                        if (!token) return;
+                        fetch("{{ route('wishlist.add') }}", {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token.content, 'Accept': 'application/json' },
+                            body: JSON.stringify({ product_id: Number(id) })
+                        }).then(function (res) {
+                            if (res.status === 401) { window.location.href = "{{ route('login') }}"; return; }
+                            wishlist.classList.toggle('active');
+                            var tip = wishlist.querySelector('.tooltip');
+                            if (tip) tip.textContent = wishlist.classList.contains('active') ? 'Remove from Wishlist' : 'Add to Wishlist';
+                        }).catch(function () {});
+                        return;
+                    }
+                });
+
+                /* ── Lookbook add to cart ── */
+                var lbBtn = document.getElementById('lookbook-add-btn');
+                if (lbBtn) {
+                    lbBtn.addEventListener('click', function () {
+                        var ids = Array.from(document.querySelectorAll('.lookbook-item-checkbox:checked'))
+                            .map(function (cb) { return cb.value; }).filter(Boolean);
+                        if (!ids.length) {
+                            if (window.Livewire) window.Livewire.dispatch('notify', { message: 'Please select at least one item.', type: 'info' });
+                            return;
+                        }
+                        ids.forEach(function (id) {
+                            if (window.Livewire) window.Livewire.dispatch('product:quickAdd', { productId: id });
+                        });
+                    });
                 }
 
-                // Initialize Iconbox (tf-sw-recent) Swiper
-                const recentEl = document.querySelector('.tf-sw-recent');
-                if (recentEl && !recentEl.swiper) {
-                    try {
-                        new (window.Swiper)('.tf-sw-recent', {
-                            slidesPerView: 1,
-                            spaceBetween: 15,
-                            loop: false,
-                            autoplay: false,
-                            pagination: {
-                                el: '.sw-pagination-recent',
-                                clickable: true,
-                            },
-                            breakpoints: {
-                                768: { slidesPerView: 3, spaceBetween: 30 },
-                                1024: { slidesPerView: 3, spaceBetween: 30 }
-                            }
+                /* ── Go top ── */
+                var goTop = document.getElementById('goTop');
+                if (goTop) goTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+                /* ── Swiper initialization ── */
+                function initSwipers() {
+                    if (!window.Swiper) return false;
+
+                    var configs = [
+                        { sel: '.tf-sw-slideshow', opt: {
+                            slidesPerView: 1, loop: true, speed: 1000,
+                            effect: 'fade', fadeEffect: { crossFade: true },
+                            autoplay: { delay: 5000, disableOnInteraction: false },
+                            pagination: { el: '.sw-pagination-slider', clickable: true }
+                        }},
+                        { sel: '.tf-sw-recent', opt: {
+                            slidesPerView: 1, spaceBetween: 15,
+                            pagination: { el: '.sw-pagination-recent', clickable: true },
+                            breakpoints: { 768: { slidesPerView: 3, spaceBetween: 30 }, 1024: { slidesPerView: 3, spaceBetween: 30 } }
+                        }},
+                        { sel: '.tf-sw-collection', opt: {
+                            slidesPerView: 2, spaceBetween: 15,
+                            navigation: { nextEl: '.nav-next-collection', prevEl: '.nav-prev-collection' },
+                            pagination: { el: '.sw-pagination-collection', clickable: true },
+                            breakpoints: { 768: { slidesPerView: 3, spaceBetween: 30 }, 1024: { slidesPerView: 6, spaceBetween: 50 } }
+                        }},
+                        { sel: '.tf-sw-releases', opt: {
+                            slidesPerView: 2, spaceBetween: 15,
+                            navigation: { nextEl: '.nav-next-releases', prevEl: '.nav-prev-releases' },
+                            breakpoints: { 768: { slidesPerView: 3, spaceBetween: 15 }, 1024: { slidesPerView: 4, spaceBetween: 30 } }
+                        }},
+                        { sel: '.tf-sw-featured', opt: {
+                            slidesPerView: 2, spaceBetween: 15, observer: true, observeParents: true,
+                            navigation: { nextEl: '.nav-next-featured', prevEl: '.nav-prev-featured' },
+                            breakpoints: { 768: { slidesPerView: 3, spaceBetween: 15 }, 1024: { slidesPerView: 4, spaceBetween: 30 } }
+                        }},
+                        { sel: '.tf-sw-onsale', opt: {
+                            slidesPerView: 2, spaceBetween: 15, observer: true, observeParents: true,
+                            navigation: { nextEl: '.nav-next-onsale', prevEl: '.nav-prev-onsale' },
+                            breakpoints: { 768: { slidesPerView: 3, spaceBetween: 15 }, 1024: { slidesPerView: 4, spaceBetween: 30 } }
+                        }},
+                        { sel: '.tf-lookbook', opt: {
+                            slidesPerView: 1, spaceBetween: 0,
+                            breakpoints: { 768: { slidesPerView: 3 }, 1024: { slidesPerView: 3 } }
+                        }},
+                        { sel: '.tf-sw-mobile', opt: {
+                            slidesPerView: 1, spaceBetween: 15,
+                            pagination: { el: '.sw-pagination-mb', clickable: true }
+                        }},
+                        { sel: '.tf-sw-shop-gallery', opt: {
+                            slidesPerView: 2, spaceBetween: 7,
+                            pagination: { el: '.sw-pagination-gallery', clickable: true },
+                            breakpoints: { 768: { slidesPerView: 3, spaceBetween: 7 }, 1024: { slidesPerView: 5, spaceBetween: 7 } }
+                        }}
+                    ];
+
+                    configs.forEach(function (c) {
+                        var el = document.querySelector(c.sel);
+                        if (el && !el.swiper) {
+                            try { new Swiper(c.sel, c.opt); } catch (err) { console.error('Swiper init error (' + c.sel + '):', err); }
+                        }
+                    });
+
+                    /* Tab change: update swiper in newly visible tab */
+                    document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(function (tab) {
+                        tab.addEventListener('shown.bs.tab', function (ev) {
+                            var pane = document.querySelector(ev.target.getAttribute('href'));
+                            if (pane) setTimeout(function () {
+                                var sw = pane.querySelector('.swiper');
+                                if (sw && sw.swiper) sw.swiper.update();
+                            }, 100);
                         });
-                    } catch (error) {
-                        console.error('Error initializing recent swiper:', error);
-                    }
+                    });
+
+                    return true;
                 }
 
-                // Initialize Season Collection Swiper with better error handling
-                const collectionEl = document.querySelector('.tf-sw-collection');
-                if (collectionEl && !collectionEl.swiper) {
-                    try {
-                        new (window.Swiper)('.tf-sw-collection', {
-                            slidesPerView: 2,
-                            spaceBetween: 15,
-                            loop: false,
-                            autoplay: false,
-                            watchOverflow: true,
-                            navigation: {
-                                nextEl: '.nav-next-collection',
-                                prevEl: '.nav-prev-collection',
-                            },
-                            pagination: {
-                                el: '.sw-pagination-collection',
-                                clickable: true,
-                            },
-                            breakpoints: {
-                                768: {
-                                    slidesPerView: 3,
-                                    spaceBetween: 30,
-                                },
-                                1024: {
-                                    slidesPerView: 6,
-                                    spaceBetween: 50,
-                                }
-                            },
-                            on: {
-                                init: function() {
-                                    console.log('Collection swiper initialized');
-                                    // Force image loading
-                                    this.slides.forEach(slide => {
-                                        const img = slide.querySelector('img');
-                                        if (img && img.dataset.src) {
-                                            img.src = img.dataset.src;
-                                        }
-                                    });
-                                },
-                                slideChange: function() {
-                                    // Ensure images are loaded when slides change
-                                    const activeSlide = this.slides[this.activeIndex];
-                                    if (activeSlide) {
-                                        const img = activeSlide.querySelector('img[data-src]');
-                                        if (img && !img.src) {
-                                            img.src = img.dataset.src;
-                                        }
-                                    }
-                                }
-                            }
-                        });
-                    } catch (error) {
-                        console.error('Error initializing collection swiper:', error);
-                    }
-                }
-
-                // Initialize New Releases Swiper with better error handling
-                const brandEl = document.querySelector('.tf-sw-brand');
-                if (brandEl && !brandEl.swiper) {
-                    try {
-                        new (window.Swiper)('.tf-sw-brand', {
-                            slidesPerView: 2,
-                            spaceBetween: 15,
-                            loop: false,
-                            autoplay: false,
-                            watchOverflow: true,
-                            navigation: {
-                                nextEl: '.nav-next-brand',
-                                prevEl: '.nav-prev-brand',
-                            },
-                            breakpoints: {
-                                768: {
-                                    slidesPerView: 3,
-                                    spaceBetween: 15,
-                                },
-                                1024: {
-                                    slidesPerView: 4,
-                                    spaceBetween: 30,
-                                }
-                            },
-                            on: {
-                                init: function() {
-                                    console.log('Brand swiper initialized');
-                                    // Force image loading
-                                    this.slides.forEach(slide => {
-                                        const imgs = slide.querySelectorAll('img');
-                                        imgs.forEach(img => {
-                                            if (img.dataset.src && !img.src) {
-                                                img.src = img.dataset.src;
-                                            }
-                                        });
-                                    });
-                                },
-                                slideChange: function() {
-                                    // Ensure images are loaded when slides change
-                                    const activeSlide = this.slides[this.activeIndex];
-                                    if (activeSlide) {
-                                        const imgs = activeSlide.querySelectorAll('img[data-src]');
-                                        imgs.forEach(img => {
-                                            if (!img.src) {
-                                                img.src = img.dataset.src;
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                        });
-                    } catch (error) {
-                        console.error('Error initializing brand swiper:', error);
-                    }
-                }
-
-                // Initialize Gallery Swiper if it exists
-                const galleryEl = document.querySelector('.tf-sw-shop-gallery');
-                if (galleryEl && !galleryEl.swiper) {
-                    try {
-                        new (window.Swiper)('.tf-sw-shop-gallery', {
-                            slidesPerView: 2,
-                            spaceBetween: 7,
-                            loop: false,
-                            autoplay: false,
-                            navigation: {
-                                nextEl: '.nav-next-gallery',
-                                prevEl: '.nav-prev-gallery',
-                            },
-                            pagination: {
-                                el: '.sw-pagination-gallery',
-                                clickable: true,
-                            },
-                            breakpoints: {
-                                768: {
-                                    slidesPerView: 3,
-                                    spaceBetween: 7,
-                                },
-                                1024: {
-                                    slidesPerView: 5,
-                                    spaceBetween: 7,
-                                }
-                            },
-                            on: {
-                                init: function() {
-                                    console.log('Gallery swiper initialized');
-                                }
-                            }
-                        });
-                    } catch (error) {
-                        console.error('Error initializing gallery swiper:', error);
-                    }
-                }
-            }
-
-            function tryInit() {
-                if (window.Swiper) {
-                    startInit();
-                } else {
-                    // Retry with exponential backoff
-                    let attempts = 0;
-                    const maxAttempts = 20;
-                    const timer = setInterval(() => {
+                function tryInit() {
+                    if (initSwipers()) return;
+                    var attempts = 0;
+                    var timer = setInterval(function () {
                         attempts++;
-                        if (window.Swiper) {
+                        if (initSwipers() || attempts >= 30) {
                             clearInterval(timer);
-                            startInit();
-                        } else if (attempts >= maxAttempts) {
-                            clearInterval(timer);
-                            console.warn('Swiper library not found after maximum attempts');
-
-                            // Fallback: try to load from CDN
-                            if (!window.__loadingSwiperCDN && !window.Swiper) {
-                                window.__loadingSwiperCDN = true;
-                                const link = document.createElement('link');
+                            if (attempts >= 30 && !window.Swiper) {
+                                var link = document.createElement('link');
                                 link.rel = 'stylesheet';
                                 link.href = 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css';
                                 document.head.appendChild(link);
-
-                                const script = document.createElement('script');
-                                script.src = 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js';
-                                script.async = true;
-                                script.onload = () => {
-                                    window.__loadingSwiperCDN = false;
-                                    if (window.Swiper) {
-                                        startInit();
-                                    }
-                                };
-                                script.onerror = () => {
-                                    window.__loadingSwiperCDN = false;
-                                    console.error('Failed to load Swiper from CDN.');
-                                };
-                                document.head.appendChild(script);
+                                var s = document.createElement('script');
+                                s.src = 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js';
+                                s.onload = function () { initSwipers(); };
+                                document.head.appendChild(s);
                             }
                         }
-                    }, Math.min(100 * Math.pow(1.5, attempts), 1000)); // Exponential backoff
+                    }, 150);
                 }
-            }
 
-            // Initialize when DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', tryInit);
-            } else {
-                // DOM is already loaded
-                setTimeout(tryInit, 100); // Small delay to ensure all scripts are loaded
-            }
-        })();
-
-        // Additional image error handling
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle image loading errors globally
-            document.addEventListener('error', function(e) {
-                if (e.target.tagName === 'IMG') {
-                    const img = e.target;
-                    if (!img.getAttribute('data-error-handled')) {
-                        img.setAttribute('data-error-handled', 'true');
-                        img.src = '{{ asset('images/products/shop_with_carl-1.jpg') }}';
-                        console.warn('Image load error, using fallback:', img.alt || 'Unknown image');
-                    }
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', tryInit);
+                } else {
+                    setTimeout(tryInit, 50);
                 }
-            }, true);
 
-            // Pre-load critical images
-            const criticalImages = [
-                '{{ asset('images/products/shop_with_carl-1.jpg') }}',
-                '{{ asset('images/placeholder-product.jpg') }}',
-                '{{ asset('images/placeholder-category.svg') }}'
-            ];
-
-            criticalImages.forEach(src => {
-                const img = new Image();
-                img.src = src;
-            });
-        });
-
-        // Add this script to your page - place it AFTER the existing Swiper initialization
-
-        (function fixTrendingTabs() {
-            // Store Swiper instances
-            let featuredSwiper = null;
-            let onSaleSwiper = null;
-
-            function initFeaturedSwiper() {
-                const featuredEl = document.querySelector('#featured-tab .tf-sw-brand');
-                if (featuredEl && !featuredSwiper) {
-                    try {
-                        featuredSwiper = new Swiper('#featured-tab .tf-sw-brand', {
-                            slidesPerView: 2,
-                            spaceBetween: 15,
-                            loop: false,
-                            autoplay: false,
-                            watchOverflow: true,
-                            observer: true,
-                            observeParents: true,
-                            navigation: {
-                                nextEl: '.nav-next-brand',
-                                prevEl: '.nav-prev-brand',
-                            },
-                            breakpoints: {
-                                768: {
-                                    slidesPerView: 3,
-                                    spaceBetween: 15,
-                                },
-                                1024: {
-                                    slidesPerView: 4,
-                                    spaceBetween: 30,
-                                }
-                            },
-                            on: {
-                                init: function() {
-                                    console.log('Featured swiper initialized');
-                                }
-                            }
-                        });
-                    } catch (error) {
-                        console.error('Error initializing featured swiper:', error);
-                    }
-                }
-            }
-
-            function initOnSaleSwiper() {
-                const onSaleEl = document.querySelector('#onsale-tab .tf-sw-brand');
-                if (onSaleEl && !onSaleSwiper) {
-                    try {
-                        onSaleSwiper = new Swiper('#onsale-tab .tf-sw-brand', {
-                            slidesPerView: 2,
-                            spaceBetween: 15,
-                            loop: false,
-                            autoplay: false,
-                            watchOverflow: true,
-                            observer: true,
-                            observeParents: true,
-                            navigation: {
-                                nextEl: '.nav-next-brand',
-                                prevEl: '.nav-prev-brand',
-                            },
-                            breakpoints: {
-                                768: {
-                                    slidesPerView: 3,
-                                    spaceBetween: 15,
-                                },
-                                1024: {
-                                    slidesPerView: 4,
-                                    spaceBetween: 30,
-                                }
-                            },
-                            on: {
-                                init: function() {
-                                    console.log('On Sale swiper initialized');
-                                }
-                            }
-                        });
-                    } catch (error) {
-                        console.error('Error initializing on sale swiper:', error);
-                    }
-                }
-            }
-
-            function handleTabChange() {
-                // Listen for Bootstrap tab shown event
-                document.querySelectorAll('a[data-bs-toggle="tab"]').forEach(function(tabEl) {
-                    tabEl.addEventListener('shown.bs.tab', function (event) {
-                        const targetId = event.target.getAttribute('href');
-
-                        // Small delay to ensure tab content is visible
-                        setTimeout(() => {
-                            if (targetId === '#featured-tab') {
-                                if (featuredSwiper) {
-                                    featuredSwiper.update();
-                                    featuredSwiper.updateSlides();
-                                } else {
-                                    initFeaturedSwiper();
-                                }
-                            } else if (targetId === '#onsale-tab') {
-                                if (onSaleSwiper) {
-                                    onSaleSwiper.update();
-                                    onSaleSwiper.updateSlides();
-                                } else {
-                                    initOnSaleSwiper();
-                                }
-                            }
-                        }, 100);
+                window.addEventListener('resize', function () {
+                    document.querySelectorAll('.swiper').forEach(function (el) {
+                        if (el.swiper) el.swiper.update();
                     });
                 });
-            }
-
-            function initialize() {
-                if (!window.Swiper) {
-                    console.warn('Swiper not loaded yet, retrying...');
-                    setTimeout(initialize, 200);
-                    return;
-                }
-
-                // Initialize featured tab (visible by default)
-                initFeaturedSwiper();
-
-                // Set up tab change handler
-                handleTabChange();
-
-                // Initialize on sale swiper after a short delay to ensure DOM is ready
-                setTimeout(initOnSaleSwiper, 300);
-            }
-
-            // Start initialization when DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initialize);
-            } else {
-                initialize();
-            }
-        })();
-
-        // Alternative quick fix: Force update all swipers on window resize
-        window.addEventListener('resize', function() {
-            if (window.Swiper) {
-                document.querySelectorAll('.swiper').forEach(function(swiperEl) {
-                    if (swiperEl.swiper) {
-                        swiperEl.swiper.update();
-                    }
-                });
-            }
-        });
-    </script>
+            })();
+        </script>
+    @endpush
 
 </x-app-layout>
-
