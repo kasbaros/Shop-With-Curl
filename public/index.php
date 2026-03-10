@@ -1,5 +1,10 @@
 <?php
 
+// Enable output buffering to prevent premature header flushing on LiteSpeed.
+// Without this, any stray output (warnings, BOM, whitespace) flushes headers
+// before Laravel can set session cookies, causing 419 CSRF errors.
+ob_start();
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
