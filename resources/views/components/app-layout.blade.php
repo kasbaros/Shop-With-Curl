@@ -121,7 +121,7 @@
 </head>
 
 <body>
-<div id="wrapper">
+<div id="wrapper" style="display: flex; flex-direction: column; min-height: 100vh;">
 
     {{-- ==================== ANNOUNCEMENT BAR ==================== --}}
     @if (!($isAuthPage ?? false) && config('announcements.messages') && count(config('announcements.messages')) > 0)
@@ -296,7 +296,7 @@
 
                                 <li class="menu-item">
                                     @if($subcategories->count() > 0)
-                                        <a href="{{ route('products.category', $category->slug) }}" class="item-link">
+                                        <a href="javascript:void(0);" class="item-link">
                                             {{ $category->name }}
                                             <i class="icon icon-arrow-down"></i>
                                         </a>
@@ -304,7 +304,7 @@
                                             <ul class="menu-list">
                                                 @foreach($subcategories as $subcategory)
                                                     <li>
-                                                        <a href="{{ route('products.category', $subcategory->slug) }}"
+                                                        <a href="{{ route('categories.show', $subcategory->slug) }}"
                                                            class="menu-link-text" wire:navigate>
                                                             {{ $subcategory->name }}
                                                         </a>
@@ -313,7 +313,7 @@
                                             </ul>
                                         </div>
                                     @else
-                                        <a href="{{ route('products.category', $category->slug) }}"
+                                        <a href="{{ route('categories.show', $category->slug) }}"
                                            class="item-link" wire:navigate>{{ $category->name }}</a>
                                     @endif
                                 </li>
@@ -345,7 +345,7 @@
     @endif
 
     {{-- ==================== MAIN CONTENT ==================== --}}
-    <main>
+    <main style="flex: 1 0 auto;">
         {!! $slot !!}
     </main>
 
@@ -532,7 +532,7 @@
 
                     @foreach($mainCategories as $cat)
                         <li class="nav-mb-item">
-                            <a href="{{ route('products.category', $cat->slug) }}" class="mb-menu-link">
+                            <a href="{{ route('categories.show', $cat->slug) }}" class="mb-menu-link">
                                 <span>{{ $cat->name }}</span>
                             </a>
                         </li>
@@ -595,7 +595,7 @@
                             <ul class="tf-quicklink-list">
                                 @foreach($mainCategories->take(4) as $cat)
                                     <li class="tf-quicklink-item">
-                                        <a href="{{ route('products.category', $cat->slug) }}">{{ $cat->name }}</a>
+                                        <a href="{{ route('categories.show', $cat->slug) }}">{{ $cat->name }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -834,13 +834,10 @@
 <!-- Shopping Cart Component -->
 <livewire:components.shopping-cart/>
 
-<!-- Product Compare Component -->
-<livewire:components.product-compare/>
-
 <!-- Quick View Modal (Global) -->
 <livewire:components.product-quick-view/>
 
-<!-- Compare Modal (Quick feedback) -->
+<!-- Compare Modal (Bottom bar) -->
 <livewire:components.compare-modal/>
 
 <script>

@@ -190,14 +190,14 @@ class ProductQuickView extends Component
     {
         if (!$this->product) return;
 
-        $this->dispatch('wishlist:toggle', ['id' => $this->product->id]);
+        $this->dispatch('wishlist:toggle', id: $this->product->id);
     }
 
     public function toggleCompare()
     {
         if (!$this->product) return;
 
-        $this->dispatch('compare:toggle', ['id' => $this->product->id]);
+        $this->dispatch('compare:toggle', id: $this->product->id);
     }
 
     public function getImageUrlProperty()

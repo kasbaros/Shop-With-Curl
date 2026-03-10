@@ -4,82 +4,66 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\WishList;
+use App\Services\CompareService;
 use Illuminate\Http\Request;
 
 class CompareController extends Controller
 {
-    /**
-     * Display the product comparison page.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
+    public function index(CompareService $compareService)
     {
-        // In a real application, you would fetch the compared products from the session or database
-        $comparedProducts = session('compared_products', []);
+        $products = $compareService->getProducts();
 
-        return view('compare.index', compact('comparedProducts'));
+        return view('client.compare', compact('products'));
     }
 
-    /**
-     * Add a product to the comparison list.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function add(Request $request)
+    public function add(Request $request, CompareService $compareService)
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
         ]);
 
-        $productId = $request->input('product_id');
+        $productId = (int) $request->input('product_id');
 
-        // In a real application, you would add the product to the comparison list in the session or database
-        $comparedProducts = session('compared_products', []);
-
-        if (!in_array($productId, $comparedProducts)) {
-            $comparedProducts[] = $productId;
-            session(['compared_products' => $comparedProducts]);
+        if ($compareService->isInCompare($productId)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Product already in comparison.',
+                'count' => $compareService->getCount(),
+            ]);
         }
+
+        if (!$compareService->canAdd()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Maximum ' . $compareService->getMaxItems() . ' products allowed.',
+                'count' => $compareService->getCount(),
+            ]);
+        }
+
+        $compareService->add($productId);
 
         return response()->json([
             'success' => true,
-            'message' => 'Product added to comparison list.',
-            'count' => count($comparedProducts)
+            'message' => 'Product added to comparison.',
+            'count' => $compareService->getCount(),
         ]);
     }
 
-    /**
-     * Remove a product from the comparison list.
-     *
-     * @param  int  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function remove($product)
+    public function remove($product, CompareService $compareService)
     {
-        // In a real application, you would remove the product from the comparison list in the session or database
-        $comparedProducts = session('compared_products', []);
+        $compareService->remove((int) $product);
 
-        $comparedProducts = array_filter($comparedProducts, function($id) use ($product) {
-            return $id != $product;
-        });
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Removed from comparison.',
+                'count' => $compareService->getCount(),
+            ]);
+        }
 
-        session(['compared_products' => array_values($comparedProducts)]);
-
-        return redirect()->route('compare.index')
-            ->with('success', 'Product removed from comparison list.');
+        return redirect()->route('compare.index')->with('success', 'Product removed from comparison.');
     }
 
-    /**
-     * Display the user's wishlist page.
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
-
-    /**
-     * Add or toggle a product in the user's wishlist.
-     */
     public function addToWishlist(Request $request)
     {
         $validated = $request->validate([
@@ -89,7 +73,6 @@ class CompareController extends Controller
         $userId = auth()->id();
         $productId = (int) $validated['product_id'];
 
-        // Toggle behavior: if exists -> remove, else -> create
         $existing = WishList::where('user_id', $userId)
             ->where('product_id', $productId)
             ->first();
@@ -114,9 +97,6 @@ class CompareController extends Controller
         ]);
     }
 
-    /**
-     * Remove a product from the user's wishlist.
-     */
     public function removeFromWishlist($product)
     {
         $userId = auth()->id();

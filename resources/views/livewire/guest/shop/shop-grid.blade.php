@@ -2,7 +2,7 @@
     <!-- Breadcrumbs -->
     <livewire:components.breadcrumbs />
 
-    <div class="tf-page-title">
+    <div class="tf-page-title bg-body-tertiary">
         <div class="container-full">
             <div class="heading text-center">Shop</div>
         </div>

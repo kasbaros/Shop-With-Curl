@@ -138,13 +138,18 @@
                                 <span>Add to cart -&nbsp;</span>
                                 <span class="tf-qty-price">{{ $this->formattedPrice }}</span>
                             </a>
-                            <div class="tf-product-btn-wishlist btn-icon-action">
-                                <i class="icon-heart"></i>
-                                <i class="icon-delete"></i>
-                            </div>
-                            <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
-                               class="tf-product-btn-wishlist box-icon bg_white compare btn-icon-action">
+                            <a href="javascript:void(0);"
+                               class="tf-product-btn-wishlist box-icon bg_white btn-icon-action"
+                               wire:click="toggleWishlist">
+                                <span class="icon icon-heart"></span>
+                                <span class="tooltip">Add to Wishlist</span>
+                                <span class="icon icon-delete"></span>
+                            </a>
+                            <a href="javascript:void(0);"
+                               class="tf-product-btn-wishlist box-icon bg_white compare btn-icon-action"
+                               wire:click="toggleCompare">
                                 <span class="icon icon-compare"></span>
+                                <span class="tooltip">Add to Compare</span>
                                 <span class="icon icon-check"></span>
                             </a>
 {{--                            <div class="w-100">--}}

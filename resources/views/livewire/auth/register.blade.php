@@ -35,7 +35,7 @@ new #[Layout('components.app-layout')] class extends Component {
     }
 }; ?>
 
-<div class="tf-page-cart-wrap py-5">
+<div class="py-5">
     <div class="container">
         <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
                 <div class="text-center mb-4">

@@ -72,7 +72,7 @@ class CompareService
 
         return Product::whereIn('id', $productIds)
             ->active()
-            ->with(['categories', 'media'])
+            ->with(['categories', 'media', 'variants'])
             ->get();
     }
 

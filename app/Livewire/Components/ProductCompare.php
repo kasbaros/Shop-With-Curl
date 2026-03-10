@@ -13,7 +13,8 @@
         #[On('compare:toggle')]
         public function toggleCompare($id)
         {
-            $productId = $id;
+            // Handle both int and array payloads (Livewire 3 named vs positional params)
+            $productId = is_array($id) ? (int) ($id['id'] ?? $id['productId'] ?? 0) : (int) $id;
 
             if (!$productId) return;
 

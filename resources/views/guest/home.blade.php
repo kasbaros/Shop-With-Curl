@@ -649,8 +649,6 @@
     </div>
 
     @livewire('components.product-quick-add')
-    @livewire('components.compare-modal')
-    @livewire('components.shopping-cart')
 
     <button id="goTop"><span class="border-progress"></span><span class="icon icon-arrow-up"></span></button>
 
