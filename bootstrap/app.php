@@ -59,6 +59,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'block.privileged' => \App\Http\Middleware\PrivilegedBlockMiddleware::class,
         ]);
 
+        // Prevent LiteSpeed/proxy caching of dynamic pages
+        $middleware->append(\App\Http\Middleware\NoCacheHeaders::class);
+
         // Apply log context middleware globally
         $middleware->append(\App\Http\Middleware\LogContextMiddleware::class);
     })
