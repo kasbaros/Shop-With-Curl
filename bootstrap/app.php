@@ -34,6 +34,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Exclude session & CSRF cookies from encryption to avoid
+        // silent decrypt failures on cPanel/LiteSpeed production
+        $middleware->encryptCookies(except: [
+            'shopwithcarl_session',
+            'XSRF-TOKEN',
+        ]);
+
         // Replace default CSRF middleware
         $middleware->web(replace: [
             \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class => \App\Http\Middleware\VerifyCsrfToken::class,

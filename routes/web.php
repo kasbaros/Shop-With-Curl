@@ -39,6 +39,31 @@ use App\Livewire\Client\Profile\AccountPage;
 
 
 // ==================================================
+// TEMPORARY: Session/CSRF debug route (DELETE after fixing 419)
+// ==================================================
+Route::get('/session-test', function () {
+    $sessionId = session()->getId();
+    $token = session()->token();
+    $cookieVal = request()->cookie('shopwithcarl_session');
+    return '<h2>Session Test</h2>'
+        . '<p><b>Session ID:</b> ' . $sessionId . '</p>'
+        . '<p><b>CSRF Token:</b> ' . $token . '</p>'
+        . '<p><b>Session Cookie received:</b> ' . ($cookieVal ? 'YES (' . substr($cookieVal, 0, 30) . '...)' : 'NO — cookie not sent back!') . '</p>'
+        . '<p><b>All Cookies:</b> <pre>' . htmlspecialchars(print_r($_COOKIE, true)) . '</pre></p>'
+        . '<hr>'
+        . '<h3>POST Test (plain form, no Livewire)</h3>'
+        . '<form method="POST" action="/session-test">'
+        . csrf_field()
+        . '<button type="submit" style="padding:10px 20px;font-size:16px;">Submit POST</button>'
+        . '</form>';
+});
+Route::post('/session-test', function () {
+    return '<h2>POST Success!</h2>'
+        . '<p>CSRF validation passed. Session ID: ' . session()->getId() . '</p>'
+        . '<p><a href="/session-test">Back to test</a></p>';
+});
+
+// ==================================================
 // GUEST ROUTES (Public Access) - HYBRID APPROACH
 // ==================================================
 
