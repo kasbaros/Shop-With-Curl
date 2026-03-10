@@ -44,18 +44,28 @@ use App\Livewire\Client\Profile\AccountPage;
 Route::get('/session-test', function () {
     $sessionId = session()->getId();
     $token = session()->token();
-    $cookieVal = request()->cookie('shopwithcarl_session');
-    return '<h2>Session Test</h2>'
+
+    // Check raw PHP cookies (what the browser actually sent)
+    $rawSessionCookie = $_COOKIE['shopwithcarl_session'] ?? null;
+    $laravelSessionCookie = request()->cookie('shopwithcarl_session');
+
+    $html = '<h2>Session Debug</h2>'
         . '<p><b>Session ID:</b> ' . $sessionId . '</p>'
         . '<p><b>CSRF Token:</b> ' . $token . '</p>'
-        . '<p><b>Session Cookie received:</b> ' . ($cookieVal ? 'YES (' . substr($cookieVal, 0, 30) . '...)' : 'NO — cookie not sent back!') . '</p>'
-        . '<p><b>All Cookies:</b> <pre>' . htmlspecialchars(print_r($_COOKIE, true)) . '</pre></p>'
-        . '<hr>'
-        . '<h3>POST Test (plain form, no Livewire)</h3>'
+        . '<hr><h3>Cookie Analysis</h3>'
+        . '<p><b>Raw PHP \$_COOKIE[shopwithcarl_session]:</b> ' . ($rawSessionCookie ? 'YES (' . substr($rawSessionCookie, 0, 40) . '...)' : 'NO') . '</p>'
+        . '<p><b>Laravel request()->cookie():</b> ' . ($laravelSessionCookie ? 'YES (' . substr($laravelSessionCookie, 0, 40) . '...)' : 'NO (EncryptCookies may have discarded it)') . '</p>'
+        . '<p><b>All raw \$_COOKIE:</b></p><pre>' . htmlspecialchars(print_r($_COOKIE, true)) . '</pre>'
+        . '<hr><h3>POST Test (plain form, no Livewire)</h3>'
         . '<form method="POST" action="/session-test">'
         . csrf_field()
         . '<button type="submit" style="padding:10px 20px;font-size:16px;">Submit POST</button>'
-        . '</form>';
+        . '</form>'
+        . '<hr><p><a href="/session-test">Reload to check if session ID persists</a></p>';
+
+    // Explicitly attach a test cookie via Laravel's cookie helper
+    return response($html)
+        ->withCookie(cookie('laravel_test_cookie', 'works_' . time(), 60, '/', null, true, true, false, 'Lax'));
 });
 Route::post('/session-test', function () {
     return '<h2>POST Success!</h2>'
