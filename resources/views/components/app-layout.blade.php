@@ -208,21 +208,21 @@
                                             @endif
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center gap-2"
-                                                   href="{{ route('account.dashboard') }}" wire:navigate>
+                                                   href="{{ route('account.dashboard') }}">
                                                     <i class="bi bi-house" style="width:16px;"></i>
                                                     My Account
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center gap-2"
-                                                   href="{{ route('orders.index') }}" wire:navigate>
+                                                   href="{{ route('orders.index') }}">
                                                     <i class="bi bi-bag" style="width:16px;"></i>
                                                     My Orders
                                                 </a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item d-flex align-items-center gap-2"
-                                                   href="{{ route('account.page', ['section' => 'details']) }}" wire:navigate>
+                                                   href="{{ route('account.page', ['section' => 'details']) }}">
                                                     <i class="bi bi-person" style="width:16px;"></i>
                                                     Profile
                                                 </a>
@@ -250,7 +250,7 @@
                             {{-- Wishlist --}}
                             <li>
                                 <a href="{{ route('account.page', ['section' => 'wishlist']) }}"
-                                   class="nav-icon-item" title="Wishlist" wire:navigate>
+                                   class="nav-icon-item" title="Wishlist">
                                     <i class="icon icon-heart"></i>
                                     @php
                                         $wCount = $wishlistCount ?? (auth()->check() ? auth()->user()->wishlist()->count() : 0);
@@ -435,7 +435,7 @@
                                     <li><a href="#" class="footer-menu_item">Terms &amp; Conditions</a></li>
                                     <li><a href="#" class="footer-menu_item">FAQ's</a></li>
                                     <li><a href="{{ route('compare.index') }}" class="footer-menu_item" wire:navigate>Compare</a></li>
-                                    <li><a href="{{ route('account.page', ['section' => 'wishlist']) }}" class="footer-menu_item" wire:navigate>My Wishlist</a></li>
+                                    <li><a href="{{ route('account.page', ['section' => 'wishlist']) }}" class="footer-menu_item">My Wishlist</a></li>
                                 </ul>
                             </div>
 
@@ -451,7 +451,7 @@
                                     <li><a href="{{ route('pages.about') }}" class="footer-menu_item" wire:navigate>About Us</a></li>
                                     <li><a href="{{ route('shop.index') }}" class="footer-menu_item" wire:navigate>Shop</a></li>
                                     <li><a href="{{ route('pages.contact') }}" class="footer-menu_item" wire:navigate>Contact Us</a></li>
-                                    <li><a href="{{ route('account.dashboard') }}" class="footer-menu_item" wire:navigate>My Account</a></li>
+                                    <li><a href="{{ route('account.dashboard') }}" class="footer-menu_item">My Account</a></li>
                                 </ul>
                             </div>
 

@@ -34,12 +34,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Exclude session & CSRF cookies from encryption to avoid
-        // silent decrypt failures on cPanel/LiteSpeed production
-        $middleware->encryptCookies(except: [
-            'shopwithcarl_session',
-            'XSRF-TOKEN',
-        ]);
+        // Session cookie encryption is handled normally now that
+        // ob_start() fixes the header flushing issue on LiteSpeed
 
         // Replace default CSRF middleware
         $middleware->web(replace: [

@@ -102,30 +102,16 @@ use App\Livewire\Client\Profile\AccountPage;
 
     Route::middleware(['auth', 'client'])->group(function () {
         // Add general dashboard route for all authenticated users
-        Route::get('/dashboard', function () {
-            $user = auth()->user();
-
-            if ($user->isAdmin() || $user->isDeveloper()) {
-                return redirect()->route('admin.dashboard');
-            }
-
-            return redirect()->route('account.dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', [\App\Http\Controllers\Client\AccountRedirectController::class, 'dashboard'])->name('dashboard');
 
         // Profile & Account (Refactored to a single Livewire component)
         Route::get('/account/{section?}', AccountPage::class)
             ->name('account.page')
             ->whereIn('section', ['dashboard', 'orders', 'address', 'details', 'wishlist', 'cart']);
 
-        // Backward-compatible alias for legacy references like route('account.dashboard')
-        Route::get('/account', function () {
-            return redirect()->route('account.page', ['section' => 'dashboard']);
-        })->name('account.dashboard');
-
-        // Backward-compatible alias for legacy profile edit route name
-        Route::get('/account/profile/edit', function () {
-            return redirect()->route('account.page', ['section' => 'details']);
-        })->name('account.profile.edit');
+        // Backward-compatible aliases
+        Route::get('/account', [\App\Http\Controllers\Client\AccountRedirectController::class, 'accountDashboard'])->name('account.dashboard');
+        Route::get('/account/profile/edit', [\App\Http\Controllers\Client\AccountRedirectController::class, 'profileEdit'])->name('account.profile.edit');
 
 
         // Orders (Keep Controllers - Complex business logic, financial data)
