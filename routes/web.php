@@ -45,27 +45,58 @@ Route::get('/session-test', function () {
     $sessionId = session()->getId();
     $token = session()->token();
 
-    // Check raw PHP cookies (what the browser actually sent)
-    $rawSessionCookie = $_COOKIE['shopwithcarl_session'] ?? null;
-    $laravelSessionCookie = request()->cookie('shopwithcarl_session');
+    // TEST 1: Set cookie using PHP native setcookie() INSIDE Laravel
+    setcookie('native_inside_laravel', 'native_' . time(), [
+        'expires' => time() + 3600, 'path' => '/',
+        'secure' => true, 'httponly' => true, 'samesite' => 'Lax',
+    ]);
 
-    $html = '<h2>Session Debug</h2>'
+    // Check what cookies the browser sent
+    $rawSessionCookie = $_COOKIE['shopwithcarl_session'] ?? null;
+    $nativeCookie = $_COOKIE['native_inside_laravel'] ?? null;
+    $laravelTestCookie = $_COOKIE['laravel_test_cookie'] ?? null;
+    $headersSent = headers_sent($hsFile, $hsLine);
+
+    $html = '<h2>Session Debug v3</h2>'
         . '<p><b>Session ID:</b> ' . $sessionId . '</p>'
         . '<p><b>CSRF Token:</b> ' . $token . '</p>'
-        . '<hr><h3>Cookie Analysis</h3>'
-        . '<p><b>Raw PHP \$_COOKIE[shopwithcarl_session]:</b> ' . ($rawSessionCookie ? 'YES (' . substr($rawSessionCookie, 0, 40) . '...)' : 'NO') . '</p>'
-        . '<p><b>Laravel request()->cookie():</b> ' . ($laravelSessionCookie ? 'YES (' . substr($laravelSessionCookie, 0, 40) . '...)' : 'NO (EncryptCookies may have discarded it)') . '</p>'
-        . '<p><b>All raw \$_COOKIE:</b></p><pre>' . htmlspecialchars(print_r($_COOKIE, true)) . '</pre>'
-        . '<hr><h3>POST Test (plain form, no Livewire)</h3>'
+        . '<p><b>headers_sent() at route handler:</b> ' . ($headersSent ? "YES (at $hsFile:$hsLine) — THIS IS THE PROBLEM" : 'NO (good)') . '</p>'
+        . '<hr><h3>Cookies Received From Browser</h3>'
+        . '<p><b>shopwithcarl_session:</b> ' . ($rawSessionCookie ? 'YES' : 'NO') . '</p>'
+        . '<p><b>native_inside_laravel:</b> ' . ($nativeCookie ? 'YES — native setcookie works inside Laravel' : 'NO') . '</p>'
+        . '<p><b>laravel_test_cookie:</b> ' . ($laravelTestCookie ? 'YES' : 'NO') . '</p>'
+        . '<p><b>All \$_COOKIE:</b></p><pre>' . htmlspecialchars(print_r($_COOKIE, true)) . '</pre>'
+        . '<hr><h3>POST Test</h3>'
         . '<form method="POST" action="/session-test">'
         . csrf_field()
         . '<button type="submit" style="padding:10px 20px;font-size:16px;">Submit POST</button>'
         . '</form>'
-        . '<hr><p><a href="/session-test">Reload to check if session ID persists</a></p>';
+        . '<hr><p><a href="/session-test">Reload to check persistence</a></p>';
 
-    // Explicitly attach a test cookie via Laravel's cookie helper
-    return response($html)
-        ->withCookie(cookie('laravel_test_cookie', 'works_' . time(), 60, '/', null, true, true, false, 'Lax'));
+    // TEST 2: Set cookie using Laravel's response helper
+    $response = response($html)
+        ->withCookie(cookie('laravel_test_cookie', 'laravel_' . time(), 60, '/', null, true, true, false, 'Lax'));
+
+    // Log what cookies are on the response object
+    $responseCookies = $response->headers->getCookies();
+    $cookieLog = "Response cookies at route level:\n";
+    foreach ($responseCookies as $c) {
+        $cookieLog .= "  {$c->getName()} = {$c->getValue()} (domain={$c->getDomain()}, path={$c->getPath()}, secure={$c->isSecure()}, samesite={$c->getSameSite()})\n";
+    }
+    file_put_contents(storage_path('logs/cookie_debug.log'), date('H:i:s') . " $cookieLog\n", FILE_APPEND);
+
+    // Also register a shutdown function to capture ALL headers actually sent
+    register_shutdown_function(function () {
+        $headers = headers_list();
+        $log = date('H:i:s') . " Headers actually sent to browser:\n";
+        foreach ($headers as $h) {
+            $log .= "  $h\n";
+        }
+        $log .= "  headers_sent(): " . (headers_sent() ? 'yes' : 'no') . "\n\n";
+        file_put_contents(storage_path('logs/cookie_debug.log'), $log, FILE_APPEND);
+    });
+
+    return $response;
 });
 Route::post('/session-test', function () {
     return '<h2>POST Success!</h2>'
