@@ -118,8 +118,8 @@ if (is_dir($storagePublic)) {
     out("No storage/app/public/ found — no media to back up", 'WARN');
 }
 
-// 1d. Back up deployment scripts (they live in public_html)
-foreach (['deploy.php', 'background_deploy.php', '.htaccess'] as $file) {
+// 1d. Back up deployment scripts and index.php (they live in public_html)
+foreach (['deploy.php', 'background_deploy.php', '.htaccess', 'index.php'] as $file) {
     $src = $config['public_html_path'] . "/$file";
     if (file_exists($src)) {
         copy($src, "$backupDir/$file");
@@ -177,7 +177,7 @@ out("Laravel directory wiped.");
 // ── STEP 3: WIPE PUBLIC_HTML (except protected) ────────────────────
 out("\n== STEP 3/8: CLEANING PUBLIC_HTML ==");
 
-$protected = ['.', '..', '.htaccess', 'deploy.php', 'background_deploy.php', 'fresh_deploy.php',
+$protected = ['.', '..', '.htaccess', 'index.php', 'deploy.php', 'background_deploy.php', 'fresh_deploy.php',
               'storage', '.deployment.lock', '.deployment.status', 'cgi-bin', '.well-known'];
 
 $pubFiles = scandir($config['public_html_path']);
@@ -231,7 +231,7 @@ run(
 );
 
 // 5c. Copy public/ to public_html (excluding protected files)
-$pubExcludes = '--exclude=.htaccess --exclude=deploy.php --exclude=background_deploy.php '
+$pubExcludes = '--exclude=.htaccess --exclude=index.php --exclude=deploy.php --exclude=background_deploy.php '
     . '--exclude=fresh_deploy.php --exclude=storage';
 run(
     "rsync -a $pubExcludes " . escapeshellarg($repoPublic) . "/ " . escapeshellarg($config['public_html_path']) . "/",
@@ -274,8 +274,8 @@ if (is_dir("$backupDir/storage_public")) {
     out("No media backup to restore.");
 }
 
-// 6d. Restore deployment scripts to public_html
-foreach (['deploy.php', 'background_deploy.php', '.htaccess'] as $file) {
+// 6d. Restore deployment scripts and index.php to public_html
+foreach (['deploy.php', 'background_deploy.php', '.htaccess', 'index.php'] as $file) {
     $src = "$backupDir/$file";
     $dest = $config['public_html_path'] . "/$file";
     if (file_exists($src) && !file_exists($dest)) {
