@@ -307,7 +307,7 @@
                                             <p class="label text_black">{{ $lookbook?->label ?? 'SHOP THIS LOOK' }}</p>
                                             <h3 class="heading font-young-serif">{{ $lookbook?->title ?? 'Bundle & Save' }}</h3>
                                         </div>
-                                        <form>
+                                        <form id="lookbook-form">
                                             <div class="tf-bundle-product-wrap">
                                                 @forelse(($lookbook?->items) ?? [] as $item)
                                                     @php
@@ -330,29 +330,40 @@
                                                             </a>
                                                         </div>
                                                         <div class="tf-product-bundle-infos">
-                                                            <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}"
-                                                               class="tf-product-bundle-title">{{ $p?->name ?? 'Product' }}</a>
-                                                            <div class="tf-product-bundle-price">
-                                                                <div class="price">
-                                                                    @if($onSale)
-                                                                        <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
-                                                                        <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
-                                                                    @elseif($p)
-                                                                        UGX {{ number_format($price, 0) }}
+                                                            <div class="d-flex align-items-start gap-2">
+                                                                <input class="form-check-input lookbook-checkbox mt-1" type="checkbox"
+                                                                       value="{{ $p->id ?? '' }}"
+                                                                       data-variant-id="{{ $variants->first()?->id }}"
+                                                                       id="lookbook-item-{{ $p->id ?? $loop->index }}" checked
+                                                                       style="width: 1.2em; height: 1.2em; flex-shrink: 0;">
+                                                                <div class="flex-grow-1">
+                                                                    <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}"
+                                                                       class="tf-product-bundle-title">{{ $p?->name ?? 'Product' }}</a>
+                                                                    <div class="tf-product-bundle-price">
+                                                                        <div class="price">
+                                                                            @if($onSale)
+                                                                                <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
+                                                                                <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
+                                                                            @elseif($p)
+                                                                                UGX {{ number_format($price, 0) }}
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                    @if($variants->count() > 0)
+                                                                        <div class="tf-product-bundle-variant">
+                                                                            <select class="tf-select lookbook-variant-select"
+                                                                                    data-checkbox-id="lookbook-item-{{ $p->id ?? $loop->index }}"
+                                                                                    onchange="document.getElementById(this.dataset.checkboxId).dataset.variantId = this.value">
+                                                                                @foreach($variants as $variant)
+                                                                                    <option value="{{ $variant->id }}">
+                                                                                        {{ implode(' / ', array_filter([$variant->size, $variant->color, $variant->material])) }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
                                                                     @endif
                                                                 </div>
                                                             </div>
-                                                            @if($variants->count() > 0)
-                                                                <div class="tf-product-bundle-variant">
-                                                                    <select class="tf-select lookbook-variant-select" data-product-id="{{ $p->id }}">
-                                                                        @foreach($variants as $variant)
-                                                                            <option value="{{ $variant->id }}">
-                                                                                {{ implode(' / ', array_filter([$variant->size, $variant->color, $variant->material])) }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            @endif
                                                         </div>
                                                     </div>
                                                 @empty
@@ -361,9 +372,9 @@
                                             </div>
 
                                             @if(($lookbook?->items?->count() ?? 0) > 0)
-                                                <button type="button"
+                                                <button type="button" id="lookbook-add-btn"
                                                         class="tf-btn justify-content-center style-2 btn-fill radius-3 animate-hover-btn"
-                                                        onclick="addLookbookToCart('{{ $lookbook->id }}')">
+                                                        onclick="addLookbookToCart()">
                                                     Add selected to cart
                                                 </button>
                                             @endif
@@ -389,6 +400,20 @@
             </div>
 
         </section>
+        <script>
+            function addLookbookToCart() {
+                const checkboxes = document.querySelectorAll('.lookbook-checkbox:checked');
+                if (checkboxes.length === 0) {
+                    Livewire.dispatch('notify', [{ message: 'Please select at least one product.', type: 'error' }]);
+                    return;
+                }
+                checkboxes.forEach(function(cb) {
+                    const productId = parseInt(cb.value);
+                    const variantId = cb.dataset.variantId ? parseInt(cb.dataset.variantId) : null;
+                    Livewire.dispatch('cart:add-product', { productId: productId, variantId: variantId, quantity: 1 });
+                });
+            }
+        </script>
 
         <!-- /Lookbook -->
 

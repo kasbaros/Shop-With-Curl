@@ -30,6 +30,36 @@
             $this->loadRecommendations();
         }
 
+        #[On('cart:add-product')]
+        public function addProduct(int $productId, ?int $variantId = null, int $quantity = 1): void
+        {
+            $product = Product::find($productId);
+            if (!$product || !$product->is_active) {
+                $this->dispatch('notify', ['message' => 'Product not found.', 'type' => 'error']);
+                return;
+            }
+
+            $variants = [];
+            if ($variantId) {
+                $variant = ProductVariant::find($variantId);
+                if ($variant) {
+                    $variants['variant_id'] = $variant->id;
+                    if ($variant->size) $variants['size'] = $variant->size;
+                    if ($variant->color) $variants['color'] = $variant->color;
+                }
+            }
+
+            $success = $this->cartService->add($product->id, $quantity, $variants);
+
+            if ($success) {
+                $this->showCart = true;
+                $this->dispatch('notify', ['message' => $product->name . ' added to cart!', 'type' => 'success']);
+                $this->dispatch('cart:updated', ['count' => $this->cartService->getCount()]);
+            } else {
+                $this->dispatch('notify', ['message' => 'Could not add ' . $product->name . ' to cart.', 'type' => 'error']);
+            }
+        }
+
         #[On('cart:add')]
         public function handleCartAdd($payloadOrProductId, $quantity = null, $variants = null)
         {
