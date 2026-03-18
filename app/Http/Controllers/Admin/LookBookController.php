@@ -42,8 +42,6 @@
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:6144',
                 'active' => 'boolean',
                 'priority' => 'nullable|integer|min:0',
-                'starts_at' => 'nullable|date',
-                'ends_at' => 'nullable|date|after_or_equal:starts_at',
                 'product_ids' => 'nullable|array',
                 'product_ids.*' => 'exists:products,id',
             ]);
@@ -53,8 +51,8 @@
             }
 
             $data['active'] = $request->boolean('active', true);
-            $data['starts_at'] = $data['starts_at'] ?: null;
-            $data['ends_at'] = $data['ends_at'] ?: null;
+            $data['starts_at'] = $request->input('starts_at') ?: null;
+            $data['ends_at'] = $request->input('ends_at') ?: null;
 
             $lookbook = Lookbook::create($data);
 
@@ -82,8 +80,6 @@
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:6144',
                 'active' => 'boolean',
                 'priority' => 'nullable|integer|min:0',
-                'starts_at' => 'nullable|date',
-                'ends_at' => 'nullable|date|after_or_equal:starts_at',
                 'product_ids' => 'nullable|array',
                 'product_ids.*' => 'exists:products,id',
             ]);
@@ -96,8 +92,8 @@
             }
 
             $data['active'] = $request->boolean('active', $lookbook->active);
-            $data['starts_at'] = $data['starts_at'] ?: null;
-            $data['ends_at'] = $data['ends_at'] ?: null;
+            $data['starts_at'] = $request->input('starts_at') ?: null;
+            $data['ends_at'] = $request->input('ends_at') ?: null;
 
             $lookbook->update($data);
 
