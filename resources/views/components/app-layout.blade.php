@@ -11,7 +11,6 @@
         rel="stylesheet"/>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
     @fluxAppearance
     @stack('styles')
 
@@ -814,7 +813,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
-@livewireScripts
 @stack('scripts')
 
 <script>
