@@ -116,6 +116,14 @@
     CacheDisable private /
 </IfModule>
 
+# Prevent LiteSpeed/cPanel from injecting HTML into Livewire JSON responses
+<IfModule mod_headers.c>
+    <If "%{REQUEST_URI} =~ m#^/livewire/#">
+        Header set X-LiteSpeed-Cache-Control "no-cache, no-transform"
+        Header set Cache-Control "no-cache, no-store, must-revalidate, private"
+    </If>
+</IfModule>
+
 # Prevent caching of sensitive Laravel files
 <FilesMatch "(\.env|composer\.json|composer\.lock|package\.json|vite\.config\.js)">
     <IfModule mod_headers.c>
