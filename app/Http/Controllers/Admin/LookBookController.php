@@ -53,6 +53,8 @@
             }
 
             $data['active'] = $request->boolean('active', true);
+            $data['starts_at'] = $data['starts_at'] ?: null;
+            $data['ends_at'] = $data['ends_at'] ?: null;
 
             $lookbook = Lookbook::create($data);
 
@@ -94,6 +96,8 @@
             }
 
             $data['active'] = $request->boolean('active', $lookbook->active);
+            $data['starts_at'] = $data['starts_at'] ?: null;
+            $data['ends_at'] = $data['ends_at'] ?: null;
 
             $lookbook->update($data);
 
