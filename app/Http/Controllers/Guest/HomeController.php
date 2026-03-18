@@ -69,7 +69,7 @@
 
             // Get lookbook
             $lookbook = Lookbook::active()
-                ->with(['items.product.media'])
+                ->with(['items.product.media', 'items.product.variants'])
                 ->current()
                 ->first();
 

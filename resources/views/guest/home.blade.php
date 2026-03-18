@@ -308,56 +308,56 @@
                                             <h3 class="heading font-young-serif">{{ $lookbook?->title ?? 'Bundle & Save' }}</h3>
                                         </div>
                                         <form>
-                                            <div class="swiper tf-lookbook" data-preview="3" data-tablet="1" data-mobile="1" data-space-lg="0" data-space-md="0">
-                                                <div class="swiper-wrapper" aria-live="polite">
-                                                    @forelse(($lookbook?->items) ?? [] as $item)
-                                                        @php
-                                                            $p = $item->product;
-                                                            // Get product image, ensuring consistency with other sections
-                                                            $imagePath = null;
-                                                            if ($p) {
-                                                                $galleryPaths = is_array($p->gallery) ? $p->gallery : [];
-                                                                $imagePath = $galleryPaths[0] ?? $p->featured_image;
-                                                            }
-                                                            $img = $p ? $p->getStorageImageUrl($imagePath) : asset('images/placeholder-product.jpg');
-                                                            $price = (float) ($p->price ?? 0);
-                                                            $sale = (float) ($p->sale_price ?? 0);
-                                                            $onSale = $sale > 0 && $sale < $price;
-                                                        @endphp
-                                                        <div class="swiper-slide" lazy="true">
-                                                            <div class="tf-bundle-product-item type-lg">
-                                                                <div class="tf-product-bundle-image">
-                                                                    <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}" class="radius-5 o-hidden">
-                                                                        <img src="{{ $img }}" alt="{{ $p?->name }}">
-                                                                    </a>
-                                                                </div>
-                                                                <div class="tf-product-bundle-infos">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <input class="form-check-input lookbook-item-checkbox me-2" type="checkbox" value="{{ $p->id ?? '' }}" id="lookbook-item-{{ $p->id ?? $loop->index }}" checked style="width: 1.5em; height: 1.5em; margin-top: 0;">
-                                                                        <div>
-                                                                            <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}"
-                                                                               class="tf-product-bundle-title fs-16">{{ $p?->name ?? 'Product' }}</a>
-                                                                            <div class="tf-product-bundle-price">
-                                                                                <div class="price fs-16">
-                                                                                    @if($onSale)
-                                                                                        <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
-                                                                                        <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
-                                                                                    @elseif($p)
-                                                                                        UGX {{ number_format($price, 0) }}
-                                                                                    @endif
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                            <div class="tf-bundle-product-wrap">
+                                                @forelse(($lookbook?->items) ?? [] as $item)
+                                                    @php
+                                                        $p = $item->product;
+                                                        $imagePath = null;
+                                                        if ($p) {
+                                                            $galleryPaths = is_array($p->gallery) ? $p->gallery : [];
+                                                            $imagePath = $galleryPaths[0] ?? $p->featured_image;
+                                                        }
+                                                        $img = $p ? $p->getStorageImageUrl($imagePath) : asset('images/placeholder-product.jpg');
+                                                        $price = (float) ($p->price ?? 0);
+                                                        $sale = (float) ($p->sale_price ?? 0);
+                                                        $onSale = $sale > 0 && $sale < $price;
+                                                        $variants = $p?->variants->where('is_active', true) ?? collect();
+                                                    @endphp
+                                                    <div class="tf-bundle-product-item type-lg">
+                                                        <div class="tf-product-bundle-image">
+                                                            <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}" class="radius-5 o-hidden">
+                                                                <img src="{{ $img }}" alt="{{ $p?->name }}">
+                                                            </a>
+                                                        </div>
+                                                        <div class="tf-product-bundle-infos">
+                                                            <a href="{{ $p ? route('products.show', $p->slug) : 'javascript:void(0)' }}"
+                                                               class="tf-product-bundle-title">{{ $p?->name ?? 'Product' }}</a>
+                                                            <div class="tf-product-bundle-price">
+                                                                <div class="price">
+                                                                    @if($onSale)
+                                                                        <span class="text-danger fw-6">UGX {{ number_format($sale, 0) }}</span>
+                                                                        <span class="text-muted text-decoration-line-through ms-1">UGX {{ number_format($price, 0) }}</span>
+                                                                    @elseif($p)
+                                                                        UGX {{ number_format($price, 0) }}
+                                                                    @endif
                                                                 </div>
                                                             </div>
+                                                            @if($variants->count() > 0)
+                                                                <div class="tf-product-bundle-variant">
+                                                                    <select class="tf-select lookbook-variant-select" data-product-id="{{ $p->id }}">
+                                                                        @foreach($variants as $variant)
+                                                                            <option value="{{ $variant->id }}">
+                                                                                {{ implode(' / ', array_filter([$variant->size, $variant->color, $variant->material])) }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            @endif
                                                         </div>
-                                                    @empty
-                                                        <div class="swiper-slide">
-                                                            <div class="p-4">Lookbook coming soon.</div>
-                                                        </div>
-                                                    @endforelse
-                                                </div>
+                                                    </div>
+                                                @empty
+                                                    <div class="p-4">Lookbook coming soon.</div>
+                                                @endforelse
                                             </div>
 
                                             @if(($lookbook?->items?->count() ?? 0) > 0)
