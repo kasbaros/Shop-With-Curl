@@ -814,10 +814,9 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
-@livewireScripts
 <script>
     // Fix: LiteSpeed/cPanel injects HTML into ALL responses including Livewire JSON.
-    // Patch fetch() to strip injected HTML prefix from Livewire update responses.
+    // Must run BEFORE @livewireScripts so Livewire captures the patched fetch.
     (function() {
         var originalFetch = window.fetch;
         window.fetch = function(url, options) {
@@ -825,17 +824,13 @@
                 if (typeof url === 'string' && url.includes('/livewire/')) {
                     var cloned = response.clone();
                     return cloned.text().then(function(text) {
-                        var trimmed = text.trim();
-                        if (trimmed.length > 0 && trimmed[0] !== '{' && trimmed[0] !== '[') {
-                            var jsonStart = text.indexOf('{');
-                            if (jsonStart > 0) {
-                                var cleaned = text.substring(jsonStart);
-                                return new Response(cleaned, {
-                                    status: response.status,
-                                    statusText: response.statusText,
-                                    headers: response.headers
-                                });
-                            }
+                        var jsonStart = text.indexOf('{');
+                        if (jsonStart > 0) {
+                            return new Response(text.substring(jsonStart), {
+                                status: response.status,
+                                statusText: response.statusText,
+                                headers: response.headers
+                            });
                         }
                         return response;
                     });
@@ -845,6 +840,7 @@
         };
     })();
 </script>
+@livewireScripts
 @stack('scripts')
 
 <script>
