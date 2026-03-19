@@ -10,8 +10,26 @@
         href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700|poppins:300,400,500,600,700|playfair-display:400,500,600,700&display=swap"
         rel="stylesheet"/>
 
+    <script>
+        // Fix: LiteSpeed/cPanel injects HTML before Livewire JSON responses.
+        // Patch fetch() early so Livewire (auto-injected) uses the clean version.
+        (function() {
+            var _fetch = window.fetch;
+            window.fetch = function(url, opts) {
+                return _fetch.apply(this, arguments).then(function(res) {
+                    if (typeof url === 'string' && url.indexOf('/livewire/update') !== -1) {
+                        return res.text().then(function(t) {
+                            var i = t.indexOf('{');
+                            if (i > 0) t = t.substring(i);
+                            return new Response(t, { status: res.status, statusText: res.statusText, headers: res.headers });
+                        });
+                    }
+                    return res;
+                });
+            };
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
     @fluxAppearance
     @stack('styles')
 
@@ -814,33 +832,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
-<script>
-    // Fix: LiteSpeed/cPanel injects HTML into ALL responses including Livewire JSON.
-    // Must run BEFORE @livewireScripts so Livewire captures the patched fetch.
-    (function() {
-        var originalFetch = window.fetch;
-        window.fetch = function(url, options) {
-            return originalFetch.apply(this, arguments).then(function(response) {
-                if (typeof url === 'string' && url.includes('/livewire/update')) {
-                    var cloned = response.clone();
-                    return cloned.text().then(function(text) {
-                        var jsonStart = text.indexOf('{');
-                        if (jsonStart > 0) {
-                            return new Response(text.substring(jsonStart), {
-                                status: response.status,
-                                statusText: response.statusText,
-                                headers: response.headers
-                            });
-                        }
-                        return response;
-                    });
-                }
-                return response;
-            });
-        };
-    })();
-</script>
-@livewireScripts
 @stack('scripts')
 
 <script>

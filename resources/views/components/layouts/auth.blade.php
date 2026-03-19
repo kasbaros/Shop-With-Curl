@@ -491,7 +491,6 @@ new class extends Component {
 
     <!-- Scripts and Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
 </head>
 <body class="ec__body">
 <div class="min-vh-100">
@@ -861,6 +860,5 @@ new class extends Component {
 
 </div>
 
-@livewireScripts
 </body>
 </html>
