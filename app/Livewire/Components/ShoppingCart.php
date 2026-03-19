@@ -213,8 +213,8 @@
 
                 // Load variant if exists
                 $variant = null;
-                if (!empty($item['product_variant_id'])) {
-                    $variant = \App\Models\ProductVariant::find($item['product_variant_id']);
+                if (!empty($item['variant_id'])) {
+                    $variant = \App\Models\ProductVariant::find($item['variant_id']);
                 }
 
                 // Format for template

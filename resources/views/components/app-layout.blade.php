@@ -10,6 +10,26 @@
         href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700|poppins:300,400,500,600,700|playfair-display:400,500,600,700&display=swap"
         rel="stylesheet"/>
 
+    {{-- Fix: LiteSpeed injects HTML into Livewire JSON responses. Patch fetch() before Livewire loads. --}}
+    <script>
+        (function(){
+            var _f = window.fetch;
+            window.fetch = function(url, opts) {
+                if (typeof url === 'string' && url.indexOf('/livewire/update') !== -1) {
+                    return _f.apply(this, arguments).then(function(res) {
+                        return res.text().then(function(t) {
+                            var i = t.indexOf('{');
+                            if (i > 0) t = t.substring(i);
+                            var j = t.lastIndexOf('}');
+                            if (j >= 0 && j < t.length - 1) t = t.substring(0, j + 1);
+                            return new Response(t, { status: res.status, statusText: res.statusText, headers: res.headers });
+                        });
+                    });
+                }
+                return _f.apply(this, arguments);
+            };
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @fluxAppearance
     @stack('styles')
@@ -866,21 +886,6 @@
                 var title = document.getElementById('canvasAccountTitle');
                 var titles = { canvasLoginForm: 'Login', canvasRegisterForm: 'Register', canvasForgotForm: 'Forgot Password' };
                 if (title) title.textContent = titles[target] || 'Account';
-            });
-        });
-    });
-</script>
-
-{{-- Fix LiteSpeed injecting HTML into Livewire JSON responses --}}
-<script>
-    document.addEventListener('livewire:init', () => {
-        Livewire.interceptRequest(({ onParsed }) => {
-            onParsed(({ responseBody }) => {
-                if (typeof responseBody === 'string' && responseBody.charAt(0) !== '{') {
-                    var i = responseBody.indexOf('{');
-                    if (i > 0) return responseBody.substring(i);
-                }
-                return responseBody;
             });
         });
     });

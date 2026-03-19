@@ -15,7 +15,7 @@
 {{--                                    <div class="tf-mini-cart-sroll">--}}
 {{--                                        <div class="tf-mini-cart-items">--}}
 {{--                                            @foreach($this->cartItems as $key => $item)--}}
-{{--                                                <div class="tf-mini-cart-item" wire:key="cart-item-{{ $key }}">--}}
+{{--                                                <div class="tf-mini-cart-item" wire:key="cart-item-{{ $item['key'] }}">--}}
 {{--                                                    <div class="tf-mini-cart-image">--}}
 {{--                                                        <a href="{{ route('products.show', $item['product_slug']) }}">--}}
 {{--                                                            <img src="{{ \App\Helpers\ImageStorageHelper::url($item['product_image'] ?? null) }}" alt="{{ $item['product_name'] }}">--}}
@@ -66,7 +66,7 @@
 {{--                                    <div class="tf-mini-cart-bottom-wrap">--}}
 {{--                                        <div class="tf-cart-totals-discounts">--}}
 {{--                                            <div class="tf-cart-total">Subtotal</div>--}}
-{{--                                            <div class="tf-totals-total-value fw-6">{{ $this->cartSubtotal }}</div>--}}
+{{--                                            <div class="tf-totals-total-value fw-6">{{ $this->formattedSubtotal }}</div>--}}
 {{--                                        </div>--}}
 
 {{--                                        <div class="tf-cart-tax">Taxes and <a href="#">shipping</a> calculated at checkout</div>--}}
@@ -126,7 +126,7 @@
                                     <div class="tf-mini-cart-sroll">
                                         <div class="tf-mini-cart-items">
                                             @foreach($this->cartItems as $key => $item)
-                                                <div class="tf-mini-cart-item" wire:key="cart-item-{{ $key }}">
+                                                <div class="tf-mini-cart-item" wire:key="cart-item-{{ $item['key'] }}">
                                                     <div class="tf-mini-cart-image">
                                                         <a href="{{ route('products.show', $item['product_slug']) }}">
                                                             <img src="{{ $item['product_image'] }}" alt="{{ $item['product_name'] }}">
@@ -146,26 +146,20 @@
                                                         @endif
 
                                                         <div class="price fw-6">
-                                                            @php
-                                                                $price = is_int($item['price']) || ctype_digit((string)$item['price'])
-                                                                    ? $item['price'] / 100
-                                                                    : (float)$item['price'];
-                                                                $formatted = money_format_ugx($price);
-                                                            @endphp
-                                                            {{ $formatted }}
+                                                            {{ money_format_ugx($item['price']) }}
                                                         </div>
 
                                                         <!-- Redesigned button section for better width utilization -->
                                                         <div class="tf-mini-cart-btns d-flex justify-content-between align-items-center">
                                                             <div class="wg-quantity small">
                                                                 <span class="btn-quantity minus-btn"
-                                                                      wire:click="$dispatch('cart:update', {itemKey: '{{ $key }}', quantity: {{ max(1, $item['quantity'] - 1) }}})">-</span>
+                                                                      wire:click="$dispatch('cart:update', {itemKey: '{{ $item['key'] }}', quantity: {{ max(1, $item['quantity'] - 1) }}})">-</span>
                                                                 <input type="text" name="number" value="{{ $item['quantity'] }}" readonly>
                                                                 <span class="btn-quantity plus-btn"
-                                                                      wire:click="$dispatch('cart:update', {itemKey: '{{ $key }}', quantity: {{ $item['quantity'] + 1 }}})">+</span>
+                                                                      wire:click="$dispatch('cart:update', {itemKey: '{{ $item['key'] }}', quantity: {{ $item['quantity'] + 1 }}})">+</span>
                                                             </div>
                                                             <div class="tf-mini-cart-remove"
-                                                                 wire:click="$dispatch('cart:remove', {itemKey: '{{ $key }}'})">Remove</div>
+                                                                 wire:click="$dispatch('cart:remove', {itemKey: '{{ $item['key'] }}'})">Remove</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -178,7 +172,7 @@
                                     <div class="tf-mini-cart-bottom-wrap">
                                         <div class="tf-cart-totals-discounts">
                                             <div class="tf-cart-total">Subtotal</div>
-                                            <div class="tf-totals-total-value fw-6">{{ $this->cartSubtotal }}</div>
+                                            <div class="tf-totals-total-value fw-6">{{ $this->formattedSubtotal }}</div>
                                         </div>
 
                                         <div class="tf-cart-tax">Delivery and <a href="#">shipping</a> calculated at checkout</div>
