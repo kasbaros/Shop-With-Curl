@@ -27,6 +27,10 @@
         public function boot(CartService $cartService)
         {
             $this->cartService = $cartService;
+        }
+
+        public function mount()
+        {
             $this->loadRecommendations();
         }
 
@@ -211,27 +215,29 @@
 
         public function getCartItemsProperty()
         {
-            // Get cart from session (same as Cart component)
             $sessionCart = session()->get('cart', []);
 
             if (empty($sessionCart)) {
                 return [];
             }
 
+            // Batch load all products and variants in 2 queries instead of N+1
+            $productIds = array_unique(array_column($sessionCart, 'product_id'));
+            $variantIds = array_filter(array_unique(array_column($sessionCart, 'variant_id')));
+
+            $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
+            $variants = !empty($variantIds)
+                ? ProductVariant::whereIn('id', $variantIds)->get()->keyBy('id')
+                : collect();
+
             $cartItems = [];
 
             foreach ($sessionCart as $key => $item) {
-                // Load product data
-                $product = \App\Models\Product::find($item['product_id']);
+                $product = $products->get($item['product_id']);
                 if (!$product) continue;
 
-                // Load variant if exists
-                $variant = null;
-                if (!empty($item['variant_id'])) {
-                    $variant = \App\Models\ProductVariant::find($item['variant_id']);
-                }
+                $variant = !empty($item['variant_id']) ? $variants->get($item['variant_id']) : null;
 
-                // Format for template
                 $cartItems[] = [
                     'key' => $key,
                     'product_id' => $item['product_id'],
