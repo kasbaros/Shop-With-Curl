@@ -10,25 +10,6 @@
         href="https://fonts.bunny.net/css?family=inter:300,400,500,600,700|poppins:300,400,500,600,700|playfair-display:400,500,600,700&display=swap"
         rel="stylesheet"/>
 
-    <script>
-        // Fix: LiteSpeed/cPanel injects HTML before Livewire JSON responses.
-        // Patch fetch() early so Livewire (auto-injected) uses the clean version.
-        (function() {
-            var _fetch = window.fetch;
-            window.fetch = function(url, opts) {
-                return _fetch.apply(this, arguments).then(function(res) {
-                    if (typeof url === 'string' && url.indexOf('/livewire/update') !== -1) {
-                        return res.text().then(function(t) {
-                            var i = t.indexOf('{');
-                            if (i > 0) t = t.substring(i);
-                            return new Response(t, { status: res.status, statusText: res.statusText, headers: res.headers });
-                        });
-                    }
-                    return res;
-                });
-            };
-        })();
-    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @fluxAppearance
     @stack('styles')
@@ -885,6 +866,21 @@
                 var title = document.getElementById('canvasAccountTitle');
                 var titles = { canvasLoginForm: 'Login', canvasRegisterForm: 'Register', canvasForgotForm: 'Forgot Password' };
                 if (title) title.textContent = titles[target] || 'Account';
+            });
+        });
+    });
+</script>
+
+{{-- Fix LiteSpeed injecting HTML into Livewire JSON responses --}}
+<script>
+    document.addEventListener('livewire:init', () => {
+        Livewire.interceptRequest(({ onParsed }) => {
+            onParsed(({ responseBody }) => {
+                if (typeof responseBody === 'string' && responseBody.charAt(0) !== '{') {
+                    var i = responseBody.indexOf('{');
+                    if (i > 0) return responseBody.substring(i);
+                }
+                return responseBody;
             });
         });
     });

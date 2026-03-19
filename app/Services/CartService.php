@@ -151,11 +151,7 @@ class CartService
     public function getTotal(): float
     {
         return $this->getItems()->sum(function ($item) {
-            $price = is_int($item['price']) || ctype_digit((string)$item['price'])
-                ? $item['price'] / 100
-                : (float)$item['price'];
-
-            return $price * $item['quantity'];
+            return (float) $item['price'] * $item['quantity'];
         });
     }
 
