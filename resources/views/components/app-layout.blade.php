@@ -821,7 +821,7 @@
         var originalFetch = window.fetch;
         window.fetch = function(url, options) {
             return originalFetch.apply(this, arguments).then(function(response) {
-                if (typeof url === 'string' && url.includes('/livewire/')) {
+                if (typeof url === 'string' && url.includes('/livewire/update')) {
                     var cloned = response.clone();
                     return cloned.text().then(function(text) {
                         var jsonStart = text.indexOf('{');
