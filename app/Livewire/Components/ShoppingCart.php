@@ -34,29 +34,43 @@
         public function addProduct(int $productId, ?int $variantId = null, int $quantity = 1): void
         {
             $product = Product::find($productId);
-            if (!$product || !$product->is_active) {
+            if (!$product) {
                 $this->dispatch('notify', ['message' => 'Product not found.', 'type' => 'error']);
+                return;
+            }
+            if (!$product->is_active) {
+                $this->dispatch('notify', ['message' => $product->name . ' is currently unavailable.', 'type' => 'error']);
                 return;
             }
 
             $variants = [];
             if ($variantId) {
                 $variant = ProductVariant::find($variantId);
-                if ($variant) {
+                if ($variant && $variant->is_active && $variant->stock_quantity >= $quantity) {
                     $variants['variant_id'] = $variant->id;
                     if ($variant->size) $variants['size'] = $variant->size;
                     if ($variant->color) $variants['color'] = $variant->color;
                 }
+                // If variant is invalid/out of stock, try adding without variant
             }
 
             $success = $this->cartService->add($product->id, $quantity, $variants);
+
+            if (!$success && !empty($variants)) {
+                // Retry without variant (product may still be addable without variant selection)
+                $success = $this->cartService->add($product->id, $quantity, []);
+            }
 
             if ($success) {
                 $this->showCart = true;
                 $this->dispatch('notify', ['message' => $product->name . ' added to cart!', 'type' => 'success']);
                 $this->dispatch('cart:updated', ['count' => $this->cartService->getCount()]);
             } else {
-                $this->dispatch('notify', ['message' => 'Could not add ' . $product->name . ' to cart.', 'type' => 'error']);
+                $reason = 'out of stock';
+                if ($product->manage_stock && $product->stock_quantity < $quantity) {
+                    $reason = 'out of stock';
+                }
+                $this->dispatch('notify', ['message' => 'Could not add ' . $product->name . ' — ' . $reason . '.', 'type' => 'error']);
             }
         }
 
