@@ -22,9 +22,8 @@
         }
 
         #[On('cart:updated')]
-        public function updateCartCount($data)
+        public function updateCartCount($data = null)
         {
-            // Handle both numeric counts and array payloads
             if (is_array($data) && isset($data['count'])) {
                 $this->cartCount = (int) $data['count'];
             } elseif (is_numeric($data)) {

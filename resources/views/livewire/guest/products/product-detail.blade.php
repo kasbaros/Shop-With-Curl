@@ -44,7 +44,7 @@
 
     <!-- default -->
     <section class="flat-spacing-4 pt_0">
-        <div class="tf-main-product">
+        <div class="tf-main-product section-image-zoom">
             <div class="container">
                 <div class="row">
                     <!-- Media/Gallery -->
@@ -189,8 +189,8 @@
                                             @endfor
                                         </div>
                                         <span class="text_black-2 fs-14">
-                                                {{ number_format($product->average_rating, 1) }} ({{ $product->reviews_count }})
-                                            </span>
+                                            {{ number_format($product->average_rating, 1) }} ({{ $product->reviews_count }})
+                                        </span>
                                     </div>
                                 @endif
 
@@ -206,26 +206,6 @@
                                     <livewire:client.cart.add-to-cart :product="$product"/>
                                 </div>
 
-                                <!-- Wishlist / Compare -->
-                                <div class="d-flex align-items-center gap-10 mt_12">
-                                    @auth
-                                        <livewire:client.wish-list-toggle :product="$product"/>
-                                    @else
-                                        <a href="{{ route('login') }}"
-                                           class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
-                                            <span class="icon icon-heart"></span>
-                                            <span class="tooltip">Add to Wishlist</span>
-                                        </a>
-                                    @endauth
-
-                                    <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft"
-                                       class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action"
-                                       onclick="if(window.Livewire?.dispatch){window.Livewire.dispatch('compare:toggle',{id: {{ (int)$product->id }} });}">
-                                        <span class="icon icon-compare"></span>
-                                        <span class="tooltip">Add to Compare</span>
-                                        <span class="icon icon-check"></span>
-                                    </a>
-                                </div>
 
                                 <!-- Delivery / Return -->
                                 <div class="tf-product-info-delivery-return">

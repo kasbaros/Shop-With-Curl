@@ -1,10 +1,7 @@
-<button
-    wire:click="toggle"
-    class="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:border-gray-400 transition-colors"
->
-    <x-heroicon-m-heart class="w-5 h-5 {{ $this->isInWishlist ? 'text-red-500 fill-current' : 'text-gray-400' }}" />
-    <span class="text-sm font-medium">
-        {{ $this->isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' }}
-    </span>
-</button>
-
+<a href="javascript:void(0)"
+   wire:click="toggle"
+   class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
+    <span class="icon icon-heart{{ $isInWishlist ? ' text-danger' : '' }}"></span>
+    <span class="tooltip">{{ $isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist' }}</span>
+    <span class="icon icon-delete"></span>
+</a>

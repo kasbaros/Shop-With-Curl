@@ -115,8 +115,9 @@ class CategoryDetail extends Component
                 });
         }]);
 
-        // Load products for this category
+        // Load products for this category with variants eager-loaded
         $productsQuery = $this->category->products()
+            ->with(['variants', 'brand'])
             ->where('is_active', true)
             ->where('status', 'published');
 
